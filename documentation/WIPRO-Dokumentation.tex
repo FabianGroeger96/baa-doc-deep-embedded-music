@@ -1,0 +1,238 @@
+\documentclass[
+	a4paper
+]{scrreprt}
+
+%%% PACKAGES %%%
+
+%etoolbox for rules
+\usepackage{etoolbox}
+
+% Figure Placement
+\usepackage{float}
+% PDF/A Compliance
+%\usepackage[a-2b,latxmp]{pdfx}
+
+% add Unicode support and use English as language
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+% Use Helvetica as font
+\usepackage[scaled]{helvet}
+\renewcommand\familydefault{\sfdefault}
+\usepackage[T1]{fontenc}
+
+% Better tables
+\usepackage{tabularx}
+
+% Better enumerisation env
+\usepackage{enumitem}
+\usepackage{multirow}
+
+% Use graphics
+\usepackage{graphicx}
+
+% Have subfigures and captions
+\usepackage{subcaption}
+
+% Be able to include PDFs in the file
+\usepackage{pdfpages}
+
+% Have custom abstract heading
+\usepackage{abstract}
+
+% Need a list of equation
+\usepackage{tocloft}
+\usepackage{ragged2e}
+
+\usepackage{dirtree}
+\usepackage{adjustbox}
+
+% Better equation environment
+\usepackage{amsmath}
+
+% Symbols for most SI units
+\usepackage{siunitx}
+
+\usepackage{csquotes}
+
+% Clickable Links to Websites and chapters
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+
+\addto\extrasngerman{\def\figureautorefname{Abb.}}
+\addto\extrasngerman{\def\tableautorefname{Tabelle}}
+\newcommand*{\fullref}[1]{\hyperref[{#1}]{\nameref*{#1} (\ref*{#1})}}
+
+
+% Change page rotation
+\usepackage{pdflscape}
+
+% Symbols like checkmark
+\usepackage{amssymb}
+\usepackage{pifont}
+
+\usepackage[absolute]{textpos}
+
+% Header
+\usepackage{scrlayer-scrpage}
+
+\clearpairofpagestyles
+ 
+\setkomafont{pageheadfoot}{\sffamily\footnotesize}
+\setkomafont{pagehead}{\bfseries}
+\setkomafont{pagination}{}
+
+\KOMAoptions{
+   headsepline = true,
+   footsepline = true,
+   plainfootsepline = true,
+}
+
+\automark[chapter]{chapter}
+
+\ohead{\headmark}
+\ihead{Fabian Gröger}
+
+\ofoot*{page~\pagemark}
+\ifoot*{HSLU BAA - Deep embedded Music}
+
+% Glossary, hyperref, babel, polyglossia, inputenc, fontenc must be loaded before this package if they are used
+\usepackage[ 
+toc,         
+acronym,
+nopostdot,
+sort=standard   
+]{glossaries}
+
+\setglossarystyle{listgroup}
+
+% Redefine the quote charachter as we are using ngerman
+\GlsSetQuote{+}
+% Define the usage of an acronym, Abbreviation (Abbr.), next usage: The Abbr. of ...
+\setacronymstyle{long-short}
+
+% Bibliography & citing
+\usepackage[
+	backend=biber,
+	style=apa,
+	bibstyle=apa,
+	citestyle=apa,
+	sortlocale=de_DE
+	]{biblatex}
+\addbibresource{Referenzen.bib}
+\addbibresource{Links.bib}
+\DeclareLanguageMapping{ngerman}{ngerman-apa}
+
+%%% COMMAND REBINDINGS %%%
+\newcommand{\tabitem}{~~\llap{\textbullet}~~}
+\newcommand{\xmark}{\ding{55}}
+\newcommand{\notmark}{\textbf{\textasciitilde}}
+% Pro/Con item https://tex.stackexchange.com/questions/145198/change-the-bullet-of-each-item#145203
+\newcommand\pro{\item[$+$]}
+\newcommand\con{\item[$-$]}
+
+%%% TRAVIS DEPENDENCY
+% Can delete if you don't use Travis for CI/CD
+% Fallback DocumentVersion for the preamble if built locally
+\providecommand{\docversion}{0.0-localBuild}
+
+% Define list of equations - Thanks to Charles Clayton: https://tex.stackexchange.com/a/354096
+\newcommand{\listequationsname}{Formelverzeichnis}
+\newlistof{myequations}{equ}{\listequationsname}
+\newcommand{\myequations}[1]{
+	\addcontentsline{equ}{myequations}{\protect\numberline{\theequation}#1}
+}
+\setlength{\cftmyequationsnumwidth}{2.3em}
+\setlength{\cftmyequationsindent}{1.5em}
+
+% Usage {equation}{caption}{label}
+% \indexequation{b = \frac{\pi}{\SI{180}{\degree}}\cdot\beta\cdot 6378.137}{Bogenlänge $b$ des Winkels $\beta$ mit Radius 6378.137m (Distanz zum Erdmittelpunkt am Äquator)}{Bogenlaenge}
+\newcommand{\indexequation}[3]{
+	\begin{align} \label{#3} \ensuremath{\boxed{#1}} \end{align}
+	\myequations{#3} \centering \small \textit{#2} \normalsize \justify }
+
+% Todolist - credit to https://tex.stackexchange.com/questions/247681/how-to-create-checkbox-todo-list
+\newlist{todolist}{itemize}{1}
+\setlist[todolist]{label=$\square$}
+
+% Nested Enumeratelist credit to https://tex.stackexchange.com/a/54676
+\newlist{legal}{enumerate}{10}
+\setlist[legal]{label*=\arabic*.}
+
+%%% GLOSSARY %%%
+\loadglsentries{acronyms.tex}
+\loadglsentries{glossaries.tex}
+\makeglossaries
+
+%%% PATH DEFINITIONS %%%
+% Define the path were images are found
+\graphicspath{{./img/}{./appendix/}}
+
+% Reset Glossary every chapter
+\preto\chapter{\glsresetall}
+
+%%%%%%%%%%%%%%%%
+%%% DOCUMENT %%%
+
+\begin{document}
+
+% HSLU Preamble (no header or footer)
+\pagestyle{empty}
+\include{include/HSLU_Preamble}
+
+% Rest of the document has header and footer
+\pagestyle{headings}
+\pagenumbering{Roman}
+
+% Abstract
+\begin{abstract}
+	\noindent
+	Das vorliegende Wirtschaftsprojekt überprüft den Einsatz von Neural Style Transfer für Sätze aus
+	der deutschen Sprache. Anhand eines Datensatzes, bestehend aus Sätzen für Erwachsene und Kinder,
+	wurde überprüft, ob ein weniger komplexer Satz in einen komplexeren Satz umgewandelt werden kann.
+	Die Erkenntnisse sollen dem Auftraggeber als mögliche Grundlage für den Einsatz von Neural Style Transfer 
+	für die Verschönerung von Zwischen- und Arbeitszeugnissen dienen.
+\end{abstract}
+
+% Table of contents
+\tableofcontents
+
+\clearpage
+\pagenumbering{arabic}
+
+\include{include/Einleitung}
+
+\include{include/Stand_der_Technik}
+
+\include{include/Ideen_und_Konzepte}
+
+\include{include/Methode}
+
+\include{include/Realisierung}
+
+\include{include/Evaluation_und_Validation}
+
+\include{include/Fazit}
+
+\newpage
+
+\pagenumbering{Roman}
+
+\appendix
+% Verhindert das Einfügen von Kapiteltitel kleiner als \chapter
+\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+
+\listoffigures
+
+\listoftables
+
+\listofmyequations 
+\pagebreak
+
+\printglossary[type=\acronymtype, title=Abkürzungsverzeichnis]
+
+\printbibliography[heading=bibintoc,title=Literaturverzeichnis]
+
+\include{include/Anhang}
+
+\end{document}
