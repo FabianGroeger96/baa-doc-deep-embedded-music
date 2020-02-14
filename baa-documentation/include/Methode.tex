@@ -3,6 +3,60 @@
 Im Kapitel \fullref{ch:Methode} werden die verwendeten Methoden vorgestellt. Dabei geht es um die Definition der
 Problemstellung, sowie der Projektabgrenzung.
 
+\section{Project plan}
+\label{sec:project_plan}
+
+\begin{figure}
+\centering
+     \begin{ganttchart}[%Specs
+     x unit = 0.5cm,  %<---------------------- New x unit 
+     y unit title=0.5cm,
+     y unit chart=0.7cm,
+     vgrid, hgrid,
+     title height=1,
+%     title/.style={fill=none},
+     title label font=\bfseries\footnotesize,
+     bar/.style={fill=blue},
+     bar height=0.7,
+%   progress label text={},
+     group right shift=0,
+     group top shift=0.7,
+     group height=.3,
+     group peaks width={0.2},
+     inline]{1}{20}
+    %labels
+
+    \gantttitle{bachelor thesis - deep embedded music}{20}\\
+    \gantttitle[]{2020}{20} \\                
+    \gantttitle{Feb}{4}
+    \gantttitle{Mar}{4}
+    \gantttitle{Apr}{4}
+    \gantttitle{May}{4}
+    \gantttitle{Jun}{4}\\
+
+    \ganttgroup[inline=false]{Research}{1}{5}\\ 
+
+    \ganttbar[progress=100,inline=false]{Planning}{1}{4}\\
+    \ganttmilestone[inline=false]{Milestone 1}{9} \\
+
+    \ganttgroup[inline=false]{Implementation}{2}{10} \\
+
+    \ganttbar[progress=2,inline=false]{Test 1}{6}{9} \\
+    \ganttmilestone[inline=false]{Milestone 2}{7} \\
+    \ganttbar[progress=5,inline=false]{Test 2}{1}{2} \\
+    \ganttmilestone[inline=false]{Milestone 3}{10} \\       
+
+    \ganttgroup[inline=false]{Group 3}{3}{8} \\ 
+
+    \ganttbar[progress=90,inline=false]{Task A}{3}{5} \\ 
+    \ganttbar[progress=50,inline=false, bar progress label node/.append style={below left= 10pt and 7pt}]{Task B}{3}{4} \\ \\
+    \ganttbar[progress=30,inline=false]{Task C}{5}{6}\\ 
+    \ganttbar[progress=70,inline=false]{Task D}{8}{10} \\ 
+
+\end{ganttchart}
+\caption{Gantt diagram for 2013--2014 Project}
+\end{figure}
+
 \section{Vorgehensmodell}
 \label{sec:Vorgehensmodell}
 Dieses Projekt wurde mittels einem explorativen Vorgehensmodell umgesetzt, da sich dieses Modell optimal für ein

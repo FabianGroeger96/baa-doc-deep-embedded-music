@@ -16,9 +16,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 
-% Use Helvetica as font
-\usepackage[scaled]{helvet}
-\renewcommand\familydefault{\sfdefault}
+% Use Times NR as font
+\usepackage{mathptmx}
 \usepackage[T1]{fontenc}
 
 % Better tables
@@ -59,8 +58,8 @@
 \usepackage{hyperref}
 \hypersetup{hidelinks}
 
-\addto\extrasngerman{\def\figureautorefname{Abb.}}
-\addto\extrasngerman{\def\tableautorefname{Tabelle}}
+%\addto\extrasngerman{\def\figureautorefname{Abb.}}
+%\addto\extrasngerman{\def\tableautorefname{Tabelle}}
 \newcommand*{\fullref}[1]{\hyperref[{#1}]{\nameref*{#1} (\ref*{#1})}}
 
 
@@ -78,22 +77,34 @@
 
 \clearpairofpagestyles
  
-\setkomafont{pageheadfoot}{\sffamily\footnotesize}
-\setkomafont{pagehead}{\bfseries}
+ % Configures header and footer
+\setkomafont{pageheadfoot}{\rmfamily\footnotesize}
+\setkomafont{pagehead}{\rmfamily\bfseries}
 \setkomafont{pagination}{}
 
+% Displays line for header and footer
 \KOMAoptions{
    headsepline = true,
    footsepline = true,
    plainfootsepline = true,
 }
 
+%\usepackage[margin=1cm]{geometry}
+\usepackage{pgfgantt}
+\usepackage{graphicx}
+\usepackage{xcolor}
+%\usetikzlibrary{positioning}
+
+\ganttset{group/.append style={orange},
+milestone/.append style={red},
+progress label node anchor/.append style={text=red}}
+
 \automark[chapter]{chapter}
 
 \ohead{\headmark}
 \ihead{Fabian Gröger}
 
-\ofoot*{page~\pagemark}
+\ofoot*{\pagemark}
 \ifoot*{HSLU BAA - Deep embedded Music}
 
 % Glossary, hyperref, babel, polyglossia, inputenc, fontenc must be loaded before this package if they are used
@@ -117,11 +128,11 @@ sort=standard
 	style=apa,
 	bibstyle=apa,
 	citestyle=apa,
-	sortlocale=de_DE
 	]{biblatex}
+\addbibresource{references_zotero.bib}
 \addbibresource{Referenzen.bib}
 \addbibresource{Links.bib}
-\DeclareLanguageMapping{ngerman}{ngerman-apa}
+\DeclareLanguageMapping{english}{english-apa}
 
 %%% COMMAND REBINDINGS %%%
 \newcommand{\tabitem}{~~\llap{\textbullet}~~}
@@ -131,13 +142,8 @@ sort=standard
 \newcommand\pro{\item[$+$]}
 \newcommand\con{\item[$-$]}
 
-%%% TRAVIS DEPENDENCY
-% Can delete if you don't use Travis for CI/CD
-% Fallback DocumentVersion for the preamble if built locally
-\providecommand{\docversion}{0.0-localBuild}
-
 % Define list of equations - Thanks to Charles Clayton: https://tex.stackexchange.com/a/354096
-\newcommand{\listequationsname}{Formelverzeichnis}
+\newcommand{\listequationsname}{List of Equations}
 \newlistof{myequations}{equ}{\listequationsname}
 \newcommand{\myequations}[1]{
 	\addcontentsline{equ}{myequations}{\protect\numberline{\theequation}#1}
@@ -229,9 +235,9 @@ sort=standard
 \listofmyequations 
 \pagebreak
 
-\printglossary[type=\acronymtype, title=Abkürzungsverzeichnis]
+\printglossary[type=\acronymtype, title=List of Abbreviations]
 
-\printbibliography[heading=bibintoc,title=Literaturverzeichnis]
+\printbibliography[heading=bibintoc,title=Bibliography]
 
 \include{include/Anhang}
 
