@@ -17,7 +17,7 @@
 \usepackage[english]{babel}
 
 % Use Times NR as font
-\usepackage{mathptmx}
+\usepackage{lmodern}
 \usepackage[T1]{fontenc}
 
 % Better tables
@@ -58,10 +58,8 @@
 \usepackage{hyperref}
 \hypersetup{hidelinks}
 
-%\addto\extrasngerman{\def\figureautorefname{Abb.}}
-%\addto\extrasngerman{\def\tableautorefname{Tabelle}}
+% New command for 'fullref'
 \newcommand*{\fullref}[1]{\hyperref[{#1}]{\nameref*{#1} (\ref*{#1})}}
-
 
 % Change page rotation
 \usepackage{pdflscape}
@@ -70,13 +68,19 @@
 \usepackage{amssymb}
 \usepackage{pifont}
 
+% Lorem ipsum package for default text
+\usepackage{lipsum}
+
 \usepackage[absolute]{textpos}
 
 % Header
 \usepackage{scrlayer-scrpage}
 
 \clearpairofpagestyles
- 
+
+% sets the font of the document headers to Times NR
+\addtokomafont{disposition}{\rmfamily}
+
  % Configures header and footer
 \setkomafont{pageheadfoot}{\rmfamily\footnotesize}
 \setkomafont{pagehead}{\rmfamily\bfseries}
@@ -165,6 +169,26 @@ sort=standard
 \newlist{legal}{enumerate}{10}
 \setlist[legal]{label*=\arabic*.}
 
+% Formatting Chapter title, thanks to: http://texnorte.blogspot.com/2012/06/insert-code-before-chapter-title.html
+\newcommand\toptitle{}
+\makeatletter
+\def\@makechapterhead#1{%
+  \vspace*{50\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        \toptitle\par
+        \huge\bfseries \@chapapp\space \thechapter
+        \par\nobreak
+        \vskip 20\p@
+      \fi
+    \fi
+    \interlinepenalty\@M
+    \Huge \bfseries #1\par\nobreak
+    \vskip 40\p@
+  }}
+\makeatother
+
 %%% GLOSSARY %%%
 \loadglsentries{acronyms.tex}
 \loadglsentries{glossaries.tex}
@@ -184,7 +208,10 @@ sort=standard
 
 % HSLU Preamble (no header or footer)
 \pagestyle{empty}
-\include{include/HSLU_Preamble}
+
+% Cover Page
+\include{include/00_Cover_Page}
+\include{include/00_HSLU_Preamble}
 
 % Rest of the document has header and footer
 \pagestyle{headings}
@@ -193,11 +220,7 @@ sort=standard
 % Abstract
 \begin{abstract}
 	\noindent
-	Das vorliegende Wirtschaftsprojekt überprüft den Einsatz von Neural Style Transfer für Sätze aus
-	der deutschen Sprache. Anhand eines Datensatzes, bestehend aus Sätzen für Erwachsene und Kinder,
-	wurde überprüft, ob ein weniger komplexer Satz in einen komplexeren Satz umgewandelt werden kann.
-	Die Erkenntnisse sollen dem Auftraggeber als mögliche Grundlage für den Einsatz von Neural Style Transfer 
-	für die Verschönerung von Zwischen- und Arbeitszeugnissen dienen.
+	\lipsum[50]
 \end{abstract}
 
 % Table of contents
@@ -206,19 +229,19 @@ sort=standard
 \clearpage
 \pagenumbering{arabic}
 
-\include{include/Einleitung}
+\include{include/01_Introduction}
 
-\include{include/Stand_der_Technik}
+\include{include/02_Related_Work}
 
-\include{include/Ideen_und_Konzepte}
+\include{include/03_Ideas_Concepts}
 
-\include{include/Methode}
+\include{include/04_Method}
 
-\include{include/Realisierung}
+\include{include/05_Realization}
 
-\include{include/Evaluation_und_Validation}
+\include{include/06_Evaluation_Validation}
 
-\include{include/Fazit}
+\include{include/07_Conclusion}
 
 \newpage
 
@@ -239,6 +262,6 @@ sort=standard
 
 \printbibliography[heading=bibintoc,title=Bibliography]
 
-\include{include/Anhang}
+\include{include/99_Appendix}
 
 \end{document}

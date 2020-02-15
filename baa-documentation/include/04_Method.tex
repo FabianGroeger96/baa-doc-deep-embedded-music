@@ -1,0 +1,85 @@
+\chapter{Method}
+\label{ch:Method}
+
+\section{Project plan}
+\label{sec:Project-Plan}
+
+\begin{figure}
+\centering
+     \begin{ganttchart}[%Specs
+     x unit = 0.5cm,  %<---------------------- New x unit 
+     y unit title=0.5cm,
+     y unit chart=0.7cm,
+     vgrid, hgrid,
+     title height=1,
+%     title/.style={fill=none},
+     title label font=\bfseries\footnotesize,
+     bar/.style={fill=blue},
+     bar height=0.7,
+%   progress label text={},
+     group right shift=0,
+     group top shift=0.7,
+     group height=.3,
+     group peaks width={0.2},
+     inline]{1}{20}
+    %labels
+
+    \gantttitle{bachelor thesis - deep embedded music}{20}\\
+    \gantttitle[]{2020}{20} \\                
+    \gantttitle{Feb}{4}
+    \gantttitle{Mar}{4}
+    \gantttitle{Apr}{4}
+    \gantttitle{May}{4}
+    \gantttitle{Jun}{4}\\
+
+    \ganttgroup[inline=false]{Research}{1}{5}\\ 
+
+    \ganttbar[progress=100,inline=false]{Planning}{1}{4}\\
+    \ganttmilestone[inline=false]{Milestone 1}{9} \\
+
+    \ganttgroup[inline=false]{Implementation}{2}{10} \\
+
+    \ganttbar[progress=2,inline=false]{Test 1}{6}{9} \\
+    \ganttmilestone[inline=false]{Milestone 2}{7} \\
+    \ganttbar[progress=5,inline=false]{Test 2}{1}{2} \\
+    \ganttmilestone[inline=false]{Milestone 3}{10} \\       
+
+    \ganttgroup[inline=false]{Group 3}{3}{8} \\ 
+
+    \ganttbar[progress=90,inline=false]{Task A}{3}{5} \\ 
+    \ganttbar[progress=50,inline=false, bar progress label node/.append style={below left= 10pt and 7pt}]{Task B}{3}{4} \\ \\
+    \ganttbar[progress=30,inline=false]{Task C}{5}{6}\\ 
+    \ganttbar[progress=70,inline=false]{Task D}{8}{10} \\ 
+
+\end{ganttchart}
+\caption{Gantt diagram for 2013--2014 Project}
+\end{figure}
+
+\section{Procedure model}
+\label{sec:Procedure-Model}
+
+\subsection{Milestone planning}
+\label{sec:Milestone-Planning}
+
+\section{Problem definition}
+\label{sec:Problem-Definition}
+
+\section{Solution approach}
+\label{sec:Solution-Approach}
+
+\section{Evaluation}
+\label{sec:Evaluation}
+
+\section{Testing}
+\label{sec:Testing}
+
+\section{Project structure}
+\label{sec:Project-Structure}
+
+\dirtree{%
+.1 wipro-doc.
+.2 assets \ldots{} (assets for the project).
+.2 documentation \ldots{} (latex file for final documentation).
+.2 research \ldots{} (markdown file for research).
+.2 study-doc \ldots{} (origin of study-doc).
+}
