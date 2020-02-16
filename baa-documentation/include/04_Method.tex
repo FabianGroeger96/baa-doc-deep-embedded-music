@@ -4,56 +4,76 @@
 \section{Project plan}
 \label{sec:Project-Plan}
 
+\begin{landscape}
 \begin{figure}
 \centering
      \begin{ganttchart}[%Specs
-     x unit = 0.5cm,  %<---------------------- New x unit 
+     x unit = 0.9cm,  %<---------------------- New x unit 
      y unit title=0.5cm,
-     y unit chart=0.7cm,
+     y unit chart=0.5cm,
      vgrid, hgrid,
      title height=1,
-%     title/.style={fill=none},
      title label font=\bfseries\footnotesize,
      bar/.style={fill=blue},
      bar height=0.7,
-%   progress label text={},
      group right shift=0,
      group top shift=0.7,
      group height=.3,
      group peaks width={0.2},
-     inline]{1}{20}
+     inline]{1}{16}
     %labels
 
-    \gantttitle{bachelor thesis - deep embedded music}{20}\\
-    \gantttitle[]{2020}{20} \\                
-    \gantttitle{Feb}{4}
+    %\gantttitle{bachelor thesis - deep embedded music}{18}\\
+    \gantttitle[]{2020}{16} \\                
+    \gantttitle{Feb}{2}
     \gantttitle{Mar}{4}
     \gantttitle{Apr}{4}
     \gantttitle{May}{4}
-    \gantttitle{Jun}{4}\\
-
-    \ganttgroup[inline=false]{Research}{1}{5}\\ 
-
-    \ganttbar[progress=100,inline=false]{Planning}{1}{4}\\
-    \ganttmilestone[inline=false]{Milestone 1}{9} \\
-
-    \ganttgroup[inline=false]{Implementation}{2}{10} \\
-
-    \ganttbar[progress=2,inline=false]{Test 1}{6}{9} \\
-    \ganttmilestone[inline=false]{Milestone 2}{7} \\
-    \ganttbar[progress=5,inline=false]{Test 2}{1}{2} \\
-    \ganttmilestone[inline=false]{Milestone 3}{10} \\       
-
-    \ganttgroup[inline=false]{Group 3}{3}{8} \\ 
-
-    \ganttbar[progress=90,inline=false]{Task A}{3}{5} \\ 
-    \ganttbar[progress=50,inline=false, bar progress label node/.append style={below left= 10pt and 7pt}]{Task B}{3}{4} \\ \\
-    \ganttbar[progress=30,inline=false]{Task C}{5}{6}\\ 
-    \ganttbar[progress=70,inline=false]{Task D}{8}{10} \\ 
+    \gantttitle{Jun}{2}\\
+    
+    % 1. Phase: Research
+    \ganttgroup[inline=false]{Research}{1}{4}\\ 
+    \ganttbar[progress=0,inline=false]{Dataset}{1}{1}\\
+    \ganttbar[progress=0,inline=false]{Audio Processing}{1}{1}\\
+    \ganttbar[progress=0,inline=false]{Triplet Loss}{2}{2}\\
+    \ganttbar[progress=0,inline=false]{Tile2Vec}{3}{3}\\
+    \ganttbar[progress=0,inline=false]{Evaluate Research}{4}{4}\\
+    
+    % M1: Research finished
+    \ganttmilestone[inline=false]{Research finished}{4} \\
+    
+    % 2. Phase: Realization
+    \ganttgroup[inline=false]{Realization}{5}{8} \\
+    \ganttbar[progress=0,inline=false]{Project setup}{5}{5} \\
+    \ganttbar[progress=0,inline=false]{Workflow setup}{5}{5} \\
+    \ganttbar[progress=0,inline=false]{Audio processing}{5}{5} \\
+    \ganttbar[progress=0,inline=false]{Default Architecture}{6}{6} \\
+    \ganttbar[progress=0,inline=false]{Tile2Vec}{7}{8} \\
+    
+    % M2: Realization finished
+    \ganttmilestone[inline=false]{Realization finished}{8} \\
+    
+    % 3. Phase: Experiments
+    \ganttgroup[inline=false]{Experiments}{9}{12} \\
+    \ganttbar[progress=0,inline=false]{Conduct}{9}{9} \\
+    \ganttbar[progress=0,inline=false]{Validate}{10}{11} \\
+    
+    % M3: Experiments finished
+    \ganttmilestone[inline=false]{Experiments finished}{11} \\
+    
+    \ganttbar[progress=0,inline=false]{Visualize}{12}{12} \\
+    
+    % Buffer
+    \ganttgroup[inline=false]{Buffer}{13}{13} \\
+    
+    % Buffer
+    \ganttgroup[inline=false]{Finalize Documentation}{14}{16} \\
 
 \end{ganttchart}
 \caption{Gantt diagram for 2013--2014 Project}
 \end{figure}
+
+\end{landscape}
 
 \section{Procedure model}
 \label{sec:Procedure-Model}

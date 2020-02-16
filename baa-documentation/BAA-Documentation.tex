@@ -61,7 +61,8 @@
 % New command for 'fullref'
 \newcommand*{\fullref}[1]{\hyperref[{#1}]{\nameref*{#1} (\ref*{#1})}}
 
-% Change page rotation
+% lscape.sty Produce landscape pages in a (mainly) portrait document.
+%\usepackage{lscape}
 \usepackage{pdflscape}
 
 % Symbols like checkmark
@@ -169,7 +170,8 @@ sort=standard
 \newlist{legal}{enumerate}{10}
 \setlist[legal]{label*=\arabic*.}
 
-% Formatting Chapter title, thanks to: http://texnorte.blogspot.com/2012/06/insert-code-before-chapter-title.html
+% Formatting Chapter title, thanks to: 
+% http://texnorte.blogspot.com/2012/06/insert-code-before-chapter-title.html
 \newcommand\toptitle{}
 \makeatletter
 \def\@makechapterhead#1{%
