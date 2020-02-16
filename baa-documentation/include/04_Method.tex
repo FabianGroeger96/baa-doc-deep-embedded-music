@@ -4,20 +4,24 @@
 \section{Project plan}
 \label{sec:Project-Plan}
 
-\begin{landscape}
+% set page layout to portrait and save layout for later
+\storeareas\defaultpagestyle
+\KOMAoptions{pagesize,paper=landscape,DIV=20}
+\storeareas\landscapevalues
+
 \begin{figure}
 \centering
      \begin{ganttchart}[%Specs
      x unit = 0.9cm,  %<---------------------- New x unit 
-     y unit title=0.5cm,
-     y unit chart=0.5cm,
+     y unit title=0.4cm,
+     y unit chart=0.55cm,
      vgrid, hgrid,
      title height=1,
      title label font=\bfseries\footnotesize,
      bar/.style={fill=blue},
      bar height=0.7,
      group right shift=0,
-     group top shift=0.7,
+     group top shift=0.5,
      group height=.3,
      group peaks width={0.2},
      inline]{1}{16}
@@ -38,9 +42,7 @@
     \ganttbar[progress=0,inline=false]{Triplet Loss}{2}{2}\\
     \ganttbar[progress=0,inline=false]{Tile2Vec}{3}{3}\\
     \ganttbar[progress=0,inline=false]{Evaluate Research}{4}{4}\\
-    
-    % M1: Research finished
-    \ganttmilestone[inline=false]{Research finished}{4} \\
+    \ganttmilestone[inline=false]{Research finished}{4} \\ % M1
     
     % 2. Phase: Realization
     \ganttgroup[inline=false]{Realization}{5}{8} \\
@@ -48,32 +50,34 @@
     \ganttbar[progress=0,inline=false]{Workflow setup}{5}{5} \\
     \ganttbar[progress=0,inline=false]{Audio processing}{5}{5} \\
     \ganttbar[progress=0,inline=false]{Default Architecture}{6}{6} \\
+    \ganttbar[progress=0,inline=false]{Evaluation Workflow}{6}{6} \\
+    \ganttmilestone[inline=false]{Project Setup finished}{7} \\ % M2
     \ganttbar[progress=0,inline=false]{Tile2Vec}{7}{8} \\
-    
-    % M2: Realization finished
-    \ganttmilestone[inline=false]{Realization finished}{8} \\
+    \ganttmilestone[inline=false]{Realization finished}{8} \\ % M3
     
     % 3. Phase: Experiments
     \ganttgroup[inline=false]{Experiments}{9}{12} \\
-    \ganttbar[progress=0,inline=false]{Conduct}{9}{9} \\
-    \ganttbar[progress=0,inline=false]{Validate}{10}{11} \\
-    
-    % M3: Experiments finished
-    \ganttmilestone[inline=false]{Experiments finished}{11} \\
-    
-    \ganttbar[progress=0,inline=false]{Visualize}{12}{12} \\
+    \ganttbar[progress=0,inline=false]{Conduct Experiments}{9}{9} \\
+    \ganttbar[progress=0,inline=false]{Validate Embedding}{10}{11} \\
+    \ganttmilestone[inline=false]{Experiments finished}{11} \\ % M4
+    \ganttbar[progress=0,inline=false]{Visualize Embedding}{12}{12} \\
     
     % Buffer
     \ganttgroup[inline=false]{Buffer}{13}{13} \\
     
-    % Buffer
+    % 4. Phase: Documentation
     \ganttgroup[inline=false]{Finalize Documentation}{14}{16} \\
+    \ganttbar[progress=0,inline=false]{Finalize Documentation}{14}{15} \\
+    \ganttbar[progress=0,inline=false]{Proofread Documentation}{16}{16} \\
+    \ganttmilestone[inline=false]{Thesis submission}{16}
 
 \end{ganttchart}
-\caption{Gantt diagram for 2013--2014 Project}
+\caption{Project plan}
 \end{figure}
+\clearpage
 
-\end{landscape}
+% set page back to portrait
+\defaultpagestyle
 
 \section{Procedure model}
 \label{sec:Procedure-Model}
