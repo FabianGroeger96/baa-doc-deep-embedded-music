@@ -14,7 +14,7 @@
      \begin{ganttchart}[%Specs
      x unit = 0.9cm,  %<---------------------- New x unit 
      y unit title=0.4cm,
-     y unit chart=0.55cm,
+     y unit chart=0.5cm,
      vgrid, hgrid,
      title height=1,
      title label font=\bfseries\footnotesize,
@@ -47,13 +47,16 @@
     % 2. Phase: Realization
     \ganttgroup[inline=false]{Realization}{5}{8} \\
     \ganttbar[progress=0,inline=false]{Project setup}{5}{5} \\
-    \ganttbar[progress=0,inline=false]{Workflow setup}{5}{5} \\
-    \ganttbar[progress=0,inline=false]{Audio processing}{5}{5} \\
+    \ganttbar[progress=0,inline=false]{Input Pipeline}{5}{5} \\
     \ganttbar[progress=0,inline=false]{Default Architecture}{6}{6} \\
     \ganttbar[progress=0,inline=false]{Evaluation Workflow}{6}{6} \\
+    \ganttbar[progress=0,inline=false]{Unit tests}{6}{6} \\
     \ganttmilestone[inline=false]{Project Setup finished}{7} \\ % M2
-    \ganttbar[progress=0,inline=false]{Tile2Vec}{7}{8} \\
+    \ganttbar[progress=0,inline=false]{Tile2Vec implementation}{7}{7} \\
+    \ganttbar[progress=0,inline=false]{Experiment Architecture}{8}{8} \\
     \ganttmilestone[inline=false]{Realization finished}{8} \\ % M3
+    
+    \ganttbar[progress=0,inline=false]{Create Pitch Video / Web abstract}{8}{8} \\
     
     % 3. Phase: Experiments
     \ganttgroup[inline=false]{Experiments}{9}{12} \\
