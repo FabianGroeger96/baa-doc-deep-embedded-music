@@ -1,41 +1,157 @@
 
-@inproceedings{jean_tile2vec:_2018,
-	title = {Tile2Vec: {Unsupervised} representation learning for spatially distributed data},
-	shorttitle = {Tile2Vec},
-	doi = {10.1609/aaai.v33i01.33013967},
-	abstract = {Geospatial analysis lacks methods like the word vector representations and pre-trained networks that significantly boost performance across a wide range of natural language and computer vision tasks. To fill this gap, we introduce Tile2Vec, an unsupervised representation learning algorithm that extends the distributional hypothesis from natural language -- words appearing in similar contexts tend to have similar meanings -- to spatially distributed data. We demonstrate empirically that Tile2Vec learns semantically meaningful representations on three datasets. Our learned representations significantly improve performance in downstream classification tasks and, similar to word vectors, visual analogies can be obtained via simple arithmetic in the latent space.},
-	booktitle = {{AAAI}},
-	author = {Jean, Neal and Wang, Sherrie and Samar, Anshul and Azzari, George and Lobell, David B. and Ermon, Stefano},
+@inproceedings{dekkers_sins_2017,
+	title = {The {SINS} {Database} for {Detection} of {Daily} {Activities} in a {Home} {Environment} {Using} an {Acoustic} {Sensor} {Network}},
+	abstract = {There is a rising interest in monitoring and improving human wellbeing at home using different types of sensors including microphones. In the context of Ambient Assisted Living (AAL) persons are monitored, e.g. to support patients with a chronic illness and older persons, by tracking their activities being performed at home. When considering an acoustic sensing modality, a performed activity can be seen as an acoustic scene. Recently, acoustic detection and classification of scenes and events has gained interest in the scientific community and led to numerous public databases for a wide range of applications. However, no public databases exist which a) focus on daily activities in a home environment, b) contain activities being performed in a spontaneous manner, c) make use of an acoustic sensor network, and d) are recorded as a continuous stream. In this paper we introduce a database recorded in one living home, over a period of one week. The recording setup is an acoustic sensor network containing thirteen sensor nodes, with four low-cost microphones each, distributed over five rooms. Annotation is available on an activity level. In this paper we present the recording and annotation procedure, the database content and a discussion on a baseline detection benchmark. The baseline consists of Mel-Frequency Cepstral Coefficients, Support Vector Machine and a majority vote late-fusion scheme. The database is publicly released to provide a common ground for future research.},
+	booktitle = {Proceedings of the {Detection} and {Classification} of {Acoustic} {Scenes} and {Events} 2017 {Workshop} ({DCASE}2017)},
+	author = {Dekkers, Gert and Lauwereins, Steven and Thoen, Bart and Adhana, Mulu Weldegebreal and Brouckxon, Henk and van Waterschoot, Toon and Vanrumste, Bart and Verhelst, Marian and Karsmakers, Peter},
+	month = nov,
+	year = {2017},
+	keywords = {Acoustic Event Detection, Acoustic Scene Classification, Acoustic Sensor Networks, Database, Dataset},
+	pages = {32--36}
+}
+
+@techreport{dekkers_dcase_2018,
+	title = {{DCASE} 2018 {Challenge} - {Task} 5: {Monitoring} of domestic activities based on multi-channel acoustics},
+	url = {https://arxiv.org/abs/1807.11246},
+	abstract = {The DCASE 2018 Challenge consists of five tasks related to automatic classification and detection of sound events and scenes. This paper presents the setup of Task 5 which includes the description of the task, dataset and the baseline system. In this task, it is investigated to which extend multi-channel acoustic recordings are beneficial for the purpose of classifying domestic activities. The goal is to exploit spectral and spatial cues independent of sensor location using multi-channel audio. For this purpose we provided a development and evaluation dataset which are derivatives of the SINS database and contain domestic activities recorded by multiple microphone arrays. The baseline system, based on a Neural Network architecture using convolutional and dense layer(s), is intended to lower the hurdle to participate the challenge and to provide a reference performance.},
+	institution = {KU Leuven},
+	author = {Dekkers, Gert and Vuegen, Lode and van Waterschoot, Toon and Vanrumste, Bart and Karsmakers, Peter},
 	year = {2018},
-	keywords = {Aerial photography, Algorithm, Coherence (physics), Computer vision, Distributional semantics, Downstream (software development), Feature extraction, Feature learning, File spanning, Geospatial analysis, Image resolution, Information, Machine learning, Natural language, Seasonality, Sensor, Supervised learning, Unsupervised learning, Word embedding}
+	keywords = {Acoustic scene classification, Activities of the Daily Living, Dataset Baseline Code, Multi-channel}
 }
 
-@article{jean_tile2vec:_2019,
-	title = {Tile2Vec: {Unsupervised} {Representation} {Learning} for {Spatially} {Distributed} {Data}},
-	volume = {33},
-	copyright = {Copyright (c) 2019 Association for the Advancement of Artificial Intelligence},
-	issn = {2374-3468},
-	shorttitle = {Tile2Vec},
-	url = {https://www.aaai.org/ojs/index.php/AAAI/article/view/4288},
-	doi = {10.1609/aaai.v33i01.33013967},
-	abstract = {Geospatial analysis lacks methods like the word vector representations and pre-trained networks that significantly boost performance across a wide range of natural language and computer vision tasks. To fill this gap, we introduce Tile2Vec, an unsupervised representation learning algorithm that extends the distributional hypothesis from natural language — words appearing in similar contexts tend to have similar meanings — to spatially distributed data. We demonstrate empirically that Tile2Vec learns semantically meaningful representations for both image and non-image datasets. Our learned representations significantly improve performance in downstream classification tasks and, similarly to word vectors, allow visual analogies to be obtained via simple arithmetic in the latent space.},
+@book{goodfellow_deep_2016,
+	title = {Deep {Learning}},
+	publisher = {MIT Press},
+	author = {Goodfellow, Ian and Bengio, Yoshua and Courville, Aaron},
+	year = {2016}
+}
+
+@techreport{inoue_domestic_2018,
+	title = {Domestic {Activities} {Classification} {Based} on {CNN} {Using} {Shuffling} and {Mixing} {Data} {Augmentation}},
+	abstract = {This technical report describes our proposed design and implementation of the system used for the DCASE 2018 Challenge submission. The work focuses on Task 5 of the challenge, which is about monitoring and classifying domestic activities based on multi-channel acoustics. We propose data augmentation techniques using shuffling and mixing two sounds in a same class to mitigate the unbalanced training dataset. This data augmentation can generate new variations on both the sequence and the density of sound events. The experimental results show that the proposed system achieves an average of 89.95\% of macro-averaged F1 score over 4 folds on the development dataset. This is a significant improvement from the baseline result of 84.50\%. In the final evaluation for the submission, four proposed classifiers are trained with four folds of training and validation data in the development dataset. Then we ensemble these four models by averaging their predictions.},
+	institution = {DCASE2018 Challenge},
+	author = {Inoue, Tadanobu and Vinayavekhin, Phongtharin and Wang, Shiqiang and Wood, David and Greco, Nancy and Tachibana, Ryuki},
+	month = sep,
+	year = {2018}
+}
+
+@book{zheng_evaluating_2015,
+	edition = {First edition.},
+	title = {Evaluating machine learning models: a beginner's guide to key concepts and pitfalls},
+	shorttitle = {Evaluating machine learning models},
+	url = {http://proquest.tech.safaribooksonline.de/?uiCode=&xmlId=9781492048756},
+	language = {eng},
+	urldate = {2020-02-17},
+	publisher = {Sebastopol, CA O'Reilly Media},
+	author = {Zheng, Alice},
+	year = {2015},
+	keywords = {Machine learning; Data mining; Electronic books}
+}
+
+@article{chuan_context_nodate,
+	title = {From context to concept: exploring semantic relationships in music with word2vec},
+	url = {https://link.springer.com/article/10.1007/s00521-018-3923-1?utm_source=researcher_app&utm_medium=referral&utm_campaign=RESR_MRKT_Researcher_inbound},
+	doi = {10.1007/s00521-018-3923-1},
+	abstract = {{\textless}h3 class="a-plus-plus"{\textgreater}Abstract{\textless}/h3{\textgreater}
+                  {\textless}p class="a-plus-plus"{\textgreater}We explore the potential of a popular distributional semantics vector space model, {\textless}em class="a-plus-plus"{\textgreater}word2vec{\textless}/em{\textgreater}, for capturing meaningful relationships in ecological (complex polyphonic) music. More precisely, the skip-gram version of word2vec is used to model slices of music from a large corpus spanning eight musical genres. In this newly learned vector space, a metric based on cosine distance is able to distinguish between functional chord relationships, as well as harmonic associations in the music. Evidence, based on cosine distance between chord-pair vectors, suggests that an implicit circle-of-fifths exists in the vector space. In addition, a comparison between pieces in different keys reveals that key relationships are represented in word2vec space. These results suggest that the newly learned embedded vector representation does in fact capture tonal and harmonic characteristics of music, without receiving explicit information about the musical content of the constituent slices. In order to investigate whether proximity in the discovered space of embeddings is indicative of ‘semantically-related’ slices, we explore a music generation task, by automatically replacing existing slices from a given piece of music with new slices. We propose an algorithm to find substitute slices based on spatial proximity and the pitch class distribution inferred in the chosen subspace. The results indicate that the size of the subspace used has a significant effect on whether slices belonging to the same key are selected. In sum, the proposed word2vec model is able to learn music-vector embeddings that capture meaningful tonal and harmonic relationships in music, thereby providing a useful tool for exploring musical properties and comparisons across pieces, as a potential input representation for deep learning models, and as a music generation device.{\textless}/p{\textgreater}},
+	journal = {Neural Computing and Applications},
+	author = {Chuan, Ching-Hua and Agres, Kat and Herremans, Dorien}
+}
+
+@article{verma_neuralogram:_nodate,
+	title = {Neuralogram: {A} {Deep} {Neural} {Network} {Based} {Representation} for {Audio} {Signals}. ({arXiv}:1904.05073v1 [cs.{SD}])},
+	url = {http://arxiv.org/abs/1904.05073},
+	doi = {arXiv:1904.05073v1},
+	abstract = {We propose the Neuralogram -- a deep neural network based representation for
+understanding audio signals which, as the name suggests, transforms an audio
+signal to a dense, compact representation based upon embeddings learned via a
+neural architecture. Through a series of probing signals, we show how our
+representation can encapsulate pitch, timbre and rhythm-based information, and
+other attributes. This representation suggests a method for revealing
+meaningful relationships in arbitrarily long audio signals that are not readily
+represented by existing algorithms. This has the potential for numerous
+applications in audio understanding, music recommendation, meta-data extraction
+to name a few.},
+	journal = {arXiv Computer Science},
+	author = {Verma, Jonathan Berger Chris Chafe Prateek}
+}
+
+@article{kim_are_nodate,
+	title = {Are {Nearby} {Neighbors} {Relatives}?: {Testing} {Deep} {Music} {Embeddings}. ({arXiv}:1904.07154v3 [cs.{LG}] {UPDATED})},
+	url = {http://arxiv.org/abs/1904.07154?utm_source=researcher_app&utm_medium=referral&utm_campaign=RESR_MRKT_Researcher_inbound},
+	doi = {arXiv:1904.07154v3},
+	abstract = {Deep neural networks have frequently been used to directly learn
+representations useful for a given task from raw input data. In terms of
+overall performance metrics, machine learning solutions employing deep
+representations frequently have been reported to greatly outperform those using
+hand-crafted feature representations. At the same time, they may pick up on
+aspects that are predominant in the data, yet not actually meaningful or
+interpretable. In this paper, we therefore propose a systematic way to test the
+trustworthiness of deep music representations, considering musical semantics.
+The underlying assumption is that in case a deep representation is to be
+trusted, distance consistency between known related points should be maintained
+both in the input audio space and corresponding latent deep space. We generate
+known related points through semantically meaningful transformations, both
+considering imperceptible and graver transformations. Then, we examine within-
+and between-space distance consistencies, both considering audio space and
+latent embedded space, the latter either being a result of a conventional
+feature extractor or a deep encoder. We illustrate how our method, as a
+complement to task-specific performance, provides interpretable insight into
+what a network may have captured from training data signals.},
+	journal = {arXiv Computer Science},
+	author = {Kim, Jaehun and Urbano, Julián and Liem, Cynthia C. S. and Hanjalic, Alan}
+}
+
+@article{pu_music_nodate,
+	title = {Music recommender using deep embedding-based features and behavior-based reinforcement learning},
+	url = {http://link.springer.com/article/10.1007/s11042-019-08356-9?utm_source=researcher_app&utm_medium=referral&utm_campaign=RESR_MRKT_Researcher_inbound},
+	doi = {10.1007/s11042-019-08356-9},
+	abstract = {With the rapid increase of digital music on online music platforms, it has become difficult for users to find unknown but interesting songs. Although many collaborative filtering or content based recommendation methods have been proposed, they have various relatively serious some problems, including cold start, diversity of recommendations. etc. Therefore, we propose a reinforcement personal music recommendation system (RPMRS) to address these problems. RPMRS comprises two main components. First, deep representation of audio and lyrics extracted by WaveNet and Word2Vec models, respectively, and apply a proposed content based recommendation method from these. Second, we employ reinforcement learning is to learn user preferences from their song playing log. Experimental results confirm, that hybrid features are superior to audio or lyrics based features for content recommendation, largely because independent audio features significantly outperform lyrics features; and reinforcement learning improves personalized recommendations. Overall, the proposed RPMRS provides dynamic and personalized music recommendations for the user.},
+	journal = {Multimedia Tools and Applications},
+	author = {Pu, Ying-Hung}
+}
+
+@article{balntas_pn-net:_2016,
+	title = {{PN}-{Net}: {Conjoined} {Triple} {Deep} {Network} for {Learning} {Local} {Image} {Descriptors}},
+	shorttitle = {{PN}-{Net}},
+	url = {http://arxiv.org/abs/1601.05030},
+	abstract = {In this paper we propose a new approach for learning local descriptors for matching image patches. It has recently been demonstrated that descriptors based on convolutional neural networks (CNN) can significantly improve the matching performance. Unfortunately their computational complexity is prohibitive for any practical application. We address this problem and propose a CNN based descriptor with improved matching performance, significantly reduced training and execution time, as well as low dimensionality. We propose to train the network with triplets of patches that include a positive and negative pairs. To that end we introduce a new loss function that exploits the relations within the triplets. We compare our approach to recently introduced MatchNet and DeepCompare and demonstrate the advantages of our descriptor in terms of performance, memory footprint and speed i.e. when run in GPU, the extraction time of our 128 dimensional feature is comparable to the fastest available binary descriptors such as BRIEF and ORB.},
+	urldate = {2020-02-14},
+	journal = {arXiv:1601.05030 [cs]},
+	author = {Balntas, Vassileios and Johns, Edward and Tang, Lilian and Mikolajczyk, Krystian},
+	month = jan,
+	year = {2016},
+	note = {arXiv: 1601.05030},
+	keywords = {Computer Science - Computer Vision and Pattern Recognition}
+}
+
+@article{hoffer_deep_2018,
+	title = {Deep metric learning using {Triplet} network},
+	url = {http://arxiv.org/abs/1412.6622},
+	abstract = {Deep learning has proven itself as a successful set of models for learning useful semantic representations of data. These, however, are mostly implicitly learned as part of a classification task. In this paper we propose the triplet network model, which aims to learn useful representations by distance comparisons. A similar model was defined by Wang et al. (2014), tailor made for learning a ranking for image information retrieval. Here we demonstrate using various datasets that our model learns a better representation than that of its immediate competitor, the Siamese network. We also discuss future possible usage as a framework for unsupervised learning.},
+	urldate = {2020-02-14},
+	journal = {arXiv:1412.6622 [cs, stat]},
+	author = {Hoffer, Elad and Ailon, Nir},
+	month = dec,
+	year = {2018},
+	note = {arXiv: 1412.6622},
+	keywords = {Computer Science - Computer Vision and Pattern Recognition, Computer Science - Machine Learning, Statistics - Machine Learning}
+}
+
+@misc{arnal_quantifying_2019,
+	title = {Quantifying circ2vec versus tile2vec performance},
+	url = {https://medium.com/@alexarnal/quantifying-circ2vec-versus-tile2vec-performance-3e00b587957e},
+	abstract = {The original article by Jean et al. in 2018 proposed a model which takes as input a square tile and outputs a 10D vector. The particular…},
 	language = {en},
-	number = {01},
 	urldate = {2020-02-10},
-	journal = {Proceedings of the AAAI Conference on Artificial Intelligence},
-	author = {Jean, Neal and Wang, Sherrie and Samar, Anshul and Azzari, George and Lobell, David and Ermon, Stefano},
-	month = jul,
-	year = {2019},
-	pages = {3967--3974}
+	journal = {Medium},
+	author = {Arnal, Alex},
+	month = oct,
+	year = {2019}
 }
 
-@misc{noauthor_tile2vec:_nodate,
-	title = {Tile2Vec: {Unsupervised} representation learning for spatially distributed data},
-	url = {https://ermongroup.github.io/blog/tile2vec/},
-	urldate = {2020-02-10}
-}
-
-@article{jean_tile2vec:_2018-1,
+@article{jean_tile2vec:_2018,
 	title = {Tile2Vec: {Unsupervised} representation learning for spatially distributed data},
 	shorttitle = {Tile2Vec},
 	url = {http://arxiv.org/abs/1805.02855},
@@ -88,7 +204,7 @@ Evolution AI: Machines that Read - get answers from your text data.},
 	year = {2019}
 }
 
-@article{balntas_pn-net:_2016,
+@article{balntas_pn-net:_2016-1,
 	title = {{PN}-{Net}: {Conjoined} {Triple} {Deep} {Network} for {Learning} {Local} {Image} {Descriptors}},
 	shorttitle = {{PN}-{Net}},
 	url = {http://arxiv.org/abs/1601.05030},
@@ -118,7 +234,7 @@ Evolution AI: Machines that Read - get answers from your text data.},
 	pages = {815--823}
 }
 
-@article{hoffer_deep_2018,
+@article{hoffer_deep_2018-1,
 	title = {Deep metric learning using {Triplet} network},
 	url = {http://arxiv.org/abs/1412.6622},
 	abstract = {Deep learning has proven itself as a successful set of models for learning useful semantic representations of data. These, however, are mostly implicitly learned as part of a classification task. In this paper we propose the triplet network model, which aims to learn useful representations by distance comparisons. A similar model was defined by Wang et al. (2014), tailor made for learning a ranking for image information retrieval. Here we demonstrate using various datasets that our model learns a better representation than that of its immediate competitor, the Siamese network. We also discuss future possible usage as a framework for unsupervised learning.},
