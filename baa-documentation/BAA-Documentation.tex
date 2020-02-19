@@ -54,9 +54,11 @@
 
 \usepackage{csquotes}
 
+% to make beautiful tables
+\usepackage{booktabs}
+
 % Clickable Links to Websites and chapters
-\usepackage{hyperref}
-\hypersetup{hidelinks}
+\usepackage[hidelinks]{hyperref}
 
 % New command for 'fullref'
 \newcommand*{\fullref}[1]{\hyperref[{#1}]{\nameref*{#1} (\ref*{#1})}}
@@ -128,9 +130,9 @@ sort=standard
 % Bibliography & citing
 \usepackage[
 	backend=biber,
-	style=apa,
-	bibstyle=apa,
-	citestyle=apa,
+	style=authoryear,
+	bibstyle=authoryear,
+	citestyle=authoryear
 	]{biblatex}
 \addbibresource{references_zotero.bib}
 \addbibresource{Referenzen.bib}
