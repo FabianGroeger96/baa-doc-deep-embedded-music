@@ -11,8 +11,18 @@ This section describes the task and the objectives of the project in more detail
 \subsection{Initial situation}
 \label{sub:Initial-Stituation}
 
+Distinguishing between pieces of music is for humans from easy to difficult. So it is mostly straightforward to distinguish music genres, like classical music or techno. However, the difficulty increases when comparing songs within a style or even sort them by similarity.
+\newline
+\newline
+On top of an established dataset for noise detection, a procedure based on an embedding method called Tile2Vec will be developed, which can compare similarities between sounds. The resulting embeddings will be clustered and compared with the labels. The accuracy of the method will be evaluated.
+\newline
+\newline
+This method will be applied exploratively to different kinds of music, whereby a dataset of 12h yodel music will be available. The resulting clusters will be investigated qualitatively. 
+
 \subsection{Task definition}
 \label{sub:Task-Definition}
+
+The goal of this work is to adapt Tile2Vec, an image embedding method, to audio streams and to evaluate its performance on a noise detection dataset \flqq SINS, DCASE 2018: task 5 development dataset\frqq. Using unsupervised machine learning, similar signals will be clustered and the clusters compared with labels. The developed method will be applied exploratively to music, and the resulting clusters will be investigated qualitatively.
 
 \subsection{Target setting}
 \label{sub:Target-Setting}

@@ -14,12 +14,12 @@ This section deals with the essential technological fundamentals of the project.
 The amplitude of a periodic variable is the measure of how far, and in what direction, that variable differs from zero. Thus, signal amplitudes can be either positive or negative. The figure \ref{fig:Amplitude-Wavelenght} illustrates the amplitude with variable $y$. 
 \newline
 \newline
-The distance from the top of one peak to the bottom of another is called \textit{peak-to-peak amplitude}. Another way to describe peak-to-peak amplitude is to say that it is the distance between the maximum positive value and the maximum negative value of a wave. In figure \ref{fig:Amplitude-Wavelenght} the peak-to-peak amplitude of the wave would be $2y$.
+The distance from the top of one peak to the bottom of another is called \textit{peak-to-peak amplitude}. Another way to describe peak-to-peak amplitude is to say that it is the distance between the maximum positive value and the maximum negative value of a wave. In figure \ref{fig:Amplitude-Wavelenght}, the peak-to-peak amplitude of the wave would be $2y$.
 
 \subsection{Magnitude}
 \label{sub:Magnitude}
 
-The magnitude of a periodic variable, is the measure of how far, regardless of direction, its quantity differs from zero. So magnitudes are always positive values. Occasionally, in the literature of digital signal processing, the term magnitude is referred to as the absolute value. In the figure \ref{fig:Amplitude-Wavelenght} the magnitude of the wave would be $|y|$.
+The magnitude of a periodic variable is the measure of how far, regardless of direction, its quantity differs from zero. So magnitudes are always positive values. Occasionally, in the literature of digital signal processing, the term magnitude is referred to as the absolute value. In figure \ref{fig:Amplitude-Wavelenght}, the magnitude of the wave would be $|y|$.
 
 \subsection{Wavelength}
 \label{sub:Wavelength}
@@ -37,10 +37,74 @@ The wavelength is the length of a single cycle of a wave, as measured by the dis
 \subsection{Sampling Frequency and Resolution}
 \label{sub:Sampling-Frequency-Resolution}
 
-The sampling frequency, given in \gls{Hz}, of an audio signal, determines the resolution of the audio sample. The sampling frequency states how many samples exist for each second of the signal. Each one of these samples also has a resolution, given in bits, which determines how detailed audio waveforms are. This resolution is also referred to as bit depth. The higher the sampling rate, the higher the resolution of the signal. When recording music or many types of acoustic events, audio waveforms are typically sampled at 44.1 kHz (CD), 48 kHz, 88.2 kHz, or 96 kHz. Sampling rates higher than about 50 kHz to 60 kHz cannot supply more usable information for human listeners. Early professional audio equipment manufacturers chose sampling rates in the region of 40 to 50 kHz for this reason. 
+The sampling frequency or sampling rate, given in \gls{Hz}, of an audio signal, determines the resolution of the audio sample. The sampling frequency states how many samples (amplitudes \ref{sub:Amplitude}) were captured for each second of the signal. Each one of these samples also has a resolution, given in bits, which determines how detailed audio waveforms are. This resolution is also referred to as bit depth. The higher the sampling rate, the higher the resolution of the signal. When recording music or many types of acoustic events, audio waveforms are typically sampled at 44.1 \gls{kHz} (CD), 48 \gls{kHz}, 88.2 \gls{kHz}, or 96 \gls{kHz}. Sampling rates higher than about 50 \gls{kHz} to 60 \gls{kHz} cannot supply more usable information for human listeners. Early professional audio equipment manufacturers chose sampling rates in the region of 40 to 50 \gls{kHz} for this reason.
+
+\subsection{Noise}
+\label{sub:Noise}
+
+Noise is any unwanted signal distorting the original signal. Given a speech signal with amplitude $s(n)$, where $n$ is the sample index, noise is any other signal, $w(n)$ which interferes with the speech. The noisy speech signal $u(n)$ is defined with equation \ref{eq:Noise-Added}.
+
+\myequations{Noise added to a signal}
+\begin{equation}
+    \centering
+    u(n) = s(n) + w(n)
+    \label{eq:Noise-Added}
+\end{equation}
+
+\subsection{Time domain}
+\label{sub:Time-Domain}
+
+The time-domain refers to the analysis of mathematical functions of signals with respect to time. A time-domain graph shows how a signal changes with time. 
+\newline
+\newline
+A wave plot is a visual representation of this domain. The y-axis of such visualisation represents the \nameref{sub:Amplitude} (loudness) of the sound wave, whereas the x-axis represents the time. If the amplitude is equal to zero, it represents silence. Such a representation is shown in figure \ref{fig:Waveplot-Time-Domain}.
+
+% TODO - create own wave plot
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.6]{baa-documentation/img/Waveplot-time-domain.png}
+	\caption[Time-domain illustrated in wave plot]{Time-domain illustrated in wave plot \footnotemark}
+	\label{fig:Waveplot-Time-Domain}
+\end{figure}
+\footnotetext{\href{https://stackoverflow.com/questions/43835055/plotting-audio-from-librosa-in-matplotlib}{\nolinkurl{stackoverflow.com/questions/43835055/plotting-audio-from-librosa-in-matplotlib}}}
+
+\subsection{Frequency domain}
+\label{sub:Frequency-Domain}
+
+The frequency-domain refers to the analysis of mathematical functions or signals with respect to frequency. A frequency-domain graph shows how much of the signal lies within each given frequency band over a range of frequencies. 
+\newline
+\newline
+A given function or signal can be converted between the time and frequency domains with a pair of mathematical operators. The most used operation is the Fourier Transformation, which will be explained in further detail in section \ref{sub:Fourier-Transform}.
+
+\subsection{Spectrogram}
+\label{sub:Spectrogram}
+
+A spectrogram is a visual representation of the frequency domain. More precisely it represents the spectrum of frequencies of a signal as it varies with time. The x-axis represents the time, the y-axis represents the frequencies, and the colours represent the magnitude of the observed frequency at a particular time. Bright colours represent powerful frequencies. Thus every spectrogram represents three domains: time, frequency and magnitude.
+\newline
+\newline
+To create a spectrogram, the audio signal is broken down into smaller frames (windows), and for each one, the \gls{DFT} or \gls{FFT} will be calculated. The resulting frequencies of each window will represent the time. It is important to note that the windows should overlap each other, not to lose any frequency. Typical window sizes are 20 to 30ms, but this size highly depends on the task to solve. The figure \ref{fig:Spectrogram} show an example of such a spectrogram.
+
+% TODO - create own spectrogram
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.2]{baa-documentation/img/Spectrogram.png}
+	\caption[Example of a spectrogram]{Example of a spectrogram \footnotemark}
+	\label{fig:Spectrogram}
+\end{figure}
+\footnotetext{\href{https://towardsdatascience.com/understanding-audio-data-fourier-transform-fft-spectrogram-and-speech-recognition-a4072d228520}{\nolinkurl{towardsdatascience.com/understanding-audio-data-fourier-transform-fft-spectrogram-and-speech-recognition-a4072d228520}}}
+
+\subsection{Nyquist–Shannon sampling theorem}
+\label{sub:Nyquist–Shannon}
+
+\subsection{LibROSA}
+\label{sub:Librosa}
+
+LibROSA is a python package for music and audio analysis. It provides the building blocks necessary to create music information retrieval systems.\footnote{\url{https://librosa.github.io/librosa/}}
 
 \subsection{Tensorflow}
 \label{sub:Tensorflow}
+
+TensorFlow is an end-to-end open source platform for machine learning. It has a comprehensive, flexible ecosystem of tools, libraries and community resources that lets researchers push the state-of-the-art in \gls{ML} and developers easily build and deploy \gls{ML} powered applications. \footnote{\url{https://www.tensorflow.org/}}
 
 \section{Technical concepts}
 \label{sec:Technical-Concepts}
@@ -58,14 +122,18 @@ In this section, technical concepts are explained in more detail, which was used
 
 \gls{MFCC} are
 
-\subsection{Fourier Transformation}
-\label{sub:Fourier-Transformation}
+\subsection{Fourier Transform}
+\label{sub:Fourier-Transform}
 
-\subsubsection{Fast Fourier Transformation}
-\label{subsub:Fast-Fourier-Transformation}
+\gls{FT} is a mathematical concept that can convert a continuous signal from \fullref{sub:Time-Domain} to \fullref{sub:Frequency-Domain}. It decomposes a signal into its constituent frequencies along with the magnitude of each frequency.
 
-\subsubsection{Short Time Fourier Transformation}
-\label{subsub:Short-Time-Fourier-Transformation}
+\subsubsection{Fast Fourier Transform}
+\label{subsub:Fast-Fourier-Transform}
+
+\gls{FFT} is a mathematical algorithm that calculates \gls{DFT} of a given sequence. The only difference between \gls{FT} and \gls{FFT} is, that \gls{FT} considers a continuous signal while \gls{FFT} takes a discrete signal as input. \gls{DFT} converts a sequence, a discrete signal, into its frequency constituents just like \gls{FT} does for a continuous signal. It is important to note that due to that transformation, the time information of the audio signal will be lost.
+
+\subsubsection{Short Time Fourier Transform}
+\label{subsub:Short-Time-Fourier-Transform}
 
 \subsection{$\mu$-law Transformation}
 \label{sub:Mu-Law-Transformation}
