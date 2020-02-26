@@ -9,12 +9,20 @@ This chapter introduces and explains terms and concepts which will be used throu
 This section introduces the fundamentals of \gls{DSP}, which will be used repeatedly in the following chapters, either to reason or to describe some behaviour. 
 \newline
 \newline
-What exactly is \gls{DSP}? \gls{DSP} is to take real-world signals like voice, audio, video, temperature, pressure, or position that have been digitized and then mathematically manipulate them. A \gls{DSP} is designed for performing mathematical functions like \textit{add}, \textit{subtract}, \textit{multiply} and \textit{divide} very quickly.
+What exactly is \gls{DSP}? \gls{DSP} is to take real-world signals like voice, audio, video, temperature, pressure, or position that have been digitized and mathematically manipulate them. A \gls{DSP} is designed for performing mathematical functions such as \textit{add}, \textit{subtract}, \textit{multiply} and \textit{divide} very quickly.
 \newline
 \newline
 Signals need to be processed so that the information that they contain can be displayed, analyzed, or converted to another type of signal that may be of use. In the real-world, analogue products detect signals such as sound, light, temperature or pressure and manipulate them. Converters such as an \gls{ADC} then take the real-world signal and turn it into the digital format of 1's and 0's. From here, the \gls{DSP} takes over by capturing the digitized information and processing it. It then feeds the digitized information back for use in the real world. It does this in one of two ways, either digitally or in an analogue format by going through a \gls{DAC}. All of this occurs at very high speeds.\footnotemark
 
 \footnotetext{\href{https://www.analog.com/en/design-center/landing-pages/001/beginners-guide-to-dsp.html}{analog.com/en/design-center/landing-pages/001/beginners-guide-to-dsp.html}}
+
+\subsection{Waveform}
+\label{sub:Waveform}
+
+Speech signals are sound signals, defined as pressure variations travelling through the air. These variations in pressure can be described as waves, and are often called sound waves. In the current thesis, the focus is on the analysis and processing of such waveforms in digital systems. Therefore it is always assumed that the acoustic speech signals have been captured by a microphone and converted to a digital form.
+\newline
+\newline
+A speech signal is represented by a sequence of numbers $x_n$, which represent the relative air pressure at time-instant $n\in{\mathbb N}$. The accuracy of this representation is specified by two variables, the sampling frequency (the step in time between $n$ and $n+1$) and the accuracy and distribution of amplitudes of $x$.
 
 \subsection{Amplitude}
 \label{sub:Amplitude}
@@ -139,8 +147,44 @@ To create a spectrogram, the audio signal is broken down into smaller frames (wi
 
 \subsection{Mel Spectogram}
 \label{sub:Mel-Spectogram}
-
 % TODO - 2/3 sites
+
+\gls{MFCC} are a feature widely used in automatic speech and speaker recognition, mainly because they focus on the audio signal and discard all other information such as background noise, emotion and many more. They were introduced by Davis and Mermelstein in the 1980s, and have been state-of-the-art ever since.
+\newline
+\newline
+The process of creating these \gls{MFCC} are quite complex and follow five steps. Thus to the explanation of every step, there is also a short example on how to perform the step in depth. For illustration, a speech signal with a sample rate of 16kHz is assumed. The whole process is illustrated in figure \ref{fig:MFCC-Overview}.
+
+% TODO - create own diagram
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.8]{baa-documentation/img/MFCC_Overview.jpeg}
+	\caption[Steps to calculate MFCC]{Steps to calculate MFCC \footnotemark}
+	\label{fig:MFCC-Overview}
+\end{figure}
+\footnotetext{\href{https://mitll.github.io/pyslgr/MFCC_Features.html}{\nolinkurl{mitll.github.io/pyslgr/MFCC_Features.html}}}
+
+\subsubsection{Frame the signal into short frames}
+An audio signal is continuously changing, so to simplify it is assumed, that on short time scales the audio signal does not change much, i.e. statistically stationary. Due to that, the signal is framed into 20-40ms frames. If the frames are much shorter, there are not enough samples to get a reliable spectral estimate. If the frame length is too high, the signal changes to much throughout the frame.
+\newline 
+\newline
+Firstly the signal has to be split into 20-40ms frames (25ms is the standard). The frame length for a 16kHz signal is calculated with the equation in \ref{eq:MFCC-Frame-Length}. 
+\myequations{Calculate frame length from signal}
+\begin{equation}
+    \centering
+    \frac{25ms}{1000} * 16000Hz = 400 \ \text{samples}
+    \label{eq:MFCC-Frame-Length}
+\end{equation}
+Frame step is normally 10ms, which allows some overlap to the frames, and is calculated the same as the frame length.
+\myequations{Calculate frame step from signal}
+\begin{equation}
+    \centering
+    \frac{10ms}{1000} * 16000Hz = 160 \ \text{samples}
+    \label{eq:MFCC-Frame-Step}
+\end{equation}
+This means that the first $400$ samples start at $0$, the next $400$ frames start at sample $160$, until the end of the speech signal is reached. If the speech signal does not divide into an even number of frames, it is padded with zeros until it does.
+
+\subsubsection{Calculate the periodogram estimate of the power spectrum for each frame}
+The next step is to calculate the power spectrum of each frame. This is motivated by the human cochlea, an organ in the ear, which vibrates at different spots depending on the frequency of the incoming sounds. Depending on which location in the cochlea that vibrates, different nerves fire, informing the brain that specific frequencies are present. The periodogram estimate performs a similar job which is, identifying which frequencies are present in the frame.
 
 \subsection{$\mu$-law Transformation}
 \label{sub:Mu-Law-Transformation}
