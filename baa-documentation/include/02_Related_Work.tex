@@ -27,7 +27,7 @@ A speech signal is represented by a sequence of numbers $x_n$, which represent t
 \subsection{Amplitude}
 \label{sub:Amplitude}
 
-The amplitude of a periodic variable is the measure of how far, and in what direction, that variable differs from zero. Thus, signal amplitudes can be either positive or negative. The figure \ref{fig:Amplitude-Wavelenght} illustrates the amplitude with variable $y$. 
+The amplitude of a periodic variable is the measure of how far, and in what direction, that variable differs from zero. Thus, signal amplitudes can be either positive or negative. The figure \ref{fig:Amplitude-Wavelenght} illustrates the amplitude with variable $y$. If the amplitude of a given signal is large, the signal is observed to be loud.
 \newline
 \newline
 The distance from the top of one peak to the bottom of another is called \textit{peak-to-peak amplitude}. Another way to describe peak-to-peak amplitude is to say that it is the distance between the maximum positive value and the maximum negative value of a wave. In figure \ref{fig:Amplitude-Wavelenght}, the peak-to-peak amplitude of the wave would be $2y$.
@@ -42,6 +42,18 @@ The magnitude of a periodic variable is the measure of how far, regardless of di
 
 The wavelength is the length of a single cycle of a wave, as measured by the distance between one peak of a wave and the next. In figure \ref{fig:Amplitude-Wavelenght} the wavelength is designated as the variable $\lambda$.
 
+\subsection{Frequency}
+\label{sub:Frequency}
+
+Frequency is the number of occurrences of a repeating event per unit of time. It depends on the wavelength of an audio signal $\lambda$. The frequency is given by the equation \ref{eq:Frequency}. If the signal at a given time has a high frequency, it is observed to have a higher pitch.
+
+\myequations{Calculate frequency from wavelength}
+\begin{equation}
+    \centering
+    f = \frac{1}{\lambda}
+    \label{eq:Frequency}
+\end{equation}
+
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=0.25]{baa-documentation/img/Amplitude.png}
@@ -53,7 +65,7 @@ The wavelength is the length of a single cycle of a wave, as measured by the dis
 \subsection{Sampling}
 \label{sub:Sampling}
 
-Sampling is the first step to convert an analogue signal to a digital one. Firstly the signal has to be sampled using a device called an \gls{ADC}. The \gls{ADC} will measure the signal at rapid intervals, and these measurements are called samples. It will output a digital signal proportional to the amplitude of the analogue signal at that same instant.
+Sampling is the first step to convert an analogue signal to a digital one. Firstly the signal has to be sampled using a device called an \gls{ADC}. The \gls{ADC} will measure the signal at rapid intervals, and these measurements are called samples. It will output a digital signal proportional to the amplitude of the analogue signal at that same instant. The rate at which the \gls{ADC} will measure the analogue signal is called the \textbf{sample rate}.
 
 \subsection{Aliasing}
 \label{sub:Aliasing}
@@ -63,7 +75,7 @@ Aliasing is a special effect that can happen when the speed of samples taken fro
 \subsection{Quantization}
 \label{sub:Quantization}
 
-Quantization is the process of mapping input values from a large continuous set to output values in a smaller collection, with a finite number of elements. Not all input values can be represented in the finite set, so the values have to be mapped to an existing number (quantized value) in it. This is usually done by rounding or truncation. The difference between an input value and its quantized value is referred to as quantization error. A device or algorithmic function that performs quantization is called a quantizer. An \gls{ADC} is an example of a quantizer.
+Quantization is the process of mapping input values from a large continuous set (analogue signal) to output values in a smaller collection (digital signal), with a finite number of elements. Not all input values can be represented in the finite set, so the values have to be mapped to an existing number in it, called quantized value. This is usually done by rounding or truncation. The difference between an input value and its quantized value is referred to as quantization error.  If more bits are available in the digital signal, then the quantization error gets smaller and also the digital signal has a higher quality. This number of bits in a signal is called the \textbf{bit depth}. A device or algorithmic function that performs quantization is called a quantizer. An \gls{ADC} is an example of a quantizer. 
 
 \subsection{Sampling Frequency and Resolution}
 \label{sub:Sampling-Frequency-Resolution}
@@ -115,7 +127,7 @@ A given function or signal can be converted between the time and frequency domai
 \subsection{Fourier Transform}
 \label{sub:Fourier-Transform}
 
-\gls{FT} is a mathematical concept that can convert a continuous signal from \fullref{sub:Time-Domain} to \fullref{sub:Frequency-Domain}. It decomposes a signal into its constituent frequencies along with the magnitude of each frequency.
+\gls{FT} is a mathematical concept that can convert a continuous signal from \fullref{sub:Time-Domain} to \fullref{sub:Frequency-Domain}. It decomposes a complex periodic signal into its constituent sine waves oscillating at different frequencies, along with the magnitude of each wave. The magnitude of each frequency shows how much a certain wave contributes to the overall signal.
 
 \subsubsection{Fast Fourier Transform}
 \label{subsub:Fast-Fourier-Transform}
@@ -125,10 +137,12 @@ A given function or signal can be converted between the time and frequency domai
 \subsubsection{Short Time Fourier Transform}
 \label{subsub:Short-Time-Fourier-Transform}
 
+\gls{STFT} is a mathematical algorithm which addresses the issue, that in the \nameref{sub:Frequency-Domain} no time information exists. The \gls{STFT} calculates several \gls{FFT} at different time intervals and combines them to get information about the signal varying over time.
+
 \subsection{Spectrogram}
 \label{sub:Spectrogram}
 
-A spectrogram is a visual representation of the frequency domain. More precisely it represents the spectrum of frequencies of a signal as it varies with time. The x-axis represents the time, the y-axis represents the frequencies, and the colours represent the magnitude of the observed frequency at a particular time. Bright colours represent powerful frequencies. Thus every spectrogram represents three domains: time, frequency and magnitude.
+A spectrogram is a visual representation of the \nameref{subsub:Short-Time-Fourier-Transform}. More precisely it represents the spectrum of frequencies of a signal as it varies with time. The x-axis represents the time, the y-axis represents the frequencies, and the colours represent the magnitude of the observed frequency at a particular time. Bright colours represent powerful frequencies. Thus every spectrogram represents three domains: time, frequency and magnitude.
 \newline
 \newline
 To create a spectrogram, the audio signal is broken down into smaller frames (windows), and for each one, the \gls{DFT} or \gls{FFT} will be calculated. The resulting frequencies of each window will represent the time. It is important to note that the windows should overlap each other, not to lose any frequency. Typical window sizes are 20 to 30ms, but this size highly depends on the task to solve. The figure \ref{fig:Spectrogram} show an example of such a spectrogram.
@@ -164,14 +178,14 @@ Firstly the signal has to be split into 20-40ms frames (25ms is the standard). T
 \myequations{Calculate frame length from signal}
 \begin{equation}
     \centering
-    \frac{25ms}{1000} * 16000Hz = 400 \ \text{samples}
+    \frac{25ms}{1000} \ 16000Hz = 400 \ \text{samples}
     \label{eq:MFCC-Frame-Length}
 \end{equation}
 Frame step is normally 10ms, which allows some overlap to the frames, and is calculated the same as the frame length.
 \myequations{Calculate frame step from signal}
 \begin{equation}
     \centering
-    \frac{10ms}{1000} * 16000Hz = 160 \ \text{samples}
+    \frac{10ms}{1000} \ 16000Hz = 160 \ \text{samples}
     \label{eq:MFCC-Frame-Step}
 \end{equation}
 This means that the first 400 samples start at 0, the next 400 frames start at sample 160, until the end of the speech signal is reached. If the speech signal does not divide into an even number of frames, it is padded with zeros until it does. The next steps in the example are applied to every single frame, one set of 12 \gls{MFCC} is extracted for each frame.
