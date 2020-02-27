@@ -97,15 +97,12 @@ The time-domain refers to the analysis of mathematical functions of signals with
 \newline
 \newline
 A wave plot is a visual representation of this domain. The y-axis of such visualisation represents the \nameref{sub:Amplitude} (loudness) of the sound wave, whereas the x-axis represents the time. If the amplitude is equal to zero, it represents silence. Such a representation is shown in figure \ref{fig:Waveplot-Time-Domain}.
-
-% TODO - create own wave plot
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.6]{baa-documentation/img/Waveplot-time-domain.png}
-	\caption[Time-domain illustrated in wave plot]{Time-domain illustrated in wave plot \footnotemark}
+	\includegraphics[scale=0.45]{baa-documentation/img/Waveplot_Visualisation.png}
+	\caption[Time-domain illustrated in wave plot]{Time-domain illustrated in wave plot}
 	\label{fig:Waveplot-Time-Domain}
 \end{figure}
-\footnotetext{\href{https://stackoverflow.com/questions/43835055/plotting-audio-from-librosa-in-matplotlib}{\nolinkurl{stackoverflow.com/questions/43835055/plotting-audio-from-librosa-in-matplotlib}}}
 
 \subsection{Frequency domain}
 \label{sub:Frequency-Domain}
@@ -135,19 +132,15 @@ A spectrogram is a visual representation of the frequency domain. More precisely
 \newline
 \newline
 To create a spectrogram, the audio signal is broken down into smaller frames (windows), and for each one, the \gls{DFT} or \gls{FFT} will be calculated. The resulting frequencies of each window will represent the time. It is important to note that the windows should overlap each other, not to lose any frequency. Typical window sizes are 20 to 30ms, but this size highly depends on the task to solve. The figure \ref{fig:Spectrogram} show an example of such a spectrogram.
-
-% TODO - create own spectrogram
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.2]{baa-documentation/img/Spectrogram.png}
-	\caption[Example of a spectrogram]{Example of a spectrogram \footnotemark}
+	\includegraphics[scale=0.5]{baa-documentation/img/Spectrogram_Visualisation.png}
+	\caption[Example of a spectrogram]{Example of a spectrogram}
 	\label{fig:Spectrogram}
 \end{figure}
-\footnotetext{\href{https://towardsdatascience.com/understanding-audio-data-fourier-transform-fft-spectrogram-and-speech-recognition-a4072d228520}{\nolinkurl{towardsdatascience.com/understanding-audio-data-fourier-transform-fft-spectrogram-and-speech-recognition-a4072d228520}}}
 
 \subsection{Mel Spectogram}
 \label{sub:Mel-Spectogram}
-% TODO - 2/3 sites
 
 \gls{MFCC} are a feature widely used in automatic speech and speaker recognition, mainly because they focus on the audio signal and discard all other information such as background noise, emotion and many more. They were introduced by Davis and Mermelstein in the 1980s, and have been state-of-the-art ever since.
 \newline
@@ -181,10 +174,81 @@ Frame step is normally 10ms, which allows some overlap to the frames, and is cal
     \frac{10ms}{1000} * 16000Hz = 160 \ \text{samples}
     \label{eq:MFCC-Frame-Step}
 \end{equation}
-This means that the first $400$ samples start at $0$, the next $400$ frames start at sample $160$, until the end of the speech signal is reached. If the speech signal does not divide into an even number of frames, it is padded with zeros until it does.
+This means that the first 400 samples start at 0, the next 400 frames start at sample 160, until the end of the speech signal is reached. If the speech signal does not divide into an even number of frames, it is padded with zeros until it does. The next steps in the example are applied to every single frame, one set of 12 \gls{MFCC} is extracted for each frame.
 
 \subsubsection{Calculate the periodogram estimate of the power spectrum for each frame}
 The next step is to calculate the power spectrum of each frame. This is motivated by the human cochlea, an organ in the ear, which vibrates at different spots depending on the frequency of the incoming sounds. Depending on which location in the cochlea that vibrates, different nerves fire, informing the brain that specific frequencies are present. The periodogram estimate performs a similar job which is, identifying which frequencies are present in the frame.
+\newline
+\newline
+To calculate the power spectrum for each frame, the \gls{DFT} has to be calculated with the equation \ref{eq:MFCC-DFT-Frame}. Then the Periodogram-based power spectral estimate for the speech frame $s_i(n)$ can be calculated with the formula \ref{eq:MFCC-Periodogram-Frame}. Usually a 512 point \gls{FFT} is being performed and only the first 257 coefficients are kept.
+% TODO - check equation
+\myequations{Calculate Discrete Fourier Transform of each frame}
+\begin{equation}
+    \centering
+    S_i(k) = \sum_{n=1}^{N} s_i(n) h(n) e^{-j2 \pi kn/N} \qquad 1 \leq k \leq K
+    \label{eq:MFCC-DFT-Frame}
+\end{equation}
+\myequations{Calculate Periodogram-based power spectral estimate of each frame}
+\begin{equation}
+    \centering
+    P_i(k) = \frac{1}{N}|S_i(k)|^2
+    \label{eq:MFCC-Periodogram-Frame}
+\end{equation}
+where:
+\begin{conditions*}
+ s_i(n) &  time domain signal frame, where $n$ denotes the frame length (in the current example from 1-400) and $i$ ranges over the number of frames \\   
+ S_i(k) &  complex \gls{DFT}, where $i$ denotes the frame number corresponding to the time-domain frame \\
+ h(n)   &  analysis window, with the size $N$ (e.g. hamming window) \\
+ K      &  length of the \gls{DFT} \\
+ P_i(k) &  power spectrum of frame $i$
+\end{conditions*}
+
+\subsubsection{Apply the mel filterbank to the power spectra}
+The periodogram spectral estimate still contains much information not required for \gls{ASR}. In the human body, the cochlea can not discern the difference between two closely spaced frequencies. This effect becomes more pronounced as the frequencies increase. For this reason, clumps of periodogram bins and sums are taken and summed up, to get an idea of how much energy exists in various frequency regions.
+\newline
+\newline
+The Mel filterbank performs this step. The first filter of the filterbank is very narrow and indicates how much energy exists near 0 Hertz. As the frequencies get higher, the filters get wider as the variations become less relevant. The interest is only focused on how much energy occurs at each spot. The Mel scale gives the spacing and the wideness of the filterbanks. It relates perceived frequency, or pitch, of a pure tone to its actual measured frequency, it transforms the features to match more closely what humans hear. The equation \ref{eq:MFCC-Mel} converts a frequency ($f$) to the Mel scale ($m$) and equation \ref{eq:MFCC-Mel-Inv} transforms the Mels ($m$) back to a frequency ($f$).\footnote{\fullcite{anne_acoustic_2015}}
+\myequations{Calculate Mel scale from frequency}
+\begin{equation}
+    \centering
+    m = 2595 \ log_{10}(1 + \frac{f}{700Hz}) = 1127 \ log_e(1 + \frac{f}{700Hz})
+    \label{eq:MFCC-Mel}
+\end{equation}
+\myequations{Calculate frequency from Mel scale}
+\begin{equation}
+    \centering
+    f = 700 \ (10^{m/2595-1}) = 700 \ (e^{m/1127-1})
+    \label{eq:MFCC-Mel-Inv}
+\end{equation}
+The Mel-spaced filterbank has to be computed to apply the filterbank to the power spectra. The filterbank is a set of 20-40 (26 is the standard) triangular filters that then are applied to the periodogram from before. The filterbank has the dimension of 26 vectors with the length 257, because in the step before we calculated the \gls{FFT} and only kept 257 coefficients. Each vector has mostly zeros in it but is non-zero for a specific section of the spectrum. Each filterbank has to be multiplied by the power spectrum. After that, the coefficients are added up to get the filterbank energies. In the end, there are 26 coefficients left, which indicates how much energy was in each filterbank. An example of a Mel-spaced filterbank is illustrated in \ref{fig:MFCC-Mel-Filterbank}.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.4]{baa-documentation/img/Mel-filter-banks-basis-functions-using-20-Mel-filters-in-the-filter-bank.png}
+	\caption[Mel-spaced filterbank with 20 filters]{Mel-spaced filterbank with 20 filters \footnotemark}
+	\label{fig:MFCC-Mel-Filterbank}
+\end{figure}
+\footnotetext{\fullcite{mohd_ali_analysis_2013}}
+
+\subsubsection{Apply the logarithm to all filterbank energies}
+After we calculated the filterbank energies, the logarithm is applied to each one of them. This operation is also inspired by human hearing because humans do not hear loudness on a linear scale. Generally to double the perceived volume of a sound eight times as much energy has to be put in. Thus if the sound signal is loud in the beginning, significant variations in energy may not sound that different.
+\newline
+\newline
+In our example, we now have 26 energy coefficients which will be logarithmized which leaves 26 log filterbank energies.
+
+\subsubsection{Apply the \gls{DCT} to the log filterbank energies}
+The final step is to compute the \gls{DCT} of the log filterbank energies. Mainly because the filterbanks are all overlapping and are correlated with each other. The \gls{DCT} decorrelates the energies, but only the lower 12-13 of the 26 \gls{DCT} coefficients are kept. This is because the higher \gls{DCT} coefficients represent fast changes in the filterbank energies, and these fast changes can degrade the \gls{ASR} performance.
+\newline
+\newline
+In the example the \gls{DCT} of the 26 log filterbank energies has to be computed, which gives 26 cepstral coefficients. This whole process has to be calculated for each frame in the signal.
+
+\subsubsection{Visualize the cepstral coefficients}
+Once all the cepstral coefficients are computed, they can be visualized with respect to time. Which then can be used for further processing in \gls{ASR}. Such a visualisation is illustrated in figure \ref{fig:MFCC-Visualisation}, where the x-axis represents the time and the y-axis represents the cepstral coefficient dimension (e.g. the lower 12-13) and the color shows the value of each coefficient.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.5]{baa-documentation/img/MFCC_Visualisation.png}
+	\caption[Visualisation of a MFCC]{Visualisation of a MFCC}
+	\label{fig:MFCC-Visualisation}
+\end{figure}
 
 \subsection{$\mu$-law Transformation}
 \label{sub:Mu-Law-Transformation}

@@ -158,10 +158,19 @@ sort=standard
 \setlength{\cftmyequationsindent}{1.5em}
 
 % Usage {equation}{caption}{label}
-% \indexequation{b = \frac{\pi}{\SI{180}{\degree}}\cdot\beta\cdot 6378.137}{Bogenlänge $b$ des Winkels $\beta$ mit Radius 6378.137m (Distanz zum Erdmittelpunkt am Äquator)}{Bogenlaenge}
 \newcommand{\indexequation}[3]{
-	\begin{align} \label{#3} \ensuremath{\boxed{#1}} \end{align}
-	\myequations{#3} \centering \small \textit{#2} \normalsize \justify }
+	\begin{align} \label{#3} \ensuremath{#1} \end{align}
+	\myequations{#3} \centering #2 \normalsize \justify }
+	
+% equations with term definitions, credit to tex.stackexchange.com/questions/95838/how-to-write-a-perfect-equation-parameters-description
+\newenvironment{conditions}
+  {\par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l<{$} @{${}={}$} l}}
+  {\end{tabular}\par\vspace{\belowdisplayskip}}
+  
+\newenvironment{conditions*}
+  {\par\vspace{\abovedisplayskip}\noindent
+   \tabularx{\columnwidth}{>{$}l<{$} @{${}={}$} >{\raggedright\arraybackslash}X}}
+  {\endtabularx\par\vspace{\belowdisplayskip}}
 
 % Todolist - credit to https://tex.stackexchange.com/questions/247681/how-to-create-checkbox-todo-list
 \newlist{todolist}{itemize}{1}
