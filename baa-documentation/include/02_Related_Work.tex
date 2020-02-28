@@ -132,7 +132,14 @@ A given function or signal can be converted between the time and frequency domai
 \subsubsection{Fast Fourier Transform}
 \label{subsub:Fast-Fourier-Transform}
 
-\gls{FFT} is a mathematical algorithm that calculates \gls{DFT} of a given sequence. The only difference between \gls{FT} and \gls{FFT} is, that \gls{FT} considers a continuous signal while \gls{FFT} takes a discrete signal as input. \gls{DFT} converts a sequence, a discrete signal, into its frequency constituents just like \gls{FT} does for a continuous signal. It is important to note that due to that transformation, the time information of the audio signal will be lost.
+\gls{FFT} is a mathematical algorithm that calculates \gls{DFT} of a given sequence, with the equation \ref{eq:DFT}. The only difference between \gls{FT} and \gls{FFT} is, that \gls{FT} considers a continuous signal while \gls{FFT} takes a discrete signal as input. \gls{DFT} converts a sequence, a discrete signal, into its frequency constituents just like \gls{FT} does for a continuous signal. It is important to note that due to that transformation, the time information of the audio signal will be lost.
+
+\myequations{Discrete Fourier Transform}
+\begin{equation}
+    \centering
+    X_k = \sum_{n=0}^{N-1} \ x_n \cdot e^{-\frac{i2\pi}{N}kn}
+    \label{eq:DFT}
+\end{equation}
 
 \subsubsection{Short Time Fourier Transform}
 \label{subsub:Short-Time-Fourier-Transform}
@@ -199,7 +206,7 @@ To calculate the power spectrum for each frame, the \gls{DFT} has to be calculat
 \myequations{Calculate Discrete Fourier Transform of each frame}
 \begin{equation}
     \centering
-    S_i(k) = \sum_{n=1}^{N} s_i(n) h(n) e^{-j2 \pi kn/N} \qquad 1 \leq k \leq K
+    S_i(k) = \sum_{n=1}^{N} s_i(n) h(n) e^{- \frac{i2\pi}{N} kn} \qquad 1 \leq k \leq K
     \label{eq:MFCC-DFT-Frame}
 \end{equation}
 \myequations{Calculate Periodogram-based power spectral estimate of each frame}
