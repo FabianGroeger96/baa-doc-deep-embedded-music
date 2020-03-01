@@ -4,11 +4,34 @@
 \section{Project plan}
 \label{sec:Project-Plan}
 
+% TODO - Add "zwischenpräsi"
+\begin{table}[htbp]
+    \centering
+    \caption{Overview Milestones with their date}
+	\label{tab:Milestones}
+    \begin{tabular}{p{.70\textwidth} | p{.20\textwidth}}
+        \toprule
+        \textbf{Milestone} & \textbf{Date} \\ 
+        \midrule[1pt]
+        Research finished & 19.02.2020\\
+        \hline
+        Project setup finished & 19.02.2020\\
+        \hline
+        Realization finished & 19.02.2020\\
+        \hline
+        Experiments finished & 19.02.2020\\
+        \hline
+        Thesis submission & 19.02.2020\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
 % set page layout to portrait and save layout for later
 \storeareas\defaultpagestyle
 \KOMAoptions{pagesize,paper=landscape,DIV=20}
 \storeareas\landscapevalues
 
+% TODO - Add "zwischenpräsi"
 \begin{figure}
 \centering
      \begin{ganttchart}[%Specs
@@ -39,7 +62,7 @@
     \ganttgroup[inline=false]{Research}{1}{4}\\ 
     \ganttbar[progress=100,inline=false]{Dataset}{1}{1}\\
     \ganttbar[progress=100,inline=false]{Audio Processing}{1}{1}\\
-    \ganttbar[progress=0,inline=false]{Triplet Loss}{2}{2}\\
+    \ganttbar[progress=50,inline=false]{Triplet Loss}{2}{2}\\
     \ganttbar[progress=0,inline=false]{Tile2Vec}{3}{3}\\
     \ganttbar[progress=0,inline=false]{Evaluate Research}{4}{4}\\
     \ganttmilestone[inline=false]{Research finished}{4} \\ % M1

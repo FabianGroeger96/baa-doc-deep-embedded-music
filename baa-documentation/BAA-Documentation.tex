@@ -96,6 +96,16 @@
    plainfootsepline = true,
 }
 
+\usepackage{tikz}
+\tikzset{
+    input/.style = {coordinate},
+    output/.style = {coordinate},
+    block/.style={rectangle, draw, text width=7.3em,
+           text centered, rounded corners, minimum height=3em},
+    arrow/.style={-{Stealth[]}}
+     }
+\usetikzlibrary{positioning,arrows.meta}
+
 \usepackage{pgfgantt}
 \usepackage{graphicx}
 \usepackage{xcolor}

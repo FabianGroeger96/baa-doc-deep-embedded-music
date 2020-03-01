@@ -168,14 +168,28 @@ To create a spectrogram, the audio signal is broken down into smaller frames (wi
 \newline
 The process of creating these \gls{MFCC} are quite complex and follow five steps. Thus to the explanation of every step, there is also a short example on how to perform the step in depth. For illustration, a speech signal with a sample rate of 16kHz is assumed. The whole process is illustrated in figure \ref{fig:MFCC-Overview}.
 
-% TODO - create own diagram
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.8]{baa-documentation/img/MFCC_Overview.jpeg}
-	\caption[Steps to calculate MFCC]{Steps to calculate MFCC \footnotemark}
-	\label{fig:MFCC-Overview}
+    \begin{tikzpicture}
+        \node [input] (input) {};
+        \node [block,right=3cm of input] (Frames)  {Break signal into overlapping frames};
+        \node [block,right=of Frames] (FFT)  {Fast Fourier Transform (FFT)};
+        \node [block,below right=0.2cm and 0.5cm of FFT] (MEL)  {Mel-Scale filter bank};
+        \node [block,below left=0.2cm and 0.5cm of MEL] (LOG) {Log $|\cdot|$};
+        \node [block,left=of LOG] (DCT) {Discrete Cosine Transform (DCT)};
+        \node [output, left=3cm of DCT] (output) {};
+    
+        % Draw edges
+        \draw [arrow] (input) -- (Frames) node [above,pos=0.25] {continuous audio} node [below,pos=0.25] {signal};
+        \draw [arrow] (Frames) -- (FFT);
+        \draw [arrow] (FFT)  -|  (MEL);  
+        \draw [arrow] (MEL.south) |-  (LOG.east);  
+        \draw [arrow] (LOG) -- (DCT) ;
+        \draw [arrow] (DCT) -- node [above] {MFCC} (output);
+    \end{tikzpicture}
+    \caption[Steps to calculate MFCC]{Steps to calculate MFCC \footnotemark}
+    \label{fig:MFCC-Overview}
 \end{figure}
-\footnotetext{\href{https://mitll.github.io/pyslgr/MFCC_Features.html}{\nolinkurl{mitll.github.io/pyslgr/MFCC_Features.html}}}
 
 \subsubsection{Frame the signal into short frames}
 An audio signal is continuously changing, so to simplify it is assumed, that on short time scales the audio signal does not change much, i.e. statistically stationary. Due to that, the signal is framed into 20-40ms frames. If the frames are much shorter, there are not enough samples to get a reliable spectral estimate. If the frame length is too high, the signal changes to much throughout the frame.
@@ -202,7 +216,6 @@ The next step is to calculate the power spectrum of each frame. This is motivate
 \newline
 \newline
 To calculate the power spectrum for each frame, the \gls{DFT} has to be calculated with the equation \ref{eq:MFCC-DFT-Frame}. Then the Periodogram-based power spectral estimate for the speech frame $s_i(n)$ can be calculated with the formula \ref{eq:MFCC-Periodogram-Frame}. Usually a 512 point \gls{FFT} is being performed and only the first 257 coefficients are kept.
-% TODO - check equation
 \myequations{Calculate Discrete Fourier Transform of each frame}
 \begin{equation}
     \centering
@@ -306,6 +319,14 @@ TensorFlow is an end-to-end open source platform for machine learning. It has a 
 
 \subsection{Triplet Loss}
 \label{sub:Triplet-Loss}
+
+Triplet Loss is a special kind of loss function in a neural net, which was first introduced to tackle the problem of multi-class classification. In multi-class classification, there is an arbitrary number of classes which the neural net has to learn. There are several examples of multi-class classification in today's applications such as face recognition, object detection, POS tagging in NLP and many more. Typical softmax based deep network would not help when the number of classes in the output layer is too high because of the sparseness of the network. Instead, these problems can be formulated differently.
+\newline
+\newline
+The idea is to learn distributed embeddings representation of data points in a way that in the high dimensional vector space, contextually similar data points are projected in the near-by region. In contrast, different data points are projected far away from each other. 
+\newline
+\newline
+Triplet Loss architecture helps to learn distributed embedding by the notion of similarity and dissimilarity. It is a kind of neural network architecture where multiple parallel networks are trained which share weights among each other.
 
 \section{Status in relation to project}
 \label{sec:Status-Relation-Project}
