@@ -314,16 +314,12 @@ TensorFlow is an end-to-end open source platform for machine learning. It has a 
 \section{State of the art}
 \label{sec:State-of-art}
 
-\subsection{Word2Vec}
-\label{sub:word2wec}
-
 \subsection{Triplet Loss}
 \label{sub:Triplet-Loss}
 
 Triplet loss was first introduced in the field of face recognition by the paper (\cite{schroff_facenet:_2015}) from Google. They describe a new approach to train face embeddings using online triplet mining.
 \newline
 \newline
-The introduced architecture helps to learn distributed embedding by the notion of similarity and dissimilarity. Within the neural network architecture, multiple parallel networks are trained, which share the same weights among each other, which is illustrated in figure \ref{fig:Triplet-Loss-Architecture}. The objective is to build triplets consisting of an anchor $x_i^a$, a positive $x_i^p$ and a negative sample $x_i^n$. Where the positive sample is similar to the anchor and the negative one is dissimilar to the anchor. In the high dimensional vector space, contextually similar data points are projected in the near-by region. In contrast, different data points are projected far away from each other. Which is defined by the equation \ref{eq:Triplet-Loss-Constraint}.
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=0.35]{baa-documentation/img/Triplet_Loss_Architecture.png}
@@ -331,41 +327,79 @@ The introduced architecture helps to learn distributed embedding by the notion o
 	\label{fig:Triplet-Loss-Architecture}
 \end{figure}
 \footnotetext{\url{https://omoindrot.github.io/triplet-loss}}
-
+\noindent
+The introduced architecture helps to learn distributed embedding by the notion of similarity and dissimilarity. Within the neural network architecture, multiple parallel networks are trained, which share the same weights among each other, which is illustrated in figure \ref{fig:Triplet-Loss-Architecture}. The objective is to build triplets consisting of an anchor $x_i^a$, a positive $x_i^p$ and a negative sample $x_i^n$. Where the positive sample is similar to the anchor and the negative one is dissimilar to the anchor. In the high dimensional vector space, contextually similar data points are projected in the near-by region. In contrast, different data points are projected far away from each other. Which is defined by the equation \ref{eq:Triplet-Loss-Constraint}. Where $|| \cdot ||_2$ is defined as the euclidean distance with equation \ref{eq:Euclidean-Distance}.
+\myequations{Euclidean distance}
+\begin{equation}
+    \centering
+    \begin{gathered}
+        d(p,q) = \big|\big|q-p\big|\big|_2 = \sqrt{(q_1 - p_1)^2 + \dots + (q_n - p_n)^2} = \sqrt{\sum_{i=1}^n (q_i - p_i)^2}
+    \end{gathered}
+    \label{eq:Euclidean-Distance}
+\end{equation}
 \myequations{Triplet Loss constraint}
 \begin{equation}
     \centering
     \begin{gathered}
-        \Big|\Big|f(x_i^a) - f(x_i^p)\Big|\Big|_2^2 + \alpha < \Big|\Big|f(x_i^a) - f(x_i^n)\Big|\Big|_2^2 \\[10pt]
-        \forall (f(x_i^a), f(x_i^p) f(x_i^n)) \in \tau
+        \Big|\Big|f_\theta(x_i^a) - f_\theta(x_i^p)\Big|\Big|_2^2 + \alpha < \Big|\Big|f_\theta(x_i^a) - f_\theta(x_i^n)\Big|\Big|_2^2 \\[10pt]
+        \forall (f_\theta(x_i^a), f_\theta(x_i^p) f_\theta(x_i^n)) \in \tau
     \end{gathered}
     \label{eq:Triplet-Loss-Constraint}
 \end{equation}
-The embedding of a given sample is represented by $f(x) \in \mathbb{R}^d$. It embeds a sample $x$ into a $d$-dimensional Euclidean space. The loss, which will be minimized, is defined by the equation \ref{eq:Triplet-Loss}. Where $\alpha$ is a margin that is enforced between positive and negative pairs. $\tau$ is the set of all possible triplets in the training set and has cardinality $N$.
+The embedding of a given sample is represented by $f_\theta(x) \in \mathbb{R}^d$, which is a \gls{CNN} with parameters $\theta$. It embeds a sample $x$ into a $d$-dimensional Euclidean space. The loss, which will be minimised, is defined by the equation \ref{eq:Triplet-Loss}. Where $\alpha$ is a margin that is enforced between positive and negative pairs, it also puts a limit on how far the network can push the negative sample away to improve the loss. $\tau$ is the set of all possible triplets in the training set and has cardinality $N$. In the equation \ref{eq:Triplet-Loss}, the notation $[\cdot]_+$ is used to represent the rectifier $\text{max}(0, \cdot)$.
 \myequations{Triplet Loss function}
 \begin{equation}
     \centering
-    L = \sum^N_{i = 1} \Bigg [\Big|\Big|f(x_i^a) - f(x_i^p)\Big|\Big|_2^2 - \Big|\Big|f(x_i^a) - f(x_i^n)\Big|\Big|_2^2 + \alpha \Bigg]_+
+    L(x_i^a, x_i^p, x_i^n) = \sum^N_{i = 1} \Bigg [\Big|\Big|f_\theta(x_i^a) - f_\theta(x_i^p)\Big|\Big|_2^2 - \Big|\Big|f_\theta(x_i^a) - f_\theta(x_i^n)\Big|\Big|_2^2 + \alpha \Bigg]_+
     \label{eq:Triplet-Loss}
 \end{equation}
-When the loss is minimized, it pushes the distance between $f(x_i^a)$ and $f(x_i^p)$ near zero. Contrarily it forces the distance between $f(x_i^a)$ and $f(x_i^n)$ to be greater than the distance between $f(x_i^a)$ and $f(x_i^p)$ plus a margin $\alpha$.
+When the loss is minimised, it pushes the distance between $f_\theta(x_i^a)$ and $f_\theta(x_i^p)$ near zero. Contrarily it forces the distance between $f_\theta(x_i^a)$ and $f_\theta(x_i^n)$ to be higher than the distance between $f_\theta(x_i^a)$ and $f_\theta(x_i^p)$ plus a margin $\alpha$.
 \newline
 \newline
-Generating all possible triplets would result in many triplet that are easily satisfied, which satisfy the equation \ref{eq:Triplet-Loss-Constraint}. Which would not contribute to the training and result in slower convergence, as they would still be passed through the network. It is crucial to select hard triplets, which can contribute to improving the model.
+Generating all possible triplets would result in many triplets that are easily satisfied, which satisfy the equation \ref{eq:Triplet-Loss-Constraint}. These triplets would not contribute to the training and result in slower convergence, as they would still be passed through the network. It is crucial to select hard triplets, which can contribute to improving the model.
 \newline
 \newline
-In order to ensure fast convergence it is crucial to select triplets that violate the triplet constraint in equation \ref{eq:Triplet-Loss-Constraint}. This means that, given $x_i^a$, $x_i^p$ is selected to be a \textbf{hard positive} such that equation \ref{eq:Triplet-Loss-Hard-Positive} is satisfied. Similarly $x_i^n$ is a \textbf{hard negative} when equation \ref{eq:Triplet-Loss-Hard-Negative} is fulfilled.
+In order to ensure fast convergence, it is crucial to select triplets that violate the triplet constraint in equation \ref{eq:Triplet-Loss-Constraint}. This means that, given $x_i^a$, $x_i^p$ is selected to be a \textbf{hard positive} such that equation \ref{eq:Triplet-Loss-Hard-Positive} is satisfied. Similarly, $x_i^n$ is a \textbf{hard negative} when equation \ref{eq:Triplet-Loss-Hard-Negative} is fulfilled.
 \myequations{Triplet Loss hard positive}
 \begin{equation}
     \centering
-    \text{hard positive} = \text{argmax}_{x_i^p} \ \Big|\Big|f(x_i^a) - f(x_i^p)\Big|\Big|_2^2
+    \text{hard positive} = \text{argmax}_{x_i^p} \ \Big|\Big|f_\theta(x_i^a) - f_\theta(x_i^p)\Big|\Big|_2^2
     \label{eq:Triplet-Loss-Hard-Positive}
 \end{equation}
 \myequations{Triplet Loss hard negative}
 \begin{equation}
     \centering
-    \text{hard negative} = \text{argmin}_{x_i^n} \ \Big|\Big|f(x_i^a) - f(x_i^n)\Big|\Big|_2^2
+    \text{hard negative} = \text{argmin}_{x_i^n} \ \Big|\Big|f_\theta(x_i^a) - f_\theta(x_i^n)\Big|\Big|_2^2
     \label{eq:Triplet-Loss-Hard-Negative}
+\end{equation}
+
+\subsection{Word2Vec}
+\label{sub:word2vec}
+
+\subsection{Tile2Vec}
+\label{sub:Tile2Vec}
+
+Tile2Vec was first introduced in the paper (\cite{jean_tile2vec:_2018}). It is an unsupervised representation learning algorithm that extends the distributional hypothesis from natural language to spatially distributed data. This hypothesis implies that words appearing in similar contexts tend to have similar meanings. Tile2Vec is used for learning compressed yet informative representations from unlabeled remote sensing data.
+\newline
+\newline
+In the mentioned paper, the focus is on remote sensing, which is the measurement of the Earth's surface through aircraft- or satellite-based sensors. In remote sensing, the biggest problem is the scarcity of labelled data. Thus the use of unsupervised machine learning is necessary. Hence the data, which is used to train the algorithm, consists of geospatial tiles.
+\newline
+\newline
+The distributional hypothesis in linguistics is the idea that \flqq a word is characterised by the company it keeps\frqq. In \gls{NLP}, algorithms like Word2Vec (\ref{sub:word2vec}) leverage this assumption to learn continuous representations that capture the nuanced meanings of huge vocabularies of words.
+\newline
+\newline
+Tile2Vec proposes to learn the representations at the level of remote sensing tiles, a generalisation of image patches to multi-spectral data. The context of each tile relies on the spatial neighbourhood, thus distance in geographic space. The assumption is that tiles which are located close together have similar semantics and should, therefore, have similar representations than tiles that are far apart.
+\newline
+\newline
+To learn a mapping from image tiles to low-dimensional embeddings, a convolutional neural network is trained on triplets of tiles, where each triplet consist of an anchor tile $t_a$, a neighbour tile $t_n$ that is close geographically, and a distant tile $t_d$ that is farther away. Following the distributional assumption, the Euclidean distance (eq. \ref{eq:Euclidean-Distance}) between the embeddings of the anchor tile and the neighbour tile is minimised, while maximising the distance between the anchor and distant embeddings (\nameref{sub:Triplet-Loss}). For each tile triplet $(t_a, t_n, t_d)$ the triplet loss (\ref{eq:Triplet-Loss}) is minimized.
+\newline
+\newline
+When $||f_\theta(t_a) - f_\theta(t_n)||_2 < ||f_\theta(t_a) - f_\theta(t_d)||_2$, all embeddings can be scaled by some constant in order to satisfy the margin and bring the loss to zero. Beyond a small number of iterations, the \gls{CNN} learns to increase embedding magnitudes and the loss decreases to zero. By penalising the embeddings $l^2$-norms, the network is restraint to generate embeddings within a hypersphere, leading to a representation space in which relative distances have meaning. This defines the cost function in equation \ref{eq:Tile2Vec-Cost-Function}.
+\myequations{Tile2Vec Cost function}
+\begin{equation}
+    \centering
+    J(\theta) = \min_\theta \sum_{i=1}^N \Bigg[L\Big(t_a^{(i)}, t_n^{(i)}, t_d^{(i)}\Big) + \lambda \Big(||f_\theta(x_a^{(i)})||_2 + ||f_\theta(x_n^{(i)})||_2 + ||f_\theta(x_d^{(i)})||_2\Big)\Bigg]
+    \label{eq:Tile2Vec-Cost-Function}
 \end{equation}
 
 \section{Status in relation to project}
