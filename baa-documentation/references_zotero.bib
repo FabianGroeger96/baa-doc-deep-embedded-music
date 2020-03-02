@@ -1,4 +1,63 @@
 
+@article{zeng_deep_2019,
+	title = {Deep {Triplet} {Neural} {Networks} with {Cluster}-{CCA} for {Audio}-{Visual} {Cross}-modal {Retrieval}},
+	url = {http://arxiv.org/abs/1908.03737},
+	abstract = {Cross-modal retrieval aims to retrieve data in one modality by a query in another modality, which has been avery interesting research issue in the filed of multimedia, information retrieval, and computer vision, anddatabase. Most existing works focus on cross-modal retrieval between text-image, text-video, and lyrics-audio.little research addresses cross-modal retrieval between audio and video due to limited audio-video paireddataset and semantic information. The main challenge of audio-visual cross-modal retrieval task focuses on learning joint embeddings from a shared subspace for computing the similarity across different modalities, were generating new representations is to maximize the correlation between audio and visual modalities space. In this work, we propose a novel deep triplet neural network with cluster-based canonical correlationanalysis (TNN-C-CCA), which is an end-to-end supervised learning architecture with audio branch and videobranch. we not only consider the matching pairs in the common space but also compute the mismatching pairs when maximizing the correlation. In particular, two significant contributions are made in this work: i) abetter representation by constructing deep triplet neural network with triplet loss for optimal projections canbe generated to maximize correlation in the shared subspace. ii) positive examples and negative examplesare used in the learning stage to improve the capability of embedding learning between audio and video. Our experiment is run over 5-fold cross-validation, where average performance is applied to demonstratethe performance of audio-video cross-modal retrieval. The experimental results achieved on two different audio-visual datasets show the proposed learning architecture with two branches outperforms the state-of-art cross-modal retrieval methods.},
+	language = {en},
+	urldate = {2020-03-01},
+	journal = {arXiv:1908.03737 [cs]},
+	author = {Zeng, Donghuo and Yu, Yi and Oyama, Keizo},
+	month = aug,
+	year = {2019},
+	note = {arXiv: 1908.03737},
+	keywords = {Computer Science - Information Retrieval, Computer Science - Multimedia}
+}
+
+@article{bredin_tristounet:_2017,
+	title = {{TristouNet}: {Triplet} {Loss} for {Speaker} {Turn} {Embedding}},
+	shorttitle = {{TristouNet}},
+	url = {http://arxiv.org/abs/1609.04301},
+	abstract = {TristouNet is a neural network architecture based on Long Short-Term Memory recurrent networks, meant to project speech sequences into a ﬁxed-dimensional euclidean space. Thanks to the triplet loss paradigm used for training, the resulting sequence embeddings can be compared directly with the euclidean distance, for speaker comparison purposes. Experiments on short (between 500ms and 5s) speech turn comparison and speaker change detection show that TristouNet brings signiﬁcant improvements over the current state-of-the-art techniques for both tasks.},
+	language = {en},
+	urldate = {2020-03-01},
+	journal = {arXiv:1609.04301 [cs, stat]},
+	author = {Bredin, Hervé},
+	month = apr,
+	year = {2017},
+	note = {arXiv: 1609.04301},
+	keywords = {Computer Science - Sound, Statistics - Machine Learning}
+}
+
+@article{oord_wavenet:_2016,
+	title = {{WaveNet}: {A} {Generative} {Model} for {Raw} {Audio}},
+	shorttitle = {{WaveNet}},
+	url = {http://arxiv.org/abs/1609.03499},
+	abstract = {This paper introduces WaveNet, a deep neural network for generating raw audio waveforms. The model is fully probabilistic and autoregressive, with the predictive distribution for each audio sample conditioned on all previous ones; nonetheless we show that it can be efficiently trained on data with tens of thousands of samples per second of audio. When applied to text-to-speech, it yields state-of-the-art performance, with human listeners rating it as significantly more natural sounding than the best parametric and concatenative systems for both English and Mandarin. A single WaveNet can capture the characteristics of many different speakers with equal fidelity, and can switch between them by conditioning on the speaker identity. When trained to model music, we find that it generates novel and often highly realistic musical fragments. We also show that it can be employed as a discriminative model, returning promising results for phoneme recognition.},
+	urldate = {2020-03-01},
+	journal = {arXiv:1609.03499 [cs]},
+	author = {Oord, Aaron van den and Dieleman, Sander and Zen, Heiga and Simonyan, Karen and Vinyals, Oriol and Graves, Alex and Kalchbrenner, Nal and Senior, Andrew and Kavukcuoglu, Koray},
+	month = sep,
+	year = {2016},
+	note = {arXiv: 1609.03499},
+	keywords = {Computer Science - Machine Learning, Computer Science - Sound}
+}
+
+@article{schroff_facenet:_2015,
+	title = {{FaceNet}: {A} {Unified} {Embedding} for {Face} {Recognition} and {Clustering}},
+	shorttitle = {{FaceNet}},
+	url = {http://arxiv.org/abs/1503.03832},
+	doi = {10.1109/CVPR.2015.7298682},
+	abstract = {Despite significant recent advances in the field of face recognition, implementing face verification and recognition efficiently at scale presents serious challenges to current approaches. In this paper we present a system, called FaceNet, that directly learns a mapping from face images to a compact Euclidean space where distances directly correspond to a measure of face similarity. Once this space has been produced, tasks such as face recognition, verification and clustering can be easily implemented using standard techniques with FaceNet embeddings as feature vectors. Our method uses a deep convolutional network trained to directly optimize the embedding itself, rather than an intermediate bottleneck layer as in previous deep learning approaches. To train, we use triplets of roughly aligned matching / non-matching face patches generated using a novel online triplet mining method. The benefit of our approach is much greater representational efficiency: we achieve state-of-the-art face recognition performance using only 128-bytes per face. On the widely used Labeled Faces in the Wild (LFW) dataset, our system achieves a new record accuracy of 99.63\%. On YouTube Faces DB it achieves 95.12\%. Our system cuts the error rate in comparison to the best published result by 30\% on both datasets. We also introduce the concept of harmonic embeddings, and a harmonic triplet loss, which describe different versions of face embeddings (produced by different networks) that are compatible to each other and allow for direct comparison between each other.},
+	urldate = {2020-02-27},
+	journal = {2015 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+	author = {Schroff, Florian and Kalenichenko, Dmitry and Philbin, James},
+	month = jun,
+	year = {2015},
+	note = {arXiv: 1503.03832},
+	keywords = {Computer Science - Computer Vision and Pattern Recognition},
+	pages = {815--823}
+}
+
 @article{mohd_ali_analysis_2013,
 	title = {Analysis of {Accent}-{Sensitive} {Words} in {Multi}-{Resolution} {Mel}-{Frequency} {Cepstral} {Coefficients} for {Classification} of {Accents} in {Malaysian} {English}},
 	volume = {7},
@@ -13,7 +72,7 @@
 
 @book{anne_acoustic_2015,
 	title = {Acoustic {Modeling} for {Emotion} {Recognition}},
-	isbn = {9783319155302},
+	isbn = {978-3-319-15530-2},
 	abstract = {This book presents state of art research in speech emotion recognition. Readers are first presented with basic research and applications – gradually more advance information is provided, giving readers comprehensive guidance for classify emotions through speech. Simulated databases are used and results extensively compared, with the features and the algorithms implemented using MATLAB. Various emotion recognition models like Linear Discriminant Analysis (LDA), Regularized Discriminant Analysis (RDA), Support Vector Machines (SVM) and K-Nearest neighbor (KNN) and are explored in detail using prosody and spectral features, and feature fusion techniques.},
 	language = {en},
 	publisher = {Springer},
@@ -272,22 +331,6 @@ Evolution AI: Machines that Read - get answers from your text data.},
 	year = {2016},
 	note = {arXiv: 1601.05030},
 	keywords = {Computer Science - Computer Vision and Pattern Recognition}
-}
-
-@article{schroff_facenet:_2015,
-	title = {{FaceNet}: {A} {Unified} {Embedding} for {Face} {Recognition} and {Clustering}},
-	shorttitle = {{FaceNet}},
-	url = {http://arxiv.org/abs/1503.03832},
-	doi = {10.1109/CVPR.2015.7298682},
-	abstract = {Despite significant recent advances in the field of face recognition, implementing face verification and recognition efficiently at scale presents serious challenges to current approaches. In this paper we present a system, called FaceNet, that directly learns a mapping from face images to a compact Euclidean space where distances directly correspond to a measure of face similarity. Once this space has been produced, tasks such as face recognition, verification and clustering can be easily implemented using standard techniques with FaceNet embeddings as feature vectors. Our method uses a deep convolutional network trained to directly optimize the embedding itself, rather than an intermediate bottleneck layer as in previous deep learning approaches. To train, we use triplets of roughly aligned matching / non-matching face patches generated using a novel online triplet mining method. The benefit of our approach is much greater representational efficiency: we achieve state-of-the-art face recognition performance using only 128-bytes per face. On the widely used Labeled Faces in the Wild (LFW) dataset, our system achieves a new record accuracy of 99.63\%. On YouTube Faces DB it achieves 95.12\%. Our system cuts the error rate in comparison to the best published result by 30\% on both datasets. We also introduce the concept of harmonic embeddings, and a harmonic triplet loss, which describe different versions of face embeddings (produced by different networks) that are compatible to each other and allow for direct comparison between each other.},
-	urldate = {2020-02-10},
-	journal = {2015 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
-	author = {Schroff, Florian and Kalenichenko, Dmitry and Philbin, James},
-	month = jun,
-	year = {2015},
-	note = {arXiv: 1503.03832},
-	keywords = {Computer Science - Computer Vision and Pattern Recognition},
-	pages = {815--823}
 }
 
 @article{hoffer_deep_2018-1,

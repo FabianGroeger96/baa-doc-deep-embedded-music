@@ -320,13 +320,53 @@ TensorFlow is an end-to-end open source platform for machine learning. It has a 
 \subsection{Triplet Loss}
 \label{sub:Triplet-Loss}
 
-Triplet Loss is a special kind of loss function in a neural net, which was first introduced to tackle the problem of multi-class classification. In multi-class classification, there is an arbitrary number of classes which the neural net has to learn. There are several examples of multi-class classification in today's applications such as face recognition, object detection, POS tagging in NLP and many more. Typical softmax based deep network would not help when the number of classes in the output layer is too high because of the sparseness of the network. Instead, these problems can be formulated differently.
+Triplet loss was first introduced in the field of face recognition by the paper (\cite{schroff_facenet:_2015}) from Google. They describe a new approach to train face embeddings using online triplet mining.
 \newline
 \newline
-The idea is to learn distributed embeddings representation of data points in a way that in the high dimensional vector space, contextually similar data points are projected in the near-by region. In contrast, different data points are projected far away from each other. 
+The introduced architecture helps to learn distributed embedding by the notion of similarity and dissimilarity. Within the neural network architecture, multiple parallel networks are trained, which share the same weights among each other, which is illustrated in figure \ref{fig:Triplet-Loss-Architecture}. The objective is to build triplets consisting of an anchor $x_i^a$, a positive $x_i^p$ and a negative sample $x_i^n$. Where the positive sample is similar to the anchor and the negative one is dissimilar to the anchor. In the high dimensional vector space, contextually similar data points are projected in the near-by region. In contrast, different data points are projected far away from each other. Which is defined by the equation \ref{eq:Triplet-Loss-Constraint}.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.35]{baa-documentation/img/Triplet_Loss_Architecture.png}
+	\caption[Triplet Loss architecture visualisation]{Triplet Loss architecture visualisation \footnotemark}
+	\label{fig:Triplet-Loss-Architecture}
+\end{figure}
+\footnotetext{\url{https://omoindrot.github.io/triplet-loss}}
+
+\myequations{Triplet Loss constraint}
+\begin{equation}
+    \centering
+    \begin{gathered}
+        \Big|\Big|f(x_i^a) - f(x_i^p)\Big|\Big|_2^2 + \alpha < \Big|\Big|f(x_i^a) - f(x_i^n)\Big|\Big|_2^2 \\[10pt]
+        \forall (f(x_i^a), f(x_i^p) f(x_i^n)) \in \tau
+    \end{gathered}
+    \label{eq:Triplet-Loss-Constraint}
+\end{equation}
+The embedding of a given sample is represented by $f(x) \in \mathbb{R}^d$. It embeds a sample $x$ into a $d$-dimensional Euclidean space. The loss, which will be minimized, is defined by the equation \ref{eq:Triplet-Loss}. Where $\alpha$ is a margin that is enforced between positive and negative pairs. $\tau$ is the set of all possible triplets in the training set and has cardinality $N$.
+\myequations{Triplet Loss function}
+\begin{equation}
+    \centering
+    L = \sum^N_{i = 1} \Bigg [\Big|\Big|f(x_i^a) - f(x_i^p)\Big|\Big|_2^2 - \Big|\Big|f(x_i^a) - f(x_i^n)\Big|\Big|_2^2 + \alpha \Bigg]_+
+    \label{eq:Triplet-Loss}
+\end{equation}
+When the loss is minimized, it pushes the distance between $f(x_i^a)$ and $f(x_i^p)$ near zero. Contrarily it forces the distance between $f(x_i^a)$ and $f(x_i^n)$ to be greater than the distance between $f(x_i^a)$ and $f(x_i^p)$ plus a margin $\alpha$.
 \newline
 \newline
-Triplet Loss architecture helps to learn distributed embedding by the notion of similarity and dissimilarity. It is a kind of neural network architecture where multiple parallel networks are trained which share weights among each other.
+Generating all possible triplets would result in many triplet that are easily satisfied, which satisfy the equation \ref{eq:Triplet-Loss-Constraint}. Which would not contribute to the training and result in slower convergence, as they would still be passed through the network. It is crucial to select hard triplets, which can contribute to improving the model.
+\newline
+\newline
+In order to ensure fast convergence it is crucial to select triplets that violate the triplet constraint in equation \ref{eq:Triplet-Loss-Constraint}. This means that, given $x_i^a$, $x_i^p$ is selected to be a \textbf{hard positive} such that equation \ref{eq:Triplet-Loss-Hard-Positive} is satisfied. Similarly $x_i^n$ is a \textbf{hard negative} when equation \ref{eq:Triplet-Loss-Hard-Negative} is fulfilled.
+\myequations{Triplet Loss hard positive}
+\begin{equation}
+    \centering
+    \text{hard positive} = \text{argmax}_{x_i^p} \ \Big|\Big|f(x_i^a) - f(x_i^p)\Big|\Big|_2^2
+    \label{eq:Triplet-Loss-Hard-Positive}
+\end{equation}
+\myequations{Triplet Loss hard negative}
+\begin{equation}
+    \centering
+    \text{hard negative} = \text{argmin}_{x_i^n} \ \Big|\Big|f(x_i^a) - f(x_i^n)\Big|\Big|_2^2
+    \label{eq:Triplet-Loss-Hard-Negative}
+\end{equation}
 
 \section{Status in relation to project}
 \label{sec:Status-Relation-Project}
