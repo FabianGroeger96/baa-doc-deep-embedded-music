@@ -187,7 +187,7 @@ The process of creating these \gls{MFCC} are quite complex and follow five steps
         \draw [arrow] (LOG) -- (DCT) ;
         \draw [arrow] (DCT) -- node [above] {MFCC} (output);
     \end{tikzpicture}
-    \caption[Steps to calculate MFCC]{Steps to calculate MFCC \footnotemark}
+    \caption{Steps to calculate MFCC}
     \label{fig:MFCC-Overview}
 \end{figure}
 
@@ -199,14 +199,14 @@ Firstly the signal has to be split into 20-40ms frames (25ms is the standard). T
 \myequations{Calculate frame length from signal}
 \begin{equation}
     \centering
-    \frac{25ms}{1000} \ 16000Hz = 400 \ \text{samples}
+    0.025s * 16000Hz = 400 \ \text{samples}
     \label{eq:MFCC-Frame-Length}
 \end{equation}
 Frame step is normally 10ms, which allows some overlap to the frames, and is calculated the same as the frame length.
 \myequations{Calculate frame step from signal}
 \begin{equation}
     \centering
-    \frac{10ms}{1000} \ 16000Hz = 160 \ \text{samples}
+    0.01s * 16000Hz = 160 \ \text{samples}
     \label{eq:MFCC-Frame-Step}
 \end{equation}
 This means that the first 400 samples start at 0, the next 400 frames start at sample 160, until the end of the speech signal is reached. If the speech signal does not divide into an even number of frames, it is padded with zeros until it does. The next steps in the example are applied to every single frame, one set of 12 \gls{MFCC} is extracted for each frame.
