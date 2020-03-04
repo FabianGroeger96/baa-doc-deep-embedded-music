@@ -27,7 +27,7 @@ A speech signal is represented by a sequence of numbers $x_n$, which represent t
 \subsection{Amplitude}
 \label{sub:Amplitude}
 
-The amplitude of a periodic variable is the measure of how far, and in what direction, that variable differs from zero. Thus, signal amplitudes can be either positive or negative. The figure \ref{fig:Amplitude-Wavelenght} illustrates the amplitude with variable $y$. If the amplitude of a given signal is large, the signal is observed to be loud.
+The amplitude of a periodic variable is the measure of how far, and in what direction, that variable differs from zero. Thus, signal amplitudes can be either positive or negative. Figure \ref{fig:Amplitude-Wavelenght} illustrates the amplitude with variable $y$. If the amplitude of a given signal is large, the signal is observed to be loud.
 \newline
 \newline
 The distance from the top of one peak to the bottom of another is called \textit{peak-to-peak amplitude}. Another way to describe peak-to-peak amplitude is to say that it is the distance between the maximum positive value and the maximum negative value of a wave. In figure \ref{fig:Amplitude-Wavelenght}, the peak-to-peak amplitude of the wave would be $2y$.
@@ -40,7 +40,7 @@ The magnitude of a periodic variable is the measure of how far, regardless of di
 \subsection{Wavelength}
 \label{sub:Wavelength}
 
-The wavelength is the length of a single cycle of a wave, as measured by the distance between one peak of a wave and the next. In figure \ref{fig:Amplitude-Wavelenght} the wavelength is designated as the variable $\lambda$.
+The wavelength is the length of a single cycle of a wave, as measured by the distance between one peak of a wave and the next. In figure \ref{fig:Amplitude-Wavelenght}, the wavelength is designated as the variable $\lambda$.
 
 \subsection{Frequency}
 \label{sub:Frequency}
@@ -70,7 +70,7 @@ Sampling is the first step to convert an analogue signal to a digital one. First
 \subsection{Aliasing}
 \label{sub:Aliasing}
 
-Aliasing is a special effect that can happen when the speed of samples taken from the analogue signal is to low compared to the actual analogue signal, otherwise known as frequency. Aliasing is due to the fact that the actual signal is changing so rapidly between sampling instants, that this rapid movement is not visible in the sampled signal. The sampled signal appears to be a lower frequency signal compared to the actual signal.
+Aliasing is a special effect that can happen when the speed of samples taken from the analogue signal is to low compared to the actual analogue signal, otherwise known as frequency. Aliasing happens because the actual signal is changing so rapidly between sampling instants, that this rapid movement is not visible in the sampled signal. The sampled signal appears to be a lower frequency signal compared to the actual signal.
 
 \subsection{Quantization}
 \label{sub:Quantization}
@@ -127,12 +127,12 @@ A given function or signal can be converted between the time and frequency domai
 \subsection{Fourier Transform}
 \label{sub:Fourier-Transform}
 
-\gls{FT} is a mathematical concept that can convert a continuous signal from \fullref{sub:Time-Domain} to \fullref{sub:Frequency-Domain}. It decomposes a complex periodic signal into its constituent sine waves oscillating at different frequencies, along with the magnitude of each wave. The magnitude of each frequency shows how much a certain wave contributes to the overall signal.
+\gls{FT} is a mathematical concept that can convert a continuous signal from the \fullref{sub:Time-Domain} to \fullref{sub:Frequency-Domain}. It decomposes a complex periodic signal into its constituent sine waves oscillating at different frequencies, along with the magnitude of each wave. The magnitude of each frequency shows how much a certain wave contributes to the overall signal.
 
 \subsubsection{Fast Fourier Transform}
 \label{subsub:Fast-Fourier-Transform}
 
-\gls{FFT} is a mathematical algorithm that calculates \gls{DFT} of a given sequence, with the equation \ref{eq:DFT}. The only difference between \gls{FT} and \gls{FFT} is, that \gls{FT} considers a continuous signal while \gls{FFT} takes a discrete signal as input. \gls{DFT} converts a sequence, a discrete signal, into its frequency constituents just like \gls{FT} does for a continuous signal. It is important to note that due to that transformation, the time information of the audio signal will be lost.
+\gls{FFT} is a mathematical algorithm that calculates \gls{DFT} of a given sequence, with equation \ref{eq:DFT}. The only difference between \gls{FT} and \gls{FFT} is that \gls{FT} considers a continuous signal while \gls{FFT} takes a discrete signal as input. \gls{DFT} converts a sequence, a discrete signal, into its frequency constituents just like \gls{FT} does for a continuous signal. It is important to note that due to that transformation, the time information of the audio signal will be lost.
 
 \myequations{Discrete Fourier Transform}
 \begin{equation}
@@ -152,7 +152,7 @@ A given function or signal can be converted between the time and frequency domai
 A spectrogram is a visual representation of the \nameref{subsub:Short-Time-Fourier-Transform}. More precisely it represents the spectrum of frequencies of a signal as it varies with time. The x-axis represents the time, the y-axis represents the frequencies, and the colours represent the magnitude of the observed frequency at a particular time. Bright colours represent powerful frequencies. Thus every spectrogram represents three domains: time, frequency and magnitude.
 \newline
 \newline
-To create a spectrogram, the audio signal is broken down into smaller frames (windows), and for each one, the \gls{DFT} or \gls{FFT} will be calculated. The resulting frequencies of each window will represent the time. It is important to note that the windows should overlap each other, not to lose any frequency. Typical window sizes are 20 to 30ms, but this size highly depends on the task to solve. The figure \ref{fig:Spectrogram} show an example of such a spectrogram.
+To create a spectrogram, the audio signal is broken down into smaller frames (windows), and for each one, the \gls{DFT} or \gls{FFT} will be calculated. The resulting frequencies of each window will represent the time. It is important to note that the windows should overlap each other, not to lose any frequency. Typical window sizes are 20 to 30ms, but this size highly depends on the task to solve. Figure \ref{fig:Spectrogram} shows an example of such a spectrogram.
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=0.5]{baa-documentation/img/Spectrogram_Visualisation.png}
@@ -160,8 +160,8 @@ To create a spectrogram, the audio signal is broken down into smaller frames (wi
 	\label{fig:Spectrogram}
 \end{figure}
 
-\subsection{Mel Spectogram}
-\label{sub:Mel-Spectogram}
+\subsection{Mel Spectrogram}
+\label{sub:Mel-Spectrogram}
 
 \gls{MFCC} are a feature widely used in automatic speech and speaker recognition, mainly because they focus on the audio signal and discard all other information such as background noise, emotion and many more. They were introduced by Davis and Mermelstein in the 1980s, and have been state-of-the-art ever since.
 \newline
@@ -209,13 +209,13 @@ Frame step is normally 10ms, which allows some overlap to the frames, and is cal
     0.01s * 16000Hz = 160 \ \text{samples}
     \label{eq:MFCC-Frame-Step}
 \end{equation}
-This means that the first 400 samples start at 0, the next 400 frames start at sample 160, until the end of the speech signal is reached. If the speech signal does not divide into an even number of frames, it is padded with zeros until it does. The next steps in the example are applied to every single frame, one set of 12 \gls{MFCC} is extracted for each frame.
+This means that the first 400 samples start at 0, the next 400 frames start at sample 160, until the end of the speech signal is reached. If the speech signal does not divide into an even number of frames, it is padded with zeros until it does. The next steps in the example are applied to every single frame; one set of 12 \gls{MFCC} is extracted for each frame.
 
 \subsubsection{Calculate the periodogram estimate of the power spectrum for each frame}
 The next step is to calculate the power spectrum of each frame. This is motivated by the human cochlea, an organ in the ear, which vibrates at different spots depending on the frequency of the incoming sounds. Depending on which location in the cochlea that vibrates, different nerves fire, informing the brain that specific frequencies are present. The periodogram estimate performs a similar job which is, identifying which frequencies are present in the frame.
 \newline
 \newline
-To calculate the power spectrum for each frame, the \gls{DFT} has to be calculated with the equation \ref{eq:MFCC-DFT-Frame}. Then the Periodogram-based power spectral estimate for the speech frame $s_i(n)$ can be calculated with the formula \ref{eq:MFCC-Periodogram-Frame}. Usually a 512 point \gls{FFT} is being performed and only the first 257 coefficients are kept.
+To calculate the power spectrum for each frame, the \gls{DFT} has to be calculated with equation \ref{eq:MFCC-DFT-Frame}. Then the Periodogram-based power spectral estimate for the speech frame $s_i(n)$ can be calculated with the formula \ref{eq:MFCC-Periodogram-Frame}. Usually, a 512 point \gls{FFT} is being performed, and only the first 257 coefficients are kept.
 \myequations{Calculate Discrete Fourier Transform of each frame}
 \begin{equation}
     \centering
@@ -230,14 +230,14 @@ To calculate the power spectrum for each frame, the \gls{DFT} has to be calculat
 \end{equation}
 where:
 \begin{conditions*}
- s_i(n) &  time domain signal frame, where $n$ denotes the frame length (in the current example from 1-400) and $i$ ranges over the number of frames \\   
+ s_i(n) &  time-domain signal frame, where $n$ denotes the frame length (in the current example from 1-400), and $i$ ranges over the number of frames \\   
  S_i(k) &  complex \gls{DFT}, where $i$ denotes the frame number corresponding to the time-domain frame \\
  h(n)   &  analysis window, with the size $N$ (e.g. hamming window) \\
  K      &  length of the \gls{DFT} \\
  P_i(k) &  power spectrum of frame $i$
 \end{conditions*}
 
-\subsubsection{Apply the mel filterbank to the power spectra}
+\subsubsection{Apply the Mel filterbank to the power spectra}
 The periodogram spectral estimate still contains much information not required for \gls{ASR}. In the human body, the cochlea can not discern the difference between two closely spaced frequencies. This effect becomes more pronounced as the frequencies increase. For this reason, clumps of periodogram bins and sums are taken and summed up, to get an idea of how much energy exists in various frequency regions.
 \newline
 \newline
@@ -273,29 +273,30 @@ In our example, we now have 26 energy coefficients which will be logarithmized w
 The final step is to compute the \gls{DCT} of the log filterbank energies. Mainly because the filterbanks are all overlapping and are correlated with each other. The \gls{DCT} decorrelates the energies, but only the lower 12-13 of the 26 \gls{DCT} coefficients are kept. This is because the higher \gls{DCT} coefficients represent fast changes in the filterbank energies, and these fast changes can degrade the \gls{ASR} performance.
 \newline
 \newline
-In the example the \gls{DCT} of the 26 log filterbank energies has to be computed, which gives 26 cepstral coefficients. This whole process has to be calculated for each frame in the signal.
+In the example, the \gls{DCT} of the 26 log filterbank energies has to be computed, which gives 26 cepstral coefficients. This whole process has to be calculated for each frame in the signal.
 
 \subsubsection{Visualize the cepstral coefficients}
-Once all the cepstral coefficients are computed, they can be visualized with respect to time. Which then can be used for further processing in \gls{ASR}. Such a visualisation is illustrated in figure \ref{fig:MFCC-Visualisation}, where the x-axis represents the time and the y-axis represents the cepstral coefficient dimension (e.g. the lower 12-13) and the color shows the value of each coefficient.
+Once all the cepstral coefficients are computed, they can be visualized with respect to time. Which then can be used for further processing in \gls{ASR}. Such a visualisation is illustrated in figure \ref{fig:MFCC-Visualisation}, where the x-axis represents the time, and the y-axis represents the cepstral coefficient dimension (e.g. the lower 12-13), and the colour shows the value of each coefficient.
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=0.5]{baa-documentation/img/MFCC_Visualisation.png}
-	\caption[Visualisation of a MFCC]{Visualisation of a MFCC}
+	\caption[Visualisation of an MFCC]{Visualisation of a MFCC}
 	\label{fig:MFCC-Visualisation}
 \end{figure}
-
-\subsection{$\mu$-law Transformation}
-\label{sub:Mu-Law-Transformation}
 
 \subsection{LibROSA}
 \label{sub:Librosa}
 
-LibROSA is a python package for music and audio analysis. It provides the building blocks necessary to create music information retrieval systems.\footnote{\url{https://librosa.github.io/librosa/}}
+LibROSA is a python package for audio analysis and processing. At a high level, libROSA provides implementations of a variety of standard functions used throughout the ﬁeld of music information retrieval. Because of this variety of realised functions, it quickly became the state-of-the-art in the field of machine learning for audio. It can easily be installed on any machine using pip.\footnote{\url{https://librosa.github.io/librosa/}}
+
+\begin{verbatim}
+    pip install librosa
+\end{verbatim}
 
 \section{Introduction to Neural Nets}
 \label{sec:Intro-NN}
 
-In this section, technical concepts are explained in more detail, which was used in the thesis. These concepts are mostly very complex and are, therefore only touched upon so that the further conclusions of this work can be understood comprehensibly.
+In this section, technical concepts are explained in more detail, which was used in the thesis. These concepts are mostly very complex and are, therefore, only touched upon so that the further conclusions of this work can be understood comprehensibly.
 
 \subsection{Neural Nets}
 \label{sub:Neural-Nets}
@@ -309,11 +310,11 @@ In this section, technical concepts are explained in more detail, which was used
 \subsection{Tensorflow}
 \label{sub:Tensorflow}
 
-TensorFlow is an end-to-end open source platform for machine learning. It has a comprehensive, flexible ecosystem of tools, libraries and community resources that lets researchers push the state-of-the-art in \gls{ML} and developers easily build and deploy \gls{ML} powered applications. \footnote{\url{https://www.tensorflow.org/}}
+TensorFlow is an end-to-end open-source platform for machine learning. It has a comprehensive, flexible ecosystem of tools, libraries and community resources that lets researchers push the state-of-the-art in \gls{ML} and developers easily build and deploy \gls{ML} powered applications. \footnote{\url{https://www.tensorflow.org/}}
 
 \section{State of the art}
 \label{sec:State-of-art}
-Within this section of the thesis, two state-of-the-art concepts are introduced, which will be essential for the following chapters and used throughout the whole project. Therefore it is essential to be familiar with the terms, definitions and equations of \nameref{sub:Triplet-Loss} and \nameref{sub:Tile2Vec}. First \nameref{sub:Triplet-Loss} will be introduced and thereafter the \nameref{sub:Tile2Vec} concept, which is an application of the \nameref{sub:Triplet-Loss}.
+Within this section of the thesis, two state-of-the-art concepts are introduced, which will be essential for the following chapters and used throughout the whole project. Therefore it is essential to be familiar with the terms, definitions and equations of \nameref{sub:Triplet-Loss} and \nameref{sub:Tile2Vec}. First \nameref{sub:Triplet-Loss} will be introduced, and after that, the \nameref{sub:Tile2Vec} concept, which is an application of the \nameref{sub:Triplet-Loss}.
 
 \subsection{Triplet Loss}
 \label{sub:Triplet-Loss}
@@ -336,7 +337,7 @@ Triplet loss was first introduced in the field of face recognition by the paper 
     \label{eq:Euclidean-Distance}
 \end{equation}
 \noindent
-The introduced architecture helps to learn distributed embeddings by the notion of similarity and dissimilarity. Within the neural network architecture, multiple parallel networks are trained, which share the same weights among each other, this is illustrated in figure \ref{fig:Triplet-Loss-Architecture}. The objective is to build triplets consisting of an anchor $x_a$, a positive $x_p$ and a negative sample $x_n$. Where the positive sample is similar to the anchor and the negative one is dissimilar to the anchor. In the high dimensional vector space, contextually similar data points are projected in the near-by region ($x_a$ and $x_p$). In contrast, different data points are projected far away from each other ($x_a$ and $x_n$). This condition is defined by the equation \ref{eq:Triplet-Loss-Constraint}. Where $|| \cdot ||_2$ is defined as the euclidean distance with equation \ref{eq:Euclidean-Distance} and $\tau$ is the set of all possible triplets in the dataset.
+The introduced architecture helps to learn distributed embeddings by the notion of similarity and dissimilarity. Within the neural network architecture, multiple parallel networks are trained, which share the same weights among each other; this is illustrated in figure \ref{fig:Triplet-Loss-Architecture}. The objective is to build triplets consisting of an anchor $x_a$, a positive $x_p$ and a negative sample $x_n$. Where the positive sample is similar to the anchor and the negative one is dissimilar to the anchor. In the high dimensional vector space, contextually similar data points are projected in the near-by region ($x_a$ and $x_p$). In contrast, different data points are projected far away from each other ($x_a$ and $x_n$). This condition is defined by the equation \ref{eq:Triplet-Loss-Constraint}. Where $|| \cdot ||_2$ is defined as the euclidean distance with equation \ref{eq:Euclidean-Distance} and $\tau$ is the set of all possible triplets in the dataset.
 \myequations{Triplet Loss constraint}
 \begin{equation}
     \centering
@@ -346,7 +347,7 @@ The introduced architecture helps to learn distributed embeddings by the notion 
     \end{gathered}
     \label{eq:Triplet-Loss-Constraint}
 \end{equation}
-The embedding of a given sample $x$ is represented by $f_\theta(x) \in \mathbb{R}^d$, where $f$ is a \gls{CNN} with weights $\theta$. It embeds a sample $x$ into a $d$-dimensional Euclidean space. The loss, which will be minimised, is defined by the equation \ref{eq:Triplet-Loss}. Where $\alpha$ is a margin that is enforced between positive and negative pairs, it further puts a limit on how far the network can push the negative sample away to improve the loss. In the equation \ref{eq:Triplet-Loss}, the notation $[\cdot]_+$ is used to represent the rectifier $\text{max}(0, \cdot)$.
+The embedding of a given sample $x$ is represented by $f_\theta(x) \in \mathbb{R}^d$, where $f$ is a \gls{CNN} with weights $\theta$. It embeds a sample $x$ into a $d$-dimensional Euclidean space. The loss, which will be minimised, is defined by the equation \ref{eq:Triplet-Loss}. Where $\alpha$ is a margin that is enforced between positive and negative pairs, it further puts a limit on how far the network can push the negative sample away to improve the loss. In equation \ref{eq:Triplet-Loss}, the notation $[\cdot]_+$ is used to represent the rectifier $\text{max}(0, \cdot)$.
 \myequations{Triplet Loss function}
 \begin{equation}
     \centering
@@ -395,7 +396,7 @@ But when $||f_\theta(x_a) - f_\theta(x_p)||_2 < ||f_\theta(x_a) - f_\theta(x_n)|
     \min_\theta \sum_{i=1}^N \Bigg[\mathcal{L}\Big(x_a^{(i)}, x_p^{(i)}, x_n^{(i)}, \theta\Big) + \lambda \Big(||f_\theta(x_a^{(i)})||_2 + ||f_\theta(x_p^{(i)})||_2 + ||f_\theta(x_n^{(i)})||_2\Big)\Bigg]
     \label{eq:Tile2Vec-Cost-Function}
 \end{equation}
-The sampling procedure for the triplet $(x_a, x_p, x_n)$ is described by two parameters, the tile size and the neighborhood radius. The tile size defines the pixel width and height of a single tile. The neighborhood radius defines the region around the anchor tile from which to sample the adjacent tile. The center of the neighbor tile must be within this radius of the anchor, and the distant tile is then sampled at random from outside the radius.
+The sampling procedure for the triplet $(x_a, x_p, x_n)$ is described by two parameters, the tile size and the neighbourhood radius. The tile size defines the pixel width and height of a single tile. The neighbourhood radius defines the region around the anchor tile from which to sample the adjacent tile. The centre of the neighbour tile must be within this radius of the anchor, and the distant tile is then sampled at random from outside the radius.
 
 \section{Status in relation to project}
 \label{sec:Status-Relation-Project}
