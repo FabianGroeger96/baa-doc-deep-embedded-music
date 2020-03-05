@@ -333,7 +333,7 @@ Warren McCulloch and Walter Pitts introduced the first \gls{NN} in 1943 within t
     \begin{scope}[start chain=2]
         \node[on chain=2,input] (x2) {$x_2$};
         \node[on chain=2,init] (sigma) {$\displaystyle\Sigma$};
-        \node[on chain=2,squa,label=above:{\parbox{2cm}{\centering activation\\ function}}]   {$g(z)$};
+        \node[on chain=2,squa,label=above:{\parbox{2cm}{\centering activation\\ function}}]   {$f(z)$};
         \node[on chain=2,squa,label=above:output,join=by -latex] {$\hat{y}$};
     \end{scope}
     % Bottom chain x3 to w3
@@ -355,29 +355,50 @@ Warren McCulloch and Walter Pitts introduced the first \gls{NN} in 1943 within t
     \label{fig:Perceptron-Visualisation}
 \end{figure}
 \noindent
-A perceptron is the simplest neural network that consists of $n$ number of inputs and only one output. It further consists of inputs, weights, a bias, an activation function and an output. The building blocks and the procedure of calculating an output are visualised in figure \ref{fig:Perceptron-Visualisation}. The inputs which are denoted as $x_1, \dots, x_n$, are the values passed into the perceptron. The weights $\theta_{1}, \dots, \theta_{n}$ are values which are multiplied with the respective input. The bias is a special weight which shifts the activation function to the left or right. The activation function $g(z)$ is used to introduce non-linearity into the output, without the \gls{NN} would be a linear function. The output $\hat{y}$ is simply the result of the activation function, and it can be computed using equation \ref{eq:Perceptron-Calculate-Output}. In the case of a perceptron, it is the prediction of the \gls{NN}. The process of calculating the output of a \gls{NN} is called forward propagation. In deeper networks, the output is then used again as the input of the next layer. A layer can be thought of a single perceptron.
+A perceptron is the simplest neural network that consists of $n$ number of inputs and only one output. It further consists of inputs, weights, a bias, an activation function and an output. The building blocks and the procedure of calculating an output are visualised in figure \ref{fig:Perceptron-Visualisation}. The inputs which are denoted as $x_1, \dots, x_n$, are the values passed into the perceptron. The weights $\theta_{1}, \dots, \theta_{n}$ are values which are multiplied with the respective input. The bias is a special weight which shifts the activation function to the left or right. The activation function $f(z)$ is used to introduce non-linearity into the output, without the \gls{NN} would be a linear function. The output $\hat{y}$ is simply the result of the activation function, and it can be computed using equation \ref{eq:Perceptron-Calculate-Output}. In the case of a perceptron, it is the prediction of the \gls{NN}. The process of calculating the output of a \gls{NN} is called forward propagation. In deeper networks, the output is then used again as the input of the next layer. A layer can be thought of a single perceptron.
 \myequations{Calculates the output of single layer neural network}
 \begin{equation}
     \centering
-    \hat{y} = g\Big(b_1 + \sum_{i=1}^n x_i \theta_i \Big)
+    \hat{y} = f(z) = f\Big(b_1 + \sum_{i=1}^n x_i \theta_i \Big)
     \label{eq:Perceptron-Calculate-Output}
 \end{equation}
-In order that the \gls{NN} produces more reliable results, it has to learn the optimal parameters for a given problem. This procedure consists of two parts, backpropagation and optimisation. Backpropagation refers to the algorithm for computing the gradient of the loss function with respect to the weights, to see how good the current predictions are. However, the term is often used to refer to the entire learning algorithm. Furthermore, optimisation is the process of selecting the best element from some set of available alternatives, which in the case of a \gls{NN} is the selection of best weights and bias.
+In order that the \gls{NN} produces more reliable results, it has to learn the optimal parameters for a given problem. This procedure consists of two parts, backpropagation and optimisation. Backpropagation refers to the algorithm for computing the gradient of the loss function with respect to the parameters, to see how good the current predictions are. However, the term is often used to refer to the entire learning algorithm. Furthermore, optimisation is the process of selecting the best element from some set of available alternatives, which in the case of a \gls{NN} is the selection of the best parameters.
 \newline
 \newline
-The first step in backpropagation is to know an estimation of how far away the current predictions are from the desired solution, which can be computed using a loss function. Often, Mean Squared Error is chosen as a loss function. The choice of selecting the right loss function highly depends on the problem to solve.
-\myequations{Mean Squared Error loss function}
+The first step in backpropagation is to know an estimation of how far away the current predictions are from the desired solution, which can be computed using a loss function. Typical loss functions are \gls{MSE}, Binary Crossentropy, Categorical Crossentropy or Sparse Categorical Crossentropy. The process of selecting the right loss function highly depends on the problem to solve. The equation \ref{eq:MSE} defines the \gls{MSE} cost (loss) function for the entire dataset with size $n$.
+\myequations{Mean Squared Error loss function for entire dataset}
 \begin{equation}
     \centering
-    MSE_i = (y_i - \hat{y}_i)^2
+    C = MSE = \frac{1}{n} \sum_{i=1}^n(y_i - \hat{y}_i)^2
     \label{eq:MSE}
 \end{equation}
 where:
 \begin{conditions*}
- y_i & actual value from the dataset \\   
- \hat{y}_i & predicted value, output of the \gls{NN}
+    y_i & actual value from the dataset \\   
+    \hat{y}_i & predicted value, output of the \gls{NN}
 \end{conditions*}
-Gradient descent one of many optimisation algorithms, it changes the weights and bias, proportional to the negative of the gradient of the cost function with respect to the corresponding weight or bias. Learning rate $\alpha$ is a hyperparameter, which is used to control how much the weights and bias change.
+\noindent
+The next step in backpropagation is to know how the loss function changes in relation to its parameters. This is done by computing the gradients, how one quantity changes in relation to another quantity, of the cost function with respect to the weights and bias. In equation \ref{eq:Backpropagation-Gradient} the gradient of the cost function $C$ with respect to the weights $\theta_i$ is computed using partial derivation. The same function can be applied for computing the cost function $C$ with respect to the bias. Since the cost function is not directly related to the weights, the chain rule is used.
+\myequations{Gradient of cost function with respect to the weights}
+\begin{equation}
+    \centering
+    \frac{\partial C}{\partial\theta_i} = \frac{\partial C}{\partial\hat{y}}\times\frac{\partial\hat{y}}{\partial z}\times\frac{\partial z}{\partial\theta_i}
+    \label{eq:Backpropagation-Gradient}
+\end{equation}
+The last step in the learning process of a \gls{NN} is the optimisation. Gradient descent is one of many optimisation algorithms, and it changes the weights and bias, proportional to the negative of the gradient of the cost function with respect to the corresponding weight or bias. Learning rate $\alpha$ is a hyperparameter, which is used to control how much the weights and bias change. The weights and bias are updated with equations \ref{eq:Optimisation-Gradient-Descent-Weights} and \ref{eq:Optimisation-Gradient-Descent-Bias}.
+\myequations{Optimisation of weights using gradient descent}
+\begin{equation}
+    \centering
+    \theta_i = \theta_i - \Big(\alpha \times \frac{\partial C}{\partial\theta_i}\Big)
+    \label{eq:Optimisation-Gradient-Descent-Weights}
+\end{equation}
+\myequations{Optimisation of bias using gradient descent}
+\begin{equation}
+    \centering
+    b_i = b_i - \Big(\alpha \times \frac{\partial C}{\partial b_i}\Big)
+    \label{eq:Optimisation-Gradient-Descent-Bias}
+\end{equation}
+The whole learning process consisting of backpropagation and optimisation is repeated until the \gls{NN} convergences in a local or global minimum.
 
 \subsection{Convolutional Neural Network}
 \label{sub:Convolutional-Neural-Network}
