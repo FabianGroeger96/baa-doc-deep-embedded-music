@@ -30,6 +30,7 @@
 
 % Have subfigures and captions
 \usepackage{subcaption}
+\usepackage{caption}
 
 % Be able to include PDFs in the file
 \usepackage{pdfpages}
@@ -122,7 +123,7 @@
 \definecolor{sail}{HTML}{A3CEEE}
 \definecolor{highland}{HTML}{6D885A}
 
-\tikzstyle{signal}=[arrows={-latex},draw=black,line width=1.5pt,rounded corners=4pt]
+\tikzstyle{signal}=[arrows={-latex},draw=black,line width=1pt,rounded corners=4pt]
 
 % RNN
 \tikzstyle{block}=[draw=black,line width=1.0pt]
@@ -145,12 +146,12 @@
 \tikzstyle{outputnode}=[netnode, fill=plum, draw=black]
 
 % Architecture
-\def\layerwidth{90pt}
-\def\layerheight{14pt}
+\def\layerwidth{120pt}
+\def\layerheight{30pt}
 
 \tikzstyle{layer}=[style=block, draw, fill=black!20!white,
-    inner sep=1pt,outer sep=0, font=\footnotesize,
-    text centered, 
+    inner sep=5pt,outer sep=0pt, font=\footnotesize,
+    text centered, align=center,
     minimum width=\layerwidth, minimum height=\layerheight]
 
 \tikzstyle{fc}=[style=layer, fill=blue!30!white]

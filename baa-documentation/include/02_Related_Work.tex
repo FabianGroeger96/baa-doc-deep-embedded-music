@@ -360,7 +360,7 @@ A perceptron is the simplest neural network that consists of $n$ number of input
     \hat{y} = f(z) = f\Big(b_1 + \sum_{i=1}^n x_i \theta_i \Big)
     \label{eq:Perceptron-Calculate-Output}
 \end{equation}
-The process of calculating the output of a \gls{NN} is called forward propagation. In deeper networks, the output of one layer is then used again as the input of the next layer $f^L(f^{L-1}(\cdots f^1(z)))$, where $L$ denotes the number of layers in the \gls{NN}. A layer can be thought of as a single perceptron, thus this is often called a \gls{MLP} which is illustrated in figure \ref{fig:MLP-Visualisation}.
+The process of calculating the output of a \gls{NN} is called forward propagation. In deeper networks, the output of one layer is then used again as the input of the next layer $f^L(f^{L-1}(\cdots f^1(z)))$, where $L$ denotes the number of layers in the \gls{NN}. A layer can be thought of as multiple perceptrons. Thus this is often called a \gls{MLP}, which is illustrated in figure \ref{fig:MLP-Visualisation}. The \gls{MLP} shown in figure \ref{fig:MLP-Visualisation} has four layers ($L = 4$), from which the first one is always the input layer, and the last one is the output layer. The layers between the input and output layer are called hidden layers.
 
 \begin{figure}[htbp]
     \centering
@@ -446,9 +446,166 @@ The last step in the learning process of a \gls{NN} is the optimisation. Gradien
     \label{eq:Optimisation-Gradient-Descent-Bias}
 \end{equation}
 The whole learning process consisting of backpropagation and optimisation is repeated until the \gls{NN} convergences in a local or global minimum.
+\newline
+\newline
+\gls{MLP} have several drawbacks, especially when it comes to handling image data. \gls{MLP} use one perceptron for each input (e.g. pixel in an image, multiplied by 3 in the case of RGB). The amount of weights rapidly becomes unmanageable for large images. For a 224 x 224 pixel image with three colour channels, there are around 150,000 weights that must be trained. As a result, difficulties arise while training and overfitting can occur. Another common problem is that \gls{MLP} react differently to an input (images) and its shifted version — they are not translation invariant. For example, if a picture of a cat appears in the top left of the image in one picture and the bottom right of another picture, the \gls{MLP} will try to correct itself and assume that a cat will always appear in this section of the image. \gls{MLP} are not the best idea to use for image processing. In the next section, \fullref{sub:Convolutional-Neural-Network} will be introduced, which will take all the problems stated above.
 
 \subsection{Convolutional Neural Network}
 \label{sub:Convolutional-Neural-Network}
+
+\gls{CNN} are a specialized kind of neural network for processing data that has a known grid-like topology. Examples include time-series data, which can be thought of as a 1-D grid taking samples at regular time intervals, and image data, which can be thought of as a 2-D grid of pixels. The name \flqq convolutional neural network\frqq \ indicates that the network employs a mathematical operation called convolution. Convolution is a specialized kind of linear operation. To summarize, a \gls{CNN} are simply neural networks that use convolution in place of general matrix multiplication in at least one of their layers.\footnote{\fullcite{goodfellow_deep_2016}}
+\newline
+\newline
+A typical layer of a \gls{CNN} consists of three stages, which is illustrated in figure \ref{fig:Convolution-Layer-Visualisation}. In the first stage, the layer performs several convolutions in parallel to produce a set of linear activations, also called a feature map. In the second stage, each linear activation is run through a non-linear activation function, such as the rectified linear activation function. This stage is sometimes called the detector stage. In the third stage, a pooling function is used to modify the output of the layer further.
+
+\begin{figure}[htbp]
+    \captionsetup{format=plain}
+    \centering
+    \begin{tikzpicture}[start chain=going below, node distance=15pt,
+        point/.append style={on chain, join=by {signal}},
+        layer/.append style={on chain, join=by {signal}},
+    ]
+        \node[point] {Input to layers};
+        \node[conv] {Convolution layer: \\ affine transorm};
+        \node[activation] {Detector layer: \\ non-linearity (e.g., ReLU)};
+        \node[pool] {Pooling layer};
+        \node[point] {Next layer};
+    \end{tikzpicture}
+    \caption{Visualisation of a single convolutional layer}
+    \label{fig:Convolution-Layer-Visualisation}
+\end{figure}
+\noindent
+Convolution is a process where a small matrix of numbers, called the kernel or filter, is taken and slid it over grid-like data (e.g. an image) and transforms it based on the values from the filter. More concretely, at a given position of the convolution kernel, the element-wise multiplication of each kernel cell value and the corresponding image pixel value that overlaps the kernel cell is taken and then summed up. The convolutional operation is often denoted as $\ast$, the equation \ref{eq:Convolution} shows how to calculate the convolution of an input image $I$ and a two-dimensional filter kernel $K$. The rows and the columns of the input image $I$ are denoted as $i$ and $j$. The output of the convolutional operation $S(i,j)$ is often called the feature map. A visualisation of the operation is illustrated in figure \ref{fig:Convolution-Visualisation}.
+\myequations{Convolution of an image and a two-dimensional kernel}
+\begin{equation}
+    \centering
+    S(i,j) = (I \ast K)(i,j) = \sum_m \sum_n I(m,n)K(i-m, j-n)
+    \label{eq:Convolution}
+\end{equation}
+The goal of the convolutional operation in the \gls{CNN} is to output a high value for a given position, if the kernel is present in that location, else outputs a low value. The convolutions are restricted to only \flqq valid\frqq \ positions, where the kernel lies entirely within the image. In the context of \gls{CNN}, the learning algorithm will learn the appropriate values of the kernel in the appropriate place, to detect arbitrary features.
+
+\begin{figure}[htbp]
+    \captionsetup{format=plain}
+    \centering
+    \begin{tikzpicture}
+        \coordinate (p) at (0,0);
+        \draw[shift={(p)}, fill=white] (0,0) rectangle (4,-3);
+        \draw[shift={(p)}, fill=blue!20!white] (0,0) rectangle (2,-2);
+        \draw[
+            ultra thick,
+            step=1, 
+            color=black,
+            draw=black,
+            fill=black!20!white,
+            shift={(p)}
+        ] (0,0) grid (4,-3)
+        foreach[count=~] \l in {9, 0, 3, 8, 1, 2, 4, 3, 6, 4, 0, l} {
+            ({0.5+mod(~-1,4}, {-0.5-div(~-1,4}) node {\Large \l}
+        };
+        
+        \node[text width=1cm] at (5,-1.5) {$\Large\ast$};
+        
+        \coordinate (p) at (5.2,-0.5);
+        \draw[shift={(p)}, fill=blue!20!white] (0,0) rectangle (2,-2);
+        \draw[
+            ultra thick,
+            step=1, 
+            color=black,
+            draw=black,
+            fill=black!20!white,
+            shift={(p)}
+        ] (0,0) grid (2,-2)
+        foreach[count=~] \l in {1, 2, -1, -2} {
+            ({0.5+mod(~-1,2}, {-0.5-div(~-1,2}) node {\Large \l}
+        };
+        
+        \node[text width=1cm] at (8.2,-1.5) {$\Large =$};
+        
+        \coordinate (p) at (8.5,-0.5);
+        \draw[shift={(p)}, fill=white] (0,0) rectangle (3,-2);
+        \draw[shift={(p)}, fill=blue!20!white] (0,0) rectangle (1,-1);
+        \draw[
+            ultra thick,
+            step=1, 
+            color=black,
+            draw=black,
+            fill=black!20!white,
+            shift={(p)}
+        ] (0,0) grid (3,-2)
+        foreach[count=~] \l in {4, -4, 9, -9, 6, -8} {
+            ({0.5+mod(~-1,3}, {-0.5-div(~-1,3}) node {\Large \l}
+        };
+    \end{tikzpicture}
+    \caption[Visualization of a convolutional operation]{Visualization of a convolutional operation. To calculate the value highlighted in blue within the feature map (right), the equation \ref{eq:Convolution} has to be used. Thus the highlighted element can be calculated with $9*1 + 0*2 + 1*(-1) + 2*(-2) = 4$}
+    \label{fig:Convolution-Visualisation}
+\end{figure}
+\noindent
+A pooling function replaces the output of the net at a certain location with a summary statistic of the nearby outputs. For example, the max pooling operation reports the maximum output within a rectangular neighborhood. An other popular pooling function is the average pooling, which outputs the average number within a rectangular neighborhood. Both pooling functions are illustrated in figure \ref{fig:Pooling-Visualisation}.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}
+        \coordinate (p) at (0,0);
+        \draw[shift={(p)}, fill=red!20!white] (0,0) rectangle (2,-2);
+        \draw[shift={(p)}, fill=yellow!20!white] (2,0) rectangle (4,-2);
+        \draw[shift={(p)}, fill=blue!20!white] (0,-2) rectangle (2,-4);
+        \draw[shift={(p)}, fill=green!20!white] (2,-2) rectangle (4,-4);
+        \draw[
+            ultra thick,
+            step=1, 
+            color=black,
+            draw=black,
+            fill=black!20!white,
+            shift={(p)}
+        ] (0,0) grid (4,-4)
+        foreach[count=~] \l in {73, 74, 17, 49, 10, 29, 41, 20, 4, 23, 39, 4, 50, 80, 56, 57} {
+            ({0.5+mod(~-1,4}, {-0.5-div(~-1,4}) node {\Large \l}
+        };
+        
+        % max pooling
+        \coordinate (p) at (7,0.5);
+        \draw[shift={(p)}, fill=red!20!white] (0,0) rectangle (1,-1);
+        \draw[shift={(p)}, fill=yellow!20!white] (1,0) rectangle (2,-1);
+        \draw[shift={(p)}, fill=blue!20!white] (0,-1) rectangle (1,-2);
+        \draw[shift={(p)}, fill=green!20!white] (1,-1) rectangle (2,-2);
+        \draw[
+            ultra thick,
+            step=1, 
+            color=black,
+            draw=black,
+            fill=black!20!white,
+            shift={(p)}
+        ] (0,0) grid (2,-2)
+        foreach[count=~] \l in {74, 49, 80, 57} {
+            ({0.5+mod(~-1,2}, {-0.5-div(~-1,2}) node {\Large \l}
+        };
+        \draw[signal] (4.5,-1.5) -> ($(p) +(-0.5, -1.25)$);
+        \node[text width=200pt, align=center, right of=p, yshift=10pt] (l1) {Max Pooling};
+        
+        % average pooling
+        \coordinate (p) at (7,-2.5);
+        \draw[shift={(p)}, fill=red!20!white] (0,0) rectangle (1,-1);
+        \draw[shift={(p)}, fill=yellow!20!white] (1,0) rectangle (2,-1);
+        \draw[shift={(p)}, fill=blue!20!white] (0,-1) rectangle (1,-2);
+        \draw[shift={(p)}, fill=green!20!white] (1,-1) rectangle (2,-2);
+        \draw[
+            ultra thick,
+            step=1, 
+            color=black,
+            draw=black,
+            fill=black!20!white,
+            shift={(p)}
+        ] (0,0) grid (2,-2)
+        foreach[count=~] \l in {46, 32, 39, 39} {
+            ({0.5+mod(~-1,2}, {-0.5-div(~-1,2}) node {\Large \l}
+        };
+        \draw[signal] (4.5,-2.5) -> ($(p) +(-0.5, -0.75)$);
+        \node[text width=200pt, align=center, right of=p, yshift=10pt] (l1) {Average Pooling};
+    \end{tikzpicture}
+    \caption{Visualisation of the max and average pooling operation}
+    \label{fig:Pooling-Visualisation}
+\end{figure}
+\noindent
 
 \subsection{Gated Recurrent Unit}
 \label{sub:Gated-Recurrent-Unit}
@@ -456,7 +613,7 @@ The whole learning process consisting of backpropagation and optimisation is rep
 \subsection{Tensorflow}
 \label{sub:Tensorflow}
 
-TensorFlow is an end-to-end open-source platform for machine learning. It has a comprehensive, flexible ecosystem of tools, libraries and community resources that lets researchers push the state-of-the-art in \gls{ML} and developers easily build and deploy \gls{ML} powered applications. \footnote{\url{https://www.tensorflow.org/}}
+TensorFlow is an end-to-end open-source platform for machine learning. It has a comprehensive, flexible ecosystem of tools, libraries and community resources that lets researchers push the state-of-the-art in \gls{ML} and developers easily build and deploy \gls{ML} powered applications.\footnote{\url{https://www.tensorflow.org/}}
 
 \section{State of the art}
 \label{sec:State-of-art}
