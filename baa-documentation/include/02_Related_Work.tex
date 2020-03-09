@@ -302,7 +302,7 @@ LibROSA is a python package for audio analysis and processing. At a high level, 
 \section{Introduction to Neural Networks}
 \label{sec:Intro-NN}
 
-In this section, technical concepts are explained in more detail, which was used in the thesis. These concepts are mostly very complex and are, therefore, only touched upon so that the further conclusions of this work can be understood comprehensibly.
+This section provides an introduction to an essential concept in this thesis, neural networks. They will be used to build the model and tackle the problem. First, a general \fullref{sub:Neural-Network} is introduced to clarify some terminology. After that, \fullref{sub:Convolutional-Neural-Network} and \fullref{sub:Gated-Recurrent-Unit} will be explained to give an overview of some specialized kind of neural networks.
 
 \subsection{Neural Network}
 \label{sub:Neural-Network}
@@ -475,14 +475,14 @@ A typical layer of a \gls{CNN} consists of three stages, which is illustrated in
     \label{fig:Convolution-Layer-Visualisation}
 \end{figure}
 \noindent
-Convolution is a process where a small matrix of numbers, called the kernel or filter, is taken and slid it over grid-like data (e.g. an image) and transforms it based on the values from the filter. More concretely, at a given position of the convolution kernel, the element-wise multiplication of each kernel cell value and the corresponding image pixel value that overlaps the kernel cell is taken and then summed up. The convolutional operation is often denoted as $\ast$, the equation \ref{eq:Convolution} shows how to calculate the convolution of an input image $I$ and a two-dimensional filter kernel $K$. The rows and the columns of the input image $I$ are denoted as $i$ and $j$. The output of the convolutional operation $S(i,j)$ is often called the feature map. A visualisation of the operation is illustrated in figure \ref{fig:Convolution-Visualisation}.
+Convolution is a process where a small matrix of numbers, called the kernel or filter, is taken and slid it over grid-like data (e.g. an image) and transforms it based on the values from the filter. More concretely, at a given position of the convolution kernel, the element-wise multiplication of each kernel cell value and the corresponding image pixel value that overlaps the kernel cell is taken and then summed up. The convolutional operation is often denoted as $\ast$, the equation \ref{eq:Convolution} shows how to calculate the convolution of an input image $I$ and a two-dimensional filter kernel $K$. The rows and the columns of the input image $I$ are denoted as $i$ and $j$. The output of the convolutional operation $S(i,j)$ is often called the feature map. A visualisation of the operation is illustrated in figure \ref{fig:Convolution-Visualisation}. In the context of \gls{CNN}, the learning algorithm will learn the appropriate values of the kernel in the appropriate place, to detect arbitrary features.
 \myequations{Convolution of an image and a two-dimensional kernel}
 \begin{equation}
     \centering
     S(i,j) = (I \ast K)(i,j) = \sum_m \sum_n I(m,n)K(i-m, j-n)
     \label{eq:Convolution}
 \end{equation}
-The goal of the convolutional operation in the \gls{CNN} is to output a high value for a given position, if the kernel is present in that location, else outputs a low value. The convolutions are restricted to only \flqq valid\frqq \ positions, where the kernel lies entirely within the image. In the context of \gls{CNN}, the learning algorithm will learn the appropriate values of the kernel in the appropriate place, to detect arbitrary features.
+The goal of the convolutional operation in the \gls{CNN} is to output a high value for a given position, if the kernel is present in that location, else outputs a low value. The convolutions are restricted to only \flqq valid\frqq \ positions, where the kernel lies entirely within the image. Since the image shrinks every time a convolution is performed, it can only be performed a limited number of times. Furthermore, it can be seen that the kernel has a more significant impact on the centre of the image as on the outskirts. The image will be padded with an additional border, to solve both of these problems. Usually, it is filled with zeros. Depending on whether padding is used or not, there are two types of convolution: Valid and Same. Valid means that the original image is used and same states, that padding around the image is used and thus the input and output image have the same size. Another important hyperparameter of a \gls{CNN} is stride, which indicates how much the kernel slides to its next position. Figure \ref{fig:Convolution-Visualisation} illustrates a convolution with a 2x2 kernel, padding valid and stride one. 
 
 \begin{figure}[htbp]
     \captionsetup{format=plain}
@@ -536,11 +536,11 @@ The goal of the convolutional operation in the \gls{CNN} is to output a high val
             ({0.5+mod(~-1,3}, {-0.5-div(~-1,3}) node {\Large \l}
         };
     \end{tikzpicture}
-    \caption[Visualization of a convolutional operation]{Visualization of a convolutional operation. To calculate the value highlighted in blue within the feature map (right), the equation \ref{eq:Convolution} has to be used. Thus the highlighted element can be calculated with $9*1 + 0*2 + 1*(-1) + 2*(-2) = 4$}
+    \caption[Visualization of a convolutional operation]{Visualization of a convolutional operation. To calculate the value highlighted in blue within the feature map (right), the equation \ref{eq:Convolution} has to be used. Thus the highlighted element can be calculated with $9\cdot 1 + 0\cdot 2 + 1\cdot (-1) + 2\cdot (-2) = 4$}
     \label{fig:Convolution-Visualisation}
 \end{figure}
 \noindent
-A pooling function replaces the output of the net at a certain location with a summary statistic of the nearby outputs. For example, the max pooling operation reports the maximum output within a rectangular neighborhood. An other popular pooling function is the average pooling, which outputs the average number within a rectangular neighborhood. Both pooling functions are illustrated in figure \ref{fig:Pooling-Visualisation}.
+A pooling function replaces the output of the net at a particular location with a summary statistic of the nearby outputs. For example, the max-pooling operation reports the maximum output within a rectangular neighbourhood. Another popular pooling function is the average-pooling, which outputs the average number within a rectangular neighbourhood. Both pooling functions are illustrated in figure \ref{fig:Pooling-Visualisation}. Pooling helps to make the representation approximately invariant to small translations of the input. Invariance to translation means that if a small amount translates the input image, the values of most of the pooled outputs do not change. Invariance to local translation can be a useful property if the focus is more on whether some feature is present that exactly where it is.
 
 \begin{figure}[htbp]
     \centering
@@ -580,7 +580,7 @@ A pooling function replaces the output of the net at a certain location with a s
             ({0.5+mod(~-1,2}, {-0.5-div(~-1,2}) node {\Large \l}
         };
         \draw[signal] (4.5,-1.5) -> ($(p) +(-0.5, -1.25)$);
-        \node[text width=200pt, align=center, right of=p, yshift=10pt] (l1) {Max Pooling};
+        \node[text width=100pt, align=center, right of=p, yshift=10pt] (l1) {Max-Pooling};
         
         % average pooling
         \coordinate (p) at (7,-2.5);
@@ -600,12 +600,16 @@ A pooling function replaces the output of the net at a certain location with a s
             ({0.5+mod(~-1,2}, {-0.5-div(~-1,2}) node {\Large \l}
         };
         \draw[signal] (4.5,-2.5) -> ($(p) +(-0.5, -0.75)$);
-        \node[text width=200pt, align=center, right of=p, yshift=10pt] (l1) {Average Pooling};
+        \node[text width=100pt, align=center, right of=p, yshift=10pt] (l1) {Average-Pooling};
     \end{tikzpicture}
-    \caption{Visualisation of the max and average pooling operation}
+    \caption{Visualisation of the max- and average-pooling operation}
     \label{fig:Pooling-Visualisation}
 \end{figure}
 \noindent
+Almost every \gls{CNN} has some fully connected layers in the last layer because they will combine the features learnt by different convolution kernels so that the network can build a global representation about the holistic image. The neurons in the fully connected layer will get activated based on whether various entries represented by convolution features are present in the inputs. As the fully connected neurons get activated, it will produce different activation patterns based on what features are present in the input image. This provides a compact representation of what exists in the image, to the output layer, that the output layer can easily use to classify the image correctly.
+\newline
+\newline
+To create a \gls{CNN}, all of the above concepts have to be put together to form an end-to-end model, from a raw image to a decision. To summarise, the convolution layers will learn various local features in the data (e.g. what an eye looks like), then the pooling layer will make the \gls{CNN} invariant to translations of these features (e.g. if the eye appears slightly translated in two images, the \gls{CNN} will still recognise it as an eye). Finally, the fully connected layers combine the found features and activate the correct output (e.g. there are two eyes, a nose and a mouth, this must be a person).
 
 \subsection{Gated Recurrent Unit}
 \label{sub:Gated-Recurrent-Unit}
@@ -614,6 +618,12 @@ A pooling function replaces the output of the net at a certain location with a s
 \label{sub:Tensorflow}
 
 TensorFlow is an end-to-end open-source platform for machine learning. It has a comprehensive, flexible ecosystem of tools, libraries and community resources that lets researchers push the state-of-the-art in \gls{ML} and developers easily build and deploy \gls{ML} powered applications.\footnote{\url{https://www.tensorflow.org/}}
+
+\section{Introduction to Clustering}
+\label{sec:Intro-Clustering}
+
+\subsection{K-Means}
+\label{sub:K-Means}
 
 \section{State of the art}
 \label{sec:State-of-art}
