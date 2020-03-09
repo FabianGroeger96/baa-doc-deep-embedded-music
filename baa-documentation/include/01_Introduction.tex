@@ -1,28 +1,30 @@
 \chapter{Introduction}
 \label{ch:Introduction}
 
-In this chapter, the project is introduced so that it becomes clear what is to be achieved with the work and for what reason it is being carried out.
+This chapter provides an introduction to the thesis \flqq Deep embedded Music\frqq. \fullref{sec:Task-Objective} describes the overall task of the thesis as well as the motivation behind it.
 
 \section{Task and objective}
 \label{sec:Task-Objective}
 
-This section describes the task and the objectives of the project in more detail. The aim is to show what precisely is to be achieved with the project and from which situation the project has arisen. The detailed task, which was submitted to the Transfer Office of the Lucerne University of Applied Sciences and Arts, can be found in the appendix REF!.
+This section describes the task and the objectives of the project in more detail. The aim is to show what precisely is to be achieved with the project and from which situation the project has arisen. The detailed task, which was submitted to the Transfer Office of the Lucerne University of Applied Sciences and Arts, can be found in the appendix \fullref{app:Task-Definition}.
 
 \subsection{Initial situation}
 \label{sub:Initial-Stituation}
 
-Distinguishing between pieces of music is for humans from easy to difficult. So it is mostly straightforward to distinguish music genres, like classical music or techno. However, the difficulty increases when comparing songs within a style or even sort them by similarity.
+Distinguishing between pieces of music is for humans from easy to difficult. So it is mostly easy to distinguish music style, like classical music or techno. However, the difficulty increases when we want to compare songs within a style or even sort them by similarity.
 \newline
 \newline
-On top of an established dataset for noise detection, a procedure based on an embedding method called Tile2Vec will be developed, which can compare similarities between sounds. The resulting embeddings will be clustered and compared with the labels. The accuracy of the method will be evaluated.
+On top of an established data set for noise detection, a procedure based on an embedding method called Tile2Vec will be developed, which can compare similarities between sounds. On the resulting embeddings, a simple classifier will be trained, and the accuracy of the method will be compared to the published results.
 \newline
 \newline
-This method will be applied exploratively to different kinds of music, whereby a dataset of 12h yodel music will be available. The resulting clusters will be investigated qualitatively. 
+This method is to be applied exploratively to music of different kinds, whereby a data set of 12h yodel music is available. The resulting clusters will be investigated qualitatively.
 
 \subsection{Task definition}
 \label{sub:Task-Definition}
 
-The goal of this work is to adapt Tile2Vec, an image embedding method, to audio streams and to evaluate its performance on a noise detection dataset \flqq SINS, DCASE 2018: task 5 development dataset\frqq. Using unsupervised machine learning, similar signals will be clustered and the clusters compared with labels. The developed method will be applied exploratively to music, and the resulting clusters will be investigated qualitatively.
+The goal of this thesis is to adapt Tile2Vec, an image embedding method, to audio streams and to evaluate its performance on a noise detection dataset \flqq SINS, DCASE 2018: task 5 development dataset\frqq. Using unsupervised machine learning, similar signals will be clustered and the clusters compared with labels. The developed method will be applied exploratively to music, and the resulting clusters will be investigated qualitatively.
 
 \subsection{Target setting}
 \label{sub:Target-Setting}
+
+As stated in \fullref{sub:Task-Definition}, the goal of the thesis is to adapt Tile2Vec to audio streams and evaluate their performance. Because this task was never done before, the thesis is categorised as an exploratory innovation/research project. The target is also to give some overview of how far the current research is in the section of unsupervised machine learning with audio and also give some outlook on further projects to explore different approaches.

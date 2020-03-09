@@ -1,32 +1,15 @@
 \chapter{Method}
 \label{ch:Method}
 
+In this chapter, the used methods within the thesis will be described. This includes the \fullref{sec:Project-Plan}, where the whole project plan is explained in further detail, the \fullref{sec:Procedure-Model} which is used to realise the thesis, as well as the final \fullref{sec:Method-Problem-Definition}. This chapter also contains the methods and structure on how to test (\ref{sec:Testing}) and evaluate (\ref{sec:Evaluation}) the success of the project, as well as the \fullref{sec:Project-Structure}.
+
 \section{Project plan}
 \label{sec:Project-Plan}
 
-% TODO - Add "zwischenpräsi"
-\begin{table}[htbp]
-    \centering
-    \caption{Overview Milestones with their date}
-	\label{tab:Milestones}
-    \begin{tabular}{p{.70\textwidth} | p{.20\textwidth}}
-        \toprule
-        \textbf{Milestone} & \textbf{Date} \\ 
-        \midrule[1pt]
-        Project start & 17.02.2020\\
-        \hline
-        Research finished & 15.03.2020\\
-        \hline
-        Project setup finished & 29.03.2020\\
-        \hline
-        Realization finished & 12.04.2020\\
-        \hline
-        Experiments finished & 03.05.2020\\
-        \hline
-        Thesis submission & 05.06.2020\\
-        \bottomrule
-    \end{tabular}
-\end{table}
+Within this section of the thesis, the full project plan is shown and is illustrated in figure \fullref{fig:Project-Plan}. The project is divided into four different phases. At the end of each phase, a milestone is placed, which will review the process within the phase and provide an outlook on the next phase. The first phase is doing research, where many resources are gathered, and essential pieces of information are extracted and documented. The goal of this stage is to get a better understanding of the concepts to use and what already has been done by other researchers. Afterwards, the realisation of the project takes place, where the models, input pipeline and tile2vec will be implemented and tested. Then different experiments will be done, to validate the realisation and experiment with different hyperparameters. At last, the documentation will be finalised and proofread. There is also a one week buffer before the finalisation of the documentation, which will be used for unpredictable problems. The chapters of the documentation will be regularly written within each phase.
+\newline
+\newline
+The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases are shown in orange and bold, tasks within each phase are blue, and milestones are red diamonds. Each dotted column represents one week within a specific month (e.g. Feb, Mar, ...). A task will also have information about how much it is already completed written next to it.
 
 % set page layout to portrait and save layout for later
 \storeareas\defaultpagestyle
@@ -70,7 +53,7 @@
     \ganttmilestone[inline=false]{Research finished}{4} \\ % M1
     
     % 2. Phase: Realization
-    \ganttgroup[inline=false]{Realization}{5}{8} \\
+    \ganttgroup[inline=false]{Realisation}{5}{8} \\
     \ganttbar[progress=0,inline=false]{Project setup}{5}{5} \\
     \ganttbar[progress=0,inline=false]{Input Pipeline}{5}{5} \\
     \ganttbar[progress=0,inline=false]{Default Architecture}{6}{6} \\
@@ -79,7 +62,7 @@
     \ganttmilestone[inline=false]{Project Setup finished}{6} \\ % M2
     \ganttbar[progress=0,inline=false]{Tile2Vec implementation}{7}{7} \\
     \ganttbar[progress=0,inline=false]{Experiment Architecture}{8}{8} \\
-    \ganttmilestone[inline=false]{Realization finished}{8} \\ % M3
+    \ganttmilestone[inline=false]{Realisation finished}{8} \\ % M3
     
     \ganttbar[progress=0,inline=false]{Create Pitch Video / Web abstract}{8}{8} \\
     
@@ -101,6 +84,7 @@
 
 \end{ganttchart}
 \caption{Project plan}
+\label{fig:Project-Plan}
 \end{figure}
 
 % set page back to portrait
@@ -113,11 +97,37 @@
 \subsection{Milestone planning}
 \label{sec:Milestone-Planning}
 
+For each finished phase, there is a specific milestone, to review the process within the finished phase and provide an outlook on the next phase. This is done by writing a report for each milestone, which can be found in the appendix \fullref{app:Milestone-Reports}. Each of these reports answers three questions, what was done since the last reporting, state of progress of the project and top three risks, including planned measures. The reports provide valuable insights into the projects current status and will also be used to plan the next phases. Table \ref{tab:Milestones} shows all the milestones with the corresponding data assigned to it. The milestones are also illustrated in the full project plan \ref{fig:Project-Plan}.
+
+% TODO - Add "zwischenpräsi"
+\begin{table}[htbp]
+    \centering
+    \caption{Overview Milestones with their date}
+	\label{tab:Milestones}
+    \begin{tabular}{p{.70\textwidth} | p{.20\textwidth}}
+        \toprule
+        \textbf{Milestone} & \textbf{Date} \\ 
+        \midrule[1pt]
+        Project start & 17.02.2020\\
+        \hline
+        Research finished & 15.03.2020\\
+        \hline
+        Project setup finished & 29.03.2020\\
+        \hline
+        Realization finished & 12.04.2020\\
+        \hline
+        Experiments finished & 03.05.2020\\
+        \hline
+        Thesis submission & 05.06.2020\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
 \section{Problem definition}
 \label{sec:Method-Problem-Definition}
 
-\section{Solution approach}
-\label{sec:Solution-Approach}
+%\section{Solution approach}
+%\label{sec:Solution-Approach}
 
 \section{Evaluation}
 \label{sec:Evaluation}
