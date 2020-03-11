@@ -646,6 +646,118 @@ To create a \gls{CNN}, all of the above concepts have to be put together to form
 \subsection{Gated Recurrent Unit}
 \label{sub:Gated-Recurrent-Unit}
 
+\gls{GRU} are a specialised type of \gls{NN} within the family of \gls{RNN}, which focus on processing sequential data. \gls{GRU} were introduced in the paper (\cite{cho_learning_2014}) to solve the vanishing gradient problem, which comes with a standard \gls{RNN}. \gls{RNN} take as their input, not just the current input example they see, but also what they have perceived previously. It can be thought of multiple feed-forward neural networks, passing information from one to the other. The vanishing gradient problem states that input from far behind (e.g. the first word in a sequence) loses its importance in the last inputs (e.g. the last words of a sequence), because it vanishes along the way.
+
+\begin{figure}[htbp]
+    \centering
+    % GRU
+    \begin{tikzpicture}[thick, node distance=30pt and 30pt, on grid]
+        \node[cell, minimum width=200pt, minimum height=110pt, anchor=north west] (b) at (-2pt,0pt) {};
+        
+        \coordinate (hin) at (0pt,-20pt);
+        \draw[signal] (hin) +(-\iolen, 0pt) node[above] {$h_{t-1}$} -- (hin);
+        \coordinate (hout) at (200pt,-20pt);
+        \draw[signal] (hout) -- +(\iolen,0pt) node[above left] {$h_{t}$};
+        \coordinate (h) at (184pt,0pt);
+        \draw[signal] (h) -- +(0,\iolen) node[left] {$h_{t}$};
+        \coordinate (x) at (14pt,-110pt);
+        \draw[signal, -] (x) +(0pt,-\iolen) node[left] {$x_{t}$} -- (x);
+        
+        \node[celllayer] (r) at (68pt,-80pt) {$\sigm$};
+        \node[celllayer, right=58pt of r] (z) {$\sigm$};
+        \node[celllayer, right=34pt of z] (ht) {$\tanh$};
+        
+        \node[pointwise, above=30pt of ht] (htm) {$\times$};
+        \draw[signal] (ht) edge node[pos=0.5,left] {$\tilde{h}_t$} (htm);
+        \node[pointwise, above=30pt of htm] (htmp) {$+$};
+        \draw[signal] (htm) -- (htmp);
+        \draw[signal, -] (htmp) -- (hout);
+        
+        \node[pointwise, above left=30pt and 30pt of z] (z1) {$-1$};
+        \draw[signal] (z) |- (z1) node[pos=0.2,left] {$z_t$};
+        \node[pointwise, above=30pt of z1] (z1m) {$\times$};
+        \draw[signal] (z1) -- (z1m);
+        \draw[signal, -] (z1m) -- (htmp);
+        \draw[signal] (z) |- (htm);
+        \draw[signal, -] (hout -| h) +(-10pt,0pt) -| (h);
+        
+        \draw[signal, -] (hin) +(-10pt,0pt) -- (z1m);
+        
+        \node[pointwise, above left=30pt and 30pt of r] (rm) {$\times$};
+        \draw[signal] (r) |- (rm) node[pos=0.2,left] {$r_t$};
+        \draw[signal] (hin -| rm) +(-10pt,0pt) -| (rm);
+        
+        \coordinate (hx) at (60pt,-94pt);
+        \draw[signal, -] (x) |- (hx);
+        \draw[signal, -] (hin) +(-10pt,0pt) -| (x |- r) |- (hx) +(10pt,0pt);
+        \draw[signal, -] (hx) -| (r);
+        \draw[signal, -] (hx) -| (z);
+        
+        \coordinate (rx) at (60pt,-102pt);
+        \draw[signal, -] (x) |- (rx);
+        \draw[signal, -] (rx) -| (ht);
+        
+        \draw[signal, -, shorten >=\intergape] (rm) |- (rm |- hx);
+        \draw[signal, -, shorten <=\intergape] (rm |- hx) |- (z |- rx);
+    \end{tikzpicture}
+    % legend
+    \begin{tikzpicture}
+    	\def\labeldist{30pt}
+    	\def\nodedist{60pt}
+    
+    	\node[celllayer, minimum width=40pt] (l) at (0pt,0pt) {};
+    	\node[align=center] at ($(l) +(0pt,-\labeldist)$) {Network\\Layer}; % trainable
+    	\node[pointwise] (p) at ($(l) +(\nodedist, 0pt)$) {};
+    	\node[align=center] at ($(p) +(0pt,-\labeldist)$) {Pointwise\\Operation};
+    	\coordinate (v) at ($(p) +(\nodedist, 0pt)$);
+    	\draw[signal] (v) +(-20pt,0pt) -- +(20pt, 0pt);
+    	\node[align=center] at ($(v) +(0pt,-\labeldist)$) {Vector\\Transfer};
+    	\coordinate (m) at ($(v) +(\nodedist, 0pt)$);
+    	\draw[signal] (m) +(-10pt,10pt) |- +(10pt, 0pt);
+    	\draw[signal] (m) +(-10pt,-10pt) |- +(10pt, 0pt);
+    	\node[align=center] at ($(m) +(0pt,-\labeldist)$) {Concatenate};
+    	\coordinate (c) at ($(m) +(\nodedist, 0pt)$);
+    	\draw[signal] (c) +(-10pt,0pt) -| +(10pt, 12pt);
+    	\draw[signal] (c) +(-10pt,0pt) -| +(10pt, -12pt);
+    	\node[align=center] at ($(c) +(0pt,-\labeldist)$) {Copy};
+    \end{tikzpicture}
+    \caption{Visualisation of a single gated recurrent unit}
+    \label{fig:GRU-Visualisation}
+\end{figure}
+\noindent
+\gls{GRU} are an improved version of the standard \gls{RNN}, which use an update- and reset gate to solve the vanishing gradient problem. These gates are two additional vectors which decide what information should be passed to the output. They can be trained to keep information from long ago, without washing it through time or remove information which is irrelevant to the prediction. Figure \ref{fig:GRU-Visualisation} illustrates a single \gls{GRU} cell, which will be used to get a better understanding of how the \gls{GRU} works. In the illustration, the Hadamard product $\odot$ is denoted as $\times$.
+\newline
+\newline
+The update gate is denoted as $z_t$ and will be calculated for time step $t$ with the equation in \ref{eq:GRU-Update-Gate}. When $x_t$ is fed into the network unit, it is multiplied by its own weight $W^{(z)}$. The same will be done to $h_{t-1}$, which denotes the information from the previous $t-1$ units and is multiplied by its own weight $U^{(z)}$. Both results are added together, and a sigmoid activation function is applied to squash the result between 0 and 1. The update gate helps the model to determine how much of the past information needs to be passed along to the future. This eliminates the vanishing gradient problem because the model can decide to copy all the information from the past without losing any data.
+\myequations{Gated recurrent unit update gate}
+\begin{equation}
+    \centering
+    z_t = \sigma(W^{(z)}x_t + U^{(z)}h_{t-1})
+    \label{eq:GRU-Update-Gate}
+\end{equation}
+$r_t$ denotes the reset gate, which is used to decide how much of the past information the model has to forget, it is defined by the equation \ref{eq:GRU-Forget-Gate}. The formula is the same as the one used to calculate the update gate \ref{eq:GRU-Update-Gate}. The difference appears in the weights and the usage of the gate.
+\myequations{Gated recurrent unit forget gate}
+\begin{equation}
+    \centering
+    r_t = \sigma(W^{(z)}x_t + U^{(z)}h_{t-1})
+    \label{eq:GRU-Forget-Gate}
+\end{equation}
+$\tilde{h}_t$ is called a memory content, which uses the reset gate to store the relevant information from the past. It is calculated using equation \ref{eq:GRU-Memory-Content}. Calculating the Hadamard product between the reset gate $r_t$ and $Uh_{t-1}$ will determine what to remove from the previous time steps.
+\myequations{Gated recurrent unit memory content}
+\begin{equation}
+    \centering
+    \tilde{h}_t = tanh(Wx_t + r_t \odot Uh_{t-1})
+    \label{eq:GRU-Memory-Content}
+\end{equation}
+The last step within the network unit is to calculate $h_t$, which holds information for the current unit and passes it down to the network. The update gate is needed within this step to determine what to collect from the current memory content $\tilde{h_t}$, as well as to decide what to collect from the previous steps $h_{t-1}$. The equation to calculate $h_t$ is shown in \ref{eq:GRU-Output}.
+\myequations{Gated recurrent unit output}
+\begin{equation}
+    \centering
+    h_t = z_t \odot h_{t-1} + (1-z_t) \odot \tilde{h}_t
+    \label{eq:GRU-Output}
+\end{equation}
+\gls{GRU} can store and filter the information using their update and reset gates. These gates eliminate the vanishing gradient problem since the model is not washing out the new input every single time, but keeps the relevant information and passes it down to the next time steps of the network. \gls{GRU} can perform exceptionally well, even in very complex environments.
+
 \subsection{Tensorflow}
 \label{sub:Tensorflow}
 
@@ -686,76 +798,8 @@ The paper \cite{dekkers_sins_2017} introduces the \gls{SINS} database, which con
 \end{figure}
 \footnotetext{\href{https://www.semanticscholar.org/paper/THE-SINS-DATABASE-FOR-DETECTION-OF-DAILY-ACTIVITIES-Dekkers-Lauwereins/de84995b6b0042c9f6f1ccbd1f13d75b14c24e80/figure/1}{\nolinkurl{semanticscholar.org/paper/THE-SINS-DATABASE-FOR-DETECTION-OF-DAILY-ACTIVITIES-Dekkers-Lauwereins}}}
 \noindent
-One person lived in the environment for a continuous duration of one week. In order to have an as realistic as possible data recording, there was no predefined set of scenarios. Due to that, the recorded activities also included being absent from the home. Although there were no restrictions on the actions, the number of activities that were labelled was limited, as indicated in table \ref{tab:sins-database-recorded-activities}. In total there are 16 different recorded activities in five different rooms. Table \ref{tab:sins-database-recorded-activities} lists the different activities along with the number of examples and the mean and standard deviation and the duration of all examples for each room.
+One person lived in the environment for a continuous duration of one week. In order to have an as realistic as possible data recording, there was no predefined set of scenarios. Due to that, the recorded activities also included being absent from the home. Although there were no restrictions on the actions, the number of activities that were labelled was limited, as indicated in table \ref{tab:sins-database-recorded-activities} of the appendix \ref{app:SINS-Databse-Table}. In total there are 16 different recorded activities in five different rooms. Table \ref{tab:sins-database-recorded-activities}, which can be found in the appendix \ref{app:SINS-Databse-Table}, lists the different activities along with the number of examples and the mean and standard deviation and the duration of all examples for each room.
 
-\begin{table}[htbp]
-    \centering
-    \caption[SINS database recorded activities for each room]{SINS database recorded activities for each room \footnotemark}
-	\label{tab:sins-database-recorded-activities}
-    \begin{tabular}{l|l|c|c}
-        \toprule
-        \textbf{Room} & \textbf{Activity} & \textbf{Nr. ex.} & \textbf{duration (min.)} \\ 
-        \midrule[1pt]
-        \multirow{10}{*}{Living room} & Phone call & 22 & 8.17 $\pm$ 13.73 \\
-        \cline{2-4}
-        & Cooking & 19 & 16.62 $\pm$ 9.49 \\
-        \cline{2-4}
-        & Dish washing & 15 & 6.37 $\pm$ 1.49 \\
-        \cline{2-4}
-        & Eating & 19 & 7.78 $\pm$ 4.27 \\
-        \cline{2-4}
-        & Visit & 9 & 13.3 $\pm$ 12.11 \\
-        \cline{2-4}
-        & Watching TV & 13 & 155.38 $\pm$ 93.28 \\
-        \cline{2-4}
-        & Working & 15 & 31.24 $\pm$ 39.33 \\
-        \cline{2-4}
-        & Vacuum cleaning & 15 & 4.79 $\pm$ 2.14 \\
-        \cline{2-4}
-        & Other & 15 & 0.75 $\pm$ 0.95 \\
-        \cline{2-4}
-        & Absence & 15 & 66.37 $\pm$ 130.30 \\
-        \midrule[1pt]
-        \multirow{7}{*}{Bathroom} & Drying with towel & 10 & 1.67 $\pm$ 0.28 \\
-        \cline{2-4}
-        & Shaving & 13 & 1.91 $\pm$ 1.46 \\
-        \cline{2-4}
-        & Showering & 10 & 6.11 $\pm$ 2.38 \\
-        \cline{2-4}
-        & Tooth brushing & 19 & 1.41 $\pm$ 0.25 \\
-        \cline{2-4}
-        & Vacuum cleaning & 9 & 0.87 $\pm$ 0.59 \\
-        \cline{2-4}
-        & Other & 75 & 0.42 $\pm$ 0.4 \\
-        \cline{2-4}
-        & Absence & 35 & 248.56 $\pm$ 263.62 \\
-        \midrule[1pt]
-        \multirow{3}{*}{Hall} & Vacuum cleaning & 9 & 3.31 $\pm$ 1.11 \\
-        \cline{2-4}
-        & Other & 164 & 0.36 $\pm$ 0.22 \\
-        \cline{2-4}
-        & Absence & 175 & 50.17 $\pm$ 102.52 \\
-        \midrule[1pt]
-        \multirow{3}{*}{Toilet} & Toilet visit & 21 & 4.74 $\pm$ 3.24 \\
-        \cline{2-4}
-        & Vacuum cleaning & 7 & 0.53 $\pm$ 0.07 \\
-        \cline{2-4}
-        & Absence & 31 & 282.75 $\pm$ 263.19 \\
-        \midrule[1pt]
-        \multirow{5}{*}{Bedroom} & Dressing & 28 & 1.53 $\pm$ 1.10 \\
-        \cline{2-4}
-        & Sleeping & 7 & 348.43 $\pm$ 130.73 \\
-        \cline{2-4}
-        & Vacuum cleaning & 7 & 1.04 $\pm$ 0.27 \\
-        \cline{2-4}
-        & Other & 22 & 0.27 $\pm$ 0.23 \\
-        \cline{2-4}
-        & Absence & 22 & 122.28 $\pm$ 157.43 \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-\footnotetext{\fullcite{dekkers_sins_2017}}
-\noindent
 \subsection[DCASE 2018 Challenge - Task 5]{DCASE 2018 Challenge - Task 5: Monitoring of domestic activities based on multi-channel acoustics \footfullcite{dekkers_dcase_2018}}
 \label{sub:DCASE-Task-Dataset}
 This resource contains all the necessary information about the challenge from the IEEE AASP Challenge on \gls{DCASE} 2018. The challenge finished in 2018, and the results, as well as the full dataset, were published. The main goal of the challenge was to classify multi-channel audio segments into predefined classes and determine how beneficial multi-channel recordings are for classification. 
