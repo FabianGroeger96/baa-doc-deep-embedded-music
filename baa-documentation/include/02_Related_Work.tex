@@ -307,7 +307,6 @@ This section provides an introduction to an essential concept in this thesis, ne
 \subsection{Neural Network}
 \label{sub:Neural-Network}
 
-Warren McCulloch and Walter Pitts introduced the first \gls{NN} in 1943 within the paper (\cite{mcculloch_logical_1943}), where they proposed a computational model for a \gls{NN} based on algorithms called threshold logic. To develop the \gls{NN}, they used observations about the neurophysiology of the brain. In simplified terms, the brain can be described similar to a net of neurons where each neuron has a soma and an axon. The soma denotes the corpus of the neuron and the axon a nerve’s extension for the connection with others. Synapses exist between the axon of one neuron and the soma of another. The neuron sends an impulse if its excitation exceeds a certain threshold. Later in 1958 Frank Rosenblatt extended this idea of a \gls{NN} to the Perceptron formulation (\cite{rosenblatt_perceptron:_1958}). It is one of many neuron representations which have been used within neural networks so far.
 
 \begin{figure}[htbp]
     \centering
@@ -353,14 +352,47 @@ Warren McCulloch and Walter Pitts introduced the first \gls{NN} in 1943 within t
     \label{fig:Perceptron-Visualisation}
 \end{figure}
 \noindent
-A perceptron is the simplest neural network that consists of $n$ number of inputs and only one output. It further consists of inputs, weights, a bias, an activation function and an output. The building blocks and the procedure of calculating an output are visualised in figure \ref{fig:Perceptron-Visualisation}. The inputs which are denoted as $x_1, \dots, x_n$, are the values passed into the perceptron. The weights $\theta_{1}, \dots, \theta_{n}$ are values which are multiplied with the respective input. The bias is a special weight which shifts the activation function to the left or right. The activation function $f(z)$ is used to introduce non-linearity into the output, without the \gls{NN} would be a linear function. The output $\hat{y}$ is simply the result of the activation function, and it can be computed using equation \ref{eq:Perceptron-Calculate-Output}. In the case of a perceptron, it is the prediction of the \gls{NN}.
+Warren McCulloch and Walter Pitts introduced the first \gls{NN} in 1943 within the paper (\cite{mcculloch_logical_1943}), where they proposed a computational model for a \gls{NN} based on algorithms called threshold logic. To develop the \gls{NN}, they used observations about the neurophysiology of the brain. In simplified terms, the brain can be described similar to a net of neurons where each neuron has a soma and an axon. The soma denotes the corpus of the neuron and the axon a nerve’s extension for the connection with others. Synapses exist between the axon of one neuron and the soma of another. The neuron sends an impulse if its excitation exceeds a certain threshold. Later in 1958 Frank Rosenblatt extended this idea of a \gls{NN} to the Perceptron formulation (\cite{rosenblatt_perceptron:_1958}). It is one of many neuron representations which have been used within neural networks so far.
+\newline
+\newline
+A perceptron is the simplest neural network which consists of $n$ number of inputs and only one output. It further consists of multiple inputs, weights, a bias, an activation function and an output. The building blocks and the procedure of calculating an output are visualised in figure \ref{fig:Perceptron-Visualisation}.
+
+\begin{figure}[htbp]
+    \centering
+    \subfloat[Sigmoid]{
+            \begin{tikzpicture}
+            \begin{axis}[width=5cm,height=4cm,ylabel=$\sigma(z)$,xlabel=$z$,ymin=0,ymax=1.25,xmin=-5,xmax=5]
+                \addplot[blue,smooth] {1/(1+exp(-x))};
+            \end{axis}
+        \end{tikzpicture}
+    }
+    \subfloat[Tanh]{
+        \begin{tikzpicture}
+            \begin{axis}[width=5cm,height=4cm,ylabel=$\tanh(z)$,xlabel=$z$,ymin=-1.25,ymax=1.25,xmin=-5,xmax=5]
+                \addplot[blue,smooth] {tanh(x)};
+            \end{axis}
+        \end{tikzpicture}
+    }
+    \subfloat[ReLU]{
+            \begin{tikzpicture}
+            \begin{axis}[width=5cm,height=4cm,ylabel=$s(z)$,xlabel=$z$,ymin=-1,ymax=1.25,xmin=-5,xmax=5]
+                \addplot[samples=500, blue] {max(0, x)};
+                %\addlegendentry{ReLU}
+            \end{axis}
+        \end{tikzpicture}
+    }
+    \caption{Graphical representation of non-linear activation functions}
+    \label{fig:Activation-Functions}
+\end{figure}
+\noindent
+The inputs which are denoted as $x_1, \dots, x_n$, are the values passed into the perceptron. The weights $\theta_{1}, \dots, \theta_{n}$ are values which are multiplied with the respective input, the bias is a special weight which shifts the activation function to the left or right. And the activation function $f(z)$ is used to introduce non-linearity into the output. Without the \gls{NN} would represent a linear function. With the non-linearity of the activation function, the \gls{NN} can approximate very complicated and high dimensional data distributions. Such non-linear activation functions are illustrated in figure \ref{fig:Activation-Functions}. The output $\hat{y}$ is simply the result of the activation function, and it can be computed using equation \ref{eq:Perceptron-Calculate-Output}. In the case of a perceptron, it is the prediction of the \gls{NN}. The process of calculating the output of a \gls{NN} is called forward propagation.
 \myequations{Calculates the output of single layer neural network}
 \begin{equation}
     \centering
     \hat{y} = f(z) = f\Big(b_1 + \sum_{i=1}^n x_i \theta_i \Big)
     \label{eq:Perceptron-Calculate-Output}
 \end{equation}
-The process of calculating the output of a \gls{NN} is called forward propagation. In deeper networks, the output of one layer is then used again as the input of the next layer $f^L(f^{L-1}(\cdots f^1(z)))$, where $L$ denotes the number of layers in the \gls{NN}. A layer can be thought of as multiple perceptrons. Thus this is often called a \gls{MLP}, which is illustrated in figure \ref{fig:MLP-Visualisation}. The \gls{MLP} shown in figure \ref{fig:MLP-Visualisation} has four layers ($L = 4$), from which the first one is always the input layer, and the last one is the output layer. The layers between the input and output layer are called hidden layers.
+In deeper networks, the output of one layer is then used again as the input of the next layer $f^L(f^{L-1}(\cdots f^1(z)))$, where $L$ denotes the number of layers in the \gls{NN}. A layer can be thought of as multiple perceptrons. Thus this is often called a \gls{MLP}, which is illustrated in figure \ref{fig:MLP-Visualisation}. $z_1^1$ is one example of a single perceptron within the network. The \gls{MLP} shown in figure \ref{fig:MLP-Visualisation} has four layers ($L = 4$), from which the first one is always the input layer, and the last one is the output layer. The layers between the input and output layer are called hidden layers. These layers are also called fully connected layers, because there is a corresponding weight to each input of the next layer.
 
 \begin{figure}[htbp]
     \centering
@@ -412,11 +444,11 @@ The process of calculating the output of a \gls{NN} is called forward propagatio
 In order that the \gls{NN} produces more reliable results, it has to learn the optimal parameters for a given problem. This procedure consists of two parts, backpropagation and optimisation. Backpropagation refers to the algorithm for computing the gradient of the loss function with respect to the parameters, to see how good the current predictions are. However, the term is often used to refer to the entire learning algorithm. Furthermore, optimisation is the process of selecting the best element from some set of available alternatives, which in the case of a \gls{NN} is the selection of the best parameters.
 \newline
 \newline
-The first step in backpropagation is to know an estimation of how far away the current predictions are from the desired solution, which can be computed using a loss function. Typical loss functions are \gls{MSE}, Binary Crossentropy, Categorical Crossentropy or Sparse Categorical Crossentropy. The process of selecting the right loss function highly depends on the problem to solve. The equation \ref{eq:MSE} defines the \gls{MSE} cost (loss) function for the entire dataset with size $n$.
+The first step in backpropagation is to know an estimation of how far away the current predictions are from the desired solution, which can be computed using a loss function. Typical loss functions are \gls{MSE}, Binary Crossentropy, Categorical Crossentropy or Sparse Categorical Crossentropy. The process of selecting the right loss function highly depends on the problem to solve. The equation \ref{eq:MSE} defines the \gls{MSE} cost (loss) function $\mathcal{L}$ for the entire dataset with size $n$.
 \myequations{Mean Squared Error loss function for entire dataset}
 \begin{equation}
     \centering
-    C = MSE = \frac{1}{n} \sum_{i=1}^n(y_i - \hat{y}_i)^2
+    \mathcal{L} = MSE = \frac{1}{n} \sum_{i=1}^n(y_i - \hat{y}_i)^2
     \label{eq:MSE}
 \end{equation}
 where:
@@ -425,24 +457,24 @@ where:
     \hat{y}_i & predicted value, output of the \gls{NN}
 \end{conditions*}
 \noindent
-The next step in backpropagation is to know how the loss function changes in relation to its parameters. This is done by computing the gradients, how one quantity changes in relation to another quantity, of the cost function with respect to the weights and bias. In equation \ref{eq:Backpropagation-Gradient} the gradient of the cost function $C$ with respect to the weights $\theta_i$ is computed using partial derivation. The same function can be applied for computing the cost function $C$ with respect to the bias. Since the cost function is not directly related to the weights, the chain rule is used.
+The next step in backpropagation is to know how the loss function changes in relation to its parameters. This is done by computing the gradients, how one quantity changes in relation to another quantity, of the cost function with respect to the weights and bias. In equation \ref{eq:Backpropagation-Gradient} the gradient of the cost function $\mathcal{L}$ with respect to the weights $\theta_i$ is computed using partial derivation. The same function can be applied for computing the cost function $\mathcal{L}$ with respect to the bias. Since the cost function is not directly related to the weights, the chain rule is used.
 \myequations{Gradient of cost function with respect to the weights}
 \begin{equation}
     \centering
-    \frac{\partial C}{\partial\theta_i} = \frac{\partial C}{\partial\hat{y}}\times\frac{\partial\hat{y}}{\partial z}\times\frac{\partial z}{\partial\theta_i}
+    \frac{\partial \mathcal{L}}{\partial\theta_i} = \frac{\partial \mathcal{L}}{\partial\hat{y}}\times\frac{\partial\hat{y}}{\partial z}\times\frac{\partial z}{\partial\theta_i}
     \label{eq:Backpropagation-Gradient}
 \end{equation}
 The last step in the learning process of a \gls{NN} is the optimisation. Gradient descent is one of many optimisation algorithms, and it changes the weights and bias, proportional to the negative of the gradient of the cost function with respect to the corresponding weight or bias. Learning rate $\alpha$ is a hyperparameter, which is used to control how much the weights and bias change. The weights and bias are updated with equations \ref{eq:Optimisation-Gradient-Descent-Weights} and \ref{eq:Optimisation-Gradient-Descent-Bias}.
 \myequations{Optimisation of weights using gradient descent}
 \begin{equation}
     \centering
-    \theta_i = \theta_i - \Big(\alpha \times \frac{\partial C}{\partial\theta_i}\Big)
+    \theta_i = \theta_i - \Big(\alpha \times \frac{\partial \mathcal{L}}{\partial\theta_i}\Big)
     \label{eq:Optimisation-Gradient-Descent-Weights}
 \end{equation}
 \myequations{Optimisation of bias using gradient descent}
 \begin{equation}
     \centering
-    b_i = b_i - \Big(\alpha \times \frac{\partial C}{\partial b_i}\Big)
+    b_i = b_i - \Big(\alpha \times \frac{\partial \mathcal{L}}{\partial b_i}\Big)
     \label{eq:Optimisation-Gradient-Descent-Bias}
 \end{equation}
 The whole learning process consisting of backpropagation and optimisation is repeated until the \gls{NN} convergences in a local or global minimum.
@@ -622,8 +654,155 @@ TensorFlow is an end-to-end open-source platform for machine learning. It has a 
 \section{Introduction to Clustering}
 \label{sec:Intro-Clustering}
 
+Clustering is considered to be one of the most important techniques of unsupervised learning and can be used in various applications, such as spam filtering, identifying fake news and segmentation of costumers. 
+\newline
+\newline
+Clustering is the process of dividing the entire dataset into groups, also known as clusters, based on the patterns in the data. It also finds hidden relationships between data points and gives valuable insights into the dataset. A cluster is the collection of data objects which are similar to one another within the same group and are different from the objects in other clusters.
+
 \subsection{K-Means}
 \label{sub:K-Means}
+
+K-Means clustering is one of the most straightforward yet powerful unsupervised machine learning algorithms. The objective of the clustering algorithm is to group similar data points and discover underlying patterns. To achieve this objective, K-means looks for a fixed number of clusters $k$ in a dataset. The number of clusters $k$ is also referred to as the number of centroids in the dataset. A centroid is the imaginary or real location representing the centre of a cluster. Thus K-means is a centroid-based algorithm, where the distances are calculated to assign a point to a particular cluster.
+\newline
+\newline
+The first step in K-means clustering is to choose the number of clusters $k$. Then $k$ random points from the dataset are chosen to be the first centroids. Afterwards, all the points in the dataset are assigned to the closest cluster centroid. The next step is to compute the centroids of the newly formed clusters. And then the process starts again and assigns all of the points to the nearest centroid. This process is repeated until some stop criteria match. There are three stop criteria, the newly formed clusters do not change, the points within each cluster remains the same, and the maximum number of iterations is reached.
+
+\section{Introduction to used datasets}
+\label{sec:Introduction-Used-Datasets}
+This section introduces the dataset used in the project, and as well explains the underlying data structure. The section \ref{sub:SINS-Database} introduces the \gls{SINS} database. And the subsequent section \ref{sub:DCASE-Task-Dataset} introduces a reduced derivation of the \gls{SINS} database, which is the primary dataset used in the project.
+
+\subsection{SINS Database}
+\label{sub:SINS-Database}
+The \gls{SINS} database is a publicly available dataset developed to improve models used for \gls{AAL}. In \gls{AAL} persons are monitored, e.g. to support patients with a chronic illness and older persons, by tracking their activities being performed at home.
+\newline
+\newline
+The paper \cite{dekkers_sins_2017} introduces the \gls{SINS} database, which contains recordings of one living home, over a period of one week. The home consisted of five different rooms: a combined living room and kitchen, bathroom, toilet, bedroom and hall. In each one of these rooms, one or more sensor nodes, each containing four linearly arranged microphones, were uniformly distributed as indicated by figure \ref{fig:sins-database-floor-map}.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.5]{baa-documentation/img/SINS_database_floor_map.png}
+	\caption[SINS database recording environment map]{SINS database recording environment map \footnotemark}
+	\label{fig:sins-database-floor-map}
+\end{figure}
+\footnotetext{\href{https://www.semanticscholar.org/paper/THE-SINS-DATABASE-FOR-DETECTION-OF-DAILY-ACTIVITIES-Dekkers-Lauwereins/de84995b6b0042c9f6f1ccbd1f13d75b14c24e80/figure/1}{\nolinkurl{semanticscholar.org/paper/THE-SINS-DATABASE-FOR-DETECTION-OF-DAILY-ACTIVITIES-Dekkers-Lauwereins}}}
+\noindent
+One person lived in the environment for a continuous duration of one week. In order to have an as realistic as possible data recording, there was no predefined set of scenarios. Due to that, the recorded activities also included being absent from the home. Although there were no restrictions on the actions, the number of activities that were labelled was limited, as indicated in table \ref{tab:sins-database-recorded-activities}. In total there are 16 different recorded activities in five different rooms. Table \ref{tab:sins-database-recorded-activities} lists the different activities along with the number of examples and the mean and standard deviation and the duration of all examples for each room.
+
+\begin{table}[htbp]
+    \centering
+    \caption[SINS database recorded activities for each room]{SINS database recorded activities for each room \footnotemark}
+	\label{tab:sins-database-recorded-activities}
+    \begin{tabular}{l|l|c|c}
+        \toprule
+        \textbf{Room} & \textbf{Activity} & \textbf{Nr. ex.} & \textbf{duration (min.)} \\ 
+        \midrule[1pt]
+        \multirow{10}{*}{Living room} & Phone call & 22 & 8.17 $\pm$ 13.73 \\
+        \cline{2-4}
+        & Cooking & 19 & 16.62 $\pm$ 9.49 \\
+        \cline{2-4}
+        & Dish washing & 15 & 6.37 $\pm$ 1.49 \\
+        \cline{2-4}
+        & Eating & 19 & 7.78 $\pm$ 4.27 \\
+        \cline{2-4}
+        & Visit & 9 & 13.3 $\pm$ 12.11 \\
+        \cline{2-4}
+        & Watching TV & 13 & 155.38 $\pm$ 93.28 \\
+        \cline{2-4}
+        & Working & 15 & 31.24 $\pm$ 39.33 \\
+        \cline{2-4}
+        & Vacuum cleaning & 15 & 4.79 $\pm$ 2.14 \\
+        \cline{2-4}
+        & Other & 15 & 0.75 $\pm$ 0.95 \\
+        \cline{2-4}
+        & Absence & 15 & 66.37 $\pm$ 130.30 \\
+        \midrule[1pt]
+        \multirow{7}{*}{Bathroom} & Drying with towel & 10 & 1.67 $\pm$ 0.28 \\
+        \cline{2-4}
+        & Shaving & 13 & 1.91 $\pm$ 1.46 \\
+        \cline{2-4}
+        & Showering & 10 & 6.11 $\pm$ 2.38 \\
+        \cline{2-4}
+        & Tooth brushing & 19 & 1.41 $\pm$ 0.25 \\
+        \cline{2-4}
+        & Vacuum cleaning & 9 & 0.87 $\pm$ 0.59 \\
+        \cline{2-4}
+        & Other & 75 & 0.42 $\pm$ 0.4 \\
+        \cline{2-4}
+        & Absence & 35 & 248.56 $\pm$ 263.62 \\
+        \midrule[1pt]
+        \multirow{3}{*}{Hall} & Vacuum cleaning & 9 & 3.31 $\pm$ 1.11 \\
+        \cline{2-4}
+        & Other & 164 & 0.36 $\pm$ 0.22 \\
+        \cline{2-4}
+        & Absence & 175 & 50.17 $\pm$ 102.52 \\
+        \midrule[1pt]
+        \multirow{3}{*}{Toilet} & Toilet visit & 21 & 4.74 $\pm$ 3.24 \\
+        \cline{2-4}
+        & Vacuum cleaning & 7 & 0.53 $\pm$ 0.07 \\
+        \cline{2-4}
+        & Absence & 31 & 282.75 $\pm$ 263.19 \\
+        \midrule[1pt]
+        \multirow{5}{*}{Bedroom} & Dressing & 28 & 1.53 $\pm$ 1.10 \\
+        \cline{2-4}
+        & Sleeping & 7 & 348.43 $\pm$ 130.73 \\
+        \cline{2-4}
+        & Vacuum cleaning & 7 & 1.04 $\pm$ 0.27 \\
+        \cline{2-4}
+        & Other & 22 & 0.27 $\pm$ 0.23 \\
+        \cline{2-4}
+        & Absence & 22 & 122.28 $\pm$ 157.43 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\footnotetext{\fullcite{dekkers_sins_2017}}
+\noindent
+\subsection[DCASE 2018 Challenge - Task 5]{DCASE 2018 Challenge - Task 5: Monitoring of domestic activities based on multi-channel acoustics \footfullcite{dekkers_dcase_2018}}
+\label{sub:DCASE-Task-Dataset}
+This resource contains all the necessary information about the challenge from the IEEE AASP Challenge on \gls{DCASE} 2018. The challenge finished in 2018, and the results, as well as the full dataset, were published. The main goal of the challenge was to classify multi-channel audio segments into predefined classes and determine how beneficial multi-channel recordings are for classification. 
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.8]{baa-documentation/img/DCASE_floor_map.png}
+	\caption[2D floor plan of the combined kitchen and living room with the used sensor nodes]{2D floor plan of the combined kitchen and living room with the used sensor nodes \footnotemark}
+	\label{fig:dcase-recordings-floor-plan}
+\end{figure}
+\footnotetext{\href{http://dcase.community/challenge2018/task-monitoring-domestic-activities}{\nolinkurl{dcase.community/challenge2018/task-monitoring-domestic-activities}}}
+\noindent
+The dataset used in the challenge is an abbreviation of the \nameref{sub:SINS-Database}; where only seven of the thirteen microphone nodes were considered. These nodes are from the room combination of the living room and the kitchen, as illustrated in figure \ref{fig:dcase-recordings-floor-plan}. Every recording of an activity is split into ten-second recordings, which are called segments. Every segment has four channels which correspond to the four different microphone channels of each node. Within the dataset, there are no overlapping sounds, from actions performed simultaneously. That means that every segment has an activity label assigned to it. There are a total of nine different activity labels, which all refer to a daily activity performed at home. Table \ref{tab:DCASE-activiies-performed} shows the activities performed in the dataset as well as the amount of 10 second segments and sessions of the activity.
+
+\begin{table}[htbp]
+    \centering
+    \caption[Activities performed in the dataset proposed by DCASE]{Activities performed in the dataset proposed by DCASE \footnotemark}
+	\label{tab:DCASE-activiies-performed}
+    \begin{tabular}{l|l|l}
+        \toprule
+        \textbf{Activity performed} & \textbf{\# 10s segments} & \textbf{\# sessions} \\ 
+        \midrule[1pt]
+        Absence (nobody present in the room) & 18860 & 42 \\
+        \hline
+        Cooking & 5124 & 13 \\ 
+        \hline
+        Dish washing & 1424 & 10 \\ 
+        \hline
+        Eating & 2308 & 13 \\ 
+        \hline
+        Other (present, but not doing any relevant activity) & 2060 & 118 \\ 
+        \hline
+        Social activity (visit, phone call, ...) & 4944 & 21 \\ 
+        \hline
+        Vacuum cleaning & 972 & 9 \\ 
+        \hline
+        Watching TV & 18648 & 9 \\ 
+        \hline
+        Working (typing, mouse clicking, ...) & 18644 & 33 \\ 
+        \midrule[1pt]
+        \textbf{Total} & \textbf{72984} & \textbf{268} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\footnotetext{\href{http://dcase.community/challenge2018/task-monitoring-domestic-activities}{\nolinkurl{dcase.community/challenge2018/task-monitoring-domestic-activities}}}
+\noindent
+In the challenge, the data was split into a development and an evaluation set. The development set is used for training the model and was made available for everyone participating in the challenge. It contains four of the seven microphone nodes which are 200h of audio data. This dataset also contains the corresponding label to each audio segment. The evaluation set is used for evaluating the final models to see their performance on never seen before data from the other three nodes. A session of an activity is a full recording of an action. Within both of these datasets, each session was kept together.
 
 \section{State of the art}
 \label{sec:State-of-art}
