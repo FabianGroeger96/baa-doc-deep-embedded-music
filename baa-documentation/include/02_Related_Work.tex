@@ -352,7 +352,7 @@ This section provides an introduction to an essential concept in this thesis, ne
     \label{fig:Perceptron-Visualisation}
 \end{figure}
 \noindent
-Warren McCulloch and Walter Pitts introduced the first \gls{NN} in 1943 within the paper (\cite{mcculloch_logical_1943}), where they proposed a computational model for a \gls{NN} based on algorithms called threshold logic. To develop the \gls{NN}, they used observations about the neurophysiology of the brain. In simplified terms, the brain can be described similar to a net of neurons where each neuron has a soma and an axon. The soma denotes the corpus of the neuron and the axon a nerve’s extension for the connection with others. Synapses exist between the axon of one neuron and the soma of another. The neuron sends an impulse if its excitation exceeds a certain threshold. Later in 1958 Frank Rosenblatt extended this idea of a \gls{NN} to the Perceptron formulation (\cite{rosenblatt_perceptron:_1958}). It is one of many neuron representations which have been used within neural networks so far.
+Warren McCulloch and Walter Pitts introduced the first \gls{NN} in 1943 within the paper (\cite{mcculloch_logical_1943}), where they proposed a computational model for a \gls{NN} based on algorithms called threshold logic. To develop the \gls{NN}, they used observations about the neurophysiology of the brain. In simplified terms, the brain can be described similar to a net of neurons where each neuron has a soma and an axon. The soma denotes the corpus of the neuron and the axon a nerve’s extension for the connection with others. Synapses exist between the axon of one neuron and the soma of another. The neuron sends an impulse if its excitation exceeds a certain threshold. Later in 1958 Frank Rosenblatt extended this idea of a \gls{NN} to the Perceptron formulation (\cite{rosenblatt_perceptron_1958}). It is one of many neuron representations which have been used within neural networks so far.
 \newline
 \newline
 A perceptron is the simplest neural network which consists of $n$ number of inputs and only one output. It further consists of multiple inputs, weights, a bias, an activation function and an output. The building blocks and the procedure of calculating an output are visualised in figure \ref{fig:Perceptron-Visualisation}.
@@ -855,7 +855,7 @@ Within this section of the thesis, two state-of-the-art concepts are introduced,
 \subsection{Triplet Loss}
 \label{sub:Triplet-Loss}
 
-Triplet loss was first introduced in the field of face recognition by the paper (\cite{schroff_facenet:_2015}) from Google. They describe a new approach to train face embeddings using online triplet mining.
+Triplet loss was first introduced in the field of face recognition by the paper (\cite{schroff_facenet_2015}) from Google. They describe a new approach to train face embeddings using online triplet mining.
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=0.35]{baa-documentation/img/Triplet_Loss_Architecture.png}
@@ -910,7 +910,7 @@ Generating all possible triplets of a dataset would result in many triplets whic
 \subsection{Tile2Vec}
 \label{sub:Tile2Vec}
 
-Tile2Vec was first introduced by the paper (\cite{jean_tile2vec:_2018}) from Stanford University. It is an unsupervised representation learning algorithm that extends the distributional hypothesis from natural language to spatially distributed data. This hypothesis implies that words appearing in similar contexts tend to have similar meanings. Tile2Vec is used to learn compressed yet informative representations from unlabeled remote sensing data.
+Tile2Vec was first introduced by the paper (\cite{jean_tile2vec_2018}) from Stanford University. It is an unsupervised representation learning algorithm that extends the distributional hypothesis from natural language to spatially distributed data. This hypothesis implies that words appearing in similar contexts tend to have similar meanings. Tile2Vec is used to learn compressed yet informative representations from unlabeled remote sensing data.
 \newline
 \newline
 In the cited paper, the main focus is on remote sensing, which is the measurement of the Earth's surface through aircraft- or satellite-based sensors. In remote sensing, the biggest problem is the scarcity of labelled data. Thus the use of unsupervised machine learning is necessary. Hereafter the data, which is used to train the algorithm, consists of geospatial tiles.
@@ -936,3 +936,20 @@ The sampling procedure for the triplet $(x_a, x_p, x_n)$ is described by two par
 
 \section{Status in relation to project}
 \label{sec:Status-Relation-Project}
+
+This section of the chapter shows the current state of the art deep learning techniques for audio signal processing, which are relevant for this project. Many of these techniques were first introduced for the field of image processing and then adapted for audio processing. However, there is a vast difference between image and audio data, for example, raw audio data samples from a one-dimensional time-series signal, whereas image data is two-dimensional. 
+\newline
+\newline
+This thesis considers its main task to be a \textit{sequence classification}, where a single global class label needs to be predicted for an audio sequence. However, there is no defined terminology for deep learning with audio. Thus there are many variant terms in use.
+\newline
+\newline
+The current state of the art of feature extracting for audio data is to extract the \fullref{sub:Mel-Spectrogram}. These extracted \gls{MFCC} are then used to train and evaluate the model. \gls{MFCC} are mainly used because the human auditory system inspired them.
+\newline
+\newline
+Because the features in deep learning for audio are mostly \gls{MFCC}, which are images, \fullref{sub:Convolutional-Neural-Network} are mainly used as a model. These networks are then trained with a deep architecture to capture the whole receptive field of the audio signal. The receptive field can be increased using larger kernels or stacking more layer. 
+\newline
+\newline
+Another way to increase the receptive field of a \gls{CNN} is to stack dilated convolution layers, which apply the convolution filter over an area larger than its filter length. These convolutions obtain a vast receptive field with just a few layers while preserving the input resolution as well as computational efficiency (\cite{franceschi_unsupervised_2020}).
+\newline
+\newline
+Most of the models submitted in the \fullref{sub:DCASE-Task-Dataset} used \gls{MFCC} as acoustic features and were \gls{CNN}. The winner of the challenge was the IBM research team, which show their model in the paper (\cite{inoue_domestic_2018}). They use all the input data provided in the dataset and sample it at a rate of 16kHz. From the dataset, the log-mel energies (\ref{sub:Mel-Spectrogram}) are extracted and used for training a \gls{CNN}. They propose data augmentation techniques using shuffling and mixing two sounds in the same class to mitigate the unbalanced training dataset.
