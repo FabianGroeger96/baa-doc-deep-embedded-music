@@ -1,19 +1,17 @@
 
-@article{stowell_detection_2015,
-	title = {Detection and {Classification} of {Acoustic} {Scenes} and {Events}},
-	volume = {17},
-	issn = {1520-9210, 1941-0077},
-	url = {http://ieeexplore.ieee.org/document/7100934/},
-	doi = {10.1109/TMM.2015.2428998},
-	abstract = {This technical report describes our proposed design and implementation of the system used for the DCASE 2018 Challenge submission. The work focuses on Task 5 of the challenge, which is about monitoring and classifying domestic activities based on multi-channel acoustics. We propose data augmentation techniques using shufﬂing and mixing two sounds in a same class to mitigate the unbalanced training dataset. This data augmentation can generate new variations on both the sequence and the density of sound events. The experimental results show that the proposed system achieves an average of 89.95\% of macro-averaged F1 score over 4 folds on the development dataset. This is a signiﬁcant improvement from the baseline result of 84.50\%. In the ﬁnal evaluation for the submission, four proposed classiﬁers are trained with four folds of training and validation data in the development dataset. Then we ensemble these four models by averaging their predictions.},
-	language = {en},
-	number = {10},
-	urldate = {2020-03-12},
-	journal = {IEEE Transactions on Multimedia},
-	author = {Stowell, Dan and Giannoulis, Dimitrios and Benetos, Emmanouil and Lagrange, Mathieu and Plumbley, Mark D.},
-	month = oct,
-	year = {2015},
-	pages = {1733--1746}
+@inproceedings{liu_ensemble_2018,
+	title = {{AN} {ENSEMBLE} {SYSTEM} {FOR} {DOMESTIC} {ACTIVITY} {RECOGNITION} {Technical} {Report}},
+	abstract = {As one of the most important sensing modalities, the acoustics is becoming more and more popular in achieving our smart environment nowadays. In this challenge, we try to tackle the task of monitoring domestic activities based on multi-channel accoustics. Several acoustic features including the Mel-Spectrograms, MFCC and VGGish features are extracted from the raw audio and fused to train different deep neural networks. An ensemble system is then established with the trained models. The experimental results on the development dataset demonstrate that the proposed system has shown superior performance in recognizing domestic activities.},
+	author = {Liu, Huaping and Wang, Feng and Liu, Xinzhu and Guo, Di and Sun, Fuchun},
+	year = {2018}
+}
+
+@book{inoue_domestic_2018,
+	title = {Domestic {Activities} {Classification} {Based} on {CNN} {Using} {Shuffling} and {Mixing} {Data} {Augmentation}},
+	abstract = {This technical report describes our proposed design and implementation of the system used for the DCASE 2018 Challenge submission. The work focuses on Task 5 of the challenge, which is about monitoring and classifying domestic activities based on multi-channel acoustics. We propose data augmentation techniques using shuffling and mixing two sounds in a same class to mitigate the unbalanced training dataset. This data augmentation can generate new variations on both the sequence and the density of sound events. The experimental results show that the proposed system achieves an average of 89.95\% of macro-averaged F1 score over 4 folds on the development dataset. This is a significant improvement from the baseline result of 84.50\%. In the final evaluation for the submission, four proposed classifiers are trained with four folds of training and validation data in the development dataset. Then we ensemble these four models by averaging their predictions.},
+	author = {Inoue, Tadanobu and Vinayavekhin, Phongtharin and Wang, Shiqiang and Wood, David and Greco, Nancy and Tachibana, Ryuki},
+	month = sep,
+	year = {2018}
 }
 
 @article{purwins_deep_2019,
@@ -74,12 +72,6 @@
 	month = dec,
 	year = {1943},
 	pages = {115--133}
-}
-
-@misc{noauthor_tile2vec_nodate,
-	title = {{Tile2Vec}: {Unsupervised} representation learning for spatially distributed data},
-	url = {https://ermongroup.github.io/blog/tile2vec/},
-	urldate = {2020-03-02}
 }
 
 @article{zeng_deep_2019,
@@ -223,15 +215,6 @@
 	publisher = {MIT Press},
 	author = {Goodfellow, Ian and Bengio, Yoshua and Courville, Aaron},
 	year = {2016}
-}
-
-@techreport{inoue_domestic_2018,
-	title = {Domestic {Activities} {Classification} {Based} on {CNN} {Using} {Shuffling} and {Mixing} {Data} {Augmentation}},
-	abstract = {This technical report describes our proposed design and implementation of the system used for the DCASE 2018 Challenge submission. The work focuses on Task 5 of the challenge, which is about monitoring and classifying domestic activities based on multi-channel acoustics. We propose data augmentation techniques using shuffling and mixing two sounds in a same class to mitigate the unbalanced training dataset. This data augmentation can generate new variations on both the sequence and the density of sound events. The experimental results show that the proposed system achieves an average of 89.95\% of macro-averaged F1 score over 4 folds on the development dataset. This is a significant improvement from the baseline result of 84.50\%. In the final evaluation for the submission, four proposed classifiers are trained with four folds of training and validation data in the development dataset. Then we ensemble these four models by averaging their predictions.},
-	institution = {DCASE2018 Challenge},
-	author = {Inoue, Tadanobu and Vinayavekhin, Phongtharin and Wang, Shiqiang and Wood, David and Greco, Nancy and Tachibana, Ryuki},
-	month = sep,
-	year = {2018}
 }
 
 @book{zheng_evaluating_2015,
@@ -378,18 +361,6 @@ Evolution AI: Machines that Read - get answers from your text data.},
 	urldate = {2020-02-10}
 }
 
-@misc{rangarajulu_loc2vec_2019,
-	title = {Loc2vec — a fast pytorch implementation},
-	url = {https://medium.com/@sureshr/loc2vec-a-fast-pytorch-implementation-2b298072e1a7},
-	abstract = {{\textasciitilde}60x faster implementation due to newer techniques and shortcuts},
-	language = {en},
-	urldate = {2020-02-10},
-	journal = {Medium},
-	author = {Rangarajulu, Suresh},
-	month = mar,
-	year = {2019}
-}
-
 @article{balntas_pn-net_2016-1,
 	title = {{PN}-{Net}: {Conjoined} {Triple} {Deep} {Network} for {Learning} {Local} {Image} {Descriptors}},
 	shorttitle = {{PN}-{Net}},
@@ -493,7 +464,6 @@ Evolution AI: Machines that Read - get answers from your text data.},
 	url = {https://www.google.com/search?client=safari&rls=en&q=neural+style+transfer&ie=UTF-8&oe=UTF-8},
 	urldate = {2019-09-26}
 }
-
 @misc{sciforce_comprehensive_2019,
 	title = {A {Comprehensive} {Guide} to {Natural} {Language} {Generation}},
 	url = {https://medium.com/sciforce/a-comprehensive-guide-to-natural-language-generation-dd63a4b6e548},
