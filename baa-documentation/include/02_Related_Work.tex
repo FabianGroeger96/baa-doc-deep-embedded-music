@@ -643,6 +643,29 @@ Almost every \gls{CNN} has some fully connected layers in the last layer because
 \newline
 To create a \gls{CNN}, all of the above concepts have to be put together to form an end-to-end model, from a raw image to a decision. To summarise, the convolution layers will learn various local features in the data (e.g. what an eye looks like), then the pooling layer will make the \gls{CNN} invariant to translations of these features (e.g. if the eye appears slightly translated in two images, the \gls{CNN} will still recognise it as an eye). Finally, the fully connected layers combine the found features and activate the correct output (e.g. there are two eyes, a nose and a mouth, this must be a person).
 
+\subsubsection{Dilated Convolution}
+\label{subsub:Dilated-Convolution}
+
+Dilated convolution is a specialized type of convolution, which was first introduced within the paper (\cite{yu_multi-scale_2016}). It is helpful first to understand why vanilla convolutions (normal convolutions) struggle to integrate the global context. Suppose a purely convolutional network composed of layers of $k \times k$ convolutions, without pooling. It is clear to see that size of the receptive field of each unit (the block of pixels which can influence its activation) is $l \times (k-1) + k$, where $l$ is the layer index. Therefore the effective receptive field of units can only grow-linearly with the layers. Especially for high-resolution input images, the linearly-grow is very limiting.
+\newline
+\newline
+Dilated convolutions increase the kernel by inserting spaces between the kernel elements. The dilation rate is controlled by an additional hyperparameter $l$. These dilated convolutions between signal $f$ and kernel $k$ and dilation factor $l$ is defined by formula \ref{eq:Dilated-Convolution}. $\ast_l$ refers to the dilated convolution or a $l$-dilated convolution. The normal convolution $\ast$ is simply the 1-dilated-convolution. The figure \ref{fig:Dilated-Convolution} illustrates stacked dilated convolutions within a \gls{CNN}, where the dilation factor $l$ is increased exponentially.
+\myequations{Convolution of an image and a two-dimensional kernel}
+\begin{equation}
+    \centering
+    (I \ast_l K)(p) = \sum_{s + lt =p} I(s)K(t)
+    \label{eq:Dilated-Convolution}
+\end{equation}
+Dilated convolutions are used to cheaply increase the receptive field of output units without increasing the kernel size, which is especially useful when multiple dilated convolutions are stacked one after another. For a concrete example, see \cite{oord_wavenet_2016}, in which the proposed WaveNet model implements an autoregressive generative model for raw audio which uses dilated convolutions to condition new audio frames on a broad context of past audio frames.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.9]{baa-documentation/img/Dilated_Colvolution.png}
+	\caption[SINS database recording environment map]{Visualisation of stacked diluted convolutions \footnotemark}
+	\label{fig:Dilated-Convolution}
+\end{figure}
+\footnotetext{\fullcite{oord_wavenet_2016}}
+
 \subsection{Gated Recurrent Unit}
 \label{sub:Gated-Recurrent-Unit}
 
@@ -762,6 +785,14 @@ The last step within the network unit is to calculate $h_t$, which holds informa
 \label{sub:Tensorflow}
 
 TensorFlow is an end-to-end open-source platform for machine learning. It has a comprehensive, flexible ecosystem of tools, libraries and community resources that lets researchers push the state-of-the-art in \gls{ML} and developers easily build and deploy \gls{ML} powered applications.\footnote{\url{https://www.tensorflow.org/}}
+
+\begin{verbatim}
+    % Release for CPU-only
+    pip install tensorflow==2.1
+    
+    % Release with GPU support (Ubuntu and Windows)
+    pip install tensorflow-gpu==2.1 
+\end{verbatim}
 
 \section{Introduction to Clustering}
 \label{sec:Intro-Clustering}
@@ -946,7 +977,7 @@ This thesis considers its main task to be a \textit{sequence classification}, wh
 \fullref{sub:Mel-Spectrogram} is the most common representation used in traditional audio signal processing, log-mel spectrograms are the dominant feature in deep learning, followed by raw waveforms or complex spectrograms. Raw waveforms avoid hand-designed features, which should allow better to exploit the improved modelling capability of deep learning models. However, this incurs higher computational costs and data requirements, and the benefits are hard to realize in practice. For \gls{ASR}, log-mel spectrograms provide a more compact representation, and methods using these features usually need fewer data and training to achieve results, which are comparable in performance to a setup where raw audio is used. \gls{MFCC} and log-mel spectrograms are gladly used because they were inspired by the human auditory system, which makes the use of these features reasonable.
 \newline
 \newline
-Across many audio processing domains, \fullref{sub:Convolutional-Neural-Network}, \gls{RNN} and \gls{CRNN} are employed successfully, with no clear preference. All three can model temporal sequences, solve sequence classification and many more applications. \gls{CNN} have a fixed receptive field, which limits the temporal context taken into account for a prediction, but at the same time makes it very easy to widen or narrow the context used. The receptive field can be increased using larger kernels or stacking more layer. Alternatively, another way to increase the receptive field of a \gls{CNN} is to stack dilated convolution layers, which apply the convolution filter over an area larger than its filter length. These convolutions obtain a vast receptive field with just a few layers while preserving the input resolution as well as computational efficiency (\cite{franceschi_unsupervised_2020}).
+Across many audio processing domains, \fullref{sub:Convolutional-Neural-Network}, \gls{RNN} and \gls{CRNN} are employed successfully, with no clear preference. All three can model temporal sequences, solve sequence classification and many more applications. \gls{CNN} have a fixed receptive field, which limits the temporal context taken into account for a prediction, but at the same time makes it very easy to widen or narrow the context used. The receptive field can be increased using larger kernels or stacking more layer. Alternatively, another way to increase the receptive field of a \gls{CNN} is to stack dilated convolution layers (\ref{subsub:Dilated-Convolution}), which apply the convolution filter over an area larger than its filter length. These convolutions obtain a vast receptive field with just a few layers while preserving the input resolution as well as computational efficiency (\cite{franceschi_unsupervised_2020}).
 \newline
 \newline
 \gls{RNN} can, theoretically, base their predictions on an unlimited temporal context, but first need to learn to do so, which may require adaptions to the model (such as \fullref{sub:Gated-Recurrent-Unit}). Furthermore, they require processing the input sequentially, making them slower to train and evaluate than \gls{CNN}. \gls{CRNN} offer a compromise in between, inheriting both \gls{CNN} and \gls{RNN} advantages and disadvantages.
