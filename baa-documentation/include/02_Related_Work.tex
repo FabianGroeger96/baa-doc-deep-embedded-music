@@ -22,25 +22,29 @@ Signals need to be processed so that the information that they contain can be di
 Speech signals are sound signals, defined as pressure variations travelling through the air. These variations in pressure can be described as waves, and are often called sound waves. In the current thesis, the focus is on the analysis and processing of such waveforms in digital systems. Therefore it is always assumed that the acoustic speech signals have been captured by a microphone and converted to a digital form.
 \newline
 \newline
-A speech signal is represented by a sequence of numbers $x_n$, which represent the relative air pressure at time-instant $n\in{\mathbb N}$. The accuracy of this representation is specified by two variables, the sampling frequency (the step in time between $n$ and $n+1$) and the accuracy and distribution of amplitudes of $x$.
+A speech signal of finite length can be represented by a digitalised finite-length sequence $x[n]$, with $n = 0, 1, \dots, N-1$. The accuracy of this representation is specified by two variables, the sampling frequency (the step in time between $n$ and $n+1$) and the accuracy and distribution of amplitudes of $x$.
 
 \subsection{Amplitude}
 \label{sub:Amplitude}
 
-The amplitude of a periodic variable is the measure of how far, and in what direction, that variable differs from zero. Thus, signal amplitudes can be either positive or negative. Figure \ref{fig:Amplitude-Wavelenght} illustrates the amplitude with variable $y$. If the amplitude of a given signal is large, the signal is observed to be loud.
-\newline
-\newline
-The distance from the top of one peak to the bottom of another is called \textit{peak-to-peak amplitude}. Another way to describe peak-to-peak amplitude is to say that it is the distance between the maximum positive value and the maximum negative value of a wave. In figure \ref{fig:Amplitude-Wavelenght}, the peak-to-peak amplitude of the wave would be $2y$.
+The amplitude of a periodic variable is the measure of how far, and in what direction, that variable differs from zero. Thus, signal amplitudes can be either positive or negative. If the amplitude of a given signal is large, the signal is observed to be loud. Equation \ref{eq:Wave-Equation} shows a simple form of a wave equation, where $y$ is the oscillating variable (signal), $A$ the amplitude, $\gamma$ the period, $t$ the time and $\phi$ the phase shift. $sin(t)$ has a period of $2 \phi$. Figure \ref{fig:Amplitude-Wavelenght} illustrates such a simple wave form. 
+\myequations{Simple wave equation}
+\begin{equation}
+    \centering
+    y(t) = A \ sin(\gamma \ t + \phi)
+    \label{eq:Wave-Equation}
+\end{equation}
+The distance from the top of one peak to the bottom of another is called \textit{peak-to-peak amplitude}. Another way to describe peak-to-peak amplitude is to say that it is the distance between the maximum positive value and the maximum negative value of a wave. In figure \ref{fig:Amplitude-Wavelenght}, the peak-to-peak amplitude of the wave would be $2A$.
 
 \subsection{Magnitude}
 \label{sub:Magnitude}
 
-The magnitude of a periodic variable is the measure of how far, regardless of direction, its quantity differs from zero. So magnitudes are always positive values. Occasionally, in the literature of digital signal processing, the term magnitude is referred to as the absolute value. In figure \ref{fig:Amplitude-Wavelenght}, the magnitude of the wave would be $|y|$.
+The magnitude of a periodic variable is the measure of how far, regardless of direction, its quantity differs from zero. So magnitudes are always positive values. Occasionally, in the literature of digital signal processing, the term magnitude is referred to as the absolute value. In figure \ref{fig:Amplitude-Wavelenght}, the magnitude of the wave would be $|A|$.
 
-\subsection{Wavelength}
-\label{sub:Wavelength}
+\subsection{Period}
+\label{sub:Period}
 
-The wavelength is the length of a single cycle of a wave, as measured by the distance between one peak of a wave and the next. In figure \ref{fig:Amplitude-Wavelenght}, the wavelength is designated as the variable $\lambda$.
+The period is the length of a single cycle of a wave, as measured by the distance between one peak of a wave and the next. In figure \ref{fig:Amplitude-Wavelenght}, the wavelength is denoted as the variable $\gamma$. But not every signal is periodic, only if the signal satisfies the condition $\gamma = 2k\pi$ where $k \in \mathbb{Z}$.
 
 \subsection{Frequency}
 \label{sub:Frequency}
@@ -54,6 +58,7 @@ Frequency is the number of occurrences of a repeating event per unit of time. It
     \label{eq:Frequency}
 \end{equation}
 
+% TODO change image to notation used in equation!
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=0.25]{baa-documentation/img/Amplitude.png}
@@ -93,12 +98,12 @@ Whenever a sampled signal is given, there is no certainty that the signal repres
 \subsection{Noise}
 \label{sub:Noise}
 
-Noise is any unwanted signal distorting the original signal. Given a speech signal with amplitude $s(n)$, where $n$ is the sample index, noise is any other signal, $w(n)$ which interferes with the speech. The noisy speech signal $u(n)$ is defined with equation \ref{eq:Noise-Added}.
+Noise is any unwanted signal distorting the original signal. Given a quantized signal $s[n]$, where $n$ is the sample index, noise is any other signal, $w[n]$ which interferes with the signal. The noisy signal $u[n]$ is defined with equation \ref{eq:Noise-Added}.
 
 \myequations{Noise added to a signal}
 \begin{equation}
     \centering
-    u(n) = s(n) + w(n)
+    u[n] = s[n] + w[n]
     \label{eq:Noise-Added}
 \end{equation}
 
@@ -122,7 +127,7 @@ A wave plot is a visual representation of this domain. The y-axis of such visual
 The frequency-domain refers to the analysis of mathematical functions or signals with respect to frequency. A frequency-domain graph shows how much of the signal lies within each given frequency band over a range of frequencies. 
 \newline
 \newline
-A given function or signal can be converted between the time and frequency domains with a pair of mathematical operators. The most used operation is the Fourier Transformation, which will be explained in further detail in section \ref{sub:Fourier-Transform}.
+A given function or signal can be converted between the time and the frequency domains with a pair of mathematical operators. The most used operation is the Fourier Transformation, which will be explained in further detail in section \ref{sub:Fourier-Transform}.
 
 \subsection{Fourier Transform}
 \label{sub:Fourier-Transform}
@@ -132,12 +137,12 @@ A given function or signal can be converted between the time and frequency domai
 \subsubsection{Fast Fourier Transform}
 \label{subsub:Fast-Fourier-Transform}
 
-\gls{FFT} is a mathematical algorithm that calculates \gls{DFT} of a given sequence, with equation \ref{eq:DFT}. The only difference between \gls{FT} and \gls{FFT} is that \gls{FT} considers a continuous signal while \gls{FFT} takes a discrete signal as input. \gls{DFT} converts a sequence, a discrete signal, into its frequency constituents just like \gls{FT} does for a continuous signal. It is important to note that due to that transformation, the time information of the audio signal will be lost.
+\gls{FFT} is a mathematical algorithm that calculates \gls{DFT} of a given sequence, with equation \ref{eq:DFT}. The only difference between \gls{FT} and \gls{FFT} is that \gls{FT} considers a continuous signal while \gls{FFT} takes a discrete signal as input. \gls{DFT} converts a sequence, a discrete signal, into its frequency constituents just like \gls{FT} does for a continuous signal. More precisely it is a transformation, which decomposes the signal into its base frequency building blocks. It is important to note that due to that transformation, the time information of the audio signal will be lost.
 
 \myequations{Discrete Fourier Transform}
 \begin{equation}
     \centering
-    X_k = \sum_{n=0}^{N-1} \ x_n \cdot e^{-\frac{i2\pi}{N}kn}
+    X_k = \sum_{n=0}^{N-1} \ x[n] \cdot e^{-\frac{i2\pi}{N}kn}
     \label{eq:DFT}
 \end{equation}
 
@@ -201,7 +206,7 @@ The process of creating these \gls{MFCC} are quite complex and follow five steps
 An audio signal is continuously changing, so to simplify it is assumed, that on short time scales the audio signal does not change much, i.e. statistically stationary. Due to that, the signal is framed into 20-40ms frames. If the frames are much shorter, there are not enough samples to get a reliable spectral estimate. If the frame length is too high, the signal changes to much throughout the frame.
 \newline 
 \newline
-Firstly the signal has to be split into 20-40ms frames (25ms is the standard). The frame length for a 16kHz signal is calculated with the equation in \ref{eq:MFCC-Frame-Length}. 
+As a first step the signal has to be split into 20-40ms frames (normally 25ms is standard). The frame length for a 16kHz signal is calculated with the equation in \ref{eq:MFCC-Frame-Length}. 
 \myequations{Calculate frame length from signal}
 \begin{equation}
     \centering
@@ -215,32 +220,32 @@ Frame step is normally 10ms, which allows some overlap to the frames, and is cal
     0.01s * 16000Hz = 160 \ \text{samples}
     \label{eq:MFCC-Frame-Step}
 \end{equation}
-This means that the first 400 samples start at 0, the next 400 frames start at sample 160, until the end of the speech signal is reached. If the speech signal does not divide into an even number of frames, it is padded with zeros until it does. The next steps in the example are applied to every single frame; one set of 12 \gls{MFCC} is extracted for each frame.
+This means that the first 400 samples start at 0, the next 400 frames start at sample 160, until the end of the speech signal is reached. If the speech signal does not divide into an even number of frames, it is padded with zeros until it does. The next steps within the example are applied to every single frame. Thus for every frame a set of features will be extracted, in this case a set of \gls{MFCC}.
 
 \subsubsection{Calculate the periodogram estimate of the power spectrum for each frame}
 The next step is to calculate the power spectrum of each frame. This is motivated by the human cochlea, an organ in the ear, which vibrates at different spots depending on the frequency of the incoming sounds. Depending on which location in the cochlea that vibrates, different nerves fire, informing the brain that specific frequencies are present. The periodogram estimate performs a similar job which is, identifying which frequencies are present in the frame.
 \newline
 \newline
-To calculate the power spectrum for each frame, the \gls{DFT} has to be calculated with equation \ref{eq:MFCC-DFT-Frame}. Then the Periodogram-based power spectral estimate for the speech frame $s_i(n)$ can be calculated with the formula \ref{eq:MFCC-Periodogram-Frame}. Usually, a 512 point \gls{FFT} is being performed, and only the first 257 coefficients are kept.
+To calculate the power spectrum for each frame, the \gls{DFT} has to be calculated with equation \ref{eq:MFCC-DFT-Frame}. Then the Periodogram-based power spectral estimate for the speech frame $s_i[n]$ can be calculated with the formula \ref{eq:MFCC-Periodogram-Frame}. Usually, a 512 point \gls{DFT} is being performed, which decomposes the signal frame $s_i[n]$ into 512 frequency building blocks and only the first 257 coefficients are kept.
 \myequations{Calculate Discrete Fourier Transform of each frame}
 \begin{equation}
     \centering
-    S_i(k) = \sum_{n=1}^{N} s_i(n) h(n) e^{- \frac{i2\pi}{N} kn} \qquad 1 \leq k \leq K
+    S_i[k] = \sum_{n=1}^{N} s_i[n] \ h[n] \ e^{- \frac{i2\pi}{N} kn} \qquad 1 \leq k \leq K
     \label{eq:MFCC-DFT-Frame}
 \end{equation}
 \myequations{Calculate Periodogram-based power spectral estimate of each frame}
 \begin{equation}
     \centering
-    P_i(k) = \frac{1}{N}|S_i(k)|^2
+    P_i[k] = \frac{1}{N}\Big|S_i[k]\Big|^2
     \label{eq:MFCC-Periodogram-Frame}
 \end{equation}
 where:
 \begin{conditions*}
- s_i(n) &  time-domain signal frame, where $n$ denotes the frame length (in the current example from 1-400), and $i$ ranges over the number of frames \\   
- S_i(k) &  complex \gls{DFT}, where $i$ denotes the frame number corresponding to the time-domain frame \\
- h(n)   &  analysis window, with the size $N$ (e.g. hamming window) \\
+ s_i[n] &  time-domain signal frame, where $N$ denotes the frame length (in the current example from 1-400), and $i$ ranges over the number of frames \\   
+ S_i[k] &  complex \gls{DFT}, where $i$ denotes the frame number corresponding to the time-domain frame \\
+ h[n]   &  analysis window, with the size $N$ (e.g. hamming window) \\
  K      &  length of the \gls{DFT} \\
- P_i(k) &  power spectrum of frame $i$
+ P_i[k] &  power spectrum of frame $i$
 \end{conditions*}
 
 \subsubsection{Apply the Mel filterbank to the power spectra}
@@ -260,7 +265,7 @@ The Mel filterbank performs this step. The first filter of the filterbank is ver
     f = 700 \ (10^{m/2595-1}) = 700 \ (e^{m/1127-1})
     \label{eq:MFCC-Mel-Inv}
 \end{equation}
-The Mel-spaced filterbank has to be computed to apply the filterbank to the power spectra. The filterbank is a set of 20-40 (26 is the standard) triangular filters that then are applied to the periodogram from before. The filterbank has the dimension of 26 vectors with the length 257, because in the step before we calculated the \gls{FFT} and only kept 257 coefficients. Each vector has mostly zeros in it but is non-zero for a specific section of the spectrum. Each filterbank has to be multiplied by the power spectrum. After that, the coefficients are added up to get the filterbank energies. In the end, there are 26 coefficients left, which indicates how much energy was in each filterbank. An example of a Mel-spaced filterbank is illustrated in \ref{fig:MFCC-Mel-Filterbank}.
+The Mel-spaced filterbank has to be computed to apply the filterbank to the power spectra. The filterbank is a set of 20-40 (26 is the standard) triangular filters that then are applied to the periodogram from before. The filterbank has the dimension of 26 vectors with the length 257, because in the step before the \gls{FFT} was calculated and only kept 257 coefficients. Each vector has mostly zeros in it but is non-zero for a specific section of the spectrum. Each filterbank has to be multiplied by the power spectrum. After that, the coefficients are added up to get the filterbank energies. In the end, there are 26 coefficients left, which indicates how much energy was in each filterbank. An example of a Mel-spaced filterbank is illustrated in \ref{fig:MFCC-Mel-Filterbank}.
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=0.4]{baa-documentation/img/Mel-filter-banks-basis-functions-using-20-Mel-filters-in-the-filter-bank.png}
@@ -270,10 +275,10 @@ The Mel-spaced filterbank has to be computed to apply the filterbank to the powe
 \footnotetext{\fullcite{mohd_ali_analysis_2013}}
 
 \subsubsection{Apply the logarithm to all filterbank energies}
-After we calculated the filterbank energies, the logarithm is applied to each one of them. This operation is also inspired by human hearing because humans do not hear loudness on a linear scale. Generally to double the perceived volume of a sound eight times as much energy has to be put in. Thus if the sound signal is loud in the beginning, significant variations in energy may not sound that different. The output of this step can be visualised in a log-mel spectrogram, which is also an essential feature in audio processing.
+After the calculation of the filterbank energies, the logarithm is applied to each one of them. This operation is also inspired by human hearing because humans do not hear loudness on a linear scale. Generally to double the perceived volume of a sound eight times as much energy has to be put in. Thus if the sound signal is loud in the beginning, significant variations in energy may not sound that different. The output of this step can be visualised in a log-mel spectrogram, which is also an essential feature in audio processing.
 \newline
 \newline
-In our example, we now have 26 energy coefficients which will be logarithmized which leaves 26 log filterbank energies.
+In the above example, there are 26 energy coefficients which will be logarithmized and leaves 26 log filterbank energies.
 
 \subsubsection{Apply the \gls{DCT} to the log filterbank energies}
 The final step is to compute the \gls{DCT} of the log filterbank energies. Mainly because the filterbanks are all overlapping and are correlated with each other. The \gls{DCT} decorrelates the energies, but only the lower 12-13 of the 26 \gls{DCT} coefficients are kept. This is because the higher \gls{DCT} coefficients represent fast changes in the filterbank energies, and these fast changes can degrade the \gls{ASR} performance.
@@ -361,23 +366,25 @@ A perceptron is the simplest neural network which consists of $n$ number of inpu
     \centering
     \subfloat[Sigmoid]{
             \begin{tikzpicture}
-            \begin{axis}[width=5cm,height=4cm,ylabel=$\sigma(z)$,xlabel=$z$,ymin=0,ymax=1.25,xmin=-5,xmax=5]
+            \begin{axis}[legend pos=north west, width=5cm,height=4.5cm,ylabel=$\sigma(z)$,xlabel=$z$,ymin=0,ymax=1.25,xmin=-5,xmax=5]
                 \addplot[blue,smooth] {1/(1+exp(-x))};
+                \addlegendentry{$\frac{1}{1+e^{-z}}$}
             \end{axis}
         \end{tikzpicture}
     }
     \subfloat[Tanh]{
         \begin{tikzpicture}
-            \begin{axis}[width=5cm,height=4cm,ylabel=$\tanh(z)$,xlabel=$z$,ymin=-1.25,ymax=1.25,xmin=-5,xmax=5]
+            \begin{axis}[legend pos=north west, width=5cm,height=4.5cm,ylabel=$\tanh(z)$,xlabel=$z$,ymin=-1.25,ymax=1.25,xmin=-5,xmax=5]
                 \addplot[blue,smooth] {tanh(x)};
+                \addlegendentry{$\frac{2}{1+e^{-2x}} -1$}
             \end{axis}
         \end{tikzpicture}
     }
     \subfloat[ReLU]{
             \begin{tikzpicture}
-            \begin{axis}[width=5cm,height=4cm,ylabel=$s(z)$,xlabel=$z$,ymin=-1,ymax=1.25,xmin=-5,xmax=5]
+            \begin{axis}[legend pos=north west, width=5cm,height=4.5cm,ylabel=$s(z)$,xlabel=$z$,ymin=-0.5,ymax=1.25,xmin=-2.5,xmax=2.5]
                 \addplot[samples=500, blue] {max(0, x)};
-                %\addlegendentry{ReLU}
+                \addlegendentry{$max(0, z)$}
             \end{axis}
         \end{tikzpicture}
     }
@@ -385,14 +392,14 @@ A perceptron is the simplest neural network which consists of $n$ number of inpu
     \label{fig:Activation-Functions}
 \end{figure}
 \noindent
-The inputs which are denoted as $x_1, \dots, x_n$, are the values passed into the perceptron. The weights $\theta_{1}, \dots, \theta_{n}$ are values which are multiplied with the respective input, the bias is a special weight which shifts the activation function to the left or right. And the activation function $f(z)$ is used to introduce non-linearity into the output. Without the \gls{NN} would represent a linear function. With the non-linearity of the activation function, the \gls{NN} can approximate very complicated and high dimensional data distributions. Such non-linear activation functions are illustrated in figure \ref{fig:Activation-Functions}. The output $\hat{y}$ is simply the result of the activation function, and it can be computed using equation \ref{eq:Perceptron-Calculate-Output}. In the case of a perceptron, it is the prediction of the \gls{NN}. The process of calculating the output of a \gls{NN} is called forward propagation.
+The inputs which are denoted as $x_1, \dots, x_n$, are the values passed into the perceptron. The weights $\theta_{1}, \dots, \theta_{n}$ are values which are multiplied with the respective input, the bias is a special weight which shifts the activation function to the left or right. And the activation function $f(z)$ is used to introduce non-linearity into the output. Without the \gls{NN} would represent a linear function. With the non-linearity of the activation function, a layered \gls{NN} with enough capacity can learn any function. Such non-linear activation functions are illustrated in figure \ref{fig:Activation-Functions}. The output $\hat{y}$ is simply the result of the activation function, and it can be computed using equation \ref{eq:Perceptron-Calculate-Output}. In the case of a perceptron, it is the output of the \gls{NN}. The process of calculating the output of a \gls{NN} is called forward propagation.
 \myequations{Calculates the output of single layer neural network}
 \begin{equation}
     \centering
     \hat{y} = f(z) = f\Big(b_1 + \sum_{i=1}^n x_i \theta_i \Big)
     \label{eq:Perceptron-Calculate-Output}
 \end{equation}
-In deeper networks, the output of one layer is then used again as the input of the next layer $f^L(f^{L-1}(\cdots f^1(z)))$, where $L$ denotes the number of layers in the \gls{NN}. A layer can be thought of as multiple perceptrons. Thus this is often called a \gls{MLP}, which is illustrated in figure \ref{fig:MLP-Visualisation}. $z_1^1$ is one example of a single perceptron within the network. The \gls{MLP} shown in figure \ref{fig:MLP-Visualisation} has four layers ($L = 4$), from which the first one is always the input layer, and the last one is the output layer. The layers between the input and output layer are called hidden layers. These layers are also called fully connected layers, because there is a corresponding weight to each input of the next layer.
+In deeper networks, the output of one layer is then used again as the input of the next layer $f^L(f^{L-1}(\cdots f^1(z)))$, where $L$ denotes the number of layers in the \gls{NN}. A layer consists of multiple perceptrons. Thus this is often called a \gls{MLP}, which is illustrated in figure \ref{fig:MLP-Visualisation}. $z_1^1$ is one example of a single perceptron within the network. The \gls{MLP} shown in figure \ref{fig:MLP-Visualisation} has four layers ($L = 4$), from which the first one is always the input layer, and the last one is the output layer. The layers between the input and output layer are called hidden layers. These layers are also called fully connected layers, because there is a corresponding weight to each input of the next layer.
 
 \begin{figure}[htbp]
     \centering
@@ -441,7 +448,7 @@ In deeper networks, the output of one layer is then used again as the input of t
     \label{fig:MLP-Visualisation}
 \end{figure}
 \noindent
-In order that the \gls{NN} produces more reliable results, it has to learn the optimal parameters for a given problem. This procedure consists of two parts, backpropagation and optimisation. Backpropagation refers to the algorithm for computing the gradient of the loss function with respect to the parameters, to see how good the current predictions are. However, the term is often used to refer to the entire learning algorithm. Furthermore, optimisation is the process of selecting the best element from some set of available alternatives, which in the case of a \gls{NN} is the selection of the best parameters.
+In order that the \gls{NN} produces more reliable results, it has to learn the optimal parameters for a given problem. This procedure consists of two parts, backpropagation and optimisation. Backpropagation refers to the algorithm for computing the gradient of the loss function with respect to the parameters, to see how good the current predictions are. However, the term is often used to refer to the entire learning algorithm, including optimization. Furthermore, optimisation is the process of selecting the best element from some set of available alternatives, which in the case of a \gls{NN} is the selection of the best parameters.
 \newline
 \newline
 The first step in backpropagation is to know an estimation of how far away the current predictions are from the desired solution, which can be computed using a loss function. Typical loss functions are \gls{MSE}, Binary Crossentropy, Categorical Crossentropy or Sparse Categorical Crossentropy. The process of selecting the right loss function highly depends on the problem to solve. The equation \ref{eq:MSE} defines the \gls{MSE} cost (loss) function $\mathcal{L}$ for the entire dataset with size $n$.
@@ -457,25 +464,19 @@ where:
     \hat{y}_i & predicted value, output of the \gls{NN}
 \end{conditions*}
 \noindent
-The next step in backpropagation is to know how the loss function changes in relation to its parameters. This is done by computing the gradients, how one quantity changes in relation to another quantity, of the cost function with respect to the weights and bias. In equation \ref{eq:Backpropagation-Gradient} the gradient of the cost function $\mathcal{L}$ with respect to the weights $\theta_i$ is computed using partial derivation. The same function can be applied for computing the cost function $\mathcal{L}$ with respect to the bias. Since the cost function is not directly related to the weights, the chain rule is used.
+The next step in backpropagation is to calculate the error of each weight $\theta_i$, the bias $b_i$ can also be thought of as a special kind of weight within the network. This is done by computing the gradients, given the cost function $\mathcal{L}$, with respect to the weights $\theta_i$. The gradient can be interpreted as the direction and rate of fastest increase. In equation \ref{eq:Backpropagation-Gradient} the gradient of the cost function $\mathcal{L}$ with respect to the weights $\theta_i$ is computed using partial derivation. The same function can also be used to compute the cost function $\mathcal{L}$ with respect to the bias. Since the cost function is not directly related to the weights, the chain rule is used.
 \myequations{Gradient of cost function with respect to the weights}
 \begin{equation}
     \centering
     \frac{\partial \mathcal{L}}{\partial\theta_i} = \frac{\partial \mathcal{L}}{\partial\hat{y}}\times\frac{\partial\hat{y}}{\partial z}\times\frac{\partial z}{\partial\theta_i}
     \label{eq:Backpropagation-Gradient}
 \end{equation}
-The last step in the learning process of a \gls{NN} is the optimisation. Gradient descent is one of many optimisation algorithms, and it changes the weights and bias, proportional to the negative of the gradient of the cost function with respect to the corresponding weight or bias. Learning rate $\alpha$ is a hyperparameter, which is used to control how much the weights and bias change. The weights and bias are updated with equations \ref{eq:Optimisation-Gradient-Descent-Weights} and \ref{eq:Optimisation-Gradient-Descent-Bias}.
+The last step in the learning process of a \gls{NN} is the optimisation. Gradient descent is one of many optimisation algorithms, and it changes the weights and bias, proportional to the negative of the gradient of the cost function with respect to the corresponding weight or bias. Learning rate $\alpha$ is a hyperparameter, which is used to control how much the weights and bias change. The weights and bias are updated with equations \ref{eq:Optimisation-Gradient-Descent-Weights}.
 \myequations{Optimisation of weights using gradient descent}
 \begin{equation}
     \centering
     \theta_i = \theta_i - \Big(\alpha \times \frac{\partial \mathcal{L}}{\partial\theta_i}\Big)
     \label{eq:Optimisation-Gradient-Descent-Weights}
-\end{equation}
-\myequations{Optimisation of bias using gradient descent}
-\begin{equation}
-    \centering
-    b_i = b_i - \Big(\alpha \times \frac{\partial \mathcal{L}}{\partial b_i}\Big)
-    \label{eq:Optimisation-Gradient-Descent-Bias}
 \end{equation}
 The whole learning process consisting of backpropagation and optimisation is repeated until the \gls{NN} convergences in a local or global minimum.
 \newline
@@ -507,7 +508,7 @@ A typical layer of a \gls{CNN} consists of three stages, which is illustrated in
     \label{fig:Convolution-Layer-Visualisation}
 \end{figure}
 \noindent
-Convolution is a process where a small matrix of numbers, called the kernel or filter, is taken and slid it over grid-like data (e.g. an image) and transforms it based on the values from the filter. More concretely, at a given position of the convolution kernel, the element-wise multiplication of each kernel cell value and the corresponding image pixel value that overlaps the kernel cell is taken and then summed up. The convolutional operation is often denoted as $\ast$, the equation \ref{eq:Convolution} shows how to calculate the convolution of an input image $I$ and a two-dimensional filter kernel $K$. The rows and the columns of the input image $I$ are denoted as $i$ and $j$. The output of the convolutional operation $S(i,j)$ is often called the feature map. A visualisation of the operation is illustrated in figure \ref{fig:Convolution-Visualisation}. In the context of \gls{CNN}, the learning algorithm will learn the appropriate values of the kernel in the appropriate place, to detect arbitrary features.
+Convolution is a process where a small matrix of numbers, called the kernel or filter, is taken and slid it over grid-like data (e.g. an image) and transforms it based on the values from the filter. More concretely, at a given position of the convolution kernel, the element-wise multiplication of each kernel cell value and the corresponding image pixel value that overlaps the kernel cell is taken and then summed up. The convolutional operation is often denoted as $\ast$, the equation \ref{eq:Convolution} shows how to calculate the convolution of an input image $I$ and a two-dimensional filter kernel $K$ with the filter size $(m, n)$. The rows and the columns of the input image $I$ are denoted as $i$ and $j$. The output of the convolutional operation $S(i,j)$ is often called the feature map. A visualisation of the operation is illustrated in figure \ref{fig:Convolution-Visualisation}. In the context of \gls{CNN}, the learning algorithm will learn the appropriate values of the kernel in the appropriate place, to detect arbitrary features.
 \myequations{Convolution of an image and a two-dimensional kernel}
 \begin{equation}
     \centering
@@ -669,11 +670,11 @@ Dilated convolutions are used to cheaply increase the receptive field of output 
 \subsection{Gated Recurrent Unit}
 \label{sub:Gated-Recurrent-Unit}
 
-\gls{GRU} are a specialised type of \gls{NN} within the family of \gls{RNN}, which focus on processing sequential data. \gls{GRU} were introduced in the paper (\cite{cho_learning_2014}) to solve the vanishing gradient problem, which comes with a standard \gls{RNN}. \gls{RNN} take as their input, not just the current input example they see, but also what they have perceived previously. It can be thought of multiple feed-forward neural networks, passing information from one to the other. The vanishing gradient problem states that input from far behind (e.g. the first word in a sequence) loses its importance in the last inputs (e.g. the last words of a sequence), because it vanishes along the way.
+\gls{GRU} are a specialised type of \gls{NN} within the family of \gls{RNN}, which focus on processing sequential data. \gls{GRU} were introduced in the paper (\cite{cho_learning_2014}) to solve the vanishing gradient problem, which comes with a standard \gls{RNN}. \gls{RNN} take as their input, not just the current input example they see, but also what they have perceived previously. It can be thought of multiple feed-forward neural networks, passing information from one to the other. The vanishing gradient problem states that input from far behind (e.g. the first sample in a sequence) loses its importance in the last inputs (e.g. the last sample of a sequence), because it vanishes along the way.
 
 \begin{figure}[htbp]
+    \captionsetup{format=plain}
     \centering
-    % GRU
     \begin{tikzpicture}[thick, node distance=30pt and 30pt, on grid]
         \node[cell, minimum width=200pt, minimum height=110pt, anchor=north west] (b) at (-2pt,0pt) {};
         
@@ -744,11 +745,11 @@ Dilated convolutions are used to cheaply increase the receptive field of output 
     	\draw[signal] (c) +(-10pt,0pt) -| +(10pt, -12pt);
     	\node[align=center] at ($(c) +(0pt,-\labeldist)$) {Copy};
     \end{tikzpicture}
-    \caption{Visualisation of a single gated recurrent unit}
+    \caption{Visualisation of a single gated recurrent unit. In the illustration, the Hadamard product $\odot$ is denoted as $\times$.}
     \label{fig:GRU-Visualisation}
 \end{figure}
 \noindent
-\gls{GRU} are an improved version of the standard \gls{RNN}, which use an update- and reset gate to solve the vanishing gradient problem. These gates are two additional vectors which decide what information should be passed to the output. They can be trained to keep information from long ago, without washing it through time or remove information which is irrelevant to the prediction. Figure \ref{fig:GRU-Visualisation} illustrates a single \gls{GRU} cell, which will be used to get a better understanding of how the \gls{GRU} works. In the illustration, the Hadamard product $\odot$ is denoted as $\times$.
+\gls{GRU} is an improved version of the standard \gls{RNN}, which use an update- and reset gate to solve the vanishing gradient problem. These gates are two additional vectors which decide what information should be passed to the output. They can be trained to keep information from long ago, without washing it through time or remove information which is irrelevant to the prediction. Figure \ref{fig:GRU-Visualisation} illustrates a single \gls{GRU} cell, which will be used to get a better understanding of how the \gls{GRU} works. The Hadamard product $\odot$ is also known as an element-wise multiplication.
 \newline
 \newline
 The update gate is denoted as $z_t$ and will be calculated for time step $t$ with the equation in \ref{eq:GRU-Update-Gate}. When $x_t$ is fed into the network unit, it is multiplied by its own weight $W^{(z)}$. The same will be done to $h_{t-1}$, which denotes the information from the previous $t-1$ units and is multiplied by its own weight $U^{(z)}$. Both results are added together, and a sigmoid activation function is applied to squash the result between 0 and 1. The update gate helps the model to determine how much of the past information needs to be passed along to the future. This eliminates the vanishing gradient problem because the model can decide to copy all the information from the past without losing any data.
@@ -797,10 +798,13 @@ TensorFlow is an end-to-end open-source platform for machine learning. It has a 
 \section{Introduction to Clustering}
 \label{sec:Intro-Clustering}
 
-Clustering is considered to be one of the most important techniques of unsupervised learning and can be used in various applications, such as spam filtering, identifying fake news and segmentation of costumers. 
+Clustering is considered to be one of the essential techniques of unsupervised learning and can be used in various applications, such as spam filtering, identifying fake news and segmentation of costumers. 
 \newline
 \newline
-Clustering is the process of dividing the entire dataset into groups, also known as clusters, based on the patterns in the data. It also finds hidden relationships between data points and gives valuable insights into the dataset. A cluster is the collection of data objects which are similar to one another within the same group and are different from the objects in other clusters.
+It is the process of dividing the entire dataset into groups, also known as clusters, based on the patterns in the data. It also finds hidden relationships between data points and gives valuable insights into the dataset. A cluster is the collection of data objects which are similar to one another within the same group and are different from the objects in other clusters.
+\newline
+\newline
+Clustering is not part of the scope of the thesis and will, therefore, only be used to visualise and evaluate the embeddings produced by the network.
 
 \subsection{K-Means}
 \label{sub:K-Means}
@@ -808,7 +812,15 @@ Clustering is the process of dividing the entire dataset into groups, also known
 K-Means clustering is one of the most straightforward yet powerful unsupervised machine learning algorithms. The objective of the clustering algorithm is to group similar data points and discover underlying patterns. To achieve this objective, K-means looks for a fixed number of clusters $k$ in a dataset. The number of clusters $k$ is also referred to as the number of centroids in the dataset. A centroid is the imaginary or real location representing the centre of a cluster. Thus K-means is a centroid-based algorithm, where the distances are calculated to assign a point to a particular cluster.
 \newline
 \newline
-The first step in K-means clustering is to choose the number of clusters $k$. Then $k$ random points from the dataset are chosen to be the first centroids. Afterwards, all the points in the dataset are assigned to the closest cluster centroid. The next step is to compute the centroids of the newly formed clusters. And then the process starts again and assigns all of the points to the nearest centroid. This process is repeated until some stop criteria match. There are three stop criteria, the newly formed clusters do not change, the points within each cluster remains the same, and the maximum number of iterations is reached.
+The first step in K-means clustering is to choose the number of clusters $k$. Then $k$ random points from the dataset are chosen to be the first centroids. Afterwards, all the points in the dataset are assigned to the closest cluster centroid. The next step is to compute the centroids of the newly formed clusters. And then the process starts again and assigns all of the points to the nearest centroid. This process is repeated until some stop criteria match. There are three stop criteria, the newly formed clusters do not change, the points within each cluster remains the same, and the maximum number of iterations is reached. The objective function that is minimized by k-mean is shown in equation \ref{eq:Objective-Function-K-Means}. Where $w_{ik} = 1$ for data point $x^{(i)}$ if it belongs to cluster $k$. Otherwise, $w_{ik} = 0$. $\mu_k$ is the centroid of the cluster from $x^{(i)}$.
+\myequations{Objective function of k-means}
+\begin{equation}
+    \centering
+    \begin{gathered}
+        \mathcal{L} = \sum_{i=1}^m\sum_{k=1}^K w_{ik} || x^{(i)} - \mu_k ||^2
+    \end{gathered}
+    \label{eq:Objective-Function-K-Means}
+\end{equation}
 
 \section{Introduction to used datasets}
 \label{sec:Introduction-Used-Datasets}
@@ -914,7 +926,7 @@ The introduced architecture helps to learn distributed embeddings by the notion 
     \end{gathered}
     \label{eq:Triplet-Loss-Constraint}
 \end{equation}
-The embedding of a given sample $x$ is represented by $f_\theta(x) \in \mathbb{R}^d$, where $f$ is a \gls{CNN} with weights $\theta$. It embeds a sample $x$ into a $d$-dimensional Euclidean space. The loss, which will be minimised, is defined by the equation \ref{eq:Triplet-Loss}. Where $\alpha$ is a margin that is enforced between positive and negative pairs, it further puts a limit on how far the network can push the negative sample away to improve the loss. In equation \ref{eq:Triplet-Loss}, the notation $[\cdot]_+$ is used to represent the rectifier $\text{max}(0, \cdot)$.
+The embedding of a given sample $x$ is represented by $f_\theta(x) \in \mathbb{R}^d$, where $f$ is a some kind of network (e.g. fully connected \gls{NN}, \gls{CNN}, \gls{RNN}, or any other) with weights $\theta$. It embeds a sample $x$ into a $d$-dimensional Euclidean space. The loss, which will be minimised, is defined by the equation \ref{eq:Triplet-Loss}. Where $\alpha$ is a margin that is enforced between positive and negative pairs, it further puts a limit on how far the network can push the negative sample away to improve the loss. In equation \ref{eq:Triplet-Loss}, the notation $[\cdot]_+$ is used to represent the rectifier $\text{max}(0, \cdot)$.
 \myequations{Triplet Loss function}
 \begin{equation}
     \centering
@@ -924,7 +936,7 @@ The embedding of a given sample $x$ is represented by $f_\theta(x) \in \mathbb{R
 When the loss is minimised, it pushes the distance between $f_\theta(x_a)$ and $f_\theta(x_p)$ near zero. Contrarily it forces the distance between $f_\theta(x_a)$ and $f_\theta(x_n)$ to be higher than the distance between $f_\theta(x_a)$ and $f_\theta(x_p)$ plus some margin $\alpha$.
 \newline
 \newline
-Generating all possible triplets of a dataset would result in many triplets which easily satisfy the equation \ref{eq:Triplet-Loss-Constraint}. These easy triplets would not contribute to the training and result in slower convergence, as they would still be passed through the network. Therefore it is crucial to select only hard triplets, which can enhance the model. This means that given $x_a$, $x_p$ is selected to be a hard positive such that equation \ref{eq:Triplet-Loss-Hard-Positive} is satisfied. Similarly, $x_n$ is a hard negative when equation \ref{eq:Triplet-Loss-Hard-Negative} is fulfilled.
+Generating all possible triplets of a dataset would result in many triplets which easily satisfy the equation \ref{eq:Triplet-Loss-Constraint}. These easy triplets would not contribute to the training and result in slower convergence, as they would still be passed through the network. Therefore it is crucial to select only hard triplets, which can enhance the model. This means that given $x_a$, $x_p$ is selected to be a hard positive such that equation \ref{eq:Triplet-Loss-Hard-Positive} is satisfied. Similarly, $x_n$ is a hard negative when equation \ref{eq:Triplet-Loss-Hard-Negative} is fulfilled. However, it is probably not feasible to make these calculations for the whole dataset, because they are computing-intensive. Nevertheless, it can be used to improve the model, for example, to better distinguish between classes which are quite similar.
 \myequations{Triplet Loss hard positive}
 \begin{equation}
     \centering

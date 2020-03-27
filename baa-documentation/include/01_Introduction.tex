@@ -6,12 +6,12 @@ This chapter provides an introduction to the thesis \flqq Deep embedded Music\fr
 \section{Task and objective}
 \label{sec:Task-Objective}
 
-This section describes the task and the objectives of the project in more detail. The aim is to show what precisely is to be achieved with the project and from which situation the project has arisen. The detailed task, which was submitted to the Transfer Office of the Lucerne University of Applied Sciences and Arts, can be found in the appendix \fullref{app:Task-Definition}.
+This section describes the task and the objectives of the project in more detail. Furthermore, the pre-liminary projects are described on which this project is based on. The detailed task, which was submitted to the Transfer Office of the Lucerne University of Applied Sciences and Arts, can be found in the appendix \fullref{app:Task-Definition}.
 
 \subsection{Initial situation}
 \label{sub:Initial-Stituation}
 
-Distinguishing between pieces of music is for humans from easy to difficult. So it is mostly easy to distinguish music style, like classical music or techno. However, the difficulty increases when we want to compare songs within a style or even sort them by similarity.
+Distinguishing between pieces of music is for humans from easy to difficult. So it is mostly easy to distinguish music genre, like classical music or techno. However, the difficulty increases when we want to compare songs within a style or even sort them by similarity.
 \newline
 \newline
 On top of an established data set for noise detection, a procedure based on an embedding method called Tile2Vec will be developed, which can compare similarities between sounds. On the resulting embeddings, a simple classifier will be trained, and the accuracy of the method will be compared to the published results.
@@ -22,7 +22,10 @@ This method is to be applied exploratively to music of different kinds, whereby 
 \subsection{Task definition}
 \label{sub:Task-Definition}
 
-The goal of this thesis is to adapt Tile2Vec, an image embedding method, to audio streams and to evaluate its performance on a noise detection dataset \flqq SINS, DCASE 2018: task 5 development dataset\frqq. Using unsupervised machine learning, similar signals will be clustered and the clusters compared with labels. The developed method will be applied exploratively to music, and the resulting clusters will be investigated qualitatively.
+The goal of this thesis is to adapt Tile2Vec, an image embedding method, to audio streams and to evaluate its performance on the noise detection dataset \flqq SINS, DCASE 2018: task 5\frqq. 
+\newline
+\newline
+To achieve this goal, a model, which transforms the audio signals into embeddings, needs to be trained first. Then to evaluate the performance on the DCASE dataset, a simple classifier will be trained, which receives an embedding and classifies it into one of the given classes within the dataset. The developed method will then be applied exploratively to music, and the resulting clusters will be investigated qualitatively.
 
 \subsection{Target setting}
 \label{sub:Target-Setting}
