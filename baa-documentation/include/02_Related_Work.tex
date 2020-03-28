@@ -481,7 +481,7 @@ The last step in the learning process of a \gls{NN} is the optimisation. Gradien
 The whole learning process consisting of backpropagation and optimisation is repeated until the \gls{NN} convergences in a local or global minimum.
 \newline
 \newline
-\gls{MLP} have several drawbacks, especially when it comes to handling image data. \gls{MLP} use one perceptron for each input (e.g. pixel in an image, multiplied by 3 in the case of RGB). The amount of weights rapidly becomes unmanageable for large images. For a 224 x 224 pixel image with three colour channels, there are around 150,000 weights that must be trained. As a result, difficulties arise while training and overfitting can occur. Another common problem is that \gls{MLP} react differently to an input (images) and its shifted version — they are not translation invariant. For example, if a picture of a cat appears in the top left of the image in one picture and the bottom right of another picture, the \gls{MLP} will try to correct itself and assume that a cat will always appear in this section of the image. \gls{MLP} are not the best idea to use for image processing. In the next section, \fullref{sub:Convolutional-Neural-Network} will be introduced, which will take all the problems stated above.
+\gls{MLP} have several drawbacks, especially when it comes to handling two-dimensional data, for example, audio or image data. \gls{MLP} use one perceptron for each input (e.g. pixel in an image, multiplied by 3 in the case of RGB). The amount of weights rapidly becomes unmanageable for large input data. In case of a 224 x 224 pixel image with three colour channels, there are around 150'000 weights that must be trained. As a result, difficulties arise while training and overfitting can occur. Another common problem is that \gls{MLP} react differently to an input and its shifted version — they are not translation invariant. For example, if a picture of a cat appears in the top left of the image in one picture and the bottom right of another picture, the \gls{MLP} will try to correct itself and assume that a cat will always appear in this section of the image. All the problems stated above also apply to other areas. Thus \gls{MLP} are not the best idea to use for two-dimensional data. In the next section, \fullref{sub:Convolutional-Neural-Network} will be introduced, which will solve the problems stated above.
 
 \subsection{Convolutional Neural Network}
 \label{sub:Convolutional-Neural-Network}
@@ -573,7 +573,7 @@ The goal of the convolutional operation in the \gls{CNN} is to output a high val
     \label{fig:Convolution-Visualisation}
 \end{figure}
 \noindent
-A pooling function replaces the output of the net at a particular location with a summary statistic of the nearby outputs. For example, the max-pooling operation reports the maximum output within a rectangular neighbourhood. Another popular pooling function is the average-pooling, which outputs the average number within a rectangular neighbourhood. Both pooling functions are illustrated in figure \ref{fig:Pooling-Visualisation}. Pooling helps to make the representation approximately invariant to small translations of the input. Invariance to translation means that if a small amount translates the input image, the values of most of the pooled outputs do not change. Invariance to local translation can be a useful property if the focus is more on whether some feature is present that exactly where it is.
+A pooling function replaces the output of the net at a particular location with a summary statistic of the nearby outputs. For example, the max-pooling operation reports the maximum output within a rectangular neighbourhood. Another popular pooling function is the average-pooling, which outputs the average number within a rectangular neighbourhood. Both pooling functions are illustrated in figure \ref{fig:Pooling-Visualisation}. Pooling helps to make the representation approximately invariant to small translations of the input. Invariance to translation means that if a small amount translates the input data, the values of most of the pooled outputs do not change. Invariance to local translation can be a useful property if the focus is more on whether some feature is present within the data than exactly where it is located.
 
 \begin{figure}[htbp]
     \centering
@@ -639,10 +639,10 @@ A pooling function replaces the output of the net at a particular location with 
     \label{fig:Pooling-Visualisation}
 \end{figure}
 \noindent
-Almost every \gls{CNN} has some fully connected layers in the last layer because they will combine the features learnt by different convolution kernels so that the network can build a global representation about the holistic image. The neurons in the fully connected layer will get activated based on whether various entries represented by convolution features are present in the inputs. As the fully connected neurons get activated, it will produce different activation patterns based on what features are present in the input image. This provides a compact representation of what exists in the image, to the output layer, that the output layer can easily use to classify the image correctly.
+Almost every \gls{CNN} has some fully connected layers in the last layer because they will combine the features learnt by different convolution kernels so that the network can build a global representation about the holistic input data. The neurons in the fully connected layer will get activated based on whether various entries, represented by convolution features, are present in the inputs. This provides a compact representation of features existing in the input to the output layer, which the output layer can easily use to classify the input data correctly.
 \newline
 \newline
-To create a \gls{CNN}, all of the above concepts have to be put together to form an end-to-end model, from a raw image to a decision. To summarise, the convolution layers will learn various local features in the data (e.g. what an eye looks like), then the pooling layer will make the \gls{CNN} invariant to translations of these features (e.g. if the eye appears slightly translated in two images, the \gls{CNN} will still recognise it as an eye). Finally, the fully connected layers combine the found features and activate the correct output (e.g. there are two eyes, a nose and a mouth, this must be a person).
+To create a \gls{CNN}, all of the above concepts have to be put together to form an end-to-end model, from a raw input data to a decision. To summarise, the convolution layers will learn various local features in the data (e.g. what an eye looks like), then the pooling layer will make the \gls{CNN} invariant to translations of these features (e.g. if the eye appears slightly translated in two images, the \gls{CNN} will still recognise it as an eye). Finally, the fully connected layers combine the found features and activate the correct output (e.g. there are two eyes, a nose and a mouth, this must be a person).
 
 \subsubsection{Dilated Convolution}
 \label{subsub:Dilated-Convolution}
@@ -843,7 +843,7 @@ The paper \cite{dekkers_sins_2017} introduces the \gls{SINS} database, which con
 \noindent
 One person lived in the environment for a continuous duration of one week. In order to have an as realistic as possible data recording, there was no predefined set of scenarios. Due to that, the recorded activities also included being absent from the home. Although there were no restrictions on the actions, the number of activities that were labelled was limited, as indicated in table \ref{tab:sins-database-recorded-activities} of the appendix \ref{app:SINS-Databse-Table}. In total there are 16 different recorded activities in five different rooms. Table \ref{tab:sins-database-recorded-activities}, which can be found in the appendix \ref{app:SINS-Databse-Table}, lists the different activities along with the number of examples and the mean and standard deviation and the duration of all examples for each room.
 
-\subsection[DCASE 2018 Challenge - Task 5]{DCASE 2018 Challenge - Task 5: Monitoring of domestic activities based on multi-channel acoustics \footfullcite{dekkers_dcase_2018}}
+\subsection[DCASE 2018 Challenge - Task 5 dataset]{DCASE 2018 Challenge - Task 5: Monitoring of domestic activities based on multi-channel acoustics \footfullcite{dekkers_dcase_2018}}
 \label{sub:DCASE-Task-Dataset}
 This resource contains all the necessary information about the challenge from the IEEE AASP Challenge on \gls{DCASE} 2018. The challenge finished in 2018, and the results, as well as the full dataset, were published. The main goal of the challenge was to classify multi-channel audio segments into predefined classes and determine how beneficial multi-channel recordings are for classification. 
 
@@ -890,6 +890,9 @@ The dataset used in the challenge is an abbreviation of the \nameref{sub:SINS-Da
 \footnotetext{\href{http://dcase.community/challenge2018/task-monitoring-domestic-activities}{\nolinkurl{dcase.community/challenge2018/task-monitoring-domestic-activities}}}
 \noindent
 In the challenge, the data was split into a development and an evaluation set. The development set is used for training the model and was made available for everyone participating in the challenge. It contains four of the seven microphone nodes which are 200h of audio data. This dataset also contains the corresponding label to each audio segment. The evaluation set is used for evaluating the final models to see their performance on never seen before data from the other three nodes. A session of an activity is a full recording of an action. Within both of these datasets, each session was kept together.
+
+\subsection{DJ dataset}
+\label{sub:DJ-Dataset}
 
 \section{State of the art}
 \label{sec:State-of-art}
