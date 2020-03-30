@@ -1,14 +1,86 @@
 \chapter{Milestone reports}
 \label{app:Milestone-Reports}
-This chapter lists the individual milestone reports. These should provide information on the status of the project during realisation. For every completed milestone, a report was written before the next phase could be started. The table \fullref{tab:Milestones} shows the milestones within the thesis as well as the dates when the milestone and the phase will be completed and reviewed. The milestones are also shown in the whole project plan in \fullref{fig:Project-Plan}.
+This chapter lists the individual milestone reports. These should provide information on the status of the project during the realisation. For every completed milestone, a report was written before the next phase could be started. The table \fullref{tab:Milestones} shows the milestones within the thesis as well as the corresponding dates when the milestone and the phase will be completed and reviewed. The milestones are also shown in the whole project plan in \fullref{fig:Project-Plan}.
 
 \section{Milestone report M1 from the 15.03.2020}
+In the first phase of the project, the main goal was to research the subjects used for the thesis. Within phase, the project also had to be initialised and started. More precisely, the project structure and documentation also had to be defined. The goal was also to finish the first chapter of the thesis \fullref{ch:Related-Work} along with the research.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Work carried out milestone 1 (15.03.2020)}
+	\label{tab:Work-Carried-Out-M1}
+    \begin{tabular}{p{.70\textwidth} | p{.20\textwidth}}
+        \toprule
+        \textbf{Task} & \textbf{Status} \\ 
+        \midrule[1pt]
+        Research: Dataset & finished \\
+        \hline
+        Research: Audio processing & finished \\
+        \hline
+        Research: Triplet Loss & finished \\
+        \hline
+        Research: Tile2Vec & finished \\
+        \hline
+        Research: Evaluate research & finished \\
+        \hline
+        Realisation: Project setup & started \\
+        \hline
+        Realisation: Input pipeline & started \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 \subsection{What work was carried out in the last reporting period}
+The tasks carried out within this period are shown in the table \fullref{tab:Work-Carried-Out-M1}, along with the status of the task at the time of the milestone review. A detailed report on the entire tasks carried out within the period is shown in the work journal \ref{tab:Work-Journal}. To reach the goal of simultaneously finishing the chapter \ref{ch:Related-Work} with the research, each researched topic was documented right away. 
 
 \subsection{State of progress}
+The current milestone was successfully reached since all the planned tasks could be finished. The phase was finished too early so that the next period could already be started, the realisation phase. 
 
 \subsection{Top three risks including planned measures}
+\begin{enumerate}
+    \setlength\itemsep{0em}
+    \item Formulas related work wrong, will be checked by Daniel Pfäffli
+    \item Topics missing in related work, will be checked by Daniel Pfäffli
+    \item Input pipeline structure, will be discussed at the next meeting
+\end{enumerate}
+
+\section{Milestone report M2 from the 29.03.2020}
+In the second milestone of the project, the main goal was to finish the whole project setup. The project repository had to be set up, the input pipeline was created for the dataset, and the default model architecture was created. The purpose was that after this milestone, the project is at a certain point, that the implementation of specific architectures is fast enough to experiment with different ones.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Work carried out milestone 2 (29.03.2020)}
+	\label{tab:Work-Carried-Out-M2}
+    \begin{tabular}{p{.70\textwidth} | p{.20\textwidth}}
+        \toprule
+        \textbf{Task} & \textbf{Status} \\ 
+        \midrule[1pt]
+        Realisation: Project setup & finished \\
+        \hline
+        Realisation: Input pipeline & finished \\
+        \hline
+        Realisation: Default architecture & finished \\
+        \hline
+        Realisation: Evaluation Workflow & midway \\
+        \hline
+        Realisation: Unit tests & midway \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{What work was carried out in the last reporting period}
+The tasks carried out within this period are shown in the table \fullref{tab:Work-Carried-Out-M2}, along with the status of the task at the time of the milestone review. A detailed report on the entire tasks carried out within the period is shown in the work journal \ref{tab:Work-Journal}. Two tasks were not completed within the period, which was now prioritised in the next phase and will get completed first. The milestone could not be completed because to little time was planned for tasks like \flqq input pipeline\frqq or \flqq evaluation workflow\frqq. The evaluation workflow was completed except for the classifier, to evaluate the architecture in relation to the other models in the DCASE Challenge. Unit tests were not written for all the created models but will be right away at the start of the next milestone.
+
+\subsection{State of progress}
+The current milestone was not reached since two tasks could not be finished entirely. The uncompleted tasks were prioritised and were moved to the next phase of the project.
+
+\subsection{Top three risks including planned measures}
+\begin{enumerate}
+    \setlength\itemsep{0em}
+    \item GPU caching / file deletion problem, will be discussed at the next meeting
+    \item Classifier architecture, will be discussed at the next meeting
+    \item Unit tests for models, will be discussed at the next meeting 
+\end{enumerate}
 
 \chapter{SINS database table}
 \label{app:SINS-Databse-Table}
@@ -161,6 +233,42 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         & 0.5h  \\
     \hline
     09.03.2020 & Meeting (number 4) & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item preparation of the meeting
+        \item meeting itself
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 2h  \\
+    \hline
+    16.03.2020 & Meeting (number 5) & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item preparation of the meeting
+        \item meeting itself
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 2h  \\
+    \hline
+    23.03.2020 & Meeting (number 6) & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item preparation of the meeting
+        \item meeting itself
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 2h  \\
+    \hline
+    30.03.2020 & Meeting (number 7) & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -333,7 +441,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 4h  \\
     \hline
-    16.03.2020 & Finished related work & 
+    15.03.2020 & Finished related work & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -344,6 +452,52 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \vskip 4pt
         \end{minipage}
         & 2h  \\
+    \hline
+    15.03.2020 & Milestone review & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item M1 milestone review
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 1h  \\
+    \hline
+    27.03.2020 & Started with changes from Daniel & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item Related Work changes
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 2h  \\
+    \hline
+    28.03.2020 & Started with chapter 3, Ideas and concepts & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item Data preprocessing
+        \item Feature extraction
+        \item Data augmentation
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 3h  \\
+    \hline
+    29.03.2020 & Milestone review & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item M2 milestone review
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 1h  \\
     \hline
     \multicolumn{4}{|l|}{\textbf{Research}} \\
     \hline
@@ -458,6 +612,101 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \vskip 4pt
         \end{minipage}
         & 2h  \\
+    \hline
+    16.03.2020 & Input pipeline finished & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item finished input pipeline
+        \item finished unit test for pipeline
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 7h  \\
+    \hline
+    18.03.2020 & Project setup & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item finished project structure
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 2h  \\
+    \hline
+    18.03.2020 & Project setup & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item Triplet loss implemented
+        \item Dense model implemented
+        \item Started with projector visualisation
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 5h  \\
+    \hline
+    20.03.2020 & Project setup & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item Train workflow implemented
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 5h  \\
+    \hline
+    23.03.2020 & Project setup & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item Tested models and workflow on GPU
+        \item Convolutional model implemented
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 5h  \\
+    \hline
+    25.03.2020 & Project setup & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item Convolutional model edited (1D and 2D)
+        \item Training workflow edited
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 4h  \\
+    \hline
+    27.03.2020 & Project setup & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item Factories implemented
+        \item Metrics implemented
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 5h  \\
+    \hline
+    31.03.2020 & Project setup & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item GRU Model implemented
+        \item refactoring
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 4h  \\
     \hline
 \end{longtable}
 
