@@ -22,7 +22,7 @@ Signals need to be processed so that the information that they contain can be di
 Speech signals are sound signals, defined as pressure variations travelling through the air. These variations in pressure can be described as waves, and are often called sound waves. In the current thesis, the focus is on the analysis and processing of such waveforms in digital systems. Therefore it is always assumed that the acoustic speech signals have been captured by a microphone and converted to a digital form.
 \newline
 \newline
-A speech signal of finite length can be represented by a digitalised finite-length sequence $x[n]$, with $n = 0, 1, \dots, N-1$. The accuracy of this representation is specified by two variables, the sampling frequency (the step in time between $n$ and $n+1$) and the accuracy and distribution of amplitudes of $x$.
+A speech signal of finite length can be represented by a digitalised finite-length sequence $x[n]$, with $n = 0, 1, \dots, N-1$.
 
 \subsection{Amplitude}
 \label{sub:Amplitude}
@@ -54,7 +54,7 @@ Frequency is the number of occurrences of a repeating event per unit of time. It
 \myequations{Calculate frequency from wavelength}
 \begin{equation}
     \centering
-    f = \frac{1}{\lambda}
+    f = \frac{1}{\gamma}
     \label{eq:Frequency}
 \end{equation}
 
@@ -464,7 +464,10 @@ where:
     \hat{y}_i & predicted value, output of the \gls{NN}
 \end{conditions*}
 \noindent
-The next step in backpropagation is to calculate the error of each weight $\theta_i$, the bias $b_i$ can also be thought of as a special kind of weight within the network. This is done by computing the gradients, given the cost function $\mathcal{L}$, with respect to the weights $\theta_i$. The gradient can be interpreted as the direction and rate of fastest increase. In equation \ref{eq:Backpropagation-Gradient} the gradient of the cost function $\mathcal{L}$ with respect to the weights $\theta_i$ is computed using partial derivation. The same function can also be used to compute the cost function $\mathcal{L}$ with respect to the bias. Since the cost function is not directly related to the weights, the chain rule is used.
+The next step in backpropagation is to calculate the error of each weight $\theta_i$. The bias $b_i$ can also be thought of as a special kind of weight within the network. This is done by computing the gradients, given the cost function $\mathcal{L}$, with respect to the weights $\theta_i$. The gradient can be interpreted as the direction and rate of fastest increase. 
+\newline
+\newline
+In equation \ref{eq:Backpropagation-Gradient} the gradient of the cost function $\mathcal{L}$ with respect to the weights $\theta_i$ is computed using partial derivation. The equation computes the gradients of the weights from the last hidden layer (\flqq Hidden layer 2\frqq, e.g. $z^2_1$) shown in figure \ref{fig:MLP-Visualisation}. For lower layers, the chain rule would be used more extensively. The same function can also be used to compute the cost function $\mathcal{L}$ with respect to the bias. Since the cost function is not directly related to the weights, the chain rule is used.
 \myequations{Gradient of cost function with respect to the weights}
 \begin{equation}
     \centering
@@ -512,7 +515,7 @@ Convolution is a process where a small matrix of numbers, called the kernel or f
 \myequations{Convolution of an image and a two-dimensional kernel}
 \begin{equation}
     \centering
-    S(i,j) = (I \ast K)(i,j) = \sum_m \sum_n I(m,n)K(i-m, j-n)
+    S(i,j) = (K \ast I)(i,j) = \sum_{m=-\infty}^\infty \sum_{n=-\infty}^\infty I(i-m, j-n) \cdot K(m,n)
     \label{eq:Convolution}
 \end{equation}
 The goal of the convolutional operation in the \gls{CNN} is to output a high value for a given position, if the kernel is present in that location, else outputs a low value. The convolutions are restricted to only \flqq valid\frqq \ positions, where the kernel lies entirely within the image. Since the image shrinks every time a convolution is performed, it can only be performed a limited number of times. Furthermore, it can be seen that the kernel has a more significant impact on the centre of the image as on the outskirts. The image will be padded with an additional border, to solve both of these problems. Usually, it is filled with zeros. Depending on whether padding is used or not, there are two types of convolution: Valid and Same. Valid means that the original image is used and same states, that padding around the image is used and thus the input and output image have the same size. Another important hyperparameter of a \gls{CNN} is stride, which indicates how much the kernel slides to its next position. Figure \ref{fig:Convolution-Visualisation} illustrates a convolution with a 2x2 kernel, padding valid and stride one. 
@@ -650,11 +653,11 @@ To create a \gls{CNN}, all of the above concepts have to be put together to form
 Dilated convolution is a specialized type of convolution, which was first introduced within the paper (\cite{yu_multi-scale_2016}). It is helpful first to understand why vanilla convolutions (normal convolutions) struggle to integrate the global context. Suppose a purely convolutional network composed of layers of $k \times k$ convolutions, without pooling. It is clear to see that size of the receptive field of each unit (the block of pixels which can influence its activation) is $l \times (k-1) + k$, where $l$ is the layer index. Therefore the effective receptive field of units can only grow-linearly with the layers. Especially for high-resolution input images, the linearly-grow is very limiting.
 \newline
 \newline
-Dilated convolutions increase the kernel by inserting spaces between the kernel elements. The dilation rate is controlled by an additional hyperparameter $l$. These dilated convolutions between signal $f$ and kernel $k$ and dilation factor $l$ is defined by formula \ref{eq:Dilated-Convolution}. $\ast_l$ refers to the dilated convolution or a $l$-dilated convolution. The normal convolution $\ast$ is simply the 1-dilated-convolution. The figure \ref{fig:Dilated-Convolution} illustrates stacked dilated convolutions within a \gls{CNN}, where the dilation factor $l$ is increased exponentially.
+Dilated convolutions increase the kernel by inserting spaces between the kernel elements. The dilation rate is controlled by an additional hyperparameter $l$. These one dimensional dilated convolutions between signal $I$ and kernel $K$ and dilation factor $l$ is defined by formula \ref{eq:Dilated-Convolution}. $\ast_l$ refers to the dilated convolution or a $l$-dilated convolution. The normal convolution $\ast$ is simply the 1-dilated-convolution. The figure \ref{fig:Dilated-Convolution} illustrates stacked dilated convolutions within a \gls{CNN}, where the dilation factor $l$ is increased exponentially.
 \myequations{Convolution of an image and a two-dimensional kernel}
 \begin{equation}
     \centering
-    (I \ast_l K)(p) = \sum_{s + lt =p} I(s)K(t)
+    (K \ast_l I)(i) = \sum_{n=-\infty}^\infty K(n) \cdot I(i - ln)
     \label{eq:Dilated-Convolution}
 \end{equation}
 Dilated convolutions are used to cheaply increase the receptive field of output units without increasing the kernel size, which is especially useful when multiple dilated convolutions are stacked one after another. For a concrete example, see \cite{oord_wavenet_2016}, in which the proposed WaveNet model implements an autoregressive generative model for raw audio which uses dilated convolutions to condition new audio frames on a broad context of past audio frames.
