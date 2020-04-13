@@ -1,4 +1,88 @@
 
+@article{hashemi_enlarging_2019,
+	title = {Enlarging smaller images before inputting into convolutional neural network: zero-padding vs. interpolation},
+	volume = {6},
+	issn = {2196-1115},
+	shorttitle = {Enlarging smaller images before inputting into convolutional neural network},
+	url = {https://doi.org/10.1186/s40537-019-0263-7},
+	doi = {10.1186/s40537-019-0263-7},
+	abstract = {The input to a machine learning model is a one-dimensional feature vector. However, in recent learning models, such as convolutional and recurrent neural networks, two- and three-dimensional feature tensors can also be inputted to the model. During training, the machine adjusts its internal parameters to project each feature tensor close to its target. After training, the machine can be used to predict the target for previously unseen feature tensors. What this study focuses on is the requirement that feature tensors must be of the same size. In other words, the same number of features must be present for each sample. This creates a barrier in processing images and texts, as they usually have different sizes, and thus different numbers of features. In classifying an image using a convolutional neural network (CNN), the input is a three-dimensional tensor, where the value of each pixel in each channel is one feature. The three-dimensional feature tensor must be the same size for all images. However, images are not usually of the same size and so are not their corresponding feature tensors. Resizing images to the same size without deforming patterns contained therein is a major challenge. This study proposes zero-padding for resizing images to the same size and compares it with the conventional approach of scaling images up (zooming in) using interpolation. Our study showed that zero-padding had no effect on the classification accuracy but considerably reduced the training time. The reason is that neighboring zero input units (pixels) will not activate their corresponding convolutional unit in the next layer. Therefore, the synaptic weights on outgoing links from input units do not need to be updated if they contain a zero value. Theoretical justification along with experimental endorsements are provided in this paper.},
+	language = {en},
+	number = {1},
+	urldate = {2020-04-08},
+	journal = {Journal of Big Data},
+	author = {Hashemi, Mahdi},
+	month = nov,
+	year = {2019},
+	pages = {98}
+}
+
+@article{lee_samplecnn_2018,
+	title = {{SampleCNN}: {End}-to-{End} {Deep} {Convolutional} {Neural} {Networks} {Using} {Very} {Small} {Filters} for {Music} {Classification}},
+	volume = {8},
+	issn = {2076-3417},
+	shorttitle = {{SampleCNN}},
+	url = {http://www.mdpi.com/2076-3417/8/1/150},
+	doi = {10.3390/app8010150},
+	abstract = {Convolutional Neural Networks (CNN) have been applied to diverse machine learning tasks for different modalities of raw data in an end-to-end fashion. In the audio domain, a raw waveform-based approach has been explored to directly learn hierarchical characteristics of audio. However, the majority of previous studies have limited their model capacity by taking a frame-level structure similar to short-time Fourier transforms. We previously proposed a CNN architecture which learns representations using sample-level ﬁlters beyond typical frame-level input representations. The architecture showed comparable performance to the spectrogram-based CNN model in music auto-tagging. In this paper, we extend the previous work in three ways. First, considering the sample-level model requires much longer training time, we progressively downsample the input signals and examine how it affects the performance. Second, we extend the model using multi-level and multi-scale feature aggregation technique and subsequently conduct transfer learning for several music classiﬁcation tasks. Finally, we visualize ﬁlters learned by the sample-level CNN in each layer to identify hierarchically learned features and show that they are sensitive to log-scaled frequency.},
+	language = {en},
+	number = {1},
+	urldate = {2020-04-08},
+	journal = {Applied Sciences},
+	author = {Lee, Jongpil and Park, Jiyoung and Kim, Keunhyoung and Nam, Juhan},
+	month = jan,
+	year = {2018},
+	pages = {150}
+}
+
+@article{pons_timbre_2017,
+	title = {Timbre {Analysis} of {Music} {Audio} {Signals} with {Convolutional} {Neural} {Networks}},
+	url = {http://arxiv.org/abs/1703.06697},
+	abstract = {The focus of this work is to study how to efﬁciently tailor Convolutional Neural Networks (CNNs) towards learning timbre representations from log-mel magnitude spectrograms. We ﬁrst review the trends when designing CNN architectures. Through this literature overview we discuss which are the crucial points to consider for efﬁciently learning timbre representations using CNNs. From this discussion we propose a design strategy meant to capture the relevant time-frequency contexts for learning timbre, which permits using domain knowledge for designing architectures. In addition, one of our main goals is to design efﬁcient CNN architectures – what reduces the risk of these models to over-ﬁt, since CNNs’ number of parameters is minimized. Several architectures based on the design principles we propose are successfully assessed for different research tasks related to timbre: singing voice phoneme classiﬁcation, musical instrument recognition and music auto-tagging.},
+	language = {en},
+	urldate = {2020-04-08},
+	journal = {arXiv:1703.06697 [cs]},
+	author = {Pons, Jordi and Slizovskaia, Olga and Gong, Rong and Gómez, Emilia and Serra, Xavier},
+	month = jun,
+	year = {2017},
+	note = {arXiv: 1703.06697},
+	keywords = {Computer Science - Sound}
+}
+
+@inproceedings{turpault_semi-supervised_2019,
+	address = {Brighton, United Kingdom},
+	title = {Semi-supervised {Triplet} {Loss} {Based} {Learning} of {Ambient} {Audio} {Embeddings}},
+	isbn = {978-1-4799-8131-1},
+	url = {https://ieeexplore.ieee.org/document/8683774/},
+	doi = {10.1109/ICASSP.2019.8683774},
+	abstract = {Deep neural networks are particularly useful to learn relevant representations from data. Recent studies have demonstrated the potential of unsupervised representation learning for ambient sound analysis using various ﬂavors of the triplet loss. They have compared this approach to supervised learning. However, in real situations, it is common to have a small labeled dataset and a large unlabeled one. In this paper, we combine unsupervised and supervised triplet loss based learning into a semi-supervised representation learning approach. We propose two ﬂavors of this approach, whereby the positive samples for those triplets whose anchors are unlabeled are obtained either by applying a transformation to the anchor, or by selecting the nearest sample in the training set. We compare our approach to supervised and unsupervised representation learning as well as the ratio between the amount of labeled and unlabeled data. We evaluate all the above approaches on an audio tagging task using the DCASE 2018 Task 4 dataset, and we show the impact of this ratio on the tagging performance.},
+	language = {en},
+	urldate = {2020-04-08},
+	booktitle = {{ICASSP} 2019 - 2019 {IEEE} {International} {Conference} on {Acoustics}, {Speech} and {Signal} {Processing} ({ICASSP})},
+	publisher = {IEEE},
+	author = {Turpault, Nicolas and Serizel, Romain and Vincent, Emmanuel},
+	month = may,
+	year = {2019},
+	pages = {760--764}
+}
+
+@inproceedings{jansen_unsupervised_2018,
+	address = {Calgary, AB},
+	title = {Unsupervised {Learning} of {Semantic} {Audio} {Representations}},
+	isbn = {978-1-5386-4658-8},
+	url = {https://ieeexplore.ieee.org/document/8461684/},
+	doi = {10.1109/ICASSP.2018.8461684},
+	abstract = {Even in the absence of any explicit semantic annotation, vast collections of audio recordings provide valuable information for learning the categorical structure of sounds. We consider several classagnostic semantic constraints that apply to unlabeled nonspeech audio: (i) noise and translations in time do not change the underlying sound category, (ii) a mixture of two sound events inherits the categories of the constituents, and (iii) the categories of events in close temporal proximity are likely to be the same or related. Without labels to ground them, these constraints are incompatible with classiﬁcation loss functions. However, they may still be leveraged to identify geometric inequalities needed for triplet loss-based training of convolutional neural networks. The result is low-dimensional embeddings of the input spectrograms that recover 41\% and 84\% of the performance of their fully-supervised counterparts when applied to downstream query-by-example sound retrieval and sound event classiﬁcation tasks, respectively. Moreover, in limited-supervision settings, our unsupervised embeddings double the state-of-the-art classiﬁcation performance.},
+	language = {en},
+	urldate = {2020-04-08},
+	booktitle = {2018 {IEEE} {International} {Conference} on {Acoustics}, {Speech} and {Signal} {Processing} ({ICASSP})},
+	publisher = {IEEE},
+	author = {Jansen, Aren and Plakal, Manoj and Pandya, Ratheet and Ellis, Daniel P. W. and Hershey, Shawn and Liu, Jiayang and Moore, R. Channing and Saurous, Rif A.},
+	month = apr,
+	year = {2018},
+	pages = {126--130}
+}
+
 @article{zhang_mixup_2018,
 	title = {mixup: {Beyond} {Empirical} {Risk} {Minimization}},
 	shorttitle = {mixup},
@@ -470,7 +554,6 @@ Evolution AI: Machines that Read - get answers from your text data.},
 	urldate = {2019-12-19},
 	journal = {Docker}
 }
-
 @misc{noauthor_mt_2019,
 	title = {{MT} for {Beginners}: {Was} ist {TER}?},
 	shorttitle = {{MT} for {Beginners}},
@@ -520,6 +603,7 @@ Evolution AI: Machines that Read - get answers from your text data.},
 	url = {https://www.google.com/search?client=safari&rls=en&q=neural+style+transfer&ie=UTF-8&oe=UTF-8},
 	urldate = {2019-09-26}
 }
+
 @misc{sciforce_comprehensive_2019,
 	title = {A {Comprehensive} {Guide} to {Natural} {Language} {Generation}},
 	url = {https://medium.com/sciforce/a-comprehensive-guide-to-natural-language-generation-dd63a4b6e548},
