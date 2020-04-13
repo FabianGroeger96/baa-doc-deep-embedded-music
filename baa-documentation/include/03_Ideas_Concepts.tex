@@ -1,6 +1,5 @@
 \chapter{Ideas and concepts}
 \label{ch:Ideas-Concepts}
-
 This chapter explains the different ideas and concepts used in the thesis. Some ideas were discovered during the research and were already introduced in the chapter \fullref{ch:Related-Work}. Others were developed especially for this project and their application, as well as their value, will be proven in this work.
 \newline
 \newline
@@ -67,7 +66,6 @@ For the \fullref{sub:Music-Dataset}, the data augmentation was neglected because
 
 \section{Triplet selection}
 \label{sec:Triplet-Selection}
-
 The triplet selection describes the process of selecting a neighbouring and opposite feature from a given anchor feature. It is described in further detail within section \fullref{eq:Triplet-Loss}. The procedure is split into two parts, the selection of the neighbouring and opposite tile.
 \newline
 \newline
@@ -89,13 +87,13 @@ The input pipeline is responsible for creating the dataset, which will then be f
 \newline
 Because no preprocessing is being done to the datasets and they are used as-is, the input pipeline will need to do the \fullref{sec:Feature-Extraction}, the \fullref{sec:Data-Augmentation} and the \fullref{sec:Triplet-Selection}.
 \newline
-First the input pipeline has to generate the dataset using the generator function of the corresponding dataset, which also includes the triplet selection. It is important to note, that all the operations after are done on the whole batch. After the generation, the data augmentation, if needed, and then the feature extraction is being performed.
+First, the input pipeline has to generate the dataset using the generator function of the corresponding dataset, which also includes the triplet selection. It is important to note that all the operations after are done on the whole batch. After the generation, the data augmentation, if needed, and then the feature extraction is being performed.
 \newline
 \newline
-The generator function loops over the whole dataset and creates an audio triplet, which will then be yielded back to the dataset. The first step in the generator, is the triplet selection. It returns a triplet consisting of the audio file index and the index of the segment within the audio, for the anchor, neighbour and opposite tile. Then these indices will then be used to extract the specified segment of the audio files. Finally these audio triplet slices will then be yielded back to the dataset from the generator.
+The generator function loops over the whole dataset and creates an audio triplet, which will then be yielded back to the dataset. The first step in the generator is the triplet selection. It returns a triplet consisting of the audio file index and the index of the segment within the audio, for the anchor, neighbour and opposite tile. Then these indices will then be used to extract the specified segment of the audio files. Finally, these audio triplet slices will then be yielded back to the dataset from the generator.
 \newline
 \newline
-This creates the dataset dynamically, because the dataset only contains the current batch along with some prefetched entries, which are entries from the next batch so that the \gls{GPU} is fully utilised.
+This creates the dataset dynamically because the dataset only contains the current batch along with some prefetched entries, which are entries from the next batch so that the \gls{GPU} is fully utilised.
 \newline
 \newline
 The feature extraction is implemented using the vectorised \texttt{.map} function of the class \texttt{tf.data.Dataset}\footnotemark. The \texttt{.map} function applies a given function to each element within the dataset, which in our case will be used to extract the features from the audio. Hence a \flqq feature extractor\frqq \ has to be provided to the input pipeline, which will extract a certain feature from the audio as stated in \fullref{sec:Feature-Extraction}.
@@ -104,6 +102,17 @@ The feature extraction is implemented using the vectorised \texttt{.map} functio
 
 \section{Models}
 \label{sec:Models}
+This section describes the overall architecture of the models used in the thesis. Audio data will be thought of as two-dimensional data, and therefore state-of-the-art image recognition models can also be used for the audio domain.
+\newline
+\newline
+One of the most straight forward architectures used, are \fullref{sub:Convolutional-Neural-Network}. They are used in a lot of audio applications because of their simplicity and robustness. A lot of research in the past couple of years has shown the overall success of these models.
+\newline
+\newline
+Another widely used model architecture is the \gls{RNN}, such as \fullref{sub:Gated-Recurrent-Unit}, which are primarily used in the text domain. They have also shown their success within the audio domain, because of the sequential nature of the data.
+\newline
+\newline
+The most prominent approach in audio research is the combination of \gls{CNN} and \gls{RNN}. The architecture consists of multiple convolution layers and then single or multiple recurrent layers. These models first reduce the input data to a specific lower-dimensional representation and then use recurrent models to make use of the sequential nature of the data. Therefore the best ideas of both models are used within these \gls{CRNN}.
 
 \section{Application to music}
 \label{sec:Application-Music}
+All of the concepts mentioned above are designed to work with both datasets. Thus the application to music is described in each above section separately when the application for the \fullref{sub:Music-Dataset} is described.
