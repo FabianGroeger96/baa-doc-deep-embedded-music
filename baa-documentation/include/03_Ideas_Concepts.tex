@@ -98,7 +98,12 @@ This creates the dataset dynamically because the dataset only contains the curre
 \newline
 The feature extraction is implemented using the vectorised \texttt{.map} function of the class \texttt{tf.data.Dataset}\footnotemark. The \texttt{.map} function applies a given function to each element within the dataset, which in our case will be used to extract the features from the audio. Hence a \flqq feature extractor\frqq \ has to be provided to the input pipeline, which will extract a certain feature from the audio as stated in \fullref{sec:Feature-Extraction}.
 \footnotetext{\url{https://www.tensorflow.org/api_docs/python/tf/data/Dataset}}
-% TODO insert illustration of process
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.4]{baa-documentation/img/Input_Pipeline_Visualisation.png}
+	\caption{Visualisation of the input pipeline}
+	\label{fig:Input-Pipeline-Visualisation}
+\end{figure}
 
 \section{Models}
 \label{sec:Models}

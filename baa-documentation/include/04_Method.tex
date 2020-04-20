@@ -16,7 +16,6 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
 \KOMAoptions{pagesize,paper=landscape,DIV=20}
 \storeareas\landscapevalues
 
-% TODO - Add "zwischenpräsi"
 \begin{figure}
 \centering
      \begin{ganttchart}[%Specs
@@ -26,6 +25,8 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
      vgrid, hgrid,
      title height=1,
      title label font=\bfseries\footnotesize,
+     today=9,
+     today label=Current Week,
      bar/.style={fill=blue},
      bar height=0.7,
      group right shift=0,
@@ -46,40 +47,42 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
     % 1. Phase: Research
     \ganttgroup[inline=false]{Research}{1}{4}\\ 
     \ganttbar[progress=100,inline=false]{Dataset}{1}{1}\\
-    \ganttbar[progress=100,inline=false]{Audio Processing}{1}{1}\\
-    \ganttbar[progress=100,inline=false]{Triplet Loss}{2}{2}\\
+    \ganttbar[progress=100,inline=false]{Audio processing}{1}{1}\\
+    \ganttbar[progress=100,inline=false]{Triplet loss}{2}{2}\\
     \ganttbar[progress=100,inline=false]{Tile2Vec}{3}{3}\\
-    \ganttbar[progress=100,inline=false]{Evaluate Research}{4}{4}\\
+    \ganttbar[progress=100,inline=false]{Evaluate research}{4}{4}\\
     \ganttmilestone[inline=false]{Research finished}{4} \\ % M1
     
     % 2. Phase: Realization
     \ganttgroup[inline=false]{Realisation}{5}{8} \\
     \ganttbar[progress=100,inline=false]{Project setup}{5}{5} \\
-    \ganttbar[progress=100,inline=false]{Input Pipeline}{5}{5} \\
-    \ganttbar[progress=100,inline=false]{Default Architecture}{6}{6} \\
-    \ganttbar[progress=90,inline=false]{Evaluation Workflow}{6}{6} \\
+    \ganttbar[progress=100,inline=false]{Input pipeline}{5}{5} \\
+    \ganttbar[progress=100,inline=false]{Default model architectures}{6}{6} \\
+    \ganttbar[progress=100,inline=false]{Evaluation workflow}{6}{6} \\
     \ganttbar[progress=100,inline=false]{Unit tests}{6}{6} \\
     \ganttmilestone[inline=false]{Project Setup finished}{6} \\ % M2
     \ganttbar[progress=100,inline=false]{Tile2Vec implementation}{7}{7} \\
-    \ganttbar[progress=10,inline=false]{Experiment Architecture}{8}{8} \\
+    \ganttbar[progress=100,inline=false]{Architecture for experiments}{8}{8} \\
     \ganttmilestone[inline=false]{Realisation finished}{8} \\ % M3
     
-    \ganttbar[progress=0,inline=false]{Create Pitch Video / Web abstract}{8}{8} \\
+    \ganttmilestone[inline=false]{Interim presentation}{9} \\ % M3
     
     % 3. Phase: Experiments
     \ganttgroup[inline=false]{Experiments}{9}{12} \\
-    \ganttbar[progress=0,inline=false]{Conduct Experiments}{9}{9} \\
-    \ganttbar[progress=0,inline=false]{Validate Embeddings}{10}{11} \\
+    \ganttbar[progress=10,inline=false]{Conduct experiments}{9}{9} \\
+    \ganttbar[progress=0,inline=false]{Validate embeddings}{10}{11} \\
     \ganttmilestone[inline=false]{Experiments finished}{11} \\ % M4
-    \ganttbar[progress=80,inline=false]{Visualize Embeddings}{12}{12} \\
+    \ganttbar[progress=80,inline=false]{Visualize embeddings}{12}{12} \\
+    
+    \ganttbar[progress=0,inline=false]{Create pitch video and web abstract}{12}{12} \\
     
     % Buffer
     \ganttgroup[inline=false]{Buffer}{13}{13} \\
     
     % 4. Phase: Documentation
-    \ganttgroup[inline=false]{Finalise Documentation}{14}{16} \\
-    \ganttbar[progress=0,inline=false]{Finalise Documentation}{14}{15} \\
-    \ganttbar[progress=0,inline=false]{Proofread Documentation}{16}{16} \\
+    \ganttgroup[inline=false]{Finalise documentation}{14}{16} \\
+    \ganttbar[progress=0,inline=false]{Finalise documentation}{14}{15} \\
+    \ganttbar[progress=0,inline=false]{Proofread documentation}{16}{16} \\
     \ganttmilestone[inline=false]{Thesis submission}{16}
 
 \end{ganttchart}
@@ -103,7 +106,6 @@ The project is grouped into 4 phases, research, realisation, experiments and fin
 
 For each finished phase, there is a specific milestone, to review the process within the finished phase and provide an outlook on the next phase. This is done by writing a report for each milestone, which can be found in the appendix \fullref{app:Milestone-Reports}. Each of these reports answers three questions, what was done since the last reporting, state of progress of the project and top three risks, including planned measures. The reports provide valuable insights into the projects current status and will also be used to plan the next phases. Table \ref{tab:Milestones} shows all the milestones with the corresponding data assigned to it. The milestones are also illustrated in the full project plan \ref{fig:Project-Plan}.
 
-% TODO - Add "zwischenpräsi"
 \begin{table}[htbp]
     \centering
     \caption{Overview Milestones with their date}
@@ -119,6 +121,8 @@ For each finished phase, there is a specific milestone, to review the process wi
         Project setup finished & 29.03.2020\\
         \hline
         Realization finished & 12.04.2020\\
+        \hline
+        Interim presentation & 21.04.2020\\
         \hline
         Experiments finished & 03.05.2020\\
         \hline
