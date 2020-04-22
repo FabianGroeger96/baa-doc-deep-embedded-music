@@ -6,8 +6,17 @@
 \usepackage{datetime}
 \usepackage[font=small,labelfont=it]{caption}
 \usepackage{graphicx}
-\usepackage{mathpazo} % use palatino
-\usepackage[scaled]{helvet} % helvetica
+% Use Times NR as font
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+\usepackage{float}
+
+% Better tables
+\usepackage{tabularx}
+% to make beautiful tables
+\usepackage{booktabs}
+
 \usepackage{microtype}
 \usepackage{amsmath}
 \usepackage{subfigure}
@@ -16,50 +25,88 @@
 \newcommand{\spacecaps}[1]{\textls[200]{\MakeUppercase{#1}}}
 \newcommand{\spacesc}[1]{\textls[50]{\textsc{\MakeLowercase{#1}}}}
 
-\title{\spacecaps{Lab report: Lab 0 }\\ \normalsize \spacesc{TNM079, Modeling and Animation} }
+\title{\spacecaps{Study doc: margin experiment}\\ \normalsize \spacesc{how does the margin affect the embedding space}}
 
-\author{Your Name\\yourliuid@student.liu.se}
-%\date{\today\\\currenttime}
+\author{Fabian Gröger\\fabian.groeger@stud.hslu.ch}
 \date{\today}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-%
-This template outlines the different sections that are required for the reports for the lab course in TNM079 at Link\"oping University. You are encouraged to use the source for this template to produce your own lab reports. Each section title is followed by a short description and possible requirements. First out is the abstract. It should give a rough overview of the report, including purpose, key insights and major conclusions. It can additionally include a brief description of the methods used. The abstract should consist of about 100 words. The upper limit would be around 200 words. Try write one or two sentences about \textit{what}, \textit{how} and \textit{why} additionally you should give first results. Keep it compressed and always treat is as a summary of your report.
-
-Remember that a good lab report does more than presenting results; it demonstrates the writer's comprehension of the concepts and insights behind the methods.
-
-The report should be self-contained, which means that it should not be necessary to read other sources such as the papers that you list in your reference list.
-%
+This experiment aims to show the affect of changing the margin $\alpha$ within a triplet loss on the DCASE dataset.
 \end{abstract}
 
 
 \section{Introduction}
+A very important hyperparameter when training a triplet loss is the margin, denoted as $\alpha$. The margin makes sure that the network is not allowed to output the trivial solution, where all the embeddings vectors are zero or contain the same values. Within the triplet loss function it is used to put a limit on how far the network can push the negative sample away to improve the loss. Thus the distance of the negative sample has to be greater than the distance from the anchor to the positive sample plus the margin $\alpha$. This experiment aims to show the importance of the margin as well as to find the optimal one for the DCASE dataset.
+
+\section{Hyperparameters}
 %
-The introduction is there to set the stage and define the subject of the report. It should also answer the following questions: \emph{Why is the lab performed? What is the specific purpose of this lab? Why is this lab important?}. It carries on where the abstract stopped but focuses on the topic itself. No results nor any background.
+The hyperparameters used for this experiment are shown in table \ref{tab:Hyperparameters}. The margin will be evaluated using a state of the art ResNet18 architecture on the DCASE dataset. The hyperparameters in section \textit{Feature representation} as well as the sample rate are the default ones proposed by the organisers of the DCASE challenge within the baseline project. The margin will be evaluated for six different values \texttt{[0.3, 0.5, 0.7, 1, 2, 10]}.
 
-\section{Background}
-%
-The section \textit{Background} should provide a description of every task you implemented. It should take up about 1 A4 page if you aim at a grade 3, 1.5 A4 pages for a 4 and about 2 A4 pages if you aim at a 5 (excluding Figures). You give in this section a more detailed description of what you have implemented in this lab. You can use 2-3 figures to support your description. If you find other work which can be referenced, this would be a good place to put it.
-
-\section{Tasks}
-%
-This section should describe what work was done and how, specifically how you solved the different tasks. For this type of lab report it can be beneficial to put each assignment in its own subsection.
-
-\subsection{``Your Subtask''}
-
-When working with equations, remember that it is not enough to simply state that you used this or that equation to solve the problem. You should also (briefly) describe what each equation accomplishes, what its parts are and \emph{what it means in the particular setting of this lab}. You can also mention in which file the implementations were made.
-
-\newpage
-For this assignment, the following equation regarding academic output was used:
-
-\begin{align}
-    r &= e \cdot \Delta_t \label{eq:abc}
-\end{align}
-
-In Equation~\ref{eq:abc}, $e$ represents the total body of work (effort) while $\Delta_t$ represents time. In the context of this report, the result $r$ represents the quality of the report.
+\begin{table}[H]
+    \centering
+    \caption{Hyperparameters used for the experiment}
+	\label{tab:Hyperparameters}
+    \begin{tabular}{l|l}
+        \toprule
+        \textbf{Hyperparameter} & \textbf{value} \\ 
+        \midrule[1pt]
+        Dataset & DCASE \\
+        \hline
+        Model & ResNet18 \\ 
+        \hline
+        Epochs & 10 \\ 
+        \hline
+        Batch size & 256 \\ 
+        \hline
+        Learning rate & 1e-3 \\
+        \hline
+        Margin & [0.3, 0.5, 0.7, 1, 2, 10] \\
+        \hline
+        Embedding dimension & 512 \\
+        \hline
+        Prefetch batches & 2048 \\ 
+        \hline
+        Random selection buffer & 64 \\ 
+        \hline
+        Shuffle dataset & True \\
+        \midrule[1pt]
+        \multicolumn{2}{l}{\textit{Multi threading}} \\
+        \midrule[1pt]
+        Number of generators & 16 \\ 
+        \hline
+        Number of parallel calls & 16 \\
+        \midrule[1pt]
+        \multicolumn{2}{l}{\textit{Audio sample}} \\
+        \midrule[1pt]
+        Sample rate & 16000 \\ 
+        \hline
+        Sample size & 10 \\
+        \hline
+        Sample tile size & 2 \\
+        \hline
+        Sample tile range & 4 \\
+        \hline
+        Convert to mono & True \\
+        \midrule[1pt]
+        \multicolumn{2}{l}{\textit{Feature representation}} \\
+        \midrule[1pt]
+        Feature extractor & LogMelExtractor \\ 
+        \hline
+        Frame length & 480 \\
+        \hline
+        Frame step & 160 \\
+        \hline
+        FFT size & 1024 \\
+        \hline
+        Number of Mel bins & 128 \\
+        \hline
+        Number of MFCC bins & 13 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 \section{Results}
 
@@ -87,10 +134,11 @@ If something is known or has been measured, it goes in \emph{Results}. If someth
 
 Your reports \textbf{total number} of pages should be equal to the grade you are aiming for.
 
-\section{Lab partner and grade}
+\section{Next steps}
 For the records, give the name of your lab partner, if you have one. This section should also contain the grade you are aiming for.
 
 \nocite{*}
 \bibliographystyle{plain}
 \bibliography{references}
 \end{document}
+
