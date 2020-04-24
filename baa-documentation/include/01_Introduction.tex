@@ -1,33 +1,41 @@
 \chapter{Introduction}
 \label{ch:Introduction}
-
 This chapter provides an introduction to the thesis \flqq Deep embedded Music\frqq. \fullref{sec:Task-Objective} describes the overall task of the thesis as well as the motivation behind it.
 
 \section{Task and objective}
 \label{sec:Task-Objective}
-
-This section describes the task and the objectives of the project in more detail. Furthermore, the pre-liminary projects are described on which this project is based on. The detailed task, which was submitted to the Transfer Office of the Lucerne University of Applied Sciences and Arts, can be found in the appendix \fullref{app:Task-Definition}.
+This section describes the task and the objectives of the project in more detail. It should give an insight into the situation it arose from as well as the motivation behind it. The detailed task, which was submitted to the Transfer Office of the Lucerne University of Applied Sciences and Arts, can be found in the appendix \fullref{app:Task-Definition}.
 
 \subsection{Initial situation}
 \label{sub:Initial-Stituation}
-
-Distinguishing between pieces of music is for humans from easy to difficult. So it is mostly easy to distinguish music genre, like classical music or techno. However, the difficulty increases when we want to compare songs within a style or even sort them by similarity.
+The last few years have seen great advances in nonspeech audio processing, as popular deep learning architectures developed in the speech and image processing communities have been ported to this relatively understudied domain. However, these data-hungry neural networks are not always matched to the available training data in the audio domain. While unlabeled audio is easy to collect, manually labelling data for each new sound application remains notoriously costly and time-consuming. Therefore a considerable amount of research in recent years focuses on the application of unsupervised machine learning to the audio domain for various tasks.
 \newline
 \newline
-On top of an established data set for noise detection, a procedure based on an embedding method called Tile2Vec will be developed, which can compare similarities between sounds. On the resulting embeddings, a simple classifier will be trained, and the accuracy of the method will be compared to the published results.
+Another problem in the audio domain is distinguishing between pieces of music, which is for humans from easy to difficult. It is mostly simple to distinguish music genre, like classical music or techno. However, the difficulty increases when songs within the same genre will need to be compared or if songs have to be sorted by their similarity.
 \newline
 \newline
-This method is to be applied exploratively to music of different kinds, whereby a data set of 12h yodel music is available. The resulting clusters will be investigated qualitatively.
+This thesis seeks to alleviate this incongruity by developing alternative learning strategies that exploit basic semantic properties of sound that are not grounded by an explicit label. This alternative will then be used on a noise detection dataset and a music dataset to show the applicability and usefulness of this approach. Further, it seeks to show that the representation learnt provides a similarity mass for both of the used datasets.
 
 \subsection{Task definition}
 \label{sub:Task-Definition}
-
 The goal of this thesis is to adapt Tile2Vec, an image embedding method, to audio streams and to evaluate its performance on the noise detection dataset \flqq SINS, DCASE 2018: task 5\frqq. 
 \newline
 \newline
-To achieve this goal, a model, which transforms the audio signals into embeddings, needs to be trained first. Then to evaluate the performance on the DCASE dataset, a simple classifier will be trained, which receives an embedding and classifies it into one of the given classes within the dataset. The developed method will then be applied exploratively to music, and the resulting clusters will be investigated qualitatively.
+To achieve this goal, a model, which transforms the audio signals into embeddings, needs to be trained first. Then to evaluate the performance on the DCASE dataset, a simple classifier will be trained, which receives an embedding and classifies it into one of the given classes within the dataset. The simple classifier will be trained, and the accuracy of the method will be compared to the published results of the DCASE 2018 Task 5 challenge.
+\newline
+\newline
+This method is to be applied exploratively to different kinds of music, whereby a data set of 18h DJ music is available. The resulting clusters will be investigated qualitatively.
 
 \subsection{Target setting}
 \label{sub:Target-Setting}
-
 As stated in \fullref{sub:Task-Definition}, the goal of the thesis is to adapt Tile2Vec to audio streams and evaluate their performance. Because this task was never done before, the thesis is categorised as an exploratory innovation/research project. The target is also to give some overview of how far the current research is in the section of unsupervised machine learning with audio and also give some outlook on further projects to explore different approaches.
+
+\subsection{Preliminaries}
+\label{sub:Preliminaries}
+The focus of the thesis is exclusively on the architecture of the embedding model and the preprocessing of the audio signal. Clustering and classification are explicitly excluded from the state of the art research. Instead, proven and established standard approaches are to be used.
+\newline
+\newline
+Clustering will only be used for evaluating the resulting clusters within the embedding space of the music dataset. For the classification, a simple two-layered dense model should be used and will be used only to give some insights on how well a simple model performs on the resulting embedding space. The idea is to show that there is a specific performance gain when using the embedding space.
+\newline
+\newline
+Optimization methods for training neural networks are explicitly excluded from the research. Instead, state-of-the-art techniques implemented in Tensorflow shall be used.
