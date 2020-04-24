@@ -1,7 +1,7 @@
 \chapter{Method}
 \label{ch:Method}
 
-In this chapter, the used methods within the thesis will be described. This includes the \fullref{sec:Project-Plan}, where the whole project plan is explained in further detail, the \fullref{sec:Procedure-Model} which is used to realise the thesis, as well as the final \fullref{sec:Method-Problem-Definition}. This chapter also contains the methods and structure on how to test (\ref{sec:Testing}) and evaluate (\ref{sec:Evaluation}) the success of the project, as well as the \fullref{sec:Project-Structure}.
+In this chapter, the used methods within the thesis will be described. This includes the \fullref{sec:Project-Plan}, where the whole project plan is explained in further detail, the \fullref{sec:Procedure-Model} which is used to realise the thesis. This chapter also contains the methods and structure on how to test (\ref{sec:Testing}) and evaluate (\ref{sec:Evaluation}) the success of the project, as well as the \fullref{sec:Project-Structure}.
 
 \section{Project plan}
 \label{sec:Project-Plan}
@@ -137,25 +137,107 @@ For each finished phase, there is a specific milestone, to review the process wi
     \end{tabular}
 \end{table}
 
-\section{Problem definition}
-\label{sec:Method-Problem-Definition}
-
-%\section{Solution approach}
-%\label{sec:Solution-Approach}
-
 \section{Evaluation}
 \label{sec:Evaluation}
+The evaluation is done for both used datasets separately, and in a relatively different way, therefore both evaluations are described in different subsections, the evaluation of the DCASE dataset (\ref{sub:Eval-DCASE}) and the evaluation of the music dataset (\ref{sub:Eval-Music}).
+
+\subsection{DCASE 2018 - Task 5 dataset}
+\label{sub:Eval-DCASE}
+The evaluation of the embedding space for the \fullref{sub:DCASE-Task-Dataset} is done in a few separate steps. The development dataset of the challenge is further split into an \texttt{development-training} and an \texttt{development-evaluation} set. First, an arbitrary embedding architecture is being trained on the \texttt{development-training} dataset and evaluated on the \texttt{development-evaluation} set using the metrics available for the embedding (\ref{sec:Metrics}), this process is repeated until the desired architecture is found.
+\newline
+\newline
+To then evaluate the performance of the resulting embedding space, a simple classifier is trained using the embeddings as input. The simple classifier consists of a two-layered dense model, which is illustrated in figure \ref{fig:Classifier-DCASE-Visualisation}. The macro-averaged F1 score of the classifier is compared with each other, to evaluate the different embedding spaces. The classifier is trained on the raw audio representation itself to provide a baseline F1 score, to show the performance gain when using the embedding space.
+\newline
+\newline
+In the final step, the resulting embedding space, as well as the trained classifier will be used on the evaluation dataset of the challenge, where the resulting macro-averaged F1 score is compared to the accomplished score by the submitted models. This should show the score which can be accomplished when mitigating the label and using the dataset as an unsupervised one.
+
+\begin{figure}[htbp]
+    \captionsetup{format=plain}
+    \centering
+    \begin{tikzpicture}[start chain=going below, node distance=15pt,
+        point/.append style={on chain, join=by {signal}},
+        layer/.append style={on chain, join=by {signal}}]
+        \node[point] {Input to classifier, embedded sample};
+        \node[fc] {Dense layer (hidden layer 1): \\ 256 units, ReLU};
+        \node[fc] {Dense layer (hidden layer 2): \\ 256 units, ReLU};
+        \node[softmax] {Dense output: \\ 9 units (num. of classes), softmax};
+        \node[point] {Output};
+    \end{tikzpicture}
+    \caption{Visualisation of the classifier architecture}
+    \label{fig:Classifier-DCASE-Visualisation}
+\end{figure}
+\noindent
+The overall goal is to achieve the highest possible macro-averaged F1 score on the evaluation dataset provided by the DCASE challenge.
+
+\subsection{Music dataset}
+\label{sub:Eval-Music}
+The process of evaluating the embedding space for the \fullref{sub:Music-Dataset} is a bit more complicated since there are no prior results on this exact dataset nor a baseline. The first evaluation of the embedding is relatively similar to the one for the \fullref{sub:Eval-DCASE}. The dataset is split into an \texttt{training}, \texttt{evaluation} and \texttt{test} set. Then the \texttt{training} dataset is used to train the embedding architecture and is evaluated on the \texttt{evaluation} set with the metrics specified in \fullref{sec:Metrics}. After that, the model, which resulted in the best metrics, is chosen and is further evaluated.
+\newline
+\newline
+Since one of the requirements of the project is to examine the resulting clusters of the music embedding space, a simple clustering algorithm, such as \fullref{sub:K-Means}, is being applied on the resulting embeddings from the \texttt{test} set. This should provide a crucial insight into the resulting clusters and the performance of the embedding architecture.
+\newline
+\newline
+Another requirement of the embedding space is that it should provide some similarity measure for the embedded songs. Therefore the resulting clusters, as well as their distances from each other, are important evaluation criteria. Since the examination of these distances as well as the similarity between each music genre is quite hard, mister Emanuel Oehri, who provided the \nameref{sub:Music-Dataset}, is examining the distances between the clusters and gives feedback about their similarity from his point of view. He will also examine the resulting similarity between two songs of different genres which were projected into their near-by region.
 
 \section{Testing}
 \label{sec:Testing}
+All of the components in the project will be tested with the TensorFlow unit tests module called \texttt{tf.test}\footnote{\url{https://www.tensorflow.org/api_docs/python/tf/test}}. A test environment was created to provide the necessary datasets for the project, but in a much smaller size to speed up the testing, since testing on the entire set would be infeasible. All of the test cases for the components are kept as small as possible, but a lot of them require other dependencies, such as the input pipeline, to conduct the test which is fine, because the project is a research project and would need to go through an extensive testing phase before it could be used in a productive environment.
+\newline
+\newline
+The detailed test concept, which contains each of the test cases along with the test status, can be found in the appendix \fullref{tab:Test-Concept}. All of the unit tests can also be found in the source repository of this project in the \texttt{test} directory. 
 
 \section{Project structure}
 \label{sec:Project-Structure}
+The thesis consists of two projects, a project for the documentation and a project for the source of the thesis. However, both projects are git repositories hosted on GitHub\footnote{\url{https://github.com/}}. For the duration of the thesis, both repositories were kept private, and after the completion of the project will be open-sourced.
 
-\dirtree{%
-.1 wipro-doc.
-.2 assets \ldots{} (assets for the project).
-.2 documentation \ldots{} (latex file for final documentation).
-.2 research \ldots{} (markdown file for research).
-.2 study-doc \ldots{} (origin of study-doc).
-}
+\begin{figure}[ht]
+    \dirtree{%
+    .1 deep-embedded-music.
+    .2 data \ldots{} (contains the datasets used).
+    .2 experiments.
+    .3 config \ldots{} (configuration for the experiment).
+    .3 DCASE.
+    .4 results \ldots{} (results from DCASE experiments).
+    .3 DJ.
+    .4 results \ldots{} (results from DJ experiments).
+    .2 notebooks \ldots{} (contains the jupyter-notebooks).
+    .2 src \ldots{} (source code of the thesis).
+    .2 test \ldots{} (contains the unit tests).
+    .2 test-environment \ldots{} (test environment for the unit tests).
+    .2 Dockerfile \ldots{} (docker file for the repository).
+    .2 onstart.sh \ldots{} (script to start the training).
+    .2 requirements.txt \ldots{} (requirements for the project).
+    }
+\caption{Overview of the source repository \flqq deep embedded music\frqq}
+\label{fig:Project-Overview-Source}
+\end{figure}
+\noindent
+Figure \ref{fig:Project-Overview-Source} illustrates the project structure of the source repository, which can be found on GitHub\footnote{\url{https://github.com/FabianGroeger96/deep-embedded-music}}. The illustration shows an overview of the overall structure of the repository. More in-depth explanation can be found in section \fullref{ch:Realisation}.
+
+\begin{figure}[ht]
+    \dirtree{%
+    .1 baa-doc-deep-embedded-music.
+    .2 baa-documentation.
+    .2 baa-intermediate-presentation.
+    .2 baa-final-presentation.
+    .2 baa-study-doc.
+    }
+\caption{Overview of the documentation repository \flqq baa-doc-deep-embedded-music\frqq}
+\label{fig:Project-Overview-Documentation}
+\end{figure}
+\noindent
+Figure \ref{fig:Project-Overview-Documentation} illustrates the project structure of the repository used for the documentation, which can be found on GitHub\footnote{\url{https://github.com/FabianGroeger96/baa-doc-deep-embedded-music}}. The repository contains a folder for the documentation, interim presentation, final presentation and the study doc. The study doc contains detailed information about the conducted experiments, which are attached in the appendix \fullref{app:Study-Doc}.
+\newline
+\newline
+Both datasets used for the thesis were used as they are and therefore did not need to be kept within a specific repository for this project. The dataset of the DCASE challenge 2018 - Task 5 consists of a development and evaluation dataset, which are both hosted on Zendo\footnote{\url{https://zenodo.org}}. The development dataset is available under \url{https://zenodo.org/record/1247102} while the evaluation dataset is available under \url{https://zenodo.org/record/1964758}. 
+\newline
+\newline
+The music dataset was kindly provided by mister Emanuel Oehri and is available as a private GitLab Git LFS repository, which will be kept as a private repository since all the songs provided are property of mister Oehri.
+
+\section{Resources}
+\label{sec:Resources}
+Deep neural networks architectures are computationally expensive what results in long-running experiments. Using powerful \gls{GPU} reduces the processing time up to a factor of 20. The Lucerne University of Applied Science and Arts supported this thesis with a GPU GTX 1080Ti, 11 GB RAM, hosted within the enterprise lab\footnote{\url{https://www.enterpriselab.ch/}}. 
+\newline
+\newline
+Additionally, \gls{GPU}s were rented on vast.ai\footnote{\url{https://vast.ai/}}, during specific experiments to decrease the training time, by running experiments in parallel. A Tesla V100 \gls{GPU} 16 GB RAM was mostly rented to mitigate the problem of not having enough RAM on the GPU for experiments with large models (e.g. such as ResNet50).
+
