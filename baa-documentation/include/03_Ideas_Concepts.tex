@@ -124,3 +124,64 @@ All of the concepts mentioned above are designed to work with both datasets. Thu
 
 \section{Metrics}
 \label{sec:Metrics}
+Meaningful metrics need to be used to evaluate and compare the performance of machine learning models. In supervised machine learning, most of the metrics focus on how well the model predicts the actual value from the input, but in the unsupervised setting finding meaningful metrics is a lot harder. Hence the metrics for the embedding model and the classifier are quite different because the embedding architecture is unsupervised while the classifier is supervised. Therefore this section is split into two parts, metrics for the embedding space (\ref{sub:Metrics-Embedding-Space}) and metrics for the classifier (\ref{sub:Metrics-Classifier}), which both aim to give valuable insights into the performance. All of the mentioned metrics below are monitored using the Tensorboard visualisation toolkit\footnote{\url{https://www.tensorflow.org/tensorboard}}.
+
+\subsection{Embedding space}
+\label{sub:Metrics-Embedding-Space}
+As mentioned before, it is quite difficult to find meaningful metrics for the embedding space because of the unsupervised nature. But since the thesis focuses on the application of triplet loss in the unsupervised setting one of the most straight forward metrics is to monitor the triplet loss function, which gives an insight about the loss function which should be minimized over time. The triplet loss function, which will be monitored, is given by equation \ref{eq:Triplet-Loss}. Since the idea of triplet loss is to minimize the distance between the anchor and the positive sample and to maximize the distance between the anchor and the negative sample, it makes sense to also monitor both of these values. Both of these values are already computed when computing the triplet loss function and just have to be monitored. As a distance measure between the embeddings, the squared euclidean distance, given by equation \ref{eq:Euclidean-Distance}, is used. They give a valuable insight if the model is actually capable of satisfying the triplet loss constraint. All of these three metrics are monitored both on the training and evaluation dataset.
+\newline
+\newline
+The embedding space can also be thought of as a clustering task, where the goal is to cluster similar samples in the near-by region. Since the evaluation set contains the ground truth of each sample, most clustering metrics can be used to monitor the progress of the embedding space. 
+\newline
+\newline
+One of the most straightforward metrics to evaluate the progress of the resulting embedding space is to first compute the centroid of each label and then the distance from each centroid to every other. This gives an insight into how distant some of the clusters of each label are. This metric is displayed in two different ways, as lots of graphs and as a distance matrix in the form of an image, which is shown in image \ref{fig:Distance-Matrix}.
+\newline
+\newline
+A popular clustering metric is also used, called the Silhouette Coefficient, where a higher score relates to a model with better defined clusters. The score is bounded between $-1$ for incorrect clustering and $+1$ for highly dense clustering. Scores around zero indicate overlapping clusters. The score is higher when clusters are dense and well separated, which relates to a standard concept of a cluster. The Silhouette Coefficient is defined for each sample and is composed of two scores:
+\begin{itemize}
+\setlength\itemsep{0em}
+    \item $a$: The mean distance between a sample and all other points in the same class
+    \item $b$: The mean distance between a sample and all other points in the next nearest cluster
+\end{itemize}
+The Silhouette Coefficient $s$ for a single sample is then given by equation \ref{eq:Silhouette-Coefficient}. For a set of samples the Silhouette Coefficient is given as the mean of the Silhouette Coefficient for each sample.
+\myequations{Silhouette Coefficient for a single sample}
+\begin{equation}
+    \centering
+    \begin{gathered}
+        s = \frac{b - a}{max(a, b)}
+    \end{gathered}
+    \label{eq:Silhouette-Coefficient}
+\end{equation}
+Both of the metrics above are only computed on the evaluation dataset, since monitoring it on the training set would not provide more insight.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.4]{baa-documentation/img/Distance_Metric.png}
+	\caption{Distance matrix from each centroid to every other}
+	\label{fig:Distance-Matrix}
+\end{figure}
+
+\subsection{Classifier}
+\label{sub:Metrics-Classifier}
+As for the classifier standard supervised metrics are monitored. The loss function used to train the model is the sparse categorical cross-entropy loss, therefore this loss function will be monitored to show how the model minimises this function over time. As an accuracy metric the sparse categorical accuracy is monitored to show how well the classifier predicts the inputs.
+\newline
+\newline
+The usage of the accuracy has a big drawback, which is that it does not work well with highly unbalanced datasets such as the \fullref{sub:DCASE-Task-Dataset}. Therefore an other metric needs to be used which works well with with this kind of dataset. As an evaluation metric the DCASE Task 5 challenge used the macro-averaged F1 score, which satisfies the constraint of working well with unbalanced data and is therefore also used to monitor the accuracy of the classifier. Furthermore it is used to compare the results accomplished in the thesis to the results by other models submitted in the challenge. The F1 score is given by equation \ref{eq:F1-Score} and to get the macro-averaged F1 score, the metric has to be calculated for each label and then their unweighted mean is taken.
+\myequations{F1 score}
+\begin{equation}
+    \centering
+    \begin{gathered}
+        \text{F1} = 2 \cdot \frac{\text{precision} \cdot \text{recall}}{\text{precision} + \text{recall}} \\
+        \text{precision} = \frac{\text{TP}}{\text{TP} + \text{FP}} \\
+        \text{recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} \\
+    \end{gathered}
+    \label{eq:F1-Score}
+\end{equation}
+where:
+\begin{conditions*}
+    \text{TP} & true positive \\   
+    \text{TN} & true negative \\ 
+    \text{FP} & false positive \\ 
+    \text{FN} & false negative \\ 
+\end{conditions*}
+\noindent
+All of the metrics for the classifier are both monitored for the training as well as the evaluation dataset.

@@ -158,9 +158,9 @@ In the final step, the resulting embedding space, as well as the trained classif
         point/.append style={on chain, join=by {signal}},
         layer/.append style={on chain, join=by {signal}}]
         \node[point] {Input to classifier, embedded sample};
-        \node[fc] {Dense layer (hidden layer 1): \\ 256 units, ReLU};
-        \node[fc] {Dense layer (hidden layer 2): \\ 256 units, ReLU};
-        \node[softmax] {Dense output: \\ 9 units (num. of classes), softmax};
+        \node[conv] {Dense layer (hidden layer 1): \\ 256 units, ReLU};
+        \node[conv] {Dense layer (hidden layer 2): \\ 256 units, ReLU};
+        \node[activation] {Dense output: \\ 9 units (num. of classes), softmax};
         \node[point] {Output};
     \end{tikzpicture}
     \caption{Visualisation of the classifier architecture}
