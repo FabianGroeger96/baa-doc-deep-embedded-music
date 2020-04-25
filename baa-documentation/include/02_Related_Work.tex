@@ -748,7 +748,7 @@ Dilated convolutions are used to cheaply increase the receptive field of output 
     	\draw[signal] (c) +(-10pt,0pt) -| +(10pt, -12pt);
     	\node[align=center] at ($(c) +(0pt,-\labeldist)$) {Copy};
     \end{tikzpicture}
-    \caption{Visualisation of a single gated recurrent unit. In the illustration, the Hadamard product $\odot$ is denoted as $\times$.}
+    \caption[Visualisation of a single gated recurrent unit]{Visualisation of a single gated recurrent unit. In the illustration, the Hadamard product $\odot$ is denoted as $\times$.}
     \label{fig:GRU-Visualisation}
 \end{figure}
 \noindent
@@ -838,7 +838,7 @@ The paper \cite{dekkers_sins_2017} introduces the \gls{SINS} database, which con
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.5]{baa-documentation/img/SINS_database_floor_map.png}
+	\includegraphics[scale=0.35]{baa-documentation/img/SINS_database_floor_map.png}
 	\caption[SINS database recording environment map]{SINS database recording environment map \footnotemark}
 	\label{fig:sins-database-floor-map}
 \end{figure}
@@ -853,11 +853,11 @@ This subsection contains all the necessary information about the challenge from 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=0.8]{baa-documentation/img/DCASE_floor_map.png}
-	\caption[2D floor plan of the combined kitchen and living room with the used sensor nodes]{2D floor plan of the combined kitchen and living room with the used sensor nodes \footnotemark}
+	\caption[2D floor plan of the combined kitchen and living room from DCASE]{2D floor plan of the combined kitchen and living room with the used sensor nodes \footnotemark}
 	\label{fig:dcase-recordings-floor-plan}
 \end{figure}
 \footnotetext{\href{http://dcase.community/challenge2018/task-monitoring-domestic-activities}{\nolinkurl{dcase.community/challenge2018/task-monitoring-domestic-activities}}}
-
+\noindent
 The dataset used in the challenge is an abbreviation of the \nameref{sub:SINS-Database}; where only seven of the thirteen microphone nodes were considered. These nodes are from the room combination of the living room and the kitchen, as illustrated in figure \ref{fig:dcase-recordings-floor-plan}. Every recording of an activity is split into ten-second recordings, which are called segments. Every segment has four channels which correspond to the four different microphone channels of each node. Within the dataset, there are no overlapping sounds, from actions performed simultaneously. That means that every segment has an activity label assigned to it. There are a total of nine different activity labels, which all refer to a daily activity performed at home. Table \ref{tab:DCASE-activiies-performed} shows the activities performed in the dataset as well as the amount of 10 second segments and sessions of the activity.
 \newline
 \newline
