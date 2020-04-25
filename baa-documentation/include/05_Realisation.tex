@@ -1,0 +1,58 @@
+\chapter{Realisation}
+\label{ch:Realisation}
+This chapter describes the realisation of the project, and provides some insights into the ideas, which led to the implementation. The implementation was written in Python 3.6.9 and Tensorflow 2.1.
+
+\section{Project components}
+\label{sec:Project-Components}
+The project repository, which is shown in figure \ref{fig:Project-Overview-Source}, shows the overall structure of the realisation. All of the source code for the project is located in the \texttt{src} directory, which is further divided into folders for the components of the project. These components are illustrated in figure \ref{sec:Project-Components}. The figure shows that there are two main python scripts which orchestrate the training of the triplet loss and the classifier (\texttt{train-classifier.py} and \texttt{train-triplet-loss.py}). 
+
+\begin{figure}[ht]
+    \dirtree{%
+    .1 src/.
+    .2 feature-extractor/ \ldots{} (audio representations).
+    .2 input-pipeline/ \ldots{} (triplet input pipeline).
+    .2 loss/ \ldots{} (implementation of loss functions).
+    .2 models/ \ldots{} (implementation of models).
+    .2 training/ \ldots{} (training utility functions).
+    .2 utils/ \ldots{} (contains various utility functions).
+    .2 train-classifier.py \ldots{} (training procedure for classifier).
+    .2 train-triplet-loss.py \ldots{} (training procedure of triplet loss).
+    }
+\caption{Project components of the \texttt{src} directory}
+\label{fig:Project-Components}
+\end{figure}
+\noindent
+All of the components of the project were designed to be arbitrarily expandable, which is an essential criterion to successfully conduct and validate experiments because with such an architecture the project can be expanded fast and new ideas are implemented rapidly.
+\newline
+\newline
+Each one of these components is described in further detail within this section of the thesis. This includes detailed information about the component as well as their purpose in the whole project.
+
+\subsection{Feature extractor}
+\label{sub:Component-Feature-Extractor}
+
+\subsection{Input pipeline}
+\label{sub:Component-Input-pipeline}
+
+\subsection{Loss}
+\label{sub:Component-Loss}
+
+\subsection{Training}
+\label{sub:Component-Training}
+
+\subsection{Utils}
+\label{sub:Component-Utils}
+
+\section{Data set}
+\label{sec:Data-Set}
+
+\subsection{Data set cleaning}
+\label{sub:Data-Set-Cleaning}
+
+\subsection{Statistical analysis of the data set}
+\label{sub:Statistical-Analysis-Data-Set}
+
+\section{Training}
+\label{sec:Training}
+
+\section{Prototype}
+\label{sec:Prototype}

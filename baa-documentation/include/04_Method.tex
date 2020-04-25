@@ -9,7 +9,7 @@ In this chapter, the used methods within the thesis will be described. This incl
 Within this section of the thesis, the full project plan is shown and is illustrated in figure \fullref{fig:Project-Plan}. The project is divided into four different phases. At the end of each phase, a milestone is placed, which will review the process within the phase and provide an outlook on the next phase. The first phase is doing research, where many resources are gathered, and essential pieces of information are extracted and documented. The goal of this stage is to get a better understanding of the concepts to use and what already has been done by other researchers. Afterwards, the realisation of the project takes place, where the models, input pipeline and tile2vec will be implemented and tested. Then different experiments will be done, to validate the realisation and experiment with different hyperparameters. At last, the documentation will be finalised and proofread. There is also a one week buffer before the finalisation of the documentation, which will be used for unpredictable problems. The chapters of the documentation will be regularly written within each phase.
 \newline
 \newline
-The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases are shown in orange and bold, tasks within each phase are blue, and milestones are red diamonds. Each dotted column represents one week within a specific month (e.g. Feb, Mar, ...). A task will also have information about how much it is already completed written next to it.
+The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases are shown in orange and bold, tasks within each phase are blue, and milestones are red diamonds. Each dotted column represents one week within a specific month (e.g. Feb, Mar). A task will also have information about how much it is already completed written next to it.
 
 % set page layout to portrait and save layout for later
 \storeareas\defaultpagestyle
@@ -194,18 +194,16 @@ The thesis consists of two projects, a project for the documentation and a proje
 
 \begin{figure}[ht]
     \dirtree{%
-    .1 deep-embedded-music.
-    .2 data \ldots{} (contains the datasets used).
-    .2 experiments.
-    .3 config \ldots{} (configuration for the experiment).
-    .3 DCASE.
-    .4 results \ldots{} (results from DCASE experiments).
-    .3 DJ.
-    .4 results \ldots{} (results from DJ experiments).
-    .2 notebooks \ldots{} (contains the jupyter-notebooks).
-    .2 src \ldots{} (source code of the thesis).
-    .2 test \ldots{} (contains the unit tests).
-    .2 test-environment \ldots{} (test environment for the unit tests).
+    .1 deep-embedded-music/.
+    .2 data/ \ldots{} (contains the datasets used).
+    .2 experiments/.
+    .3 config/ \ldots{} (configuration for the experiment).
+    .3 DCASE/ \ldots{} (results from DCASE experiments).
+    .3 DJ/ \ldots{} (results from DJ experiments).
+    .2 notebooks/ \ldots{} (contains the jupyter-notebooks).
+    .2 src/ \ldots{} (source code of the thesis).
+    .2 test/ \ldots{} (contains the unit tests).
+    .2 test-environment/ \ldots{} (test environment for the unit tests).
     .2 Dockerfile \ldots{} (docker file for the repository).
     .2 onstart.sh \ldots{} (script to start the training).
     .2 requirements.txt \ldots{} (requirements for the project).
@@ -218,11 +216,11 @@ Figure \ref{fig:Project-Overview-Source} illustrates the project structure of th
 
 \begin{figure}[ht]
     \dirtree{%
-    .1 baa-doc-deep-embedded-music.
-    .2 baa-documentation.
-    .2 baa-intermediate-presentation.
-    .2 baa-final-presentation.
-    .2 baa-study-doc.
+    .1 baa-doc-deep-embedded-music/.
+    .2 baa-documentation/.
+    .2 baa-intermediate-presentation/.
+    .2 baa-final-presentation/.
+    .2 baa-study-doc/.
     }
 \caption{Overview of the documentation repository \flqq baa-doc-deep-embedded-music\frqq}
 \label{fig:Project-Overview-Documentation}
