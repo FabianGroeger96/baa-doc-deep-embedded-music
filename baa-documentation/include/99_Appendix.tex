@@ -164,11 +164,36 @@ This chapter shows a table with the different activities recorded within the SIN
     \centering
     \caption{Test concept}
 	\label{tab:Test-Concept}
-    \begin{tabular}{l|l|l|l|l}
+    \begin{tabular}{p{.15\textwidth} | p{.40\textwidth} | p{.05\textwidth} | p{.15\textwidth} | p{.15\textwidth}}
         \toprule
         \textbf{Test case} & \textbf{Steps} & \textbf{Status} & \textbf{Expected result} & \textbf{Actual result} \\ 
         \midrule[1pt]
-        Input pipeline DCASE triplet selection & get triplets & passed & get valid triplets & got valid triplets \\
+        DCASE iterator & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{enumerate}
+        \setlength\itemsep{0em}
+        \item get dataset from model factory
+        \item loop over dataset using for loop
+        \item check if the entries are not \texttt{None}
+        \end{enumerate}
+        \vskip 4pt
+        \end{minipage} & \cellcolor{green!30!white}passed & entries available & entries available \\
+    \hline
+        DCASE triplets & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{enumerate}
+        \setlength\itemsep{0em}
+        \item get dataset from model factory
+        \item loop over dataset using for loop
+        \item for each entry in the dataset load triplets
+        \item loop over resulting triplets
+        \item check if there are three triplets
+        \item check if all constituents have dimension two 
+        \end{enumerate}
+        \vskip 4pt
+        \end{minipage} & \cellcolor{green!30!white}passed & dataset generates valid triplets & valid triplets generated \\
         \bottomrule
     \end{tabular}
 \end{table}
