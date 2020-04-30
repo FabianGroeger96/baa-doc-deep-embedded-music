@@ -1,6 +1,6 @@
 \chapter{Realisation}
 \label{ch:Realisation}
-This chapter describes the realisation of the project, and provides some insights into the ideas, which led to the implementation. The implementation was written in Python 3.6.9 and Tensorflow 2.1.
+This chapter describes the realisation of the project, and provides some insights into the ideas, which led to the current implementation. The implementation was written in Python 3.6.9 and Tensorflow 2.1. To standardise the realisation, standard docker images are used which are provided by Tensorflow, called \texttt{tensorflow/tensorflow:2.1.0-py3}, respectively \texttt{tensorflow/tensorflow:2.1.0-gpu-py3} to utilise the GPU.
 
 \section{Project components}
 \label{sec:Project-Components}
@@ -29,6 +29,17 @@ Each one of these components is described in further detail within this section 
 
 \subsection{Feature extractor}
 \label{sub:Component-Feature-Extractor}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\linewidth]{baa-documentation/img/UML_Feature_Extractor.jpeg}
+	\caption{UML diagram of the \flqq feature extractor\frqq}
+	\label{fig:UML-Feature-Extractor}
+\end{figure}
+\noindent
+The feature extractor is responsible for representing an audio signal in different feature representations. The structure is shown in figure \ref{fig:UML-Feature-Extractor}, it consists out of a abstract base class (\texttt{BaseExtractor}), two implementations of the base class (\texttt{LogMelBaseExtractor} and \texttt{MFCCBaseExtractor}) and a factory class (\texttt{ExtractorFactory}). The idea is that the abstract \texttt{BaseExtractor} implements the used methods to calculate a feature representation, such as calculating the \gls{STFT}, and the implementations (\texttt{LogMelBaseExtractor} and \texttt{MFCCBaseExtractor}) only have to call the calculations in the correct sequence. The factory class \texttt{ExtractorFactory} instantiates a specified \texttt{BaseExtractor} implementation given the name in the registry. The factory is implemented using the python decorator pattern.
+\newline
+\newline
+The main benefit of the factory pattern is that the representation used to train the model can be changed using the name of the corresponding extractor, where the name can be used as a hyperparameter. Due to using the factory pattern, the class is arbitrarily expandable, since it only needs to implement the abstract \texttt{BaseExtractor} and can then be used as a representation.
 
 \subsection{Input pipeline}
 \label{sub:Component-Input-pipeline}

@@ -7,41 +7,41 @@ It is important to note, that in the thesis two distinct datasets are used. Due 
 
 \section{Data preprocessing}
 \label{sec:Data-Preprocessing}
-Data preprocessing is the process of processing the entire dataset before it is fed into the \fullref{sec:Input-Pipeline}, which will be introduced in the next section. Both datasets used in the project contain audio files for each label. It was decided that data preprocessing was not necessary for this project as the data was already well prepared. Both datasets were used as-is.
+Data preprocessing is the process of processing the entire dataset before it is fed into the \fullref{sec:Input-Pipeline}. Both datasets used in the project consist of audio files, which are grouped together by their corresponding label. It was decided that data preprocessing was not necessary for this project as the data was already well prepared. Therefore datasets were used as-is.
 \newline
 \newline
-For the \fullref{sub:DCASE-Task-Dataset}, the data was already preprocessed by the organisers of the challenge. This means that there are no audio files which contain multiple labels, are corrupted or invalid. Because of that, no preprocessing of the data was necessary.
+For the \fullref{sub:DCASE-Task-Dataset}, the data was already preprocessed by the organisers of the challenge. Which means that there are no audio files which contain multiple labels, are corrupted or invalid.
 \newline
 \newline
-For the \fullref{sub:Music-Dataset}, the data consists of different songs grouped by their respective genre. Because the audios only contain the songs without any background noise in it, the preprocessing was also neglected.
+For the \fullref{sub:Music-Dataset}, the data consists of different songs grouped by their respective genre. Because the audios only contain the songs without any background noise in it, the preprocessing was also neglected. 
 \newline
 \newline
-The \fullref{sec:Triplet-Selection} and \fullref{sec:Feature-Extraction} of the audio files is done on the fly within the \fullref{sec:Input-Pipeline}. The advantage of this method is that the pipeline can be adapted fairly quick for other datasets without any preprocessing of the data needed. This is also a big benefit if the project will be needed in the context of real-time audio processing because the raw waveform can be processed directly within the application.
+The \fullref{sec:Triplet-Selection} and \fullref{sec:Feature-Extraction} of the audio files is done on the fly within the \fullref{sec:Input-Pipeline}. The advantage of this method is that the pipeline can be adapted fairly quick for other datasets, since the only input the pipeline requires is the raw waveform of a signal of any kind. 
 
 \section{Feature extraction}
 \label{sec:Feature-Extraction}
-Feature extraction is the process of extracting the relevant features from the raw data; in this case, audio files. This process will be done within the \fullref{sec:Input-Pipeline}. For both datasets, the same feature extractions were used. In this project, three different extractions are evaluated, and are used as a special kind of hyperparameter which can be tuned to achieve the best possible outcome.
+Feature extraction, also called feature representation, is the process of extracting the relevant features from the raw data; in this case, audio files. The extraction process is done within the \fullref{sec:Input-Pipeline}. For both datasets, the same feature extractions are used. Three different extractions are evaluated and are used as a hyperparameter which can be tuned to achieve the best possible outcome. The optimal feature representation for the two datasets may be different since their nature is quite different.
 \newline
 \newline
-The first approach is to use the audio files as-is, more precisely to use the raw waveform as input to the model. This is the simplest approach and also the most lightweight to calculate. It will be used to evaluate how good a model can be trained without any feature extraction in the audio domain. The approach to use the raw waveform would also be the simplest one to implement in a real-world application, because there is no complex computation needed, and can therefore also be used on small devices, such as mobile phones or Raspberry Pis.
+The first approach is to use the audio files as-is, more precisely to use the \textbf{raw waveform} as input to the model. This is the simplest approach and also the most lightweight to compute. It will be used to evaluate how good a model can be trained without any further feature extraction. The approach to use the raw waveform would also be the simplest one to implement in a real-world application, because there is no complex computation needed, and can therefore also be used on small devices, such as mobile phones or Raspberry Pis.
 \newline
 \newline
-The second approach is to calculate the log-mel spectrogram, which is outlined in subsection \fullref{sub:Mel-Spectrogram} were the last step of calculating the \gls{DCT} is omitted. The process described was introduced to mimic the human hearing, but the last step, calculating the \gls{DCT}, was proposed because many machine learning models struggled with the highly correlated data, such as the log-mel spectrogram, and thus a linear transformation (\gls{DCT}) was added to decorrelate the feature. Contemporary machine learning models such as CNNs or GRUs do not struggle with correlated data und perform even better when they can decorrelate the features themselves. Therefore this approach should give useful insight, weather the decorrelation can be trained and is still needed in present models.
+The second approach is to calculate the \textbf{log-mel spectrogram}, which is outlined in subsection \fullref{sub:Mel-Spectrogram} were the last step of calculating the \gls{DCT} is omitted. The process described was introduced to mimic the human hearing, but the last step, calculating the \gls{DCT}, was proposed because many machine learning models struggled with the highly correlated data, such as the log-mel spectrogram, and thus a linear transformation (\gls{DCT}) was added to decorrelate the feature. Contemporary machine learning models such as CNNs or GRUs do not struggle with correlated data und perform even better when they can decorrelate the features themselves. Therefore this approach should give useful insight, weather the decorrelation can be trained and is still needed in present models.
 \newline
-This approach is also widely used in the audio domain because it is less computing extensive than calculating the \gls{MFCC} and it can achieve almost the same accuracy as a model trained with \gls{MFCC} as their features because it uses the same computations and additionally preserves more information. Thus log-mel spectrograms are the most promising approach for this project.
-\newline
-\newline
-The third and final approach is to calculate the \gls{MFCC}, which is described in subsection \fullref{sub:Mel-Spectrogram}. This feature extraction method is used mainly in extensive audio applications, such as automatic speech and speaker recognition, where a lot of computing power is available. These features are mostly used because of their nature, that they represent sound like the human auditory system does in a compact matter.
+This approach is widely used in the audio domain because it is less computing extensive than calculating the \gls{MFCC} and it can achieve almost the same, or an even better, accuracy as a model trained with the \gls{MFCC} as their feature representation, because it uses the same computations and additionally preserves more information.
 \newline
 \newline
-All of the features stated above are two-dimensional data, because of that nature, standard image processing architectures can be adapted to audio processing.
+The third and final approach is to calculate and use the \textbf{\gls{MFCC}}, which is described in subsection \fullref{sub:Mel-Spectrogram}. This feature extraction method is used mainly in extensive audio applications, such as automatic speech and speaker recognition, where a lot of computing power is available. These features are mostly used because of their nature, that they represent sound like the human auditory system does, in a compact matter.
+\newline
+\newline
+All of the features stated above are two-dimensional data, therefore, standard image processing architectures can be adapted to audio processing.
 
 \section{Data augmentation}
 \label{sec:Data-Augmentation}
-Data augmentation is the process of changing the real data within the dataset a particular way so that it generates new data. Data augmentation is mainly used to balance imbalanced datasets, where a particular class has significantly less data than others. It can also be used to make the model more invariant to changes in the data so that the model generalises better.
+Data augmentation is the process of changing the real data within the dataset a particular way so that it generates new data. Data augmentation is mainly used to balance imbalanced datasets, which means that a particular class has significantly less data than others. It can also be used to make the model more invariant to changes in the data so that the model generalises better.
 \newline
 \newline
-Data augmentation will only be used for the \fullref{sub:DCASE-Task-Dataset}, because it is unbalanced in the amount of data each class has, which could correspond to the frequency of the activities in real life. The amount of data in the following six classes: cooking, dishwashing, eating, other, social activity, and vacuum cleaning, is extremely small compared to the other three classes: absence, watching TV and working. Therefore, the amount of audio data for the six classes is increased using data augmentation techniques, proposed in the next paragraph, to mitigate the unbalancing issue. Both techniques are described in further detail within the paper \cite{inoue_domestic_2018}.
+Data augmentation will only be used for the \fullref{sub:DCASE-Task-Dataset}, because it is highly unbalanced, which could correspond to the frequency of the activities in real life. The data distribution of each activity in the first fold of the development dataset is shown in figure \ref{fig:DCASE-Unbalanced}. The amount of data in the following six classes: cooking, dishwashing, eating, other, social activity, and vacuum cleaning, is extremely small compared to the other three classes: absence, watching TV and working. Therefore, the amount of audio data for the six classes is increased using data augmentation techniques, proposed in the next paragraph, to mitigate the unbalancing issue. Both techniques are described in further detail within the paper \cite{inoue_domestic_2018}.
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=0.35]{baa-documentation/img/DCASE_unbalanced.png}
@@ -52,7 +52,7 @@ Data augmentation will only be used for the \fullref{sub:DCASE-Task-Dataset}, be
 \noindent
 \newline
 \newline
-The augmentation of the audio data is based on two assumptions. First, it is assumed that the acoustic environment does not depend on the order of sound events. For example, consider a recorded audio file within the class \textit{eating}. Some of the sounds correspond to the sound of events made by kitchen utensils and some to the process of eating. Even if the order of these sound events is swapped, the new sound can still be categorised as \textit{eating}. Therefore new data can be generated by changing the order of sound events. The second assumption is that mixing two sounds in the same class generates new sound within the same class. This assumption has also been used in previous works and has proven to be a beneficial data augmentation technique for audio.\footnote{\fullcite{zhang_mixup_2018}}\footnote{\fullcite{takahashi_deep_2016}}
+The augmentation of the audio data is based on two assumptions. First, it is assumed that the acoustic environment does not depend on the order of sound events. For example, consider a recorded audio file within the class \textit{eating}. Some of the sounds correspond to the sound of events made by kitchen utensils and some to the process of eating. Even if the order of these sound events is swapped, the new sound can still be categorised as \textit{eating}. Therefore new data can be generated by changing the order of sound events. The second assumption is that mixing two sounds in the same class generates new sound within the same class. This assumption has also been used in previous works and has proven to be a beneficial data augmentation technique for audio.\footnote{\fullcite{zhang_mixup_2018}}\footnote{\fullcite{takahashi_deep_2016}} Both augmentation techniques are illustrated in figure \ref{fig:DCASE-Data-Augmentation}.
 \newline
 \newline
 For the \fullref{sub:Music-Dataset}, the data augmentation was neglected because the dataset is not imbalanced and extensive enough. There are precisely 30 songs in each class which indicates a relatively equally distributed dataset.
@@ -66,78 +66,79 @@ For the \fullref{sub:Music-Dataset}, the data augmentation was neglected because
 
 \section{Triplet selection}
 \label{sec:Triplet-Selection}
-The triplet selection describes the process of selecting a neighbouring and opposite feature from a given anchor feature. It is described in further detail within section \fullref{eq:Triplet-Loss}. The procedure is split into two parts, the selection of the neighbouring and opposite tile.
+The triplet selection describes the process of selecting a neighbouring and opposite sample from a given anchor sample. The idea and reason behind it is further described within section \fullref{eq:Triplet-Loss}. The procedure is split into two parts, the selection of the neighbouring and opposite tile.
 \newline
 \newline
 The straightforward way to triplet selection, as described in \ref{eq:Triplet-Loss} is to select the anchor and the neighbour to be part of the same label and to select the neighbour to have a different label than the other. This approach can not be used in an unsupervised learning technique because the data does not have any information about the underlying label. Due to that, a different, unsupervised approach to triplet selection has to be chosen.
 \newline
 \newline
-For the triplet selection of the \fullref{sub:DCASE-Task-Dataset}, all of the 10s audio files first have to be split into a specified sample length (e.g. 1s, 2s). This results in different segments of the same audio file, which are referred to as segments. The sample length specifies the audio length of all the segments. Therefore a triplet consists of three different segments.
+For the triplet selection of the \fullref{sub:DCASE-Task-Dataset}, all of the 10s audio files first have to be split into a specified \textit{sample length} (e.g. 1s, 2s). This results in different segments belonging to the same audio file, which are referred to as segments $x$. The sample length specifies the audio length of all the segments. Therefore a triplet consists of three different segments $(x_a, x_n, x_o)$.
 \newline
-For the anchor tile, a random segment is chosen. For the neighbouring tile, a segment will be selected which belongs to the same audio file as the anchor. The selection has to be within a predefined range, neighbouring selection range (e.g. 2s, 4s), of the anchor tile. It is important to note, that it does not make any difference if the tile is being sampled from before or after the anchor segment. The opposite tile will be chosen at random from a different audio sample, where the selection of the segment is also performed at random. The only constraint is that the opposite tile can not be chosen from the same audio file as the anchor and the neighbour.
+For the anchor tile $x_a$, a random segment is chosen. For the neighbouring tile $x_n$, a segment will be selected which belongs to the same audio file as the anchor. Where the selection has to be within a predefined range, \textit{neighbouring selection range} (e.g. 2s, 4s), of the anchor tile $x_a$. It is important to note, that it does not make any difference if the tile is being sampled from before or after the anchor segment. The opposite tile $x_o$ will be chosen at random from a different audio sample, where the selection of the segment is also performed at random. The only constraint is, that the opposite tile can not be chosen from the same audio file as the anchor and the neighbour.
 \newline
 \newline
-For the \fullref{sub:Music-Dataset}, the triplet selection is made relatively similar to the one described in the paragraph above for the \fullref{sub:DCASE-Task-Dataset}. The only difference between the two methods is, that for the \nameref{sub:Music-Dataset} the audio files are of variable length. However, this does not make any difference in the selection algorithm. The sample length and neighbouring selection range will be increased due to the increased audio file length.
+For the \fullref{sub:Music-Dataset}, the triplet selection is made relatively similar to the one described in the paragraph above for the \fullref{sub:DCASE-Task-Dataset}. The only difference between the two methods is, that for the \nameref{sub:Music-Dataset} the audio files are of variable length. However, this does not make any difference in the selection algorithm. Maybe the \textit{sample length} and \textit{neighbouring selection} range will be need to be increased due to the increased audio file length, but this has to be shown in the experiments.
 
 \section{Input pipeline}
 \label{sec:Input-Pipeline}
-The input pipeline is responsible for creating the dataset, which will then be fed into the model by batches. For this project, the input pipeline is implemented using the Tensorflow \texttt{tf.data} API\footnotemark, along with a generator, which loops over the whole dataset and creates entries on the fly. A generator function is used because the entire dataset can not be loaded into memory, due to the large size of it.
+The input pipeline is responsible for creating the dataset, which will then be fed into the model by batches. For this project, the input pipeline is implemented using the Tensorflow \texttt{tf.data} API\footnotemark, along with a generator, which loops over the whole dataset and creates entries on the fly. The reason why a generator function is used is that the entire dataset can not be loaded into memory, due to the large size of it.
 \footnotetext{\url{https://www.tensorflow.org/api_docs/python/tf/data}}
 \newline
 \newline
-Because no preprocessing is being done to the datasets and they are used as-is, the input pipeline will need to do the \fullref{sec:Feature-Extraction}, the \fullref{sec:Data-Augmentation} and the \fullref{sec:Triplet-Selection}.
-\newline
-First, the input pipeline has to generate the dataset using the generator function of the corresponding dataset, which also includes the triplet selection. It is important to note that all the operations after are done on the whole batch. After the generation, the data augmentation, if needed, and then the feature extraction is being performed.
+Because no preprocessing is being done to the datasets and they are used as-is, the input pipeline will need to do the \fullref{sec:Feature-Extraction}, the \fullref{sec:Data-Augmentation} and the \fullref{sec:Triplet-Selection} all together.
 \newline
 \newline
-The generator function loops over the whole dataset and creates an audio triplet, which will then be yielded back to the dataset. The first step in the generator is the triplet selection. It returns a triplet consisting of the audio file index and the index of the segment within the audio, for the anchor, neighbour and opposite tile. Then these indices will then be used to extract the specified segment of the audio files. Finally, these audio triplet slices will then be yielded back to the dataset from the generator.
+First, the input pipeline has to generate the dataset using the generator function of the corresponding dataset, which also implements the triplet selection. It is important to note that all the operations after are done on the whole batch. After the generation, the data augmentation, if needed, and then the feature extraction is being performed.
 \newline
 \newline
-This creates the dataset dynamically because the dataset only contains the current batch along with some prefetched entries, which are entries from the next batch so that the \gls{GPU} is fully utilised.
+The generator function loops over the whole dataset and creates an audio triplet, which will then be yielded back to the dataset. The first step in the generator is the triplet selection. It returns a triplet consisting of the audio file index and the index of the segment within the audio, for the anchor, neighbour and opposite tile. Then these indices will be used to extract the specified segment of the audio files. Finally, these audio triplet slices will then be yielded back to the dataset from the generator.
 \newline
 \newline
-The feature extraction is implemented using the vectorised \texttt{.map} function of the class \texttt{tf.data.Dataset}\footnotemark. The \texttt{.map} function applies a given function to each element within the dataset, which in our case will be used to extract the features from the audio. Hence a \flqq feature extractor\frqq \ has to be provided to the input pipeline, which will extract a certain feature from the audio as stated in \fullref{sec:Feature-Extraction}.
+This creates the dataset dynamically because the dataset only contains the current batch along with some prefetched entries, which are entries from the next batch so that the \gls{GPU} can be fully utilised.
+\newline
+\newline
+The feature extraction is implemented using the vectorised \texttt{.map} function of the class \texttt{tf.data.Dataset}\footnotemark. The \texttt{.map} function applies a given function to each element within the dataset, which in our case will be used to extract the features from the audio. Hence a \flqq feature extractor\frqq \ has to be provided to the input pipeline, which will extract a certain feature from the audio as stated in \fullref{sec:Feature-Extraction}. If no extractor is passed to the pipeline, the raw waveform of the signal is used.
 \footnotetext{\url{https://www.tensorflow.org/api_docs/python/tf/data/Dataset}}
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=0.4]{baa-documentation/img/Input_Pipeline_Visualisation.png}
-	\caption{Visualisation of the input pipeline}
+	\caption{Visualisation of the input pipeline process}
 	\label{fig:Input-Pipeline-Visualisation}
 \end{figure}
 
 \section{Models}
 \label{sec:Models}
-This section describes the overall architecture of the models used in the thesis. Audio data will be thought of as two-dimensional data, and therefore state-of-the-art image recognition models can also be used for the audio domain.
+This section describes the overall architecture of the models used in the thesis. Audio data can be thought of as two-dimensional data, and therefore state-of-the-art image recognition models can also be used for the audio domain.
 \newline
 \newline
-One of the most straight forward architectures used, are \fullref{sub:Convolutional-Neural-Network}. They are used in a lot of audio applications because of their simplicity and robustness. A lot of research in the past couple of years has shown the overall success of these models.
+One of the most straight forward architectures used are \fullref{sub:Convolutional-Neural-Network}. They are used in a lot of audio applications because of their simplicity and robustness. A lot of research in the past couple of years has shown the overall success of these models. Therefore it makes sense to evaluate these type of models extensively. 
 \newline
 \newline
-Another widely used model architecture is the \gls{RNN}, such as \fullref{sub:Gated-Recurrent-Unit}, which are primarily used in the text domain. They have also shown their success within the audio domain, because of the sequential nature of the data.
+Another widely used model architecture is the \gls{RNN}, such as \fullref{sub:Gated-Recurrent-Unit}, which are primarily used in the text domain. However, in recent years they have also shown their success within the audio domain, mainly because of the sequential nature of the audio signal.
 \newline
 \newline
-The most prominent approach in audio research is the combination of \gls{CNN} and \gls{RNN}. The architecture consists of multiple convolution layers and then single or multiple recurrent layers. These models first reduce the input data to a specific lower-dimensional representation and then use recurrent models to make use of the sequential nature of the data. Therefore the best ideas of both models are used within these \gls{CRNN}.
+The most prominent approach in audio research is the combination of \gls{CNN} and \gls{RNN}. The architecture consists of multiple convolution layers and a single or multiple recurrent layers. The idea of these models are that they first reduce the input data to a specific lower-dimensional representation and then use recurrent models to make use of the sequential nature of the audio. Therefore the best ideas of both architectures are used within these \gls{CRNN}.
 
 \section{Application to music}
 \label{sec:Application-Music}
-All of the concepts mentioned above are designed to work with both datasets. Thus the application to music is described in each above section separately when the application for the \fullref{sub:Music-Dataset} is described.
+All of the concepts mentioned above are designed to work with both datasets. Thus the application to music is described in each of the sections above separately.
 
 \section{Metrics}
 \label{sec:Metrics}
-Meaningful metrics need to be used to evaluate and compare the performance of machine learning models. In supervised machine learning, most of the metrics focus on how well the model predicts the actual value from the input, but in the unsupervised setting finding meaningful metrics is a lot harder. Hence the metrics for the embedding model and the classifier are quite different because the embedding architecture is unsupervised while the classifier is supervised. Therefore this section is split into two parts, metrics for the embedding space (\ref{sub:Metrics-Embedding-Space}) and metrics for the classifier (\ref{sub:Metrics-Classifier}), which both aim to give valuable insights into the performance. All of the mentioned metrics below are monitored using the Tensorboard visualisation toolkit\footnote{\url{https://www.tensorflow.org/tensorboard}}.
+Meaningful metrics need to be used to evaluate and compare the performance of machine learning models. In supervised machine learning, most of the metrics focus on how well the model predicts the actual value from the input, but in the unsupervised setting, finding meaningful metrics is a lot harder. Hence the metrics for the embedding model and the classifier are quite different because the embedding architecture is unsupervised while the classifier is supervised. Therefore this section is split into two parts, metrics for the embedding space (\ref{sub:Metrics-Embedding-Space}) and metrics for the classifier (\ref{sub:Metrics-Classifier}), which both aim to give valuable insights into the performance. All of the mentioned metrics below are monitored using the Tensorboard visualisation toolkit\footnote{\url{https://www.tensorflow.org/tensorboard}}.
 
 \subsection{Embedding space}
 \label{sub:Metrics-Embedding-Space}
-As mentioned before, it is quite difficult to find meaningful metrics for the embedding space because of the unsupervised nature. But since the thesis focuses on the application of triplet loss in the unsupervised setting one of the most straight forward metrics is to monitor the triplet loss function, which gives an insight about the loss function which should be minimized over time. The triplet loss function, which will be monitored, is given by equation \ref{eq:Triplet-Loss}. Since the idea of triplet loss is to minimize the distance between the anchor and the positive sample and to maximize the distance between the anchor and the negative sample, it makes sense to also monitor both of these values. Both of these values are already computed when computing the triplet loss function and just have to be monitored. As a distance measure between the embeddings, the squared euclidean distance, given by equation \ref{eq:Euclidean-Distance}, is used. They give a valuable insight if the model is actually capable of satisfying the triplet loss constraint. All of these three metrics are monitored both on the training and evaluation dataset.
+As mentioned before, it is quite difficult to find meaningful metrics for the embedding space because of its unsupervised nature. But since the thesis focuses on the application of triplet loss in the unsupervised setting one of the most straight forward metrics is to monitor the triplet loss function, which gives an insight about the loss function which should be minimized over time. The triplet loss function, which will be monitored, is given by equation \ref{eq:Triplet-Loss}. Since the idea of triplet loss is to minimize the distance between the anchor and the positive sample and to maximize the distance between the anchor and the negative sample, it makes sense to also monitor both of these values. Both of these values are already computed when computing the triplet loss function and just have to be monitored. As a distance measure between the embeddings, the squared euclidean distance, given by equation \ref{eq:Euclidean-Distance}, is used. They give a valuable insight if the model is actually capable of satisfying the triplet loss constraint. All of these three metrics are monitored both on the training and evaluation dataset.
 \newline
 \newline
 The embedding space can also be thought of as a clustering task, where the goal is to cluster similar samples in the near-by region. Since the evaluation set contains the ground truth of each sample, most clustering metrics can be used to monitor the progress of the embedding space. 
 \newline
 \newline
-One of the most straightforward metrics to evaluate the progress of the resulting embedding space is to first compute the centroid of each label and then the distance from each centroid to every other. This gives an insight into how distant some of the clusters of each label are. This metric is displayed in two different ways, as lots of graphs and as a distance matrix in the form of an image, which is shown in image \ref{fig:Distance-Matrix}.
+One of the most straightforward metrics to evaluate the progress of the resulting embedding space is to first compute the centroid of each label and then the distance from each one to every other centroid. This gives an insight into how distant the clusters of each label are. This metric is displayed in two different ways, as lots of graphs and as a distance matrix in the form of an image, which is shown in image \ref{fig:Distance-Matrix}.
 \newline
 \newline
-A popular clustering metric is also used, called the Silhouette Coefficient, where a higher score relates to a model with better defined clusters. The score is bounded between $-1$ for incorrect clustering and $+1$ for highly dense clustering. Scores around zero indicate overlapping clusters. The score is higher when clusters are dense and well separated, which relates to a standard concept of a cluster. The Silhouette Coefficient is defined for each sample and is composed of two scores:
+A popular clustering metric, called the Silhouette Coefficient, is also used, where a higher score relates to a model with better defined clusters. The score is bounded between $-1$ for incorrect clustering and $+1$ for highly dense clustering. Scores around zero indicate overlapping clusters. The score is higher when clusters are dense and well separated, which relates to a standard concept of a cluster. The Silhouette Coefficient is defined for each sample and is composed of two scores:
 \begin{itemize}
 \setlength\itemsep{0em}
     \item $a$: The mean distance between a sample and all other points in the same class
@@ -155,17 +156,17 @@ The Silhouette Coefficient $s$ for a single sample is then given by equation \re
 Both of the metrics above are only computed on the evaluation dataset, since monitoring it on the training set would not provide more insight.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.4]{baa-documentation/img/Distance_Metric.png}
+	\includegraphics[scale=0.35]{baa-documentation/img/Distance_Metric.png}
 	\caption{Distance matrix from each centroid to every other}
 	\label{fig:Distance-Matrix}
 \end{figure}
 
 \subsection{Classifier}
 \label{sub:Metrics-Classifier}
-As for the classifier standard supervised metrics are monitored. The loss function used to train the model is the sparse categorical cross-entropy loss, therefore this loss function will be monitored to show how the model minimises this function over time. As an accuracy metric the sparse categorical accuracy is monitored to show how well the classifier predicts the inputs.
+For the classifier, standard supervised metrics are monitored, such as loss and accuracy. The loss function used to train the model is the \textbf{sparse categorical cross-entropy loss}, therefore this loss function will be monitored to show how the model minimises this function over time. As an accuracy metric the \textbf{sparse categorical accuracy} is monitored to show how well the classifier predicts the inputs.
 \newline
 \newline
-The usage of the accuracy has a big drawback, which is that it does not work well with highly unbalanced datasets such as the \fullref{sub:DCASE-Task-Dataset}. Therefore an other metric needs to be used which works well with with this kind of dataset. As an evaluation metric the DCASE Task 5 challenge used the macro-averaged F1 score, which satisfies the constraint of working well with unbalanced data and is therefore also used to monitor the accuracy of the classifier. Furthermore it is used to compare the results accomplished in the thesis to the results by other models submitted in the challenge. The F1 score is given by equation \ref{eq:F1-Score} and to get the macro-averaged F1 score, the metric has to be calculated for each label and then their unweighted mean is taken.
+The usage of the accuracy does not work well with highly unbalanced datasets such as the \fullref{sub:DCASE-Task-Dataset}. Therefore an other metric needs to be used which works well with with this kind of dataset. As an evaluation metric the DCASE Task 5 challenge used the \textbf{macro-averaged F1 score}, which satisfies the constraint of working well with unbalanced data and is therefore also used to monitor the accuracy of the classifier. Furthermore it is used to compare the results accomplished in the thesis to the results by other models submitted in the challenge. The F1 score is given by equation \ref{eq:F1-Score} and to get the macro-averaged F1 score, the metric has to be calculated for each label and then their unweighted mean is taken.
 \myequations{F1 score}
 \begin{equation}
     \centering

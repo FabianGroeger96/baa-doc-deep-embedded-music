@@ -1,32 +1,27 @@
 \chapter{Related Work}
 \label{ch:Related-Work}
-
-This chapter introduces and explains terms and concepts which will be used throughout the thesis. Thus, this section can be used as a reference guide to fill in any gaps and to understand the relationships between the individual concepts better.
+This chapter introduces and explains terms and concepts used throughout the thesis. Thus, this section can be used as a reference guide to fill in any gaps and to understand the relationships between the individual concepts better.
 
 \section{Introduction to Digital Signal Processing}
 \label{sec:Intro-DSP}
-
-This section introduces the fundamentals of \gls{DSP}, which will be used repeatedly in the following chapters, either to reason or to describe some behaviour. 
+This section introduces the fundamentals of \gls{DSP}, which will be used repeatedly in the following sections, either to describe some behaviour or to reason. 
 \newline
 \newline
 What exactly is \gls{DSP}? \gls{DSP} is to take real-world signals like voice, audio, video, temperature, pressure, or position that have been digitized and mathematically manipulate them. A \gls{DSP} is designed for performing mathematical functions such as \textit{add}, \textit{subtract}, \textit{multiply} and \textit{divide} very quickly.
 \newline
 \newline
-Signals need to be processed so that the information that they contain can be displayed, analyzed, or converted to another type of signal that may be of use. In the real-world, analogue products detect signals such as sound, light, temperature or pressure and manipulate them. Converters such as an \gls{ADC} then take the real-world signal and turn it into the digital format of 1's and 0's. From here, the \gls{DSP} takes over by capturing the digitized information and processing it. It then feeds the digitized information back for use in the real world. It does this in one of two ways, either digitally or in an analogue format by going through a \gls{DAC}. All of this occurs at very high speeds.\footnotemark
-
+Signals need to be processed so that the information that they contain can be displayed, analyzed, or converted to another type of signal that may be of use. In the real-world, analogue products detect signals such as sound, light, temperature or pressure and manipulate them. Converters such as an \gls{ADC} then take the real-world signal and turn it into the digital format of \texttt{1}'s and \texttt{0}'s. From here, the \gls{DSP} takes over by capturing the digitized information and processing it. It then feeds the digitized information back for use in the real world. It does this in one of two ways, either digitally or in an analogue format by going through a \gls{DAC}. All of this occurs at very high speeds.\footnotemark
 \footnotetext{\href{https://www.analog.com/en/design-center/landing-pages/001/beginners-guide-to-dsp.html}{analog.com/en/design-center/landing-pages/001/beginners-guide-to-dsp.html}}
 
 \subsection{Waveform}
 \label{sub:Waveform}
-
-Speech signals are sound signals, defined as pressure variations travelling through the air. These variations in pressure can be described as waves, and are often called sound waves. In the current thesis, the focus is on the analysis and processing of such waveforms in digital systems. Therefore it is always assumed that the acoustic speech signals have been captured by a microphone and converted to a digital form.
+Speech signals are sound signals, which are defined as pressure variations travelling through the air. These variations in pressure can be described as waves, and are therefore often called sound waves. In the current thesis, the focus is on the analysis and processing of such waveforms in digital systems. Therefore it is always assumed that the acoustic speech signals have been captured by a microphone and converted to a digital form.
 \newline
 \newline
 A speech signal of finite length can be represented by a digitalised finite-length sequence $x[n]$, with $n = 0, 1, \dots, N-1$.
 
 \subsection{Amplitude}
 \label{sub:Amplitude}
-
 The amplitude of a periodic variable is the measure of how far, and in what direction, that variable differs from zero. Thus, signal amplitudes can be either positive or negative. If the amplitude of a given signal is large, the signal is observed to be loud. Equation \ref{eq:Wave-Equation} shows a simple form of a wave equation, where $y$ is the oscillating variable (signal), $A$ the amplitude, $\gamma$ the period, $t$ the time and $\phi$ the phase shift. $sin(t)$ has a period of $2 \phi$. Figure \ref{fig:Amplitude-Wavelenght} illustrates such a simple wave form. 
 \myequations{Simple wave equation}
 \begin{equation}
