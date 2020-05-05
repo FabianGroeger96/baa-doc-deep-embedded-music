@@ -24,7 +24,7 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
      title height=1,
      title label font=\bfseries\footnotesize,
      progress=today,
-     today=9,
+     today=11,
      today label=Current Week,
      bar/.append style={fill=blue!50},
      group/.append style={draw=black, fill=orange!50},
@@ -73,8 +73,8 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
     
     % 3. Phase: Experiments
     \ganttgroup[inline=false]{Experiments}{9}{12} \\
-    \ganttbar[progress=10,inline=false]{Conduct experiments}{9}{9} \\
-    \ganttbar[progress=0,inline=false]{Validate embeddings}{10}{11} \\
+    \ganttbar[progress=30,inline=false]{Conduct experiments}{9}{9} \\
+    \ganttbar[progress=20,inline=false]{Validate embeddings}{10}{11} \\
     \ganttmilestone[inline=false]{Experiments finished}{11} \\ % M4
     \ganttbar[progress=80,inline=false]{Visualise embeddings}{12}{12} \\
     

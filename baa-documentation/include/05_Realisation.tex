@@ -27,11 +27,138 @@ All of the components of the project were designed to be arbitrarily expandable,
 \newline
 Each one of these components is described in further detail within this section of the thesis. This includes detailed information about the component as well as their purpose in the whole project.
 
+\subsection{Params}
+\label{sub:Params}
+\begin{figure}[htbp]
+	\centering
+	\resizebox{\linewidth / 2}{!}{%
+        \begin{tikzpicture}
+        
+        \begin{class}[text width=7cm]{Params}{0,0}
+            \attribute{+ experiment\_name : str}
+            
+            \attribute{+ dcase\_dataset\_path : str}
+            \attribute{+ dcase\_dataset\_fold : str}
+            
+            \attribute{+ music\_dataset\_path : str}
+            
+            \attribute{+ log\_level : str}
+            
+            \attribute{+ model : str}
+            \attribute{+ dataset : str}
+            
+            \attribute{+ save\_model : bool}
+            \attribute{+ saved\_model\_path : str}
+            \attribute{+ save\_frequency : int}
+            
+            \attribute{+ use\_profiler : bool}
+            
+            \attribute{+ epochs : int}
+            \attribute{+ batch\_size : int}
+            \attribute{+ prefetch\_batches : int}
+            \attribute{+ random\_selection\_buffer\_size : int}
+            \attribute{+ learning\_rate : float}
+            
+            \attribute{+ l2\_amount : float}
+            
+            \attribute{+ random\_seed : int}
+            
+            \attribute{+ shuffle\_dataset : bool}
+            \attribute{+ train\_test\_split : float}
+            
+            \attribute{+ gen\_count : int}
+            \attribute{+ num\_parallel\_calls : int}
+            
+            \attribute{+ opposite\_sample\_buffer\_size : int}
+            
+            \attribute{+ sample\_rate : int}
+            \attribute{+ sample\_size : int}
+            \attribute{+ sample\_tile\_size : int}
+            \attribute{+ sample\_tile\_neighbourhood : int}
+            
+            \attribute{+ stereo\_channels : int}
+            \attribute{+ to\_mono : bool}
+            
+            \attribute{+ feature\_extractor : str}
+            \attribute{+ frame\_length : int}
+            \attribute{+ frame\_step : int}
+            \attribute{+ fft\_size : int}
+            \attribute{+ n\_mel\_bin : int}
+            \attribute{+ n\_mfcc\_bin : int}
+            
+            \attribute{+ margin : float}
+            \attribute{+ embedding\_size : int}
+            
+            \operation{\_\_init\_\_(json\_path : str)} 
+            \operation{+ save(json\_path : str)}
+            \operation{+ update(json\_path : str)}
+            \operation{+ print(json\_path : str, logger : Logger)}
+            \operation{+ dict()}
+        \end{class}
+        
+        \end{tikzpicture}
+    }
+	\caption{UML diagram of the \flqq params\frqq class}
+	\label{fig:UML-Params}
+\end{figure}
+\noindent
+In machine learning projects one of the most important aspects of it are the hyperparameters, which are parameters directly chosen by the developer which are not optimised by the algorithm itself. These hyperparameters are used for tuning the model to achieve the best possible outcome and to do that, a lot of experiments have to be conducted. Therefore it is important to have the possibility to tune each parameter in a single file which are then used through out the entire training process for the particular model. In this project the class \texttt{Params} does exactly that, it is a class which reads the hyperparameters from a json file called \texttt{params.json} and saves the values to the specified variable. These variables are then used throughout the project and modify the model accordingly.
+
 \subsection{Feature extractor}
 \label{sub:Component-Feature-Extractor}
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=\linewidth]{baa-documentation/img/UML_Feature_Extractor.jpeg}
+	\resizebox{\linewidth}{!}{%
+        \begin{tikzpicture}
+        
+        \begin{class}[text width=10cm]{ExtractorFactory}{0,0}
+            \operation{+ register(name : str) : Callable}
+            \operation{+ create\_extractor(name : str, **kwargs) : BaseExtractor}
+        \end{class}
+        
+        \begin{abstractclass}[text width=7cm]{BaseExtractor}{0,-3} 
+            \attribute{+ sample\_rate : int}
+            \attribute{+ sample\_size : int}
+            \attribute{+ sample\_tile\_size : int}
+            \attribute{+ sample\_tile\_neighbourhood : int}
+            \attribute{+ lower\_edge\_hertz : int = 50}
+            \attribute{+ upper\_edge\_hertz : int}
+            \attribute{+ frame\_length : int}
+            \attribute{+ frame\_step : int}
+            \attribute{+ fft\_size : int}
+            \attribute{+ n\_mel\_bin : int}
+            \attribute{+ n\_mfcc\_bin : int}
+            
+            \operation{\_\_init\_\_(params : Params)} 
+            \operation[0]{+ extract(audio)}
+            \operation[0]{+ get\_output\_shape()} 
+            \operation{+ get\_nyquist\_frequency()}
+            \operation{+ get\_stft\_spectrogram(data)}
+            \operation{+ get\_mel(stfts)}
+            \operation{+ get\_mfcc(log\_mel\_spectrograms)}
+            \operation{+ extract\_log\_mel\_features(audio)} 
+            \operation{+ extract\_mfcc\_features(audio)} 
+        \end{abstractclass}
+        
+        \begin{class}[text width=7cm]{LogMelBaseExtractor}{-5,-15}
+            \inherit{BaseExtractor}
+            
+            \operation{\_\_init\_\_(params : Params)}
+            \operation{+ extract(audio)}
+            \operation{+ get\_output\_shape()} 
+        \end{class}
+        
+        \begin{class}[text width=7cm]{MFCCBaseExtractor}{5,-15}
+            \inherit{BaseExtractor}
+            
+            \operation{\_\_init\_\_(params : Params)}
+            \operation{+ extract(audio)}
+            \operation{+ get\_output\_shape()} 
+        \end{class}
+        
+        \unidirectionalAssociation{ExtractorFactory}{creates}{}{BaseExtractor}
+        \end{tikzpicture}
+    }
 	\caption{UML diagram of the \flqq feature extractor\frqq}
 	\label{fig:UML-Feature-Extractor}
 \end{figure}
