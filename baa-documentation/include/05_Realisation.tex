@@ -1,6 +1,6 @@
 \chapter{Realisation}
 \label{ch:Realisation}
-This chapter describes the realisation of the project, and provides some insights into the ideas, which led to the current implementation. The implementation was written in \textbf{Python 3.6.9} and \textbf{Tensorflow 2.1}. To standardise the realisation, standard docker images are used, which are provided by Tensorflow, called \texttt{tensorflow/tensorflow:2.1.0-py3}, respectively \texttt{tensorflow/tensorflow:2.1.0-gpu-py3} to utilise the GPU.
+This chapter describes the realisation of the project, and provides some insights into the ideas, which led to the current implementation. The implementation was written in \textbf{Python 3.6.9} and \textbf{TensorFlow 2.1}. To standardise the realisation, standard docker images are used, which are provided by TensorFlow, called \texttt{tensorflow/tensorflow:2.1.0-py3}, respectively \texttt{tensorflow/tensorflow:2.1.0-gpu-py3} to utilise the GPU.
 
 \section{Project components}
 \label{sec:Project-Components}
@@ -31,7 +31,7 @@ Each one of these components is described in further detail within this section 
 \label{sub:Params}
 \begin{figure}[htbp]
 	\centering
-	\resizebox{\linewidth / 2}{!}{%
+	\resizebox{\linewidth / 3}{!}{%
         \begin{tikzpicture}
         
         \begin{class}[text width=7cm]{Params}{0,0}
@@ -89,7 +89,7 @@ Each one of these components is described in further detail within this section 
             \attribute{+ margin : float}
             \attribute{+ embedding\_size : int}
             
-            \operation{\_\_init\_\_(json\_path : str)} 
+            \operation{- \_\_init\_\_(json\_path : str)} 
             \operation{+ save(json\_path : str)}
             \operation{+ update(json\_path : str)}
             \operation{+ print(json\_path : str, logger : Logger)}
@@ -102,34 +102,29 @@ Each one of these components is described in further detail within this section 
 	\label{fig:UML-Params}
 \end{figure}
 \noindent
-In machine learning projects one of the most important aspects of it are the hyperparameters, which are parameters directly chosen by the developer which are not optimised by the algorithm itself. These hyperparameters are used for tuning the model to achieve the best possible outcome and to do that, a lot of experiments have to be conducted. Therefore it is important to have the possibility to tune each parameter in a single file which are then used through out the entire training process for the particular model. In this project the class \texttt{Params} does exactly that, it is a class which reads the hyperparameters from a json file called \texttt{params.json} and saves the values to the specified variable. These variables are then used throughout the project and modify the model accordingly.
+In machine learning projects one of the most important aspects of it are the hyperparameters, which are parameters directly chosen by the developer and are not optimised by the algorithm itself. These hyperparameters are used for tuning the model to achieve the best possible outcome and to do that, a lot of experiments have to be conducted. Therefore it is important to have the possibility to tune each parameter in a single file which are then used through out the entire training process for the particular model. In this project the class \texttt{Params} does exactly that, shown in figure \ref{fig:UML-Params}, it is a class which reads the hyperparameters from a json file called \texttt{params.json} and saves the values to the specified variable. These variables are then used throughout the project and modify the model accordingly.
 
 \subsection{Feature extractor}
 \label{sub:Component-Feature-Extractor}
 \begin{figure}[htbp]
 	\centering
-	\resizebox{\linewidth}{!}{%
+	\resizebox{0.7\linewidth}{!}{%
         \begin{tikzpicture}
         
         \begin{class}[text width=10cm]{ExtractorFactory}{0,0}
+            \attribute{+ registry : Dict}
+            \attribute{+ logger : Logger}
+            
             \operation{+ register(name : str) : Callable}
             \operation{+ create\_extractor(name : str, **kwargs) : BaseExtractor}
         \end{class}
         
-        \begin{abstractclass}[text width=7cm]{BaseExtractor}{0,-3} 
-            \attribute{+ sample\_rate : int}
-            \attribute{+ sample\_size : int}
-            \attribute{+ sample\_tile\_size : int}
-            \attribute{+ sample\_tile\_neighbourhood : int}
+        \begin{abstractclass}[text width=7cm]{BaseExtractor}{0,-4} 
+            \attribute{+ params : Params}
             \attribute{+ lower\_edge\_hertz : int = 50}
             \attribute{+ upper\_edge\_hertz : int}
-            \attribute{+ frame\_length : int}
-            \attribute{+ frame\_step : int}
-            \attribute{+ fft\_size : int}
-            \attribute{+ n\_mel\_bin : int}
-            \attribute{+ n\_mfcc\_bin : int}
             
-            \operation{\_\_init\_\_(params : Params)} 
+            \operation{- \_\_init\_\_(params : Params)} 
             \operation[0]{+ extract(audio)}
             \operation[0]{+ get\_output\_shape()} 
             \operation{+ get\_nyquist\_frequency()}
@@ -140,18 +135,18 @@ In machine learning projects one of the most important aspects of it are the hyp
             \operation{+ extract\_mfcc\_features(audio)} 
         \end{abstractclass}
         
-        \begin{class}[text width=7cm]{LogMelBaseExtractor}{-5,-15}
+        \begin{class}[text width=7cm]{LogMelBaseExtractor}{-5,-12}
             \inherit{BaseExtractor}
             
-            \operation{\_\_init\_\_(params : Params)}
+            \operation{- \_\_init\_\_(params : Params)}
             \operation{+ extract(audio)}
             \operation{+ get\_output\_shape()} 
         \end{class}
         
-        \begin{class}[text width=7cm]{MFCCBaseExtractor}{5,-15}
+        \begin{class}[text width=7cm]{MFCCBaseExtractor}{5,-12}
             \inherit{BaseExtractor}
             
-            \operation{\_\_init\_\_(params : Params)}
+            \operation{- \_\_init\_\_(params : Params)}
             \operation{+ extract(audio)}
             \operation{+ get\_output\_shape()} 
         \end{class}
@@ -159,7 +154,7 @@ In machine learning projects one of the most important aspects of it are the hyp
         \unidirectionalAssociation{ExtractorFactory}{creates}{}{BaseExtractor}
         \end{tikzpicture}
     }
-	\caption{UML diagram of the \flqq feature extractor\frqq}
+	\caption{UML diagram of the \flqq feature extractor\frqq directory}
 	\label{fig:UML-Feature-Extractor}
 \end{figure}
 \noindent
@@ -171,12 +166,189 @@ The main benefit of the factory pattern is, that, the representation used to tra
 
 \subsection{Input pipeline}
 \label{sub:Component-Input-pipeline}
+\begin{figure}[htbp]
+	\centering
+	\resizebox{\linewidth}{!}{%
+        \begin{tikzpicture}
+        
+        \begin{class}[text width=10cm]{DatasetFactory}{8,0}
+            \attribute{+ registry : Dict}
+            \attribute{+ logger : Logger}
+            
+            \operation{+ register(name : str) : Callable}
+            \operation{+ create\_extractor(name : str, **kwargs) : BaseDataset}
+        \end{class}
+        
+        \begin{object}[text width=4cm]{DatasetType}{-3,0}
+            \instanceOf{Enum}
+            \attribute{TRAIN = 0}
+            \attribute{EVAL = 1}
+            \attribute{TEST = 2}
+        \end{object}
+        
+        \begin{class}[text width=9cm]{TripletsInputPipeline}{-8,-4}
+            \attribute{+ params : Params}
+            \attribute{+ dataset : BaseDataset}
+            \attribute{+ dataset\_type : DatasetType}
+            \attribute{+ log : bool}
+            \attribute{+ logger : Logger}
+            
+            \operation{- \_\_init\_\_(params : Params, dataset : BaseDataset, log : bool)} 
+            \operation{+ reinitialise()}
+            \operation{- generate\_samples(gen\_name, trim, return\_labels)}
+            \operation{+ get\_dataset(feature\_extractor, dataset\_type, shuffle, trim, return\_labels}
+        \end{class}
+        
+        \begin{abstractclass}[text width=14cm]{BaseDataset}{8,-4} 
+            \attribute{+ params : Params}
+            \attribute{+ log : bool}
+            \attribute{+ dataset\_type : DatasetType}
+            \attribute{+ logger : Logger}
+            \attribute{+ df : pd.DataFrame}
+            \attribute{+ df\_train : pd.DataFrame}
+            \attribute{+ df\_eval : pd.DataFrame}
+            \attribute{+ df\_test : pd.DataFrame}
+            \attribute{+ dataset\_path : str}
+            \attribute{+ current\_index : int}
+            
+            \operation{- \_\_init\_\_(params : Params, log : bool)} 
+            \operation[0]{+ \_\_iter\_\_()}
+            \operation[0]{+ \_\_next\_\_()}
+            \operation[0]{+ initialise()}
+            \operation[0]{+ load\_data\_frame()}
+            \operation[0]{+ get\_triplets(audio\_id, audio\_length, opposite\_choices, trim)}
+            \operation[0]{+ get\_neighbour(audio\_id, anchor\_sample\_id, audio\_length)} 
+            \operation[0]{+ get\_opposite(audio\_id, anchor\_sample\_id, audio\_length, opposite\_choices)} 
+            \operation[0]{+ fill\_opposite\_selection(index)} 
+            \operation{+ change\_dataset\_type(dataset\_type)}
+            \operation{+ print\_dataset\_info()}
+            \operation{+ count\_classes()}
+            \operation{+ split\_audio\_in\_segment(audio, segment\_id)}
+            \operation{+ check\_if\_easy\_or\_hard\_triplet(neighbour\_dist, opposite\_dist)} 
+            \operation{+ compare\_audio(audio\_1, audio\_2)} 
+        \end{abstractclass}
+        
+        \begin{class}[text width=15cm]{DCASEDataset}{-8,-18}
+            \inherit{BaseDataset}
+            
+            \attribute{+ EXPERIMENT\_FOLDER : str}
+            \attribute{+ INFO\_FILES\_DIR : str}
+            \attribute{+ LABELS : List}
+            \attribute{+ dataset\_path : Path}
+            \attribute{+ fold : int}
+            
+            \operation{- \_\_init\_\_(params : Params, log : bool)} 
+            \operation{+ \_\_iter\_\_()}
+            \operation{+ \_\_next\_\_()}
+            \operation{+ initialise()}
+            \operation{+ load\_data\_frame()}
+            \operation{+ load\_train\_data\_frame()}
+            \operation{+ load\_eval\_data\_frame()}
+            \operation{+ load\_test\_data\_frame()}
+            \operation{+ get\_triplets(audio\_id, audio\_length, opposite\_choices, trim)}
+            \operation{+ get\_neighbour(audio\_id, anchor\_sample\_id, audio\_length)} 
+            \operation{+ get\_opposite(audio\_id, anchor\_sample\_id, audio\_length, opposite\_choices)} 
+            \operation{+ fill\_opposite\_selection(index)} 
+        \end{class}
+        
+        \begin{class}[text width=15cm]{MusicDataset}{8,-18}
+            \inherit{BaseDataset}
+            
+            \attribute{+ EXPERIMENT\_FOLDER : str}
+            \attribute{+ LABELS : List}
+            \attribute{+ dataset\_path : Path}
+            
+            \operation{- \_\_init\_\_(params : Params, log : bool)} 
+            \operation{+ \_\_iter\_\_()}
+            \operation{+ \_\_next\_\_()}
+            \operation{+ initialise()}
+            \operation{+ load\_data\_frame()}
+            \operation{+ get\_triplets(audio\_id, audio\_length, opposite\_choices, trim)}
+            \operation{+ get\_neighbour(audio\_id, anchor\_sample\_id, audio\_length)} 
+            \operation{+ get\_opposite(audio\_id, anchor\_sample\_id, audio\_length, opposite\_choices)} 
+            \operation{+ fill\_opposite\_selection(index)} 
+        \end{class}
+        
+        \unidirectionalAssociation{DatasetFactory}{creates}{}{BaseDataset}
+        \unidirectionalAssociation{BaseDataset}{uses}{}{DatasetType}
+        \unidirectionalAssociation{TripletsInputPipeline}{uses}{}{DatasetType}
+        \unidirectionalAssociation{TripletsInputPipeline}{uses}{}{BaseDataset}
+        \end{tikzpicture}
+    }
+	\caption{UML diagram of the \flqq input pipeline\frqq directory}
+	\label{fig:UML-Input-Pipeline}
+\end{figure}
+\noindent
+The entire input pipeline consists out of different components, the \texttt{BaseDataset} and its implementations, the \texttt{DatasetFactory}, the \texttt{DatasetType} enum and the \texttt{TripletsInputPipeline}, which is the core component. It is responsible for loading and preparing the data in a machine readable format, by connecting the \texttt{Feature extractor} with the \texttt{Dataset}. The output of the pipeline will then be fed into the model for training or testing.
+\newline
+\newline
+The \texttt{BaseDataset} provides a base implementation of a dataset along with some general functions. \texttt{DCASEDataset} and \texttt{MusicDataset} are concrete implementations of the \texttt{BaseDataset}. These implementations are responsible for loading the dataset from the raw data and for the process of triplet selection. Both of these responsibilities have to be implemented separately for each dataset. The \texttt{DatasetFactory} is a factory class, which is responsible for instantiating the different implementations of the \texttt{BaseDataset} in a handy way, by simply providing the name of the class registered in the factory. The factory is implemented using the python decorator pattern, which is a convenient way of registering each class in the factory since simply the decorator has to be added on top of each class.
+\begin{verbatim}
+    @DatasetFactory.register("DCASEDataset")
+\end{verbatim}
+As mentioned before, the \texttt{TripletsInputPipeline} is the core component of the project. It is responsible for dynamically connecting the different components. The input pipeline further needs to be implemented very efficiently, because when the pipeline is slow, the entire training process suffers. The pipeline is implemented very narrowly to increase the expandability of the project. It contains a method for reinitialisation (\texttt{reinitialise()}), which reinitialises the pipeline after a full iteration of the dataset.
+\newline
+\newline
+The method \texttt{get\_dataset()} is responsible for creating an iterator, which dynamically creates batches of triplets which are then fed to the model. It does that by first creating multiple different generators, which then simultaneously fill-up the dataset using the \texttt{\_\_generate\_samples()} function. The \texttt{\_\_generate\_samples()} method loops over the given dataset, cuts the audio into segments of a specified length (sample tile size) and chooses for each one of the segments a valid neighbour and opposite segment, where the neighbour segment belongs to the same audio file, and the opposite segment belong to a different audio file. Then the triplet is yielded back to the different generators of the \texttt{get\_dataset()}. After there are enough triplets in the buffer for yielding a batch to the iterator, the entire batch is processed using the given \texttt{Feature extractor} to represent the raw audio segments in the specified representation. Then the data within a batch is shuffled and yielded to the iterator. Then the process starts again until the entire dataset is processed. 
+\newline
+\newline
+This entire process of the pipeline is highly multi-threaded and aims to be as efficient as possible. The process further prefetches a specified amount of batches, which means that the pipeline always has a certain amount of triplets in the buffer to yield data to the iterator rapidly. The prefetching aims to utilise the \gls{GPU} as efficient as possible.
 
 \subsection{Loss}
 \label{sub:Component-Loss}
+\begin{figure}[htbp]
+	\centering
+	\resizebox{0.9\linewidth}{!}{%
+        \begin{tikzpicture}
+        
+        \begin{object}[text width=10cm]{TripletLoss}{-5,0}
+            \instanceOf{tf.keras.losses.Loss}
+            
+            \attribute{+ margin : float}
+            \attribute{+ strategy : TripletLossStrategy}
+            
+            \operation{- \_\_init\_\_(margin : float, strategy : TripletLossStrategy)}
+            \operation{+ calculate\_distance(anchor : tf.Tensor, embedding : tf.Tensor)}
+            \operation{+ call(y\_true : tf.Tensor, y\_pred : tf.Tensor)}
+        \end{object}
+        
+        \begin{object}[text width=6cm]{TripletLossStrategy}{5,0}
+            \instanceOf{Enum}
+            \attribute{ALL = 0}
+            \attribute{ZERO\_FILTERED = 1}
+        \end{object}
+        
+        \unidirectionalAssociation{TripletLoss}{uses}{}{TripletLossStrategy}
+        \end{tikzpicture}
+    }
+	\caption{UML diagram of the \flqq loss\frqq directory}
+	\label{fig:UML-Loss}
+\end{figure}
+\noindent
+The \texttt{loss} directory contains the class used to compute the triplet loss function along with an enumeration, which defines the strategy of the triplet loss. The \texttt{TripletLoss} class is the implementation of triplet loss in TensorFlow 2.1. It inherits from the Keras loss base class \texttt{tf.keras.losses.Loss} and overrides its \texttt{call()} function, which is responsible for calculating and returning the value of the loss. The calculation of the loss value is done using the equation \ref{eq:Triplet-Loss}. The \texttt{calculate\_distance()} function implements the calculation of the distance between the anchor embedding and an arbitrary embedding, which is mainly used as a metric to measure the distance between the anchor and the neighbour or opposite. Both functions are further decorated with the TensorFlow decorator \texttt{@tf.function}, which indicates that TensorFlow should compile the function into a callable TensorFlow graph. This optimises the performance of the decorated function.
+\newline
+\newline
+The \texttt{TripletLossStrategy} which is passed as an argument to the \texttt{TripletLoss} class, is used to define the strategy of the loss computation. The strategy \texttt{ALL} indicates that all of the distances are used to compute the loss. When using \texttt{ZERO\_FILTERED} as strategy, the computation will only take the nonzero loss values into account. This prevents the loss value to be very small when the constraint for all of the triplets are satisfied apart from a small number of triplets because when calculating the mean of a lot of zero values the result is close to zero even if there are some high nonzero values present. Therefore this strategy only calculates the mean of the nonzero values within the batch.
 
 \subsection{Training}
 \label{sub:Component-Training}
+\begin{figure}[htbp]
+	\centering
+	\resizebox{0.95\linewidth}{!}{%
+        \begin{tikzpicture}
+        
+        \begin{object}[text width=22cm]{train}{0,0}
+            \operation{+ train\_step(batch : tf.Tensor, model : tf.keras.Model, loss\_fn : tf.keras.losses.Loss, optimizer : tf.keras.optimizers.Optimizer)}
+            \operation{+ predict\_triplets(model : tf.keras.Model, anchor : tf.Tensor, neighbour : tf.Tensor, opposite : tf.Tensor)}
+            \operation{+ evaluation\_step(feature : tf.Tensor, model : tf.keras.Model)}
+        \end{object}
+    
+        \end{tikzpicture}
+    }
+	\caption{UML diagram of the \flqq train\frqq directory}
+	\label{fig:UML-Train}
+\end{figure}
+\noindent
 
 \subsection{Utils}
 \label{sub:Component-Utils}
