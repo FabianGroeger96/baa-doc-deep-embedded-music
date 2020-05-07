@@ -56,7 +56,7 @@ Frequency is the number of occurrences of a repeating event per unit of time. It
 % TODO change image to notation used in equation!
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.25]{baa-documentation/img/Amplitude.png}
+	\includegraphics[scale=0.25]{img/Amplitude.png}
 	\caption[Amplitude and wavelength illustrated]{Amplitude and wavelength \footnotemark}
 	\label{fig:Amplitude-Wavelenght}
 \end{figure}
@@ -111,7 +111,7 @@ The time-domain refers to the analysis of mathematical functions of signals with
 A wave plot is a visual representation of this domain. The y-axis of such visualisation represents the \nameref{sub:Amplitude} (loudness) of the sound wave, whereas the x-axis represents the time. If the amplitude is equal to zero, it represents silence. Such a representation is shown in figure \ref{fig:Waveplot-Time-Domain}.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.45]{baa-documentation/img/Waveplot_Visualisation.png}
+	\includegraphics[scale=0.45]{img/Waveplot_Visualisation.png}
 	\caption[Time-domain illustrated in wave plot]{Time-domain illustrated in wave plot}
 	\label{fig:Waveplot-Time-Domain}
 \end{figure}
@@ -155,7 +155,7 @@ A spectrogram is a visual representation of the \nameref{subsub:Short-Time-Fouri
 To create a spectrogram, the audio signal is broken down into smaller frames (windows), and for each one, the \gls{DFT} or \gls{FFT} will be calculated. The resulting frequencies of each window will represent the time. It is important to note that the windows should overlap each other, not to lose any frequency. Typical window sizes are 20 to 30ms, but this size highly depends on the task to solve. Figure \ref{fig:Spectrogram} shows an example of such a spectrogram.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.5]{baa-documentation/img/Spectrogram_Visualisation.png}
+	\includegraphics[scale=0.5]{img/Spectrogram_Visualisation.png}
 	\caption[Example of a spectrogram]{Example of a spectrogram}
 	\label{fig:Spectrogram}
 \end{figure}
@@ -263,7 +263,7 @@ The Mel filterbank performs this step. The first filter of the filterbank is ver
 The Mel-spaced filterbank has to be computed to apply the filterbank to the power spectra. The filterbank is a set of 20-40 (26 is the standard) triangular filters that then are applied to the periodogram from before. The filterbank has the dimension of 26 vectors with the length 257, because in the step before the \gls{FFT} was calculated and only kept 257 coefficients. Each vector has mostly zeros in it but is non-zero for a specific section of the spectrum. Each filterbank has to be multiplied by the power spectrum. After that, the coefficients are added up to get the filterbank energies. In the end, there are 26 coefficients left, which indicates how much energy was in each filterbank. An example of a Mel-spaced filterbank is illustrated in \ref{fig:MFCC-Mel-Filterbank}.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.4]{baa-documentation/img/Mel-filter-banks-basis-functions-using-20-Mel-filters-in-the-filter-bank.png}
+	\includegraphics[scale=0.4]{img/Mel-filter-banks-basis-functions-using-20-Mel-filters-in-the-filter-bank.png}
 	\caption[Mel-spaced filterbank with 20 filters]{Mel-spaced filterbank with 20 filters \footnotemark}
 	\label{fig:MFCC-Mel-Filterbank}
 \end{figure}
@@ -285,7 +285,7 @@ In the example, the \gls{DCT} of the 26 log filterbank energies has to be comput
 Once all the cepstral coefficients are computed, they can be visualized with respect to time. Which then can be used for further processing in \gls{ASR}. Such a visualisation is illustrated in figure \ref{fig:MFCC-Visualisation}, where the x-axis represents the time, and the y-axis represents the cepstral coefficient dimension (e.g. the lower 12-13), and the colour shows the value of each coefficient.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.5]{baa-documentation/img/MFCC_Visualisation.png}
+	\includegraphics[scale=0.5]{img/MFCC_Visualisation.png}
 	\caption[Visualisation of an MFCC]{Visualisation of a MFCC}
 	\label{fig:MFCC-Visualisation}
 \end{figure}
@@ -659,7 +659,7 @@ Dilated convolutions are used to cheaply increase the receptive field of output 
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.9]{baa-documentation/img/Dilated_Colvolution.png}
+	\includegraphics[scale=0.9]{img/Dilated_Colvolution.png}
 	\caption[SINS database recording environment map]{Visualisation of stacked diluted convolutions \footnotemark}
 	\label{fig:Dilated-Convolution}
 \end{figure}
@@ -833,7 +833,7 @@ The paper \cite{dekkers_sins_2017} introduces the \gls{SINS} database, which con
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.35]{baa-documentation/img/SINS_database_floor_map.png}
+	\includegraphics[scale=0.35]{img/SINS_database_floor_map.png}
 	\caption[SINS database recording environment map]{SINS database recording environment map \footnotemark}
 	\label{fig:sins-database-floor-map}
 \end{figure}
@@ -847,7 +847,7 @@ This subsection contains all the necessary information about the challenge from 
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.8]{baa-documentation/img/DCASE_floor_map.png}
+	\includegraphics[scale=0.8]{img/DCASE_floor_map.png}
 	\caption[2D floor plan of the combined kitchen and living room from DCASE]{2D floor plan of the combined kitchen and living room with the used sensor nodes \footnotemark}
 	\label{fig:dcase-recordings-floor-plan}
 \end{figure}
@@ -931,7 +931,7 @@ Within this section of the thesis, two state-of-the-art concepts are introduced,
 Triplet loss was first introduced in the field of face recognition by the paper (\cite{schroff_facenet_2015}) from Google. They describe a new approach to train face embeddings using online triplet mining.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.35]{baa-documentation/img/Triplet_Loss_Architecture.png}
+	\includegraphics[scale=0.35]{img/Triplet_Loss_Architecture.png}
 	\caption[Triplet Loss architecture visualisation]{Triplet Loss architecture visualisation \footnotemark}
 	\label{fig:Triplet-Loss-Architecture}
 \end{figure}

@@ -44,7 +44,7 @@ Data augmentation is the process of changing the real data within the dataset a 
 Data augmentation will only be used for the \fullref{sub:DCASE-Task-Dataset}, because it is highly unbalanced, which could correspond to the frequency of the activities in real life. The data distribution of each activity in the first fold of the development dataset is shown in figure \ref{fig:DCASE-Unbalanced}. The amount of data in the following six classes: cooking, dishwashing, eating, other, social activity, and vacuum cleaning, is extremely small compared to the other three classes: absence, watching TV and working. Therefore, the amount of audio data for the six classes is increased using data augmentation techniques, proposed in the next paragraph, to mitigate the unbalancing issue. Both techniques are described in further detail within the paper \cite{inoue_domestic_2018}.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.35]{baa-documentation/img/DCASE_unbalanced.png}
+	\includegraphics[scale=0.35]{img/DCASE_unbalanced.png}
 	\caption[Data distribution of each activity in Fold 1 of the development dataset]{Data distribution of each activity in Fold 1 of the development dataset \footnotemark}
 	\label{fig:DCASE-Unbalanced}
 \end{figure}
@@ -58,7 +58,7 @@ The augmentation of the audio data is based on two assumptions. First, it is ass
 For the \fullref{sub:Music-Dataset}, the data augmentation was neglected because the dataset is not imbalanced and extensive enough. There are precisely 30 songs in each class which indicates a relatively equally distributed dataset.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.5]{baa-documentation/img/DCASE_data_augmentation.png}
+	\includegraphics[scale=0.5]{img/DCASE_data_augmentation.png}
 	\caption[Generating new data based on shuffling and mixing]{Generating new data based on shuffling and mixing \footnotemark}
 	\label{fig:DCASE-Data-Augmentation}
 \end{figure}
@@ -101,7 +101,7 @@ The feature extraction is implemented using the vectorised \texttt{.map} functio
 \footnotetext{\url{https://www.tensorflow.org/api_docs/python/tf/data/Dataset}}
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.4]{baa-documentation/img/Input_Pipeline_Visualisation.png}
+	\includegraphics[scale=0.4]{img/Input_Pipeline_Visualisation.png}
 	\caption{Visualisation of the input pipeline process}
 	\label{fig:Input-Pipeline-Visualisation}
 \end{figure}
@@ -156,7 +156,7 @@ The Silhouette Coefficient $s$ for a single sample is then given by equation \re
 Both of the metrics above are only computed on the evaluation dataset, since monitoring it on the training set would not provide more insight.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.35]{baa-documentation/img/Distance_Metric.png}
+	\includegraphics[scale=0.35]{img/Distance_Metric.png}
 	\caption{Distance matrix from each centroid to every other}
 	\label{fig:Distance-Matrix}
 \end{figure}

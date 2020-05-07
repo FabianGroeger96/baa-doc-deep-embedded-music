@@ -59,6 +59,15 @@
 
 % to syntax highlighted code samples
 \usepackage{listings}
+\usepackage{minted}
+\definecolor{LightGray}{gray}{0.9}
+\setminted[python]{
+    framesep=2mm,
+    baselinestretch=1.2,
+    bgcolor=LightGray,
+    fontsize=\footnotesize,
+    linenos
+}
 
 % Clickable Links to Websites and chapters
 \usepackage[hidelinks]{hyperref}
