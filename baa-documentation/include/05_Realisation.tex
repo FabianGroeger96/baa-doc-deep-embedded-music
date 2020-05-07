@@ -9,14 +9,15 @@ The project repository, which is shown in figure \ref{fig:Project-Overview-Sourc
 \begin{figure}[ht]
     \dirtree{%
     .1 src/.
-    .2 feature-extractor/ \ldots{} (audio representations).
-    .2 input-pipeline/ \ldots{} (triplet input pipeline).
+    .2 feature\_extractor/ \ldots{} (audio representations).
+    .2 input\_pipeline/ \ldots{} (triplet input pipeline).
     .2 loss/ \ldots{} (implementation of loss functions).
-    .2 models/ \ldots{} (implementation of models).
+    .2 models\_classifier/ \ldots{} (implementation of classifier models).
+    .2 models\_embedding/ \ldots{} (implementation of embedding models).
     .2 training/ \ldots{} (training utility functions).
     .2 utils/ \ldots{} (contains various utility functions).
-    .2 train-classifier.py \ldots{} (training procedure for classifier).
-    .2 train-triplet-loss.py \ldots{} (training procedure of triplet loss).
+    .2 train\_classifier.py \ldots{} (training procedure for classifier).
+    .2 train-triplet\_loss.py \ldots{} (training procedure of triplet loss).
     }
 \caption{Project components of the \texttt{src} directory}
 \label{fig:Project-Components}
@@ -108,7 +109,7 @@ In machine learning projects one of the most important aspects of it are the hyp
 \label{sub:Component-Feature-Extractor}
 \begin{figure}[htbp]
 	\centering
-	\resizebox{0.7\linewidth}{!}{%
+	\resizebox{0.8\linewidth}{!}{%
         \begin{tikzpicture}
         
         \begin{class}[text width=10cm]{ExtractorFactory}{0,0}
@@ -279,7 +280,7 @@ The main benefit of the factory pattern is, that, the representation used to tra
 	\label{fig:UML-Input-Pipeline}
 \end{figure}
 \noindent
-The entire input pipeline consists out of different components, the \texttt{BaseDataset} and its implementations, the \texttt{DatasetFactory}, the \texttt{DatasetType} enum and the \texttt{TripletsInputPipeline}, which is the core component. It is responsible for loading and preparing the data in a machine readable format, by connecting the \texttt{Feature extractor} with the \texttt{Dataset}. The output of the pipeline will then be fed into the model for training or testing.
+The entire input pipeline consists out of different components, the \texttt{BaseDataset} and its implementations, the \texttt{DatasetFactory}, the \texttt{DatasetType} enum and the \texttt{TripletsInputPipeline}, which is the core component. All of the components and their connection are visualised in figure \ref{fig:UML-Input-Pipeline} as an UML diagram. The pipeline is responsible for loading and preparing the data in a machine readable format, by connecting the \texttt{Feature extractor} with the \texttt{Dataset}. The output of the pipeline will then be fed into the model for training or testing.
 \newline
 \newline
 The \texttt{BaseDataset} provides a base implementation of a dataset along with some general functions. \texttt{DCASEDataset} and \texttt{MusicDataset} are concrete implementations of the \texttt{BaseDataset}. These implementations are responsible for loading the dataset from the raw data and for the process of triplet selection. Both of these responsibilities have to be implemented separately for each dataset. The \texttt{DatasetFactory} is a factory class, which is responsible for instantiating the different implementations of the \texttt{BaseDataset} in a handy way, by simply providing the name of the class registered in the factory. The factory is implemented using the python decorator pattern, which is a convenient way of registering each class in the factory since simply the decorator has to be added on top of each class.
@@ -298,10 +299,10 @@ This entire process of the pipeline is highly multi-threaded and aims to be as e
 \label{sub:Component-Loss}
 \begin{figure}[htbp]
 	\centering
-	\resizebox{0.9\linewidth}{!}{%
+	\resizebox{\linewidth}{!}{%
         \begin{tikzpicture}
         
-        \begin{object}[text width=10cm]{TripletLoss}{-5,0}
+        \begin{object}[text width=11cm]{TripletLoss}{-5,0}
             \instanceOf{tf.keras.losses.Loss}
             
             \attribute{+ margin : float}
@@ -325,7 +326,7 @@ This entire process of the pipeline is highly multi-threaded and aims to be as e
 	\label{fig:UML-Loss}
 \end{figure}
 \noindent
-The \texttt{loss} directory contains the class used to compute the triplet loss function along with an enumeration, which defines the strategy of the triplet loss. The \texttt{TripletLoss} class is the implementation of triplet loss in TensorFlow 2.1. It inherits from the Keras loss base class \texttt{tf.keras.losses.Loss} and overrides its \texttt{call()} function, which is responsible for calculating and returning the value of the loss. The calculation of the loss value is done using the equation \ref{eq:Triplet-Loss}. The \texttt{calculate\_distance()} function implements the calculation of the distance between the anchor embedding and an arbitrary embedding, which is mainly used as a metric to measure the distance between the anchor and the neighbour or opposite. Both functions are further decorated with the TensorFlow decorator \texttt{@tf.function}, which indicates that TensorFlow should compile the function into a callable TensorFlow graph. This optimises the performance of the decorated function.
+The \texttt{loss} directory, illustrated in figure \ref{fig:UML-Loss}, contains the class used to compute the triplet loss function along with an enumeration, which defines the strategy of the triplet loss. The \texttt{TripletLoss} class is the implementation of triplet loss in TensorFlow 2.1. It inherits from the Keras loss base class \texttt{tf.keras.losses.Loss} and overrides its \texttt{call()} function, which is responsible for calculating and returning the value of the loss. The calculation of the loss value is done using the equation \ref{eq:Triplet-Loss}. The \texttt{calculate\_distance()} function implements the calculation of the distance between the anchor embedding and an arbitrary embedding, which is mainly used as a metric to measure the distance between the anchor and the neighbour or opposite. Both functions are further decorated with the TensorFlow decorator \texttt{@tf.function}, which indicates that TensorFlow should compile the function into a callable TensorFlow graph. This optimises the performance of the decorated function.
 \newline
 \newline
 The \texttt{TripletLossStrategy} which is passed as an argument to the \texttt{TripletLoss} class, is used to define the strategy of the loss computation. The strategy \texttt{ALL} indicates that all of the distances are used to compute the loss. When using \texttt{ZERO\_FILTERED} as strategy, the computation will only take the nonzero loss values into account. This prevents the loss value to be very small when the constraint for all of the triplets are satisfied apart from a small number of triplets because when calculating the mean of a lot of zero values the result is close to zero even if there are some high nonzero values present. Therefore this strategy only calculates the mean of the nonzero values within the batch.
@@ -334,13 +335,12 @@ The \texttt{TripletLossStrategy} which is passed as an argument to the \texttt{T
 \label{sub:Component-Training}
 \begin{figure}[htbp]
 	\centering
-	\resizebox{0.95\linewidth}{!}{%
+	\resizebox{\linewidth}{!}{%
         \begin{tikzpicture}
         
         \begin{object}[text width=22cm]{train}{0,0}
-            \operation{+ train\_step(batch : tf.Tensor, model : tf.keras.Model, loss\_fn : tf.keras.losses.Loss, optimizer : tf.keras.optimizers.Optimizer)}
-            \operation{+ predict\_triplets(model : tf.keras.Model, anchor : tf.Tensor, neighbour : tf.Tensor, opposite : tf.Tensor)}
-            \operation{+ evaluation\_step(feature : tf.Tensor, model : tf.keras.Model)}
+            \operation{\underline{+ train\_step(batch : tf.Tensor, model : tf.keras.Model, loss\_fn : tf.keras.losses.Loss, optimizer : tf.keras.optimizers.Optimizer)}}
+            \operation{\underline{+ embed\_triplets(model : tf.keras.Model, anchor : tf.Tensor, neighbour : tf.Tensor, opposite : tf.Tensor)}}
         \end{object}
     
         \end{tikzpicture}
@@ -349,21 +349,352 @@ The \texttt{TripletLossStrategy} which is passed as an argument to the \texttt{T
 	\label{fig:UML-Train}
 \end{figure}
 \noindent
+The \texttt{training} directory contains utility functions for the model, shown in figure \ref{fig:UML-Train}. The \texttt{train\_step()} runs a full forward pass trough the model, which means that it gets a batch of triplets, embeds them into the embedding space, calculates the triplet loss of the batch and then updates the weights of the model so that the loss is being minimised. It then returns the different metric values in a dictionary. For each training step, there are five different metrics returned. 
+\begin{verbatim}
+    losses = {
+        "loss": regularization_loss + triplet_loss,
+        "triplet_loss": triplet_loss,
+        "regularization_loss": regularization_loss,
+        "dist_neighbour": dist_neighbour,
+        "dist_opposite": dist_opposite
+    }
+\end{verbatim}
+The \texttt{loss}, which is the overall loss of the model, combined out of the \texttt{triplet\_loss} and the \texttt{regularization\_loss}. Then the \texttt{triplet\_loss} and the \texttt{regularization\_loss} separately. And then the \texttt{dist\_neighbour} and \texttt{dist\_opposite}, which give an insight into the distance between the anchor and the neighbour or opposite.
+\newline
+\newline
+The \texttt{embed\_triplets()} is used to embed a triplet, consisting of an anchor, neighbour and opposite, in the embedding space, given the model. This utility function is mainly used for evaluation or testing the model.
 
 \subsection{Utils}
 \label{sub:Component-Utils}
+\begin{figure}[htbp]
+	\centering
+	\resizebox{0.95\linewidth}{!}{%
+        \begin{tikzpicture}
+        
+        \begin{class}[text width=16cm]{Utils}{0,0}
+            \operation{\underline{+ get\_files\_in\_path(path : Path, file\_extension : str)}}
+            \operation{\underline{+ check\_if\_path\_exists(path : Path)}}
+            \operation{\underline{+ set\_logger(log\_path : str, log\_level : str = "INFO")}}
+            \operation{\underline{+ create\_load\_folders\_for\_experiment(args : Args, dataset\_folder : str, model\_name : str)}}
+            \operation{\underline{+ create\_folder(path : Path)}}
+        \end{class}
+        
+        \begin{class}[text width=15cm]{AudioUtils}{4,-4}
+            \operation{\underline{+ load\_audio\_from\_file(path, sample\_rate, sample\_size, stereo\_channels, to\_mono)}}
+            \operation{\underline{+ visualise\_log\_mel(anchor, neighbour, opposite)}}
+            \operation{\underline{+ visualise\_mfcc(anchor, neighbour, opposite, sample\_rate)}}
+        \end{class}
+        
+        \begin{class}[text width=5cm]{Params}{-7,-4}
+        \end{class}
+        
+        \begin{object}[text width=27cm]{utils visualise}{0,-7}
+            \operation{\underline{+ save\_labels\_tsv(labels, filename, log\_dir, dataset)}}
+            \operation{\underline{+ save\_embeddings\_tsv(embeddings, filename, log\_dir)}}
+            \operation{\underline{+ visualise\_embeddings(embeddings, labels, dataset, tensorboard\_path, save\_checkpoint)}}
+            \operation{\underline{+ save\_graph(tensorboard\_path, execute\_callback, **args)}}
+            \operation{\underline{+ visualise\_model\_on\_epoch\_end(model, pipeline, extractor, epoch, loss\_fn, summary\_writer, tensorb\_path, reinitialise, visualise\_graphs, save\_checkpoint)}}
+            \operation{\underline{+ visualise\_distance\_matrix(embeddings, labels, dataset, epoch, summary\_writer, visualise\_graphs)}}
+            \operation{\underline{+ visualise\_distance\_graphs(distance\_matrix, epoch, summary\_writer)}}
+            \operation{\underline{+ visualise\_distance\_matrix\_image(distance\_matrix, dataset, epoch, summary\_writer)}}
+        \end{object}
+    
+        \end{tikzpicture}
+    }
+	\caption{UML diagram of the \flqq utils\frqq directory}
+	\label{fig:UML-Utils}
+\end{figure}
+\noindent
+The \texttt{utils} directory contains different utility functions for various applications in the project. The structure of the directory is shown in figure \ref{fig:UML-Utils}. For better readability of the UML diagram, the argument type is omitted. The class \texttt{Params} is located within this directory but is further described in subsection \ref{sub:Params}, where also the full UML of the class is provided.
+\newline
+\newline
+The \texttt{Utils} class contains various utility functions for creating folders, checking if the path exists, getting the number of files in a path and it is also used to set a global logger for the project.
+\newline
+\newline
+The \texttt{AudioUtils} class contains various utility functions for loading audio files from a specified path and visualising triplets as log Mel spectrogram and as \gls{MFCC}.
+\newline
+\newline
+\texttt{utils\_visualise} is responsible for visualising the model in different ways. These functions aim to get more insight into the model, which is being trained. They are mainly used to validate certain assumptions and to compare different models with each other. Its main function is \texttt{visualise\_model\_on\_epoch\_end()}, which visualises the model after an epoch as the name states. It does that in a few different ways. First, it embeds all of the triplets in the evaluation set in the embedding space and calculates the corresponding loss functions of the evaluation set. Then it uses the embedded triplets to calculate the clustering scores described in \fullref{sec:Metrics}. After that, it visualises the distances between the centroids of each cluster in two ways (\texttt{visualise\_distance\_matrix}), by visualising each distance as a graph and by visualising it as an image. Then the last step is to visualise the embeddings using the Tensorboard Embedding Projector tool (\texttt{visualise\_embeddings}), which is a visual representation of the resulting embedding space.
 
-\section{Data set}
-\label{sec:Data-Set}
+\subsection{Models embedding}
+\label{sub:Component-Models-Embedding}
+\begin{figure}[t]
+	\centering
+	\resizebox{\linewidth}{!}{%
+        \begin{tikzpicture}
+        
+        \begin{class}[text width=10cm]{ModelFactory}{0,0}
+            \attribute{+ registry : Dict}
+            \attribute{+ logger : Logger}
+            
+            \operation{+ register(name : str) : Callable}
+            \operation{+ create\_extractor(name : str, **kwargs) : BaseModel}
+        \end{class}
+        
+        \begin{class}[text width=10cm]{BasicBlock}{-11,0}
+            \attribute{+ l2\_regularization : tf.keras.regularizers.l2}
+            \attribute{+ conv1 : tf.keras.layers.Conv2D}
+            \attribute{+ bn1 : tf.keras.layers.BatchNormalization}
+            \attribute{+ conv2 : tf.keras.layers.Conv2D}
+            \attribute{+ bn2 : tf.keras.layers.BatchNormalization}
+            \attribute{+ downsample : tf.keras.Sequential}
+            
+            \operation{- \_\_init\_\_(filter\_num : int, blocks : int, stride : int, l2\_amount : float)}
+            \operation{+ call(inputs : tf.Tensor, training : bool, **kwargs)}
+        \end{class}
+        
+        \begin{class}[text width=10cm]{BottleNeck}{11,0}
+            \attribute{+ l2\_regularization : tf.keras.regularizers.l2}
+            \attribute{+ conv1 : tf.keras.layers.Conv2D}
+            \attribute{+ bn1 : tf.keras.layers.BatchNormalization}
+            \attribute{+ conv2 : tf.keras.layers.Conv2D}
+            \attribute{+ bn2 : tf.keras.layers.BatchNormalization}
+            \attribute{+ conv3 : tf.keras.layers.Conv2D}
+            \attribute{+ bn3 : tf.keras.layers.BatchNormalization}
+            \attribute{+ downsample : tf.keras.Sequential}
+            
+            \operation{- \_\_init\_\_(filter\_num : int, blocks : int, stride : int, l2\_amount : float)}
+            \operation{+ call(inputs : tf.Tensor, training : bool, **kwargs)}
+        \end{class}
+        
+        \begin{abstractclass}[text width=17cm]{BaseModel}{2,-7} 
+            \attribute{+ logger : Logger}
+            \attribute{+ embedding\_dim : int}
+            \attribute{+ model\_name : str}
+            \attribute{+ expand\_dims : bool}
+            \attribute{+ l2\_amount : float}
+            \attribute{+ dense : tf.keras.layers.Dense}
+            \attribute{+ flatten : tf.keras.layers.Flatten}
+            \attribute{+ l2\_normalisation : tf.keras.layers.Lambda}
+            
+            \operation{- \_\_init\_\_(embedding\_dim : int, model\_name : str, expand\_dims : bool, l2\_amount : float)} 
+            \operation[0]{+ forward\_pass(inputs : tf.Tensor, training : bool)}
+            \operation[0]{+ log\_model\_specific\_layers()} 
+            \operation{+ call(inputs : tf.Tensor, training : bool)}
+            \operation{+ log\_model()}
+            \operation{+ make\_basic\_block\_layer(filter\_num : int, blocks : int, stride : int, l2\_amount : int)}
+            \operation{+ make\_bottleneck\_layer(filter\_num : int, blocks : int, stride : int, l2\_amount : float)}
+            \operation{+ log\_feature\_shape(name : str, feature : tf.Tensor)} 
+            \operation{+ log\_cnn\_layer(cnn\_layer, layer\_number)} 
+            \operation{+ log\_max\_pooling\_layer(max\_pooling\_layer, layer\_number)} 
+            \operation{+ log\_dropout\_layer(dropout\_layer, layer\_number)} 
+            \operation{+ log\_gru\_layer(gru\_layer, layer\_number)} 
+            \operation{+ log\_dense\_layer(dense\_layer)} 
+        \end{abstractclass}
+        
+        \begin{class}[text width=10cm]{DenseEncoder}{-13,-6}
+            \inherit{BaseModel}
+            
+            \operation{- \_\_init\_\_(embedding\_dim : int, model\_name : str, l2\_amount : float)} 
+            \operation{+ forward\_pass(inputs : tf.Tensor, training : bool)}
+            \operation{+ log\_model\_specific\_layers()} 
+        \end{class}
+        
+        \begin{class}[text width=10cm]{GRUNet}{-13,-10}
+            \inherit{BaseModel}
+            
+            \attribute{+ gru\_1 : tf.keras.layers.GRU}
+            \attribute{+ gru\_2 : tf.keras.layers.GRU}
+            
+            \operation{- \_\_init\_\_(embedding\_dim : int, model\_name : str, l2\_amount : float)} 
+            \operation{+ forward\_pass(inputs : tf.Tensor, training : bool)}
+            \operation{+ log\_model\_specific\_layers()} 
+        \end{class}
+        
+        \begin{class}[text width=10cm]{ConvNet1D}{-13,-14}
+            \inherit{BaseModel}
+            
+            \attribute{+ conv\_1 : tf.keras.layers.Conv1D}
+            \attribute{+ conv\_2 : tf.keras.layers.Conv1D}
+            \attribute{+ conv\_3 : tf.keras.layers.Conv1D}
+            \attribute{+ max\_pooling : tf.keras.layers.MaxPool1D}
+            \attribute{+ dropout : tf.keras.layers.Dropout}
+            
+            \operation{- \_\_init\_\_(embedding\_dim : int, model\_name : str, l2\_amount : float)} 
+            \operation{+ forward\_pass(inputs : tf.Tensor, training : bool)}
+            \operation{+ log\_model\_specific\_layers()} 
+        \end{class}
+        
+        \begin{class}[text width=10cm]{ConvNet2D}{13,-20}
+            \inherit{BaseModel}
+            
+            \attribute{+ conv\_1 : tf.keras.layers.Conv2D}
+            \attribute{+ conv\_2 : tf.keras.layers.Conv2D}
+            \attribute{+ conv\_3 : tf.keras.layers.Conv2D}
+            \attribute{+ max\_pooling\_1 : tf.keras.layers.MaxPool2D}
+            \attribute{+ max\_pooling\_2 : tf.keras.layers.MaxPool2D}
+            \attribute{+ max\_pooling\_3 : tf.keras.layers.MaxPool2D}
+            \attribute{+ dropout : tf.keras.layers.Dropout}
+            \attribute{+ use\_batch\_normalisation : bool}
+            \attribute{+ batch\_normalisation : tf.keras.layers.BatchNormalization}
+            
+            \operation{- \_\_init\_\_(embedding\_dim : int, batch\_normalisation : bool, model\_name : str, l2\_amount : float)} 
+            \operation{+ forward\_pass(inputs : tf.Tensor, training : bool)}
+            \operation{+ log\_model\_specific\_layers()} 
+        \end{class}
+        
+        \begin{class}[text width=10cm]{ConvGRUNet}{-13,-20}
+            \inherit{BaseModel}
+            
+            \attribute{+ conv\_1 : tf.keras.layers.Conv2D}
+            \attribute{+ conv\_2 : tf.keras.layers.Conv2D}
+            \attribute{+ conv\_3 : tf.keras.layers.Conv2D}
+            \attribute{+ conv\_4 : tf.keras.layers.Conv2D}
+            \attribute{+ max\_pooling\_1 : tf.keras.layers.MaxPool2D}
+            \attribute{+ max\_pooling\_2 : tf.keras.layers.MaxPool2D}
+            \attribute{+ max\_pooling\_3 : tf.keras.layers.MaxPool2D}
+            \attribute{+ max\_pooling\_4 : tf.keras.layers.MaxPool2D}
+            \attribute{+ reshape : tf.keras.layers.Reshape}
+            \attribute{+ gru\_1 : tf.keras.layers.GRU}
+            \attribute{+ batch\_normalisation : tf.keras.layers.BatchNormalization}
+            \attribute{+ dropout : tf.keras.layers.Dropout}
+            
+            \operation{- \_\_init\_\_(embedding\_dim : int, model\_name : str, l2\_amount : float)} 
+            \operation{+ forward\_pass(inputs : tf.Tensor, training : bool)}
+            \operation{+ log\_model\_specific\_layers()} 
+        \end{class}
+        
+        \begin{object}[text width=6cm]{ResNetType}{14,-15}
+            \instanceOf{Enum}
+            \attribute{TypeI = 0}
+            \attribute{TypeII = 1}
+        \end{object}
+        
+        \begin{abstractclass}[text width=12cm]{ResNet}{0,-20}
+            \inherit{BaseModel}
+            
+            \attribute{+ l2\_regularization : tf.keras.regularizers.l2}
+            \attribute{+ conv1 : tf.keras.layers.Conv2D}
+            \attribute{+ bn1 : tf.keras.layers.BatchNormalization}
+            \attribute{+ pool1 : tf.keras.layers.MaxPool2D}
+            
+            \attribute{+ layer1 : tf.keras.Sequential}
+            \attribute{+ layer2 : tf.keras.Sequential}
+            \attribute{+ layer3 : tf.keras.Sequential}
+            \attribute{+ layer4 : tf.keras.Sequential}
+            
+            \attribute{+ avgpool : tf.keras.layers.GlobalAveragePooling2D}
+            
+            \operation{- \_\_init\_\_(layer\_params : list, resnet\_type : ResNetType, embedding\_dim : int, l2\_amount : float, model\_name : str)} 
+            \operation{+ forward\_pass(inputs : tf.Tensor, training : bool)}
+            \operation{+ log\_model\_specific\_layers()} 
+        \end{abstractclass}
+        
+        \begin{class}[text width=8cm]{ResNet18}{-4,-30}
+            \inherit{ResNet}
+            
+            \operation{- \_\_init\_\_(embedding\_dim : int, l2\_amount : float, model\_name : str)}
+        \end{class}
+        
+        \begin{class}[text width=8cm]{ResNet50}{-13,-30}
+            \inherit{ResNet}
+            
+            \operation{- \_\_init\_\_(embedding\_dim : int, l2\_amount : float, model\_name : str)}
+        \end{class}
+        
+        \begin{class}[text width=8cm]{ResNet101}{5,-30}
+            \inherit{ResNet}
+            
+            \operation{- \_\_init\_\_(embedding\_dim : int, l2\_amount : float, model\_name : str)}
+        \end{class}
+        
+        \begin{class}[text width=8cm]{ResNet152}{14,-30}
+            \inherit{ResNet}
+            
+            \operation{- \_\_init\_\_(embedding\_dim : int, l2\_amount : float, model\_name : str)}
+        \end{class}
+        
+        \unidirectionalAssociation{ModelFactory}{creates}{}{BaseModel}
+        \unidirectionalAssociation{BaseModel}{uses}{}{BasicBlock}
+        \unidirectionalAssociation{BaseModel}{uses}{}{BottleNeck}
+        \unidirectionalAssociation{ResNet}{uses}{}{ResNetType}
+        \end{tikzpicture}
+    }
+	\caption{UML diagram of the \texttt{models\_embedding} directory}
+	\label{fig:UML-Models-Embedding}
+\end{figure}
+\noindent
+The \texttt{models\_embedding} directory contains all of the embedding models used throughout the project, which embed an arbitrary input in the embedding space. The structure of the \texttt{model} directory is shown in figure \ref{fig:UML-Models-Embedding}. It consists out of a \texttt{BaseModel}, which is an abstract implementation of an embedding model, a \texttt{ModelFactory}, which is responsible for creating an instance of a concrete \texttt{BaseModel} implementation and different implementations of the \texttt{BaseModel}. The factory is implemented using the python decorator pattern, which is a convenient way of registering each class in the factory since simply the decorator has to be added on top of each class.
+\begin{verbatim}
+    @ModelFactory.register("ResNet18")
+\end{verbatim}
+The model can then be created using the \texttt{create\_model(name : str, **kwargs)} function, where the given \texttt{name} specifies the model name in the registry to create and the \texttt{**kwargs} are the arguments which will need to be passed to the model for instantiating it. If for example a ResNet18 model, with an embedding size of 64 and L2 regularisation of 0.1, needs to be created, the call looks as follows.
+\begin{verbatim}
+    model = ModelFactory.create_model("ResNet18", 
+        embedding_dim=64, l2_amount=0.1)
+\end{verbatim}
+The abstract \texttt{BaseModel} class is used as a base implementation of an embedding model. It defines the structure of the concrete implementations of the embedding models and further provides functions for logging the structure of the implemented model. It further provides methods for creating basic- and bottleneck-layers, which are mainly used in the \texttt{ResNet} models.
+\newline
+\newline
+The \texttt{DenseEncoder} was the first model, which was implemented in the project, to test the input pipeline and the entire training process. It is not used as a model, which will be trained and evaluated.
+\newline
+\newline
+The \texttt{ConvNet1D} and \texttt{ConvNet2D} model, are simple \gls{CNN} architectures, which use the one or two-dimensional convolutional operations to process the input, followed by a max-pooling and dropout layer. Both models consist of three of these layers, followed by the default embedding layer as an output.
+\newline
+\newline
+The \texttt{GRUNet} model is a simple \gls{RNN} architecture, which uses \gls{GRU} as its layers. It consists of two \gls{GRU} layers, followed by the default embedding layer as an output.
+\newline
+\newline
+The \texttt{ConvGRUNet} model is a \gls{CRNN} implementation, which combines a \gls{CNN} and a \gls{RNN} model. It consists out of four two-dimensional convolution layers, convolution followed by max-pooling, and one \gls{GRU} layer and then as the output layer the default embedding layer.
+\newline
+\newline
+ResNet is a state-of-the-art \gls{CNN} architecture, which has many different implementations, such as ResNet18, ResNet50 and many more. Therefore \texttt{ResNet} is implemented as an abstract class, which also inherits from the \texttt{BaseModel}. A concrete implementation is, for example, \texttt{ResNet18}, which can then be used to train the embedding architecture. All of the concrete \texttt{ResNet} implementations are standard implementation, except the fact, that the last layer is not a \texttt{softmax} layer, used for classification. In this project, the output layer is the default embedding layer. The other exception is that the implementation further has a \texttt{L2 regularisation} in each convolution layer of the model, which aims to prevent the model from overfitting. Figure \ref{fig:ResNet18} visualises a standard ResNet18 architecture with its skip connections.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\linewidth]{baa-documentation/img/ResNet18.png}
+	\caption[Visualisation of a ResNet18]{Visualisation of a ResNet18 \footnotemark}
+	\label{fig:ResNet18}
+\end{figure}
+\footnotetext{\fullcite{ghassemi_convolutional_2019}}
 
-\subsection{Data set cleaning}
-\label{sub:Data-Set-Cleaning}
-
-\subsection{Statistical analysis of the data set}
-\label{sub:Statistical-Analysis-Data-Set}
+\subsection{Models classifier}
+\label{sub:Component-Models-Classifier}
+\begin{figure}[htbp]
+	\centering
+	\resizebox{0.95\linewidth}{!}{%
+        \begin{tikzpicture}
+        
+         \begin{object}[text width=9cm]{ClassifierDense}{-5,0}
+            \instanceOf{tf.keras.Model}
+            
+            \attribute{+ model\_name : str}
+            \attribute{+ dense\_1 : tf.keras.layers.Dense}
+            \attribute{+ dense\_2 : tf.keras.layers.Dense}
+            \attribute{+ dense\_output : tf.keras.layers.Dense}
+            
+            \operation{- \_\_init\_\_(model\_name : str, n\_labels : int)}
+            \operation{+ call(inputs : tf.Tensor)}
+        \end{object}
+        
+        \begin{object}[text width=9cm]{ClassifierLogistic}{5,0}
+            \instanceOf{tf.keras.Model}
+            
+            \attribute{+ model\_name : str}
+            \attribute{+ dense\_output : tf.keras.layers.Dense}
+            
+            \operation{- \_\_init\_\_(model\_name : str, n\_labels : int)}
+            \operation{+ call(inputs : tf.Tensor)}
+        \end{object}
+    
+        \end{tikzpicture}
+    }
+	\caption{UML diagram of the \texttt{models\_classifier} directory}
+	\label{fig:UML-Models-Classifier}
+\end{figure}
+\noindent
+The \texttt{models\_classifier} directory contains both of the classifier models, which are used to evaluate and compare the different embedding architectures. The structure of the directory is given by the figure \ref{fig:UML-Models-Classifier}. Both of the classifiers get an embedded audio segment as their input and then try to classify it in one of the given classes. The classifier is trained in a supervised setting, which means that for each embedded sample, its label is given.
+\newline
+\newline
+The difference between the \texttt{ClassifierDense} and the \texttt{ClassifierLogistic} is, that the dense classifier has two fully connected layers with 256 nodes before the output layer and the logistic classifier just has the output layer. The \texttt{ClassifierLogistic} aims to show how easy it is to separate the resulting clusters in the embedding space. This classifier is mainly used to compare different embedding spaces. The \texttt{ClassifierDense} aims to show how a simple model trained on the embedding space would perform.
 
 \section{Training}
 \label{sec:Training}
+
+\subsection{Training triplet loss}
+\label{sub:Training-Triplet-Loss}
+
+\subsection{Training classifier}
+\label{sub:Training-Classifier}
 
 \section{Prototype}
 \label{sec:Prototype}

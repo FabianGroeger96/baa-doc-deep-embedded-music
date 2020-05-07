@@ -1,4 +1,117 @@
 
+@article{ghassemi_convolutional_2019,
+	title = {Convolutional {Neural} {Networks} for {On}-{Board} {Cloud} {Screening}},
+	volume = {11},
+	copyright = {http://creativecommons.org/licenses/by/3.0/},
+	url = {https://www.mdpi.com/2072-4292/11/12/1417},
+	doi = {10.3390/rs11121417},
+	abstract = {A cloud screening unit on a satellite platform for Earth observation can play an important role in optimizing communication resources by selecting images with interesting content while skipping those that are highly contaminated by clouds. In this study, we address the cloud screening problem by investigating an encoder\&ndash;decoder convolutional neural network (CNN). CNNs usually employ millions of parameters to provide high accuracy; on the other hand, the satellite platform imposes hardware constraints on the processing unit. Hence, to allow an onboard implementation, we investigate experimentally several solutions to reduce the resource consumption by CNN while preserving its classification accuracy. We experimentally explore approaches such as halving the computation precision, using fewer spectral bands, reducing the input size, decreasing the number of network filters and also making use of shallower networks, with the constraint that the resulting CNN must have sufficiently small memory footprint to fit the memory of a low-power accelerator for embedded systems. The trade-off between the network performance and resource consumption has been studied over the publicly available SPARCS dataset. Finally, we show that the proposed network can be implemented on the satellite board while performing with reasonably high accuracy compared with the state-of-the-art.},
+	language = {en},
+	number = {12},
+	urldate = {2020-05-07},
+	journal = {Remote Sensing},
+	author = {Ghassemi, Sina and Magli, Enrico},
+	month = jan,
+	year = {2019},
+	note = {Number: 12
+Publisher: Multidisciplinary Digital Publishing Institute},
+	keywords = {cloud screening, convolutional neural networks, deep learning},
+	pages = {1417}
+}
+
+@article{dai_acoustic_nodate,
+	title = {Acoustic {Scene} {Recognition} with {Deep} {Learning}},
+	abstract = {Background. Sound complements visual inputs, and is an important modality for perceiving the environment. Increasingly, machines in various environments have the ability to hear, such as smartphones, autonomous robots, or security systems. This work applies state-of-the-art Deep Learning models that have revolutionized speech recognition to understanding general environmental sounds. Aim. This work aims to classify 15 common indoor and outdoor locations using environmental sounds. We compare both conventional and Deep Learning models for this task. Data. We use a dataset from the ongoing IEEE challenge on Detection and Classiﬁcation of Acoustic Scenes and Events (DCASE). The dataset contains 15 diverse indoor and outdoor locations, such as buses, cafes, cars, city centers, forest paths, libraries, and trains, totaling 9.75 hours of audio recording.
+Methods. We extract features using signal processing techniques, such as mel-frequency cepstral coeﬃcients (MFCC), various statistical functionals, and spectrograms. We extract 4 feature sets: MFCCs (60-dimensional), Smile983 (983-dimensional), Smile6k (6573-dimensional), and spectrograms (only for CNN-based models). On these features we apply 5 models: Gaussian Mixture Models (GMMs), Support Vector Machines (SVMs), Deep Neural Networks (DNNs), Recurrent Neural Networks (RNNs), Recurrent Deep Neural Networks (RDNNs), Convolutional Neural Networks (CNNs), and Recurrent Convolutional Neural Networks (RCNNs). Among them GMMs and SVMs are popular conventional models for this task, while RDNNs, CNNs, and RCNNs are, to our knowledge, the ﬁrst application of these models in the context of environmental sound.
+Results. Our experiments show that model performance varies with features. With a small set of features (MFCCs and Smile983) temporal models (RNNs, RDNNs) outperform non-temporal models (GMMs, SVMs, DNNs). However, with large feature sets (Smile6k) DNNs outperform temporal models (RNNs and RDNNs) and achieve the best performance among all studied methods. The GMM with MFCC features, the baseline model provided by the DCASE contest, achieves 67.6\% test accuracy, while the best performing model (a DNN with the Smile6k feature) reaches 80\% test accuracy. RNNs and RDNNs generally have performance in the range of 68∼77\%, while SVMs vary between 56∼73\%. CNNs and RCNNs with spectrogram features lag in performance compared with other Deep Learning models, reaching 63∼64\% accuracy.
+Conclusions. We ﬁnd that Deep Learning models compare favorably to conventional models (GMMs and SVMs). No single model outperforms all other models across all feature sets, showing that model performance varies signiﬁcantly with the feature representation. The fact that the best performing model is a non-temporal DNN is evidence that environmental sounds do not exhibit strong temporal dynamics. This is consistent with our day-to-day experience that environmental sounds tend to be random and unpredictable.},
+	language = {en},
+	author = {Dai, Wei},
+	pages = {18}
+}
+
+@article{palacio-nino_evaluation_2019,
+	title = {Evaluation {Metrics} for {Unsupervised} {Learning} {Algorithms}},
+	url = {http://arxiv.org/abs/1905.05667},
+	abstract = {Determining the quality of the results obtained by clustering techniques is a key issue in unsupervised machine learning. Many authors have discussed the desirable features of good clustering algorithms. However, Jon Kleinberg established an impossibility theorem for clustering. As a consequence, a wealth of studies have proposed techniques to evaluate the quality of clustering results depending on the characteristics of the clustering problem and the algorithmic technique employed to cluster data.},
+	language = {en},
+	urldate = {2020-04-24},
+	journal = {arXiv:1905.05667 [cs, stat]},
+	author = {Palacio-Niño, Julio-Omar and Berzal, Fernando},
+	month = may,
+	year = {2019},
+	note = {arXiv: 1905.05667},
+	keywords = {Computer Science - Machine Learning, Statistics - Machine Learning}
+}
+
+@article{zhang_learning_2018,
+	title = {Learning {Incremental} {Triplet} {Margin} for {Person} {Re}-identification},
+	url = {http://arxiv.org/abs/1812.06576},
+	abstract = {Person re-identiﬁcation (ReID) aims to match people across multiple non-overlapping video cameras deployed at different locations. To address this challenging problem, many metric learning approaches have been proposed, among which triplet loss is one of the state-of-the-arts. In this work, we explore the margin between positive and negative pairs of triplets and prove that large margin is beneﬁcial. In particular, we propose a novel multi-stage training strategy which learns incremental triplet margin and improves triplet loss effectively. Multiple levels of feature maps are exploited to make the learned features more discriminative. Besides, we introduce global hard identity searching method to sample hard identities when generating a training batch. Extensive experiments on Market-1501, CUHK03, and DukeMTMCreID show that our approach yields a performance boost and outperforms most existing state-of-the-art methods.},
+	language = {en},
+	urldate = {2020-04-23},
+	journal = {arXiv:1812.06576 [cs]},
+	author = {Zhang, Yingying and Zhong, Qiaoyong and Ma, Liang and Xie, Di and Pu, Shiliang},
+	month = dec,
+	year = {2018},
+	note = {arXiv: 1812.06576},
+	keywords = {Computer Science - Computer Vision and Pattern Recognition, Computer Science - Machine Learning}
+}
+
+@misc{zheng_evaluating_2015,
+	title = {Evaluating {Machine} {Learning} {Models}},
+	url = {https://www.oreilly.com/content/evaluating-machine-learning-models/},
+	abstract = {A beginner's guide to key concepts and pitfalls.},
+	language = {en-US},
+	urldate = {2020-04-23},
+	journal = {O’Reilly Media},
+	author = {Zheng, Alice},
+	month = oct,
+	year = {2015},
+	note = {Library Catalog: www.oreilly.com}
+}
+
+@book{celma_music_2010,
+	address = {Berlin, Heidelberg},
+	title = {Music {Recommendation} and {Discovery}},
+	isbn = {978-3-642-13286-5 978-3-642-13287-2},
+	url = {http://link.springer.com/10.1007/978-3-642-13287-2},
+	language = {en},
+	urldate = {2020-04-16},
+	publisher = {Springer Berlin Heidelberg},
+	author = {Celma, Òscar},
+	year = {2010},
+	doi = {10.1007/978-3-642-13287-2}
+}
+
+@book{muller_fundamentals_2015,
+	address = {Cham},
+	title = {Fundamentals of {Music} {Processing}},
+	isbn = {978-3-319-21944-8 978-3-319-21945-5},
+	url = {http://link.springer.com/10.1007/978-3-319-21945-5},
+	language = {en},
+	urldate = {2020-04-16},
+	publisher = {Springer International Publishing},
+	author = {Müller, Meinard},
+	year = {2015},
+	doi = {10.1007/978-3-319-21945-5}
+}
+
+@book{knees_music_2016,
+	address = {Berlin, Heidelberg},
+	series = {The {Information} {Retrieval} {Series}},
+	title = {Music {Similarity} and {Retrieval}},
+	volume = {36},
+	isbn = {978-3-662-49720-3 978-3-662-49722-7},
+	url = {http://link.springer.com/10.1007/978-3-662-49722-7},
+	language = {en},
+	urldate = {2020-04-16},
+	publisher = {Springer Berlin Heidelberg},
+	author = {Knees, Peter and Schedl, Markus},
+	year = {2016},
+	doi = {10.1007/978-3-662-49722-7}
+}
+
 @article{hashemi_enlarging_2019,
 	title = {Enlarging smaller images before inputting into convolutional neural network: zero-padding vs. interpolation},
 	volume = {6},
@@ -357,7 +470,7 @@
 	year = {2016}
 }
 
-@book{zheng_evaluating_2015,
+@book{zheng_evaluating_2015-1,
 	edition = {First edition.},
 	title = {Evaluating machine learning models: a beginner's guide to key concepts and pitfalls},
 	shorttitle = {Evaluating machine learning models},
@@ -514,8 +627,7 @@ Evolution AI: Machines that Read - get answers from your text data.},
 	note = {arXiv: 1601.05030},
 	keywords = {Computer Science - Computer Vision and Pattern Recognition}
 }
-
-@article{hoffer_deep_2018-1,
+@article{hoffer_deep_2018,
 	title = {Deep metric learning using {Triplet} network},
 	url = {http://arxiv.org/abs/1412.6622},
 	abstract = {Deep learning has proven itself as a successful set of models for learning useful semantic representations of data. These, however, are mostly implicitly learned as part of a classification task. In this paper we propose the triplet network model, which aims to learn useful representations by distance comparisons. A similar model was defined by Wang et al. (2014), tailor made for learning a ranking for image information retrieval. Here we demonstrate using various datasets that our model learns a better representation than that of its immediate competitor, the Siamese network. We also discuss future possible usage as a framework for unsupervised learning.},
@@ -554,6 +666,7 @@ Evolution AI: Machines that Read - get answers from your text data.},
 	urldate = {2019-12-19},
 	journal = {Docker}
 }
+
 @misc{noauthor_mt_2019,
 	title = {{MT} for {Beginners}: {Was} ist {TER}?},
 	shorttitle = {{MT} for {Beginners}},
