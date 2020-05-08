@@ -57,8 +57,8 @@
 % to make beautiful tables
 \usepackage{booktabs}
 
+\DeclareCaptionType{code}[Code Listing][List of Code Listings] 
 % to syntax highlighted code samples
-\usepackage{listings}
 \usepackage{minted}
 \definecolor{LightGray}{gray}{0.9}
 \setminted[python]{
@@ -368,7 +368,7 @@ sort=standard
 
 \listofmyequations
 
-\listoflistings
+\listofcodes
 
 \printglossary[type=\acronymtype, title=List of Abbreviations]
 
