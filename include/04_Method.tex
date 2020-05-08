@@ -184,7 +184,34 @@ Another requirement of the embedding space is that it should provide some simila
 All of the components in the project are tested with the TensorFlow unit tests module called \texttt{tf.test}\footnote{\url{https://www.tensorflow.org/api_docs/python/tf/test}}. A test environment is created to provide the necessary datasets for the project, but in a much smaller size to speed up the testing process, since testing on the entire set would be infeasible. All of the test cases for the components are kept as small as possible, but a lot of them require other dependencies, such as the input pipeline, to conduct the test which is fine, because the project is a research project and would need to go through an extensive testing phase before it could be used in a productive environment.
 \newline
 \newline
-The complete test concept, which contains each of the test cases along with the test status, can be found in the appendix \fullref{tab:Test-Concept}. All of the unit tests can be found in the source repository of this project in the \texttt{test} directory. 
+The complete test concept, which contains each of the test cases along with the test status, can be found in the appendix \fullref{tab:Test-Concept}. All of the unit tests can be found in the source repository of this project in the \texttt{test} directory.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Testing method of each project component}
+	\label{tab:Components-Testing}
+    \begin{tabular}{p{.15\textwidth} | p{.20\textwidth} | p{.60\textwidth}}
+        \toprule
+        \textbf{Component} & \textbf{Testing method} & \textbf{Reason} \\ 
+        \midrule[1pt]
+        Feature extractor & unit test & result can be validated, since result is deterministic \\
+        \hline
+        Datasets & unit test & result can be validated, since result is deterministic \\
+        \hline
+        Input pipeline & unit test & result can be validated, since result is deterministic \\
+        \hline
+        Embedding models & unit test + manual testing & automated tests check if the model can be built and outputs values if the model trains can only be checked manually by observing the metrics \\
+        \hline
+        Classifier models & unit test + manual testing & automated tests check if the model can be built and outputs values if the model trains can only be checked manually by observing the metrics \\
+        \hline
+        Triplet loss  & unit test & result can be validated, since result is deterministic \\
+        \hline
+        Training & manual testing & result is not deterministic and can therefore only be tested manually by looking at the metrics over the training process \\
+        \hline
+        Utils & unit test & result can be validated, since result is deterministic \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 \section{Project structure}
 \label{sec:Project-Structure}

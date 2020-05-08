@@ -887,12 +887,110 @@ As the training for the embedding space, it loops over the number of specified e
 
 \section{Evaluation}
 \label{sec:Realisation-Evaluation}
+This section describes the realisation of the evaluation, which aims to get a better understanding of how the model performs over time. The ability to have reliable and correct metrics are essential for training and optimising the model. The evaluation of the model is done by using TensorFlows Tensorboard \footnotemark, which is a visualisation toolkit for machine learning experimentation. The evaluation of a model is divided into different sections of metrics in different representations. They are all used for different purposes and are further described in the following section.
+\footnotetext{\url{https://www.tensorflow.org/tensorboard}}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.85\linewidth]{img/Tensorboard_Scalars.png}
+	\caption{Tensorboard scalars visualisation}
+	\label{fig:Tensorboard-Scalars}
+\end{figure}
 
 \subsection{Tensorboard scalars}
 \label{sub:Tensorboard-Scalars}
+The first metric representation is scalars or graphs, which show the variation of a particular value over time. When using TensorFlow and Tensorboard, creating a graph of value is done in two simple steps. First, a \texttt{SummaryWriter} has to be created by providing an output path, where the summaries will be saved. This writer is responsible for saving the summary of a variable. If a value wants to be saved, the created writer can be used as default output, and the \texttt{tf.summary.scalar()} is used to save the current value of the variable at the current step. When calling \texttt{tf.summary.scalar()} the name of the variable has to be specified. By giving the variable a specific name, groups can be defined, for example when giving the variable the name \texttt{triplet\_loss\_train/loss\_triplet\_batches} a group called \texttt{triplet\_loss\_train} is created. All of the variables, which use the same prefix, will then belong to the same group. The saving of the variable has to be done in a loop, where the \texttt{step=} parameter defines the current step. This process is shown in listing \ref{listing:Summary-Scalar}.
+
+\begin{listing}[htbp]
+\begin{minted}{python}
+# set the folder for the summary writer
+summary_writer = tf.summary.create_file_writer(tensorb_path)
+# write batch losses to summary writer
+with summary_writer.as_default():
+    # write summary of batch losses
+    tf.summary.scalar("triplet_loss_train/loss_triplet_batches", 
+        loss_triplet, step=int(ckpt.step))
+\end{minted}
+\caption{Save summary of variable as a scalar}
+\label{listing:Summary-Scalar}
+\end{listing}
+\noindent
+The graph can be visualised when the training is finished or when the model is still training. The saved scalars can be seen in the Tensorboard tab \texttt{scalars}, which is shown in figure \ref{fig:Tensorboard-Scalars}. These graphs are mainly used to show how well a model performs by measuring certain variables over the training time, for example, loss and accuracy.
 
 \subsection{Tensorboard images}
 \label{sub:Tensorboard-Images}
+Image representations are beneficial in a lot of different applications since displaying values as an image is a more compact form of representation and is, therefore, more obvious to interpret. The main idea is to display an image, which is either generated from the model data or is the output of the model on the Tensorboard. To visualise image data in the Tensorboard first, a \texttt{SummaryWriter} has to be created by providing an output path. Then an arbitrary image can be generated and needs to be converted into a \texttt{tf.Tensor}. After that the summary writer is used as default output to save the image, using the \texttt{tf.summary.image()} and passing it the image as well as the current step of the training process.
+
+\begin{listing}[htbp]
+\begin{minted}{python}
+# set the folder for the summary writer
+summary_writer = tf.summary.create_file_writer(tensorb_path)
+with summary_writer.as_default():
+    tf.summary.image("Label center distance matrix", image, step=epoch)
+\end{minted}
+\caption{Save an image to be displayed on the Tensorboard}
+\label{listing:Summary-Image}
+\end{listing}
 
 \subsection{Tensorboard projector}
 \label{sub:Tensorboard-Projector}
+In 2016 Google open-sourced their Embedding Projector as part of TensorFlow \footnote{\url{https://ai.googleblog.com/2016/12/open-sourcing-embedding-projector-tool.html}}. It enables a more intuitive exploration process, for interactive visualisation and analysis of high-dimensional data recently, such as an embedding space. The Embedding Projector can, therefore, be used directly in the Tensorboard. The projector is used to visualise the embedding space generated from the embedding architecture trained using the triplet loss.
+\newline
+\newline
+A specified number of data points in the dataset has to be embedded using the trained embedding model, to visualise the embedding space. In this project, the evaluation dataset is used for this. These embeddings are then combined and result in one very big tensor, which is then converted to a \texttt{tf.Tensor}. Then the embeddings are saved in a \texttt{.tsv} file, which the projector will read and use to visualise the space. This saving process can be done by looping over the embedding tensor and writing each embedding on a separate line. Listing \ref{listing:Save-Embeddings} shows how to save the embeddings in a \texttt{.tsv} file, by introducing the function \texttt{save\_embeddings\_tsv()}. If the embedding space should also visualise the labels embeddings, the same process can be repeated and a separate \texttt{.tsv} file can be saved for the labels.
+
+\begin{listing}[htbp]
+\begin{minted}{python}
+def save_embeddings_tsv(embeddings, filename, log_dir):
+    """
+    Saves the embeddings of the features to a given path as a *.tsv file.
+    The file can be used to visualise the embeddings within the projector.
+
+    :param embeddings: the embeddings to save.
+    :param filename: the name of the file.
+    :param log_dir: the path of the file.
+    :return: None.
+    """
+    with open(os.path.join(log_dir, filename), 'w') as f:
+        for embedding in embeddings.numpy():
+            for vec in embedding:
+                f.write('{}\t'.format(vec))
+            f.write('\n')
+\end{minted}
+\caption{Save embeddings as a \texttt{.tsv} file}
+\label{listing:Save-Embeddings}
+\end{listing}
+\noindent
+Then the embeddings also have to be saved to a checkpoint file which the projector of the Tensorboard will load directly. This can be done by passing the embeddings converted to a tensor to a \texttt{Saver} and saving it as a \texttt{.ckpt} file, which is shown in listing \ref{listing:Save-Embeddings-Ckpt}.
+
+\begin{listing}[htbp]
+\begin{minted}{python}
+saver = tf.compat.v1.train.Saver([tensor_embeddings])
+saver.save(sess=None, global_step=0, save_path="embeddings.ckpt")
+\end{minted}
+\caption{Save embeddings as a \texttt{.ckpt} file}
+\label{listing:Save-Embeddings-Ckpt}
+\end{listing}
+\noindent
+As the last step the created embeddings have to be registered with the projector, which is done using the \texttt{tensorboard.plugins.projector} plugin, by providing the name of the embedding tensor and the label metadata file. The listing \ref{listing:Register-Embeddings} shows the process in more detail.
+
+\begin{listing}[htbp]
+\begin{minted}{python}
+config = projector.ProjectorConfig()
+embedding = config.embeddings.add()
+embedding.tensor_name = "embeddings"
+embedding.metadata_path = "labels.tsv"
+projector.visualize_embeddings(tensorboard_path, config)
+\end{minted}
+\caption{Register embeddings in the projector}
+\label{listing:Register-Embeddings}
+\end{listing}
+\noindent
+The final result of the embedding space can be seen in on the Tensorboard in the \texttt{projector} tab. Figure \ref{fig:Embedding-Projector} shows a visualisation of the embedding space using the embedding projector. The labels of the embeddings can be visualised as colours of the different data points, which clearly shows resulting clusters of the space.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.85\linewidth]{img/Embedding_Projector_Tensorboard.png}
+	\caption{Embedding projector}
+	\label{fig:Embedding-Projector}
+\end{figure}
