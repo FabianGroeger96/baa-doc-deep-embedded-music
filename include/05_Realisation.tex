@@ -9,6 +9,7 @@ The project repository, which is shown in figure \ref{fig:Project-Overview-Sourc
 \begin{figure}[ht]
     \dirtree{%
     .1 src/.
+    .2 dataset/ \ldots{} (implementation of datasets).
     .2 feature\_extractor/ \ldots{} (audio representations).
     .2 input\_pipeline/ \ldots{} (triplet input pipeline).
     .2 loss/ \ldots{} (implementation of loss functions).
@@ -136,7 +137,7 @@ In machine learning projects one of the most important aspects of it are the hyp
             \operation{+ extract\_mfcc\_features(audio)} 
         \end{abstractclass}
         
-        \begin{class}[text width=7cm]{LogMelBaseExtractor}{-5,-12}
+        \begin{class}[text width=7cm]{LogMelExtractor}{-5,-12}
             \inherit{BaseExtractor}
             
             \operation{- \_\_init\_\_(params : Params)}
@@ -144,7 +145,7 @@ In machine learning projects one of the most important aspects of it are the hyp
             \operation{+ get\_output\_shape()} 
         \end{class}
         
-        \begin{class}[text width=7cm]{MFCCBaseExtractor}{5,-12}
+        \begin{class}[text width=7cm]{MFCCExtractor}{5,-12}
             \inherit{BaseExtractor}
             
             \operation{- \_\_init\_\_(params : Params)}
@@ -173,7 +174,7 @@ The main benefit of the factory pattern is, that, the representation used to tra
 
 \subsection{Input pipeline}
 \label{sub:Component-Input-pipeline}
-\begin{figure}[htbp]
+\begin{figure}[ht]
 	\centering
 	\resizebox{\linewidth}{!}{%
         \begin{tikzpicture}
@@ -191,9 +192,10 @@ The main benefit of the factory pattern is, that, the representation used to tra
             \attribute{TRAIN = 0}
             \attribute{EVAL = 1}
             \attribute{TEST = 2}
+            \attribute{FULL = 3}
         \end{object}
         
-        \begin{class}[text width=9cm]{TripletsInputPipeline}{-8,-4}
+        \begin{class}[text width=14cm]{TripletsInputPipeline}{-8,-4}
             \attribute{+ params : Params}
             \attribute{+ dataset : BaseDataset}
             \attribute{+ dataset\_type : DatasetType}
@@ -203,7 +205,7 @@ The main benefit of the factory pattern is, that, the representation used to tra
             \operation{- \_\_init\_\_(params : Params, dataset : BaseDataset, log : bool)} 
             \operation{+ reinitialise()}
             \operation{- generate\_samples(gen\_name, trim, return\_labels)}
-            \operation{+ get\_dataset(feature\_extractor, dataset\_type, shuffle, trim, return\_labels}
+            \operation{+ get\_dataset(feature\_extractor, dataset\_type, shuffle, trim, return\_labels)}
         \end{class}
         
         \begin{abstractclass}[text width=14cm]{BaseDataset}{8,-4} 
@@ -223,19 +225,19 @@ The main benefit of the factory pattern is, that, the representation used to tra
             \operation[0]{+ \_\_next\_\_()}
             \operation[0]{+ initialise()}
             \operation[0]{+ load\_data\_frame()}
-            \operation[0]{+ get\_triplets(audio\_id, audio\_length, opposite\_choices, trim)}
-            \operation[0]{+ get\_neighbour(audio\_id, anchor\_sample\_id, audio\_length)} 
-            \operation[0]{+ get\_opposite(audio\_id, anchor\_sample\_id, audio\_length, opposite\_choices)} 
-            \operation[0]{+ fill\_opposite\_selection(index)} 
+            \operation[0]{+ fill\_opposite\_selection(anchor\_id)} 
+            \operation[0]{+ get\_triplets(anchor\_id, anchor\_length, opposite\_choices)}
+            \operation[0]{+ get\_neighbour(anchor\_id, anchor\_segment\_id, anchor\_length)} 
+            \operation[0]{+ get\_opposite(anchor\_id, anchor\_segment\_id, anchor\_length, opposite\_choices)} 
+            \operation{- \_\_count\_classes()}
             \operation{+ change\_dataset\_type(dataset\_type)}
             \operation{+ print\_dataset\_info()}
-            \operation{+ count\_classes()}
             \operation{+ split\_audio\_in\_segment(audio, segment\_id)}
             \operation{+ check\_if\_easy\_or\_hard\_triplet(neighbour\_dist, opposite\_dist)} 
             \operation{+ compare\_audio(audio\_1, audio\_2)} 
         \end{abstractclass}
         
-        \begin{class}[text width=15cm]{DCASEDataset}{-8,-18}
+        \begin{class}[text width=15cm]{DCASEDataset}{-8,-16}
             \inherit{BaseDataset}
             
             \attribute{+ EXPERIMENT\_FOLDER : str}
@@ -248,14 +250,14 @@ The main benefit of the factory pattern is, that, the representation used to tra
             \operation{+ \_\_iter\_\_()}
             \operation{+ \_\_next\_\_()}
             \operation{+ initialise()}
+            \operation{- \_\_load\_train\_data\_frame()}
+            \operation{- \_\_load\_eval\_data\_frame()}
+            \operation{- \_\_load\_test\_data\_frame()}
             \operation{+ load\_data\_frame()}
-            \operation{+ load\_train\_data\_frame()}
-            \operation{+ load\_eval\_data\_frame()}
-            \operation{+ load\_test\_data\_frame()}
-            \operation{+ get\_triplets(audio\_id, audio\_length, opposite\_choices, trim)}
-            \operation{+ get\_neighbour(audio\_id, anchor\_sample\_id, audio\_length)} 
-            \operation{+ get\_opposite(audio\_id, anchor\_sample\_id, audio\_length, opposite\_choices)} 
-            \operation{+ fill\_opposite\_selection(index)} 
+            \operation{+ fill\_opposite\_selection(anchor\_id)} 
+            \operation{+ get\_triplets(anchor\_id, anchor\_length, opposite\_choices)}
+            \operation{+ get\_neighbour(anchor\_id, anchor\_segment\_id, anchor\_length)} 
+            \operation{+ get\_opposite(anchor\_id, anchor\_segment\_id, anchor\_length, opposite\_choices)} 
         \end{class}
         
         \begin{class}[text width=15cm]{MusicDataset}{8,-18}
@@ -270,10 +272,10 @@ The main benefit of the factory pattern is, that, the representation used to tra
             \operation{+ \_\_next\_\_()}
             \operation{+ initialise()}
             \operation{+ load\_data\_frame()}
-            \operation{+ get\_triplets(audio\_id, audio\_length, opposite\_choices, trim)}
-            \operation{+ get\_neighbour(audio\_id, anchor\_sample\_id, audio\_length)} 
-            \operation{+ get\_opposite(audio\_id, anchor\_sample\_id, audio\_length, opposite\_choices)} 
-            \operation{+ fill\_opposite\_selection(index)} 
+            \operation{+ fill\_opposite\_selection(anchor\_id)} 
+            \operation{+ get\_triplets(anchor\_id, anchor\_length, opposite\_choices)}
+            \operation{+ get\_neighbour(anchor\_id, anchor\_segment\_id, anchor\_length)} 
+            \operation{+ get\_opposite(anchor\_id, anchor\_segment\_id, anchor\_length, opposite\_choices)} 
         \end{class}
         
         \unidirectionalAssociation{DatasetFactory}{creates}{}{BaseDataset}
@@ -477,10 +479,11 @@ The \texttt{AudioUtils} class contains various utility functions for loading aud
         
         \begin{abstractclass}[text width=17cm]{BaseModel}{2,-7} 
             \attribute{+ logger : Logger}
+            \attribute{+ params : Params}
+            \attribute{+ l2\_amount : float}
             \attribute{+ embedding\_dim : int}
             \attribute{+ model\_name : str}
             \attribute{+ expand\_dims : bool}
-            \attribute{+ l2\_amount : float}
             \attribute{+ dense : tf.keras.layers.Dense}
             \attribute{+ flatten : tf.keras.layers.Flatten}
             \attribute{+ l2\_normalisation : tf.keras.layers.Lambda}
