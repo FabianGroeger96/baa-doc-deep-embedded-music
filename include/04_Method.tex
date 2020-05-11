@@ -1,10 +1,10 @@
 \chapter{Method}
 \label{ch:Method}
-In this chapter, the used methods within the thesis will be described. This includes the \fullref{sec:Project-Plan}, where the whole project plan is explained in detail, and the \fullref{sec:Procedure-Model}, which is used to realise the thesis. This chapter also contains the methods and structure on how to test (\ref{sec:Testing}) and evaluate (\ref{sec:Evaluation}) the success of the project, as well as the overall \fullref{sec:Project-Structure}.
+In this chapter, the used methods within the thesis will be described. This includes the project plan (\ref{sec:Project-Plan}), where the whole project plan is explained in detail, and the procedure model (\ref{sec:Procedure-Model}), which is used to realise the thesis. This chapter also contains the methods and structure on how to test (\ref{sec:Testing}) and evaluate (\ref{sec:Evaluation}) the success of the project, as well as the overall project structure (\ref{sec:Project-Structure}).
 
 \section{Project plan}
 \label{sec:Project-Plan}
-Within this section of the thesis, the project plan is shown, which is illustrated in figure \fullref{fig:Project-Plan}. The project is divided into four different phases. At the end of each phase, there is a milestone, which will review the process within the phase and provide an outlook on the next phase. The first phase is doing research, where many resources are gathered, and essential pieces of information are extracted and documented. The goal of this stage is to get a better understanding of the concepts, which will need to be used, as well as what already has been done by other researchers. Afterwards, the realisation of the project takes place, where the models, input pipeline and tile2vec will be implemented and tested. Then different experiments will be conducted, to validate the realisation and experiment with different hyperparameters. At last, the documentation will be finalised and proofread. There is also a one week buffer before the finalisation of the documentation, which will be used for unpredictable problems. The chapters of the documentation will be regularly written during each phase.
+Within this section of the thesis, the project plan is shown, which is illustrated in figure \ref{fig:Project-Plan}. The project is divided into four different phases. At the end of each phase, there is a milestone, which will review the process within the phase and provide an outlook on the next phase. The first phase is doing research, where many resources are gathered, and essential pieces of information are extracted and documented. The goal of this stage is to get a better understanding of the concepts, which will need to be used, as well as what already has been done by other researchers. Afterwards, the realisation of the project takes place, where the models, input pipeline and Tile2Vec will be implemented and tested. Then different experiments will be conducted, to validate the realisation and experiment with different hyperparameters. At last, the documentation will be finalised and proofread. There is also a one week buffer before the finalisation of the documentation, which will be used for unpredictable problems. The chapters of the documentation will be regularly written during each phase.
 \newline
 \newline
 The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases are shown in orange, tasks within each phase are blue, and milestones are red diamonds. Each dotted column represents one week within a specific month (e.g. Feb, Mar). A task further has information about how far it is into completion.
@@ -100,14 +100,14 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
 
 \section{Procedure model}
 \label{sec:Procedure-Model}
-The waterfall model is a breakdown of project activities into linear sequential phases, where each phase depends on the deliverables of the previous one and corresponds to a specialisation of tasks. For this project, a custom waterfall model is used, which differs quite profoundly from Royce's original waterfall model. The procedure model is shown in figure \fullref{fig:Project-Plan}.
+The waterfall model is a breakdown of project activities into linear sequential phases, where each phase depends on the deliverables of the previous one and corresponds to a specialisation of tasks. For this project, a custom waterfall model is used, which differs quite profoundly from Royce's original waterfall model. The procedure model is shown in figure \ref{fig:Project-Plan}.
 \newline
 \newline
 The project is grouped into 4 phases, research, realisation, experiments and finalise documentation. All of these phases consist of multiple tasks which need to be completed before going on the next one.
 
 \subsection{Milestone planning}
 \label{sec:Milestone-Planning}
-There is a specific milestone for each finished phase, to review the process within the finished phase and provide an outlook on the next phase. This is done by writing a report for each milestone, which can be found in the appendix \fullref{app:Milestone-Reports}. Each of these reports gives insight about the status of the project like \textit{what was done since the last reporting}, \textit{state of the progress of the project} and \textit{top three risks}, including planned measures. The reports provide valuable insights into the projects current status and are used to plan the next phases. Table \ref{tab:Milestones} shows all the milestones with the corresponding data assigned to it. The milestones are illustrated in the full project plan \ref{fig:Project-Plan} in red.
+There is a specific milestone for each finished phase, to review the process within the finished phase and provide an outlook on the next phase. This is done by writing a report for each milestone, which can be found in the appendix milestone reports (\ref{app:Milestone-Reports}). Each of these reports gives insight about the status of the project like \textit{what was done since the last reporting}, \textit{state of the progress of the project} and \textit{top three risks}, including planned measures. The reports provide valuable insights into the projects current status and are used to plan the next phases. Table \ref{tab:Milestones} shows all the milestones with the corresponding data assigned to it. The milestones are illustrated in the full project plan \ref{fig:Project-Plan} in red.
 \newline
 \newline
 It is important to note, that the milestone M4: Interim presentation does not conclude a phase. It is purely used to show wherein the project the interim presentation is held and what is already done until then. Therefore, for this milestone, no milestone report is being written.
@@ -171,20 +171,20 @@ The overall goal is to achieve the highest possible macro-averaged F1 score on t
 
 \subsection{Music dataset}
 \label{sub:Eval-Music}
-The process of evaluating the embedding space for the \fullref{sub:Music-Dataset} is a bit more complicated since there are no prior results on this exact dataset, neither a baseline model to compare it to. The first evaluation of the embedding is relatively similar to the one for the \fullref{sub:Eval-DCASE}. The dataset is split into an \texttt{training}, \texttt{evaluation} and \texttt{test} set. Then the \texttt{training} dataset is used to train the embedding architecture and is evaluated on the \texttt{evaluation} set with the metrics specified in \fullref{sec:Metrics}. After that, the model, which resulted in the best metrics, is chosen and is further evaluated.
+The process of evaluating the embedding space for the music dataset (\ref{sub:Music-Dataset}) is a bit more complicated since there are no prior results on this exact dataset, neither a baseline model to compare it to. The first evaluation of the embedding is relatively similar to the one for the \fullref{sub:Eval-DCASE}. The dataset is split into an \texttt{training}, \texttt{evaluation} and \texttt{test} set. Then the \texttt{training} dataset is used to train the embedding architecture and is evaluated on the \texttt{evaluation} set with the metrics specified in metrics (\ref{sec:Metrics}). After that, the model, which resulted in the best metrics, is chosen and is further evaluated.
 \newline
 \newline
 Since one of the requirements of the project is to examine the resulting clusters of the music embedding space, a simple clustering algorithm, such as \fullref{sub:K-Means}, is being applied on the resulting embeddings of the \texttt{test} set. This should provide a crucial insight into the resulting clusters and the performance of the embedding architecture.
 \newline
 \newline
-Another requirement of the embedding space is that it should provide some similarity measure for the embedded songs. Therefore the resulting clusters, as well as their distances from each other, are important evaluation criteria. Since the examination of these distances as well as the similarity between each music genre is quite hard, Emanuel Oehri, who provided the \nameref{sub:Music-Dataset}, is examining the distances between the clusters and gives feedback about their similarity from his point of view. He will also examine the resulting similarity between two songs of different genres which are projected into their near-by region.
+Another requirement of the embedding space is that it should provide some similarity measure for the embedded songs. Therefore the resulting clusters, as well as their distances from each other, are important evaluation criteria. Since the examination of these distances as well as the similarity between each music genre is quite hard, Emanuel Oehri, who provided the music dataset (\ref{sub:Music-Dataset}), is examining the distances between the clusters and gives feedback about their similarity from his point of view. He will also examine the resulting similarity between two songs of different genres which are projected into their near-by region.
 
 \section{Testing}
 \label{sec:Testing}
 All of the components in the project are tested with the TensorFlow unit tests module called \texttt{tf.test}\footnote{\url{https://www.tensorflow.org/api_docs/python/tf/test}}. A test environment is created to provide the necessary datasets for the project, but in a much smaller size to speed up the testing process, since testing on the entire set would be infeasible. All of the test cases for the components are kept as small as possible, but a lot of them require other dependencies, such as the input pipeline, to conduct the test which is fine, because the project is a research project and would need to go through an extensive testing phase before it could be used in a productive environment.
 \newline
 \newline
-The complete test concept, which contains each of the test cases along with the test status, can be found in the appendix \fullref{tab:Test-Concept}. All of the unit tests can be found in the source repository of this project in the \texttt{test} directory.
+The complete test concept, which contains each of the test cases along with the test status, can be found in the appendix test concept (\ref{tab:Test-Concept}). All of the unit tests can be found in the source repository of this project in the \texttt{test} directory.
 
 \begin{table}[htbp]
     \centering
@@ -237,7 +237,7 @@ The thesis consists of two projects, a project for the documentation and a proje
 \label{fig:Project-Overview-Source}
 \end{figure}
 \noindent
-Figure \ref{fig:Project-Overview-Source} illustrates the project structure of the source repository, which can be found on GitHub\footnote{\url{https://github.com/FabianGroeger96/deep-embedded-music}}. The illustration shows an overview of the overall structure of the repository. More in-depth explanation can be found in section \fullref{ch:Realisation}.
+Figure \ref{fig:Project-Overview-Source} illustrates the project structure of the source repository, which can be found on GitHub\footnote{\url{https://github.com/FabianGroeger96/deep-embedded-music}}. The illustration shows an overview of the overall structure of the repository. More in-depth explanation can be found in section \ref{ch:Realisation}.
 
 \begin{figure}[ht]
     \dirtree{%
@@ -251,7 +251,7 @@ Figure \ref{fig:Project-Overview-Source} illustrates the project structure of th
 \label{fig:Project-Overview-Documentation}
 \end{figure}
 \noindent
-Figure \ref{fig:Project-Overview-Documentation} illustrates the project structure of the repository used for the documentation, which can be found on GitHub\footnote{\url{https://github.com/FabianGroeger96/baa-doc-deep-embedded-music}}. The repository contains a folder for the \textit{documentation}, \textit{interim presentation}, \textit{final presentation} and the \textit{study doc}. The study doc contains detailed information about the conducted experiments, which are attached in the appendix \fullref{app:Study-Doc}.
+Figure \ref{fig:Project-Overview-Documentation} illustrates the project structure of the repository used for the documentation, which can be found on GitHub\footnote{\url{https://github.com/FabianGroeger96/baa-doc-deep-embedded-music}}. The repository contains a folder for the \textit{documentation}, \textit{interim presentation}, \textit{final presentation} and the \textit{study doc}. The study doc contains detailed information about the conducted experiments, which are attached in the appendix study doc (\ref{app:Study-Doc}).
 \newline
 \newline
 Both datasets used for the thesis were used as they are and therefore did not need to be kept within a specific repository for the project. The dataset of the DCASE challenge 2018 - Task 5 consists of a development and evaluation dataset, which are both hosted on Zendo\footnote{\url{https://zenodo.org}}. The development dataset is available under \url{https://zenodo.org/record/1247102} while the evaluation dataset is available under \url{https://zenodo.org/record/1964758}. 
@@ -261,8 +261,8 @@ The music dataset was kindly provided by mister Emanuel Oehri and is available a
 
 \section{Resources}
 \label{sec:Resources}
-Deep neural networks architectures are computationally expensive what results in long-running experiments. Using powerful \gls{GPU} reduces the processing time up to a factor of 20. The Lucerne University of Applied Science and Arts supported this thesis with a GPU GTX 1080Ti, 11 GB RAM, hosted within the enterprise lab\footnote{\url{https://www.enterpriselab.ch/}}. 
+Deep neural networks architectures are computationally expensive what results in long-running experiments. Using powerful \glspl{GPU} reduces the processing time up to a factor of 20. The Lucerne University of Applied Science and Arts supported this thesis with a GPU GTX 1080Ti, 11 GB RAM, hosted within the enterprise lab\footnote{\url{https://www.enterpriselab.ch/}}. 
 \newline
 \newline
-Additionally, \gls{GPU}s were rented on vast.ai\footnote{\url{https://vast.ai/}} during specific experiments to decrease the training time, by running experiments in parallel. A Tesla V100 \gls{GPU} 16 GB RAM was mostly rented to mitigate the problem of not having enough RAM on the GPU for experiments with large models (e.g. such as ResNet50).
+Additionally, \glspl{GPU} were rented on vast.ai\footnote{\url{https://vast.ai/}} during specific experiments to decrease the training time, by running experiments in parallel. A Tesla V100 \gls{GPU} 16 GB RAM was mostly rented to mitigate the problem of not having enough RAM on the GPU for experiments with large models (e.g. such as ResNet50).
 

@@ -1,6 +1,6 @@
 \chapter{Realisation}
 \label{ch:Realisation}
-This chapter describes the realisation of the project, and provides some insights into the ideas, which led to the current implementation. The implementation was written in \textbf{Python 3.6.9} and \textbf{TensorFlow 2.1}. To standardise the realisation, standard docker images are used, which are provided by TensorFlow, called \texttt{tensorflow/tensorflow:2.1.0-py3}, respectively \texttt{tensorflow/tensorflow:2.1.0-gpu-py3} to utilise the GPU.
+This chapter describes the realisation of the project, and provides some insights into the ideas, which led to the current implementation. The implementation was written in \textbf{Python 3.6.9} and \textbf{TensorFlow 2.1}. To standardise the realisation, standard docker images are used, which are provided by TensorFlow, called \texttt{tensorflow/tensorflow:2.1.0-py3}, respectively \texttt{tensorflow/tensorflow:2.1.0-gpu-py3} to utilise a GPU.
 
 \section{Project components}
 \label{sec:Project-Components}
@@ -431,10 +431,10 @@ The \texttt{utils} directory contains different utility functions for various ap
 The \texttt{Utils} class contains various utility functions for creating folders, checking if the path exists, getting the number of files in a path and it is also used to set a global logger for the project.
 \newline
 \newline
-The \texttt{AudioUtils} class contains various utility functions for loading audio files from a specified path and visualising triplets as log Mel spectrogram and as \gls{MFCC}.
+The \texttt{AudioUtils} class contains various utility functions for loading audio files from a specified path and visualising triplets as log Mel spectrogram and as \glspl{MFCC}.
 \newline
 \newline
-\texttt{utils\_visualise} is responsible for visualising the model in different ways. These functions aim to get more insight into the model, which is being trained. They are mainly used to validate certain assumptions and to compare different models with each other. Its main function is \texttt{visualise\_model\_on\_epoch\_end()}, which visualises the model after an epoch as the name states. It does that in a few different ways. First, it embeds all of the triplets in the evaluation set in the embedding space and calculates the corresponding loss functions of the evaluation set. Then it uses the embedded triplets to calculate the clustering scores described in \fullref{sec:Metrics}. After that, it visualises the distances between the centroids of each cluster in two ways (\texttt{visualise\_distance\_matrix}), by visualising each distance as a graph and by visualising it as an image. Then the last step is to visualise the embeddings using the Tensorboard Embedding Projector tool (\texttt{visualise\_embeddings}), which is a visual representation of the resulting embedding space.
+\texttt{utils\_visualise} is responsible for visualising the model in different ways. These functions aim to get more insight into the model, which is being trained. They are mainly used to validate certain assumptions and to compare different models with each other. Its main function is \texttt{visualise\_model\_on\_epoch\_end()}, which visualises the model after an epoch as the name states. It does that in a few different ways. First, it embeds all of the triplets in the evaluation set in the embedding space and calculates the corresponding loss functions of the evaluation set. Then it uses the embedded triplets to calculate the clustering scores described in metrics (\ref{sec:Metrics}). After that, it visualises the distances between the centroids of each cluster in two ways (\texttt{visualise\_distance\_matrix}), by visualising each distance as a graph and by visualising it as an image. Then the last step is to visualise the embeddings using the Tensorboard Embedding Projector tool (\texttt{visualise\_embeddings}), which is a visual representation of the resulting embedding space.
 
 \subsection{Models embedding}
 \label{sub:Component-Models-Embedding}
@@ -664,10 +664,10 @@ The \texttt{DenseEncoder} was the first model, which was implemented in the proj
 The \texttt{ConvNet1D} and \texttt{ConvNet2D} model, are simple \gls{CNN} architectures, which use the one or two-dimensional convolutional operations to process the input, followed by a max-pooling and dropout layer. Both models consist of three of these layers, followed by the default embedding layer as an output.
 \newline
 \newline
-The \texttt{GRUNet} model is a simple \gls{RNN} architecture, which uses \gls{GRU} as its layers. It consists of two \gls{GRU} layers, followed by the default embedding layer as an output.
+The \texttt{GRUNet} model is a simple \gls{RNN} architecture, which uses \glspl{GRU} as its layers. It consists of two \gls{GRU} layers, followed by the default embedding layer as an output.
 \newline
 \newline
-The \texttt{ConvGRUNet} model is a \gls{CRNN} implementation, which combines a \gls{CNN} and a \gls{RNN} model. It consists out of four two-dimensional convolution layers, convolution followed by max-pooling, and one \gls{GRU} layer and then as the output layer the default embedding layer.
+The \texttt{ConvGRUNet} model is a \gls{CRNN} implementation, which combines a \gls{CNN} and a \gls{RNN}. It consists out of four two-dimensional convolution layers, convolution followed by max-pooling, and one \gls{GRU} layer and then as the output layer the default embedding layer.
 \newline
 \newline
 ResNet is a state-of-the-art \gls{CNN} architecture, which has many different implementations, such as ResNet18, ResNet50 and many more. Therefore \texttt{ResNet} is implemented as an abstract class, which also inherits from the \texttt{BaseModel}. A concrete implementation is, for example, \texttt{ResNet18}, which can then be used to train the embedding architecture. All of the concrete \texttt{ResNet} implementations are standard implementation, except the fact, that the last layer is not a \texttt{softmax} layer, used for classification. In this project, the output layer is the default embedding layer. The other exception is that the implementation further has a \texttt{L2 regularisation} in each convolution layer of the model, which aims to prevent the model from overfitting. Figure \ref{fig:ResNet18} visualises a standard ResNet18 architecture with its skip connections.
@@ -725,7 +725,7 @@ This section describes the entire training process of the models in the project.
 
 \subsection{Training embedding space}
 \label{sub:Training-Embedding-Space}
-The training process of the embedding space is located in the \texttt{train\_triplet\_loss.py} file. It connects the different components of the project, shown above (\fullref{sec:Project-Components}), with each other and trains an embedding space using triplet loss in an unsupervised matter. This subsection goes through the entire process in detail and provides some useful insights into the training process.
+The training process of the embedding space is located in the \texttt{train\_triplet\_loss.py} file. It connects the different components of the project, shown above (\ref{sec:Project-Components}), with each other and trains an embedding space using triplet loss in an unsupervised matter. This subsection goes through the entire process in detail and provides some useful insights into the training process.
 \newline
 \newline
 The first part of the process is to read the configuration file (\texttt{experiments/config/params.json}), which contains all of the hyperparameters for the training, and extract its values into the corresponding variables of the \texttt{Params} class (\ref{sub:Params}).
