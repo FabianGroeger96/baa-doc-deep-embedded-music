@@ -240,7 +240,6 @@ The current milestone was successfully reached since all the planned tasks could
 
 \chapter{Study doc}
 \label{app:Study-Doc}
-
 This chapter contains all of the study docs from the conducted experiments, they include detailed information about each one of the experiments as well as the conclusion out of each.
 
 \includepdf[scale=1.0, pages=1-]{study-doc/experiment_margin/Study_Doc_Margin.pdf}
@@ -248,6 +247,82 @@ This chapter contains all of the study docs from the conducted experiments, they
 \includepdf[scale=1.0, pages=1-]{study-doc/experiment_tile_size/Study_Doc_tile_size.pdf}
 
 \includepdf[scale=1.0, pages=1-]{study-doc/experiment_embedding_size/Study_Doc_embedding_size.pdf}
+
+\includepdf[scale=1.0, pages=1-]{study-doc/experiment_regularisation/Study_Doc_regularisation.pdf}
+
+\chapter{Detailed hyperparameters of the models}
+\label{app:detailed-hyperparameters}
+
+\section{DCASE}
+\label{app:detailed-hyperparameters-dcase}
+\begin{table}[ht]
+    \centering
+    \caption{Hyperparameters of the optimal embedding architecture for the noise detection dataset}
+	\label{tab:Hyperparameters-Detailed-DCASE}
+    \begin{tabular}{l|l}
+        \toprule
+        \textbf{Hyperparameter} & \textbf{value} \\ 
+        \midrule[1pt]
+        Dataset & DCASE \\
+        \hline
+        Model & ResNet18 \\ 
+        \hline
+        Epochs & 110 \\ 
+        \hline
+        Batch size & 64 \\ 
+        \hline
+        Optimizer & Adam \\ 
+        \hline
+        Learning rate & 1e-5 \\
+        \hline
+        Margin & 1.0 \\
+        \hline
+        L2 regularisation amount & 0.01 \\
+        \hline
+        Embedding dimension & 256 \\
+        \hline
+        Prefetch batches & Autotune (-1) \\ 
+        \hline
+        Random selection buffer & 32 \\ 
+        \hline
+        Shuffle dataset & True \\
+        \hline
+        Random seed & 1234 \\
+        \midrule[1pt]
+        \multicolumn{2}{l}{\textit{Multi threading}} \\
+        \midrule[1pt]
+        Number of generators & 16 \\ 
+        \hline
+        Number of parallel calls & 16 \\
+        \midrule[1pt]
+        \multicolumn{2}{l}{\textit{Audio sample}} \\
+        \midrule[1pt]
+        Sample rate & 16000 \\ 
+        \hline
+        Sample size & 10 \\
+        \hline
+        Sample tile size & 5 \\
+        \hline
+        Sample tile range & 5 \\
+        \hline
+        Convert to mono & True \\
+        \midrule[1pt]
+        \multicolumn{2}{l}{\textit{Feature representation}} \\
+        \midrule[1pt]
+        Feature extractor & LogMelExtractor \\ 
+        \hline
+        Frame length & 480 \\
+        \hline
+        Frame step & 160 \\
+        \hline
+        FFT size & 1024 \\
+        \hline
+        Number of Mel bins & 128 \\
+        \hline
+        Number of MFCC bins & 13 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 \chapter{Work journal}
 \label{app:Work-Journal}

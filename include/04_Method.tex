@@ -24,7 +24,7 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
      title height=1,
      title label font=\bfseries\footnotesize,
      progress=today,
-     today=11,
+     today=12,
      today label=Current Week,
      bar/.append style={fill=blue!50},
      group/.append style={draw=black, fill=orange!50},
@@ -73,20 +73,20 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
     
     % 3. Phase: Experiments
     \ganttgroup[inline=false]{Experiments}{9}{12} \\
-    \ganttbar[progress=30,inline=false]{Conduct experiments}{9}{9} \\
-    \ganttbar[progress=20,inline=false]{Validate embeddings}{10}{11} \\
+    \ganttbar[progress=100,inline=false]{Conduct experiments}{9}{9} \\
+    \ganttbar[progress=70,inline=false]{Validate embeddings}{10}{11} \\
     \ganttmilestone[inline=false]{Experiments finished}{11} \\ % M4
-    \ganttbar[progress=80,inline=false]{Visualise embeddings}{12}{12} \\
+    \ganttbar[progress=100,inline=false]{Visualise embeddings}{12}{12} \\
     
-    \ganttbar[progress=0,inline=false]{Create pitch video and web abstract}{12}{12} \\
+    \ganttbar[progress=30,inline=false]{Create pitch video and web abstract}{12}{12} \\
     
     % Buffer
     \ganttgroup[inline=false]{Buffer}{13}{13} \\
     
     % 4. Phase: Documentation
     \ganttgroup[inline=false]{Finalise documentation}{14}{16} \\
-    \ganttbar[progress=0,inline=false]{Finalise documentation}{14}{15} \\
-    \ganttbar[progress=0,inline=false]{Proofread documentation}{16}{16} \\
+    \ganttbar[progress=20,inline=false]{Finalise documentation}{14}{15} \\
+    \ganttbar[progress=10,inline=false]{Proofread documentation}{16}{16} \\
     \ganttmilestone[inline=false]{Thesis submission}{16}
 
 \end{ganttchart}
