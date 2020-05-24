@@ -158,6 +158,7 @@ The line plot \ref{fig:embedding-size-classifier-loss} shows the sparse categori
 \newline
 The figure \ref{fig:plot-embeddings-epochs} shows that the smallest embedding size can be omitted since it has the highest triplet loss value significantly. The other three embedding spaces have quite similar values and are, therefore, further compared. The trained classifier on top of the embedding space shows (figure \ref{fig:embedding-size-classifier-f1}) that the embedding size \texttt{32} can be omitted since it has a significantly lower score than the others. The figure \ref{fig:embedding-size-classifier-f1} shows, that the embedding size \texttt{16} has achieved the highest F1 score of approximately \texttt{0.39}. However, the figure \ref{fig:embedding-size-classifier-loss} shows that the loss value of the embedding size \texttt{16} converges, which indicates that the training process is finished and the classifier will not show any improvements when training longer. The embedding size \texttt{64} has a lower F1 score, but the loss value is still decreasing at the end of epoch 20, which indicates that the model can benefit from further training. Further training will increase the F1 score until it converges.
 \begin{figure}[t]
+\captionsetup{format=plain}
 \centering
 \begin{subfigure}{.5\linewidth}
   \centering
@@ -213,6 +214,7 @@ Comparing the effect of different regularisation factors on the embedding space 
 \newline
 Figure \ref{fig:plot-triplet-loss} shows the difference between the triplet loss values of the embedding model when changing the regularisation factor. It shows that the model with $\lambda = 1.0$ has the highest triplet loss value, which is obvious, since the bigger the regularisation factor is, the longer the model optimises the weights to satisfy the constraint of having very small weights. The lower $\lambda$, the faster the model optimises the triplet loss value. $\lambda = 0.01$ has the lowest triplet loss value.
 \begin{figure}[tb]
+\captionsetup{format=plain}
 \centering
 \begin{subfigure}{.5\linewidth}
   \centering
@@ -256,6 +258,51 @@ The experiment shows that the regularisation factor $\lambda = 0.01$ gives the b
 The experiment showed that the regularisation factor $\lambda$ has an essential impact on the embedding space and should therefore not be chosen to be too big nor too small since this either leads to over- or underfitting. The optimal regularisation parameter $\lambda$ should be further examined in later and more extensive experiments with a lot more values for $\lambda$.
 
 \subsection{Experiment: feature representation}
+\begin{figure}[htb]
+\captionsetup{format=plain}
+\centering
+\begin{subfigure}{.5\linewidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{study-doc/experiment_feature/assets/f1_feature_representation.png}
+  \caption{Triplet loss}
+  \label{fig:plot-triplet-loss-feature-representations}
+\end{subfigure}%
+\begin{subfigure}{.5\linewidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{study-doc/experiment_embedding_size/assets/classifier_loss.png}
+  \caption{F1 score of the classifier}
+  \label{fig:classifier-f1-feature-represenations}
+\end{subfigure}
+\caption{Plot of the metrics from the models trained using the different feature representations}
+\label{fig:feature-experiment-metrics}
+\end{figure}
+\noindent
+The purpose of the feature representation is to represent the audio in a more compact form than the raw audio. The feature representation further determines the input size for the model. There are a lot of different ways to represent the an audio file in a more compact form. One of the most popular representations is the MFCCs, which is heavily used in the audio domain. However in the recent years, the trend leads more towards using the log Mel spectrogram, which is very similar to the MFCCs, but by omitting the last step of the calculation. This experiment aims to find the optimal feature representation for the thesis.
+\newline
+\newline
+The experiment will be conducted using a state of the art ResNet18 architecture on the DCASE dataset. The hyperparameters in section \textit{Feature representation} as well as the sample rate are the default ones proposed by the organisers of the DCASE challenge within the baseline project.
+The optimal feature representation will be evaluated for \texttt{[LogMel, MFCCs]}.
+\newline
+\newline
+Comparing the effect of different regularisation factors on the embedding space is pretty hard, since comparing embedding spaces is not very straight forward and is a rather tricky task. This is mainly because of the fact, that to visualise the high dimensional embedding space in a way humans can perceive it, it has to be reduced to two or three dimensions. Therefore the original space can not be examined, and the visual representation is always an approximation of the space in a lower dimension. To still compare the feature representations, a simple logistic classifier is trained on top of the resulting embedding spaces, which aims to show how well a simple classifier works with the embedding space. This will show how good the resulting embedding space is. The classifier is trained for 40 epochs with the same parameters as the embedding model.
+\newline
+\newline
+Figure \ref{fig:plot-triplet-loss-feature-representations} shows the difference between the triplet loss from the model using the different feature representations. It shows that the model trained using the MFCCs results in a significantly lower loss than the model using the log Mel spectrogram. The model using the log Mel spectrogram seem already converging at epoch 30.
+\newline
+\newline
+Figure \ref{fig:classifier-f1-feature-represenations} shows the different F1 scores of the logistic classifier, which is trained using the embedding space as input. This provides an idea of how well the embedding space separates the classes and therefore gives a performance gain. The figure \ref{fig:classifier-f1-feature-represenations} shows clearly that the classifier trained on top of the log Mel spectrogram reached a higher F1 score. The metric further shows, that the classifier using the MFCCs embedding space fails to improve the F1 score over time, whereas the classifier for the log Mel spectrogram shows a definite increase over time.
+\newline
+\newline
+From figure \ref{fig:plot-triplet-loss-feature-representations} it seems that the optimal feature representation is the MFCCs since it reached a significantly lower loss value. It further shows that the model would be able to benefit from further training since the model is still decreasing. However, when looking at the resulting F1 score of the classifiers (figure \ref{fig:classifier-f1-feature-represenations}), the result shows, that even though the MFCCs representation reached a lower triplet loss, the classifier fails to separate the resulting clusters using a hyperplane. 
+\newline
+\newline
+This experiment shows that the optimal feature representation for the current thesis is using the log Mel spectrogram, since it resulted in a higher F1 score of the classifier, even though the triplet loss value is higher than the one using the MFCCs. 
+\newline
+\newline
+This is mainly due to the different nature of the feature representations. The MFCCs representation input size (498, 13) is significantly lower than the log Mel spectrogram representation input size (498, 128). The MFCCs is a more compact representation, which seems to have a negative effect on the model's performance.
+\newline
+\newline
+This experiment shows that the model benefits from using a representation which has more features and therefore, the log Mel spectrogram is used as the optimal representation for the thesis.
 
 \subsection{Triplet loss}
 The first experiments were conducted using the standard triplet loss equation given by \ref{eq:Triplet-Loss}. The loss value is given by calculating the triplet loss for the entire batch of triplets and afterwards taking the mean of the batch of triplet losses. This resulted in the triplet loss value, which was used to optimise the model. After a few experiments, one could identify that the triplet loss value decreased rapidly to almost zero and then only oscillated minimally. A low loss value typically means that the model is performing well, and the weights of the network only need to be changed slightly, and therefore the training is almost finished. However, it was observed that this was not true for the trained models since there was still much noise in the embedding space. This indicated that the loss value did not represent the actual performance of the model accurately.
@@ -288,6 +335,7 @@ Two embedding models were trained using the same hyperparameters for 40 epochs, 
 \subsection{Embedding space}
 \label{sub:Eval-Embedding-Space-DCASE}
 \begin{table}[ht]
+    \captionsetup{format=plain}
     \centering
     \caption{Hyperparameters of the optimal embedding architecture for the noise detection dataset}
 	\label{tab:Hyperparameters-DCASE}
@@ -349,6 +397,7 @@ First, the miss-classified embeddings were further examined, this is done by loo
 \newline
 The other examination of the embedding space focused on the correct classified segments and aimed to show the nature of the embedding space. The idea is to select two labels of the dataset, for example, \textit{working} and \textit{eating}, then to loop over the dataset and checking if the embedding belongs to one of these classes and further has five neighbours from the same label. If this is the case, the embedding will be appended to a list of the corresponding label. These lists are then used to calculate the mean of the clusters from each label. The checking of the neighbourhood of each embedding is used to neglect the problem of outliers in clusters. Afterwards, the distance between the clusters is calculated and divided by a specified number of steps, which indicates how many steps have to be taken to reach the other label. Then the centroid of the first label is taken, and the step difference is added to it. From this position, the nearest neighbours are taken and displayed. This process is repeated until the position of the other centroid label is reached. This \flqq walk through the embedding space\frqq can then be represented as an image (\ref{fig:Walk-through-DCASE}) or as a continuous recording of the segments appended with each other. This representation shows that the embedding space represents much meaning because when walking through the space, for example from \textit{working} to \textit{social\_activity} the figure \ref{fig:Walk-through-DCASE} shows that there is more sound activity when approaching \textit{social\_activity}. However this increase is done in a rather slow matter and for example in the figure \ref{fig:Walk-through-DCASE}, the line three represents audios from \textit{social\_activity} where there is still a lot of silence or quiet talking.
 \begin{figure}[ht]
+\captionsetup{format=plain}
 \centering
     \includegraphics[width=0.8\linewidth]{img/Walk_through_dcase_space.png}
     \caption{\flqq walk through the embedding space\frqq \ of the DCASE space from \textit{working} to \textit{social\_activity}}
@@ -362,6 +411,7 @@ One of the primary evaluations for the embedding space is how well a simple logi
 \newline
 On the final embedding architecture for this challenge, described in \ref{sub:Eval-Embedding-Space-DCASE}, the trained classifier accomplished a macro-averaged F1 score of 62.19\% on the full evaluation dataset. The difference between the results of this thesis and the challenge is approximately 30\% to the winner and 20\% to the others. A detailed classification report is given by figure \ref{fig:classification-report-DCASE}, which shows the precision, recall and F1-score of each class. It can be seen that the classes \textit{other} and \textit{eating} are the hardest to classify. This is mainly due to the nature of their sounds and the high imbalance in the dataset. The class \textit{other} is used when an activity is performed, which does not belong to a label in the dataset and therefore contains a lot of different sounds. The label \textit{eating} is very hard to differentiate, because the sound of eating itself is very similar to \textit{dish washing} or \textit{cooking} since there are mainly noises of kitchen utilities present.
 \begin{figure}[ht]
+\captionsetup{format=plain}
 \centering
     \includegraphics[width=0.8\linewidth]{img/DCASE_F1_classification_report.png}
     \caption{Classification report of the classifier on the evaluation dataset from the DCASE challenge}
