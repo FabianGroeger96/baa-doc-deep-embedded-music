@@ -24,7 +24,7 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
      title height=1,
      title label font=\bfseries\footnotesize,
      progress=today,
-     today=12,
+     today=13,
      today label=Current Week,
      bar/.append style={fill=blue!50},
      group/.append style={draw=black, fill=orange!50},
@@ -74,19 +74,18 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
     % 3. Phase: Experiments
     \ganttgroup[inline=false]{Experiments}{9}{12} \\
     \ganttbar[progress=100,inline=false]{Conduct experiments}{9}{9} \\
-    \ganttbar[progress=70,inline=false]{Validate embeddings}{10}{11} \\
+    \ganttbar[progress=80,inline=false]{Validate embeddings}{10}{11} \\
     \ganttmilestone[inline=false]{Experiments finished}{11} \\ % M4
     \ganttbar[progress=100,inline=false]{Visualise embeddings}{12}{12} \\
-    
-    \ganttbar[progress=30,inline=false]{Create pitch video and web abstract}{12}{12} \\
     
     % Buffer
     \ganttgroup[inline=false]{Buffer}{13}{13} \\
     
     % 4. Phase: Documentation
     \ganttgroup[inline=false]{Finalise documentation}{14}{16} \\
-    \ganttbar[progress=20,inline=false]{Finalise documentation}{14}{15} \\
-    \ganttbar[progress=10,inline=false]{Proofread documentation}{16}{16} \\
+    \ganttbar[progress=30,inline=false]{Create pitch video and web abstract}{14}{14} \\
+    \ganttbar[progress=40,inline=false]{Finalise documentation}{14}{15} \\
+    \ganttbar[progress=20,inline=false]{Proofread documentation}{16}{16} \\
     \ganttmilestone[inline=false]{Thesis submission}{16}
 
 \end{ganttchart}
@@ -103,38 +102,138 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
 The waterfall model is a breakdown of project activities into linear sequential phases, where each phase depends on the deliverables of the previous one and corresponds to a specialisation of tasks. For this project, a custom waterfall model is used, which differs quite profoundly from Royce's original waterfall model. The procedure model is shown in figure \ref{fig:Project-Plan}.
 \newline
 \newline
-The project is grouped into 4 phases, research, realisation, experiments and finalise documentation. All of these phases consist of multiple tasks which need to be completed before going on the next one.
+The main reason why a linear procedure model is used and not an iterative such as SCRUM is, that, the project is an innovation/research project, where the main focus is on conducting experiments and searching for new findings for the problem definition. Therefore, it is obvious which tasks need to be completed during each phase and what each one of them has to deliver before going to the next phase. Another reason why the waterfall model is chosen is that the project is done only by a single person and therefore there is no waiting for others to complete their task before going to the next phase since all of the work carried out is done by one person. Another benefit compared to an iterative procedure model is, that the project is already clearly defined by the start of the project and the artefacts, which will need to be delivered by the end of the project, is also given at the start. Therefore the status of the project is evident at any point during the project.
 
-\subsection{Milestone planning}
-\label{sec:Milestone-Planning}
-There is a specific milestone for each finished phase, to review the process within the finished phase and provide an outlook on the next phase. This is done by writing a report for each milestone, which can be found in the appendix milestone reports (\ref{app:Milestone-Reports}). Each of these reports gives insight about the status of the project like \textit{what was done since the last reporting}, \textit{state of the progress of the project} and \textit{top three risks}, including planned measures. The reports provide valuable insights into the projects current status and are used to plan the next phases. Table \ref{tab:Milestones} shows all the milestones with the corresponding data assigned to it. The milestones are illustrated in the full project plan \ref{fig:Project-Plan} in red.
-\newline
-\newline
-It is important to note, that the milestone M4: Interim presentation does not conclude a phase. It is purely used to show wherein the project the interim presentation is held and what is already done until then. Therefore, for this milestone, no milestone report is being written.
+\subsection{Project phases}
+\label{sec:Project-Phases}
+\begin{table}[htb]
+    \centering
+    \caption{Phases in the project plan}
+	\label{tab:Phases}
+    \begin{tabular}{p{.05\textwidth} | p{.15\textwidth} | p{.70\textwidth}}
+        \toprule
+        \textbf{\#} & \textbf{Phase} & \textbf{Description} \\ 
+        \midrule[1pt]
+        P1 & Research & The first phase of the project is to do research on the field and to describe it in chapter \ref{ch:Related-Work}. The deliverable of this phase is the finished draft of the chapter related work (D1). \\
+        \hline
+        P2 & Realisation & The second phase is relatively large and is used to implement the codebase of the project, which includes the code for training, testing and evaluating. The deliverable of this phase is a fully functional and tested codebase to train and evaluate embedding models (D2 \& D3).\\
+        \hline
+        P3 & Experiments & In the third phase, all of the experiments will be conducted and evaluated. Within this phase, there is the possibility that the codebase will be adjusted to optimise the performance of the experiments. The deliverables of this phase are two fully trained models, one for the noise detection dataset and one for the music dataset (D4).\\
+        \hline
+        P4 & Buffer & The buffer phase is used to provide an extra one week buffer if there is a  delay with one of the phases before. Therefore, this phase is variable and does not have clear deliverables at the start of the project. If the buffer is not needed, it will be used to extend the last phase P5. \\
+        \hline
+        P5 & Finalise documentation & The last phase is used to finalise the thesis, create the web abstract and the pitching video. These are all artefacts, which are needed to submit the thesis. The deliverables are therefore the finished documentation, the pitching video and the web abstract (D5). \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\noindent
+The project is grouped into four phases, \textit{research}, \textit{realisation}, \textit{experiments} and \textit{finalise documentation}. However, there is also an additional \textit{buffer} phase which will be used where ever there is a need for an additional week to finish the phase. All of these phases consist of multiple tasks which need to be completed before going on the next one. Each phase is only then completed when the deliverables for the phase are delivered and reviewed. The table \ref{tab:Phases}, describes each phase in more detail and further describes the deliverables of each one of them.
 
-\begin{table}[htbp]
+\subsection{Deliverables}
+\label{sec:Deliverables-Project}
+\begin{table}[htb]
+    \centering
+    \caption{Artefacts to deliver}
+	\label{tab:Deliverables}
+    \begin{tabular}{p{.05\textwidth} | p{.25\textwidth} | p{.60\textwidth}}
+        \toprule
+        \textbf{\#} & \textbf{Deliverable} & \textbf{Description} \\ 
+        \midrule[1pt]
+        D1 & Research \gls{DSP}, \gls{NN} and state of the art (related work) & These artefacts need to be delivered in the form of chapter \ref{ch:Related-Work} (related work), which needs to be reviewed and accepted by the advisor. \\
+        \hline
+        D2 & Evaluation workflow &  Implementation of the evaluation workflow to validate the model performance on either of the datasets. \\
+        \hline
+        D3 & Implementation codebase & Implementation of the codebase for training the model. This consists of the implementation of the input and training pipeline. \\
+        \hline
+        D4 & Experiments (study docs) &  For each of the conducted experiments, a separate study doc needs to be delivered, which will be used to provide detailed information about the experiments and its outcome. \\
+        \hline
+        D5 & Documentation & The documentation needs to be delivered at the end of the project along with a web abstract and a pitching video, which will be needed to complete the upload of the thesis. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\noindent
+Deliverables are artefacts which need to be delivered at the end of each phase to complete it. They will be examined and reviewed before going to the next phase. All of the deliverables in the project are shown in table \ref{tab:Deliverables}. Each deliverable corresponds to a particular phase, and their affiliation is shown in table \ref{tab:Phases}.
+
+\subsection{Milestones}
+\label{sec:Milestones-Project}
+\begin{table}[htb]
     \centering
     \caption{Milestones overview along with their corresponding date}
 	\label{tab:Milestones}
-    \begin{tabular}{p{.70\textwidth} | p{.20\textwidth}}
+    \begin{tabular}{p{.05\textwidth} | p{.45\textwidth} | p{.20\textwidth} | p{.15\textwidth}}
         \toprule
-        \textbf{Milestone} & \textbf{Date} \\ 
+        \textbf{\#} & \textbf{Milestone} & \textbf{Deliverables} & \textbf{Date} \\ 
         \midrule[1pt]
-        M0: Project start & 17.02.2020\\
+        M0 & Project start & - & 17.02.2020\\
         \hline
-        M1: Research finished & 15.03.2020\\
+        M1 & Research finished & D1 & 15.03.2020\\
         \hline
-        M2: Project setup finished & 29.03.2020\\
+        M2 & Project setup finished & D2 & 29.03.2020\\
         \hline
-        M3: Realisation finished & 12.04.2020\\
+        M3 & Realisation finished & D3 & 12.04.2020\\
         \hline
-        M4: Interim presentation & 21.04.2020\\
+        M4 & Interim presentation & - & 21.04.2020\\
         \hline
-        M5: Experiments finished & 03.05.2020\\
+        M5 & Experiments finished & D4 & 03.05.2020\\
         \hline
-        M6: Thesis submission & 05.06.2020\\
+        M6 & Thesis submission & D5 & 05.06.2020\\
         \bottomrule
     \end{tabular}
+\end{table}
+\noindent
+There is a specific milestone at the end of each phase \ref{tab:Phases}, which reviews the deliverables and the work done within the phase. The milestone review further aims to provide an outlook on the next phase and the current status of the project. The review is done by writing a report for each milestone, which can be found in the appendix milestone reports (\ref{app:Milestone-Reports}). Each of these reports gives insight about the status of the project by answering the questions \textit{what was done since the last reporting?}, \textit{what is the state of progress of the project} and \textit{what are the top three risks?}, which also includes the planned measures to take. The reports provide valuable insights into the projects current status and are therefore used to plan the next phases. Table \ref{tab:Milestones} shows all the milestones with the corresponding data assigned to it. The milestones are illustrated in the full project plan \ref{fig:Project-Plan} in red.
+\newline
+\newline
+It is important to note that the milestone \textit{M4: Interim presentation} does not conclude a phase. It is purely used to show wherein the project the interim presentation is held and what needs to be delivered until then. Therefore, for this milestone, no milestone report is being written.
+
+% set page layout to landscape
+\clearpage
+\landscapevalues
+
+\section{Risk analysis}
+\label{sec:Risk-Analysis}
+\begin{table}[htb]
+    \centering
+    \caption{Risk analysis}
+	\label{tab:Risk-Analysis}
+    \begin{tabular}{p{.05\textwidth} | p{.30\textwidth} | p{.30\textwidth} | p{.30\textwidth}}
+        \toprule
+        \textbf{\#} & \textbf{Risk} & \textbf{Consequences} & \textbf{Planned measurements} \\ 
+        \midrule[1pt]
+        R1 & The codebase has flaws in it. & The experiments fail, the model does not train, and the codebase needs to be changed during a late stage. & Using a test-first approach with automated unit tests. \\
+        \hline
+        R2 & The model fails to find an underlying structure of the data. & The project fails in a late-stage, and all of the conducted experiments showed that the model failed. & Implementing small models and train them in an early stage to show the possibility of solving the problem.  \\
+        \hline
+        R3 & The training of the model fails because there is not enough computing power. & The large models needed to find an optimal embedding space can not be trained. & Early testing on the available computing resources and if more needed, rent \gls{GPU} instances on \texttt{vast.ai}. \\
+        \hline
+        R4 & Optimal hyperparameters for the model can not be found. & An optimal embedding space can not be found, and all of the experiments result in suboptimal results. & The first results and hyperparameters are discussed with the advisor, and thereafter the advisor is contacted if help is needed. \\
+        \hline
+        R5 & The model fails to find an optimal embedding space for the music dataset & The second part of the project fails, and the unsupervised triplet loss approach will be discarded. & This is a limitation of the project and is part of the research process. \\
+        \hline
+        R6 & The project can not be completed due to time limitations. & Some of the deliverables can not be delivered at the end of the project. The goal of the project is not reached. & Early start of the documentation, consequent documentation, meetings with the advisor and rapid changes if a loss of time is observed. \\ 
+        \bottomrule
+    \end{tabular}
+\end{table}
+\noindent
+This section shows the risk analysis done to show the possible risks when conducting the project. Table \ref{tab:Risk-Analysis} shows the risk analysis, which consists of the risk, the possible consequences and the planned measurements. The table \ref{tab:Risk-Matrix} shows the residual risk matrix, which provides an overview of the possibility of the occurrence of each risk. For all of the risks, the measurements are planned to get them as low as reasonably possible. Therefore the goal is to have all of the risks in a green section, which indicates that it is acceptable. Yellow represents acceptable. However, further risk reduction should be made. Furthermore, red indicates not acceptable, and a risk reduction is profoundly needed. The risk matrix \ref{tab:Risk-Matrix} show the probability of the occurrence of each risk when taking the counter measurements already into account.
+
+% set page back to portrait
+\clearpage
+\defaultpagestyle
+
+\begin{table}[htb]
+\centering
+\scriptsize
+\caption{Residual risk matrix}
+\label{tab:Risk-Matrix}
+\begin{tabular}{|p{2cm}|p{2cm}|p{2cm}| p{2cm} |p{2cm}| p{2cm}|}
+    \hline Frequency/ Consequence & 1-Very Unlikely & 2-Remote & 3-Occasional & 4-Probable & 5-Frequent\\ [10pt]
+    \hline 4-Catastrophic & \cellcolor{yellow!50} & \cellcolor{red!50} & \cellcolor{red!50} & \cellcolor{red!50} &\cellcolor{red!50} \\ [10pt]
+    \hline 3-Critical & R2 \cellcolor{green!50} & R6 \cellcolor{yellow!50} & R5\cellcolor{yellow!50} & \cellcolor{red!50} &\cellcolor{red!50} \\ [10pt]
+    \hline 2-Major & \cellcolor{green!50} & R3 \cellcolor{green!50} & R4 \cellcolor{yellow!50} & R1 \cellcolor{yellow!50} &\cellcolor{red!50} \\ [10pt]
+    \hline 1-Minor & \cellcolor{green!50} & \cellcolor{green!50} & \cellcolor{green!50} &\cellcolor{yellow!50} &\cellcolor{yellow!50} \\ [10pt]
+    \hline
+\end{tabular}
 \end{table}
 
 \section{Evaluation}
