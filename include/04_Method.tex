@@ -27,8 +27,8 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
      today=13,
      today label=Current Week,
      bar/.append style={fill=blue!50},
-     group/.append style={draw=black, fill=orange!50},
-     milestone/.append style={draw=black, fill=red!50, xscale=0.55}, % 0.5/0.9 ≈ 0.5555
+     group/.append style={draw=black, fill=orange!40!white},
+     milestone/.append style={draw=black, fill=red!40!white, xscale=0.55}, % 0.5/0.9 ≈ 0.5555
      milestone progress label node/.append style={right=0.2},
      bar incomplete/.append style={fill=none},
      group incomplete/.append style={draw=black,fill=none},
@@ -226,12 +226,12 @@ This section shows the risk analysis done to show the possible risks when conduc
 \scriptsize
 \caption{Residual risk matrix}
 \label{tab:Risk-Matrix}
-\begin{tabular}{|p{2cm}|p{2cm}|p{2cm}| p{2cm} |p{2cm}| p{2cm}|}
-    \hline Frequency/ Consequence & 1-Very Unlikely & 2-Remote & 3-Occasional & 4-Probable & 5-Frequent\\ [10pt]
-    \hline 4-Catastrophic & \cellcolor{yellow!50} & \cellcolor{red!50} & \cellcolor{red!50} & \cellcolor{red!50} &\cellcolor{red!50} \\ [10pt]
-    \hline 3-Critical & R2 \cellcolor{green!50} & R6 \cellcolor{yellow!50} & R5\cellcolor{yellow!50} & \cellcolor{red!50} &\cellcolor{red!50} \\ [10pt]
-    \hline 2-Major & \cellcolor{green!50} & R3 \cellcolor{green!50} & R4 \cellcolor{yellow!50} & R1 \cellcolor{yellow!50} &\cellcolor{red!50} \\ [10pt]
-    \hline 1-Minor & \cellcolor{green!50} & \cellcolor{green!50} & \cellcolor{green!50} &\cellcolor{yellow!50} &\cellcolor{yellow!50} \\ [10pt]
+\begin{tabular}{|p{3cm}|p{2cm}|p{1.6cm}| p{1.8cm} |p{1.8cm}| p{1.6cm}|}
+    \hline \diagbox[innerwidth=3cm]{Frequency}{Consequence} & 1-Very Unlikely & 2-Remote & 3-Occasional & 4-Probable & 5-Frequent\\ [10pt]
+    \hline 4-Catastrophic & \cellcolor{yellow!40!white} & \cellcolor{red!40!white} & \cellcolor{red!40!white} & \cellcolor{red!40!white} &\cellcolor{red!40!white} \\ [10pt]
+    \hline 3-Critical & R2 \cellcolor{green!40!white} & R6 \cellcolor{yellow!40!white} & R5\cellcolor{yellow!40!white} & \cellcolor{red!40!white} &\cellcolor{red!40!white} \\ [10pt]
+    \hline 2-Major & \cellcolor{green!40!white} & R3 \cellcolor{green!40!white} & R4 \cellcolor{yellow!40!white} & R1 \cellcolor{yellow!40!white} &\cellcolor{red!40!white} \\ [10pt]
+    \hline 1-Minor & \cellcolor{green!40!white} & \cellcolor{green!40!white} & \cellcolor{green!40!white} &\cellcolor{yellow!40!white} &\cellcolor{yellow!40!white} \\ [10pt]
     \hline
 \end{tabular}
 \end{table}
@@ -242,18 +242,45 @@ The evaluation is done for both used datasets separately, and in a relatively di
 
 \subsection{DCASE 2018 - Task 5 dataset}
 \label{sub:Eval-DCASE}
-The evaluation of the embedding space for the \fullref{sub:DCASE-Task-Dataset} is done in a few separate steps. The development dataset of the challenge is further split into an \texttt{development-training} and an \texttt{development-evaluation} set. First, an arbitrary embedding architecture is being trained on the \texttt{development-training} dataset and evaluated on the \texttt{development-evaluation} set using the metrics available for the embedding (\ref{sec:Metrics}), this process is repeated until the desired architecture is found.
-\newline
-\newline
-To then evaluate the performance of the resulting embedding space, a simple classifier is trained using the embeddings as input. The simple classifier consists of a two-layered dense model, which is illustrated in figure \ref{fig:Classifier-DCASE-Visualisation}. To evaluate the different embedding spaces, the macro-averaged F1 score of the classifier is compared to other F1 scores from the experiment. To show the performance gain when using the embedding space, the classifier is trained on the raw audio representation itself to provide a baseline F1 score.
-\newline
-\newline
-In the final step, the resulting embedding space, as well as the trained classifier will be used on the evaluation dataset of the challenge, where the resulting macro-averaged F1 scores are compared to the accomplished score by the submitted models. This aims to show the score which can be accomplished when mitigating the label and using the dataset as an unsupervised one.
-
-\begin{figure}[htbp]
-    \captionsetup{format=plain}
+\begin{figure}[ht]
     \centering
-    \begin{tikzpicture}[start chain=going below, node distance=15pt,
+    \begin{tikzpicture}[standard/.style={inner sep=0pt,align=center,draw,text height=1.25em,text depth=0.5em},
+    decoration={brace}]
+    \node[text width=8cm, yshift=1cm, standard] (Trd)  {development dataset};
+    \node[right=0.5em of Trd, standard, text width=4cm] (Ted)  {evaluation dataset};
+    \node[fit=(Trd)(Ted), yshift=1cm, standard] (Ald)  {all data from the DCASE challenge}; 
+    \node[anchor=north west, standard, text width=5.8cm, fill=yellow!30!white, yshift=-0.3cm] at (Trd.south-|Trd.west) (dev) {train};
+    \node[anchor=north west, standard, text width=2cm, fill=orange!30!white, right=0.5em of dev](eval) {eval};
+    \node[anchor=north west, standard, text width=4cm, fill=red!30!white, yshift=-0.3cm] at (Ted.south-|Ted.west) (Ted2) {test};
+    \end{tikzpicture}
+\caption{Overview of the dataset split for the DCASE dataset}
+\label{fig:DCASE-split}
+\end{figure}
+\noindent
+The evaluation of the embedding space for the \fullref{sub:DCASE-Task-Dataset} is done in a few separate steps. The development dataset of the challenge is further split into an \texttt{development-training} and an \texttt{development-evaluation} set. First, an arbitrary embedding architecture is being trained on the \texttt{development-training} dataset and evaluated on the \texttt{development-evaluation} set using the metrics available for the embedding (\ref{sec:Metrics}), this process is repeated until an architecture with the desired performance is found.
+\newline
+\newline
+To then further evaluate the performance of the resulting embedding space, a simple classifier is trained using the embeddings as input. There are two different classifiers used to evaluate the embedding space, a logistic classifier and a two-layered classifier. Both of the classifiers are visualised in figure \ref{fig:Classifier-DCASE-Visualisation}.
+\newline
+\newline
+The logistic classifier (\ref{fig:logistic-classifier}) only consists out of a single softmax output layer, which has the same amount of output units as there are classes in the dataset. The two-layered classifier (\ref{fig:dense-classifier}) consists of a two-layered dense model and a softmax output layer. Both classifiers are used to evaluate the embedding space. However, their idea is quite different from each other. The logistic classifier tries to separate the embedding space using a hyperplane and therefore shows how well separated the embedding clusters are. The dense classifier shows how much of a performance gain there is when using the embedding space with a deeper \gls{NN}.
+\newline
+\newline
+The macro-averaged F1 score of the logistic classifier is compared to other F1 scores from the experiment, to evaluate the different embedding spaces. The classifier is trained on the raw audio representation itself to provide a baseline F1 score, to show the performance gain when using the embedding space.
+\newline
+\newline
+In the final step, the resulting embedding space, as well as the trained logistic classifier will be used on the evaluation dataset of the challenge, where the resulting macro-averaged F1 score is compared to the accomplished score by the submitted models. This aims to show the result which can be accomplished when using the dataset in an unsupervised setting and only focusing on the audio data itself rather than the label.
+\newline
+\newline
+The overall goal is to achieve the highest possible macro-averaged F1 score on the evaluation dataset provided by the DCASE challenge. 
+\newline
+\newline
+However, the main goal is to show that the resulting embedding space represents a specific structure of the dataset and therefore represents meaning. Since the embedding space only focuses on the audio stream itself, the optimal space clusters audio segments which sound similar in the nearby region irrelevant of the label. This evaluation is done manually by examining the embedding space.
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}{.5\linewidth}
+  \centering
+  \begin{tikzpicture}[start chain=going below, node distance=15pt,
         point/.append style={on chain, join=by {signal}},
         layer/.append style={on chain, join=by {signal}}]
         \node[point] {Input to classifier, embedded sample};
@@ -262,21 +289,37 @@ In the final step, the resulting embedding space, as well as the trained classif
         \node[activation] {Dense output: \\ 9 units (num. of classes), softmax};
         \node[point] {Output};
     \end{tikzpicture}
-    \caption{Visualisation of the classifier architecture}
-    \label{fig:Classifier-DCASE-Visualisation}
+  \caption{Dense classifier}
+  \label{fig:dense-classifier}
+\end{subfigure}%
+\begin{subfigure}{.5\linewidth}
+  \centering
+  \begin{tikzpicture}[start chain=going below, node distance=15pt,
+        point/.append style={on chain, join=by {signal}},
+        layer/.append style={on chain, join=by {signal}}]
+        \node[point] {Input to classifier, embedded sample};
+        \node[activation] {Dense output: \\ 9 units (num. of classes), softmax};
+        \node[point] {Output};
+    \end{tikzpicture}
+  \caption{Logistic classifier}
+  \label{fig:logistic-classifier}
+\end{subfigure}
+\caption{Visualisation of the different classifier architectures}
+\label{fig:Classifier-DCASE-Visualisation}
 \end{figure}
-\noindent
-The overall goal is to achieve the highest possible macro-averaged F1 score on the evaluation dataset provided by the DCASE challenge.
 
 \subsection{Music dataset}
 \label{sub:Eval-Music}
-The process of evaluating the embedding space for the music dataset (\ref{sub:Music-Dataset}) is a bit more complicated since there are no prior results on this exact dataset, neither a baseline model to compare it to. The first evaluation of the embedding is relatively similar to the one for the \fullref{sub:Eval-DCASE}. The dataset is split into an \texttt{training}, \texttt{evaluation} and \texttt{test} set. Then the \texttt{training} dataset is used to train the embedding architecture and is evaluated on the \texttt{evaluation} set with the metrics specified in metrics (\ref{sec:Metrics}). After that, the model, which resulted in the best metrics, is chosen and is further evaluated.
+The process of evaluating the embedding space for the music dataset (\ref{sub:Music-Dataset}) is a bit more complicated since there are no prior results on this exact dataset, nor a baseline model to compare it to. The first evaluation of the embedding is relatively similar to the one for the \fullref{sub:Eval-DCASE}. The dataset is split into an \texttt{training}, \texttt{evaluation} and \texttt{test} set. Then the \texttt{training} dataset is used to train the embedding architecture and is evaluated on the \texttt{evaluation} set with the metrics specified in metrics (\ref{sec:Metrics}). After that, the model, which resulted in the best metrics, is chosen and is further evaluated.
 \newline
 \newline
-Since one of the requirements of the project is to examine the resulting clusters of the music embedding space, a simple clustering algorithm, such as \fullref{sub:K-Means}, is being applied on the resulting embeddings of the \texttt{test} set. This should provide a crucial insight into the resulting clusters and the performance of the embedding architecture.
+The idea of training a simple logistic classifier using the embedding space as input, which was specifically made for the comparison of the noise detection dataset, can however also be used when evaluating the music dataset. The result of the classifier is then not used to compare the results to some other results, but to check how easy a logistic classifier can separate the clusters, by trying to place a hyperplane between them. This result then gives some insights about the resulting clusters and their separation.
 \newline
 \newline
-Another requirement of the embedding space is that it should provide some similarity measure for the embedded songs. Therefore the resulting clusters, as well as their distances from each other, are important evaluation criteria. Since the examination of these distances as well as the similarity between each music genre is quite hard, Emanuel Oehri, who provided the music dataset (\ref{sub:Music-Dataset}), is examining the distances between the clusters and gives feedback about their similarity from his point of view. He will also examine the resulting similarity between two songs of different genres which are projected into their near-by region.
+Since one of the requirements of the project is to examine the resulting clusters of the music embedding space, a simple clustering algorithm, such as \fullref{sub:K-Means}, is being applied on the resulting embeddings of the \texttt{test} set and afterwards on the full dataset. This should provide a crucial insight into the resulting clusters and the performance of the embedding architecture. It further aims to show which categories of the dataset are in the nearby region and therefore should represent similar categories. 
+\newline
+\newline
+Another requirement of the embedding space is that it should provide some similarity measure for the embedded songs. Therefore the resulting clusters, as well as their distances between each other, are essential properties which will need to be evaluated. Since the examination of these distances as well as the similarity between each music genre is quite hard, mister Emanuel Oehri, who provided the music dataset (\ref{sub:Music-Dataset}), helps to examine the distances between the clusters and gives feedback about their similarity from his professional opinion. He will further examine the resulting similarity between two songs of different genres which are projected into their nearby region, as well as the similarity between segments which have an inconsistent neighbourhood. The evaluation with mister Emanuel Oehri will be structured as an interview, where the interview guide can be found in the appendix \ref{sec:Interview-Guide}. The results of the conducted qualitative analysis are then located in section \ref{sub:Qualitative-analysis}.
 
 \section{Testing}
 \label{sec:Testing}
