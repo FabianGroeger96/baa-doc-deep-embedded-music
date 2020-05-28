@@ -54,6 +54,7 @@ Since the highest and lowest margin can be omitted simply by examining the tripl
 \end{figure}
 
 \subsection{Experiment: segment size}
+\label{sub:Experiment-Segment-Size}
 \begin{figure}[tb]
 \centering
     \includegraphics[width=0.5\linewidth]{study-doc/experiment_tile_size/assets/tile_sizes_plot.png}
@@ -305,6 +306,7 @@ This is mainly due to the different nature of the feature representations. The M
 This experiment shows that the model benefits from using a representation which has more features and therefore, the log Mel spectrogram is used as the optimal representation for the thesis.
 
 \subsection{Triplet loss}
+\label{sub:Results-Triplet-Loss}
 The first experiments were conducted using the standard triplet loss equation given by \ref{eq:Triplet-Loss}. The loss value is given by calculating the triplet loss for the entire batch of triplets and afterwards taking the mean of the batch of triplet losses. This resulted in the triplet loss value, which was used to optimise the model. After a few experiments, one could identify that the triplet loss value decreased rapidly to almost zero and then only oscillated minimally. A low loss value typically means that the model is performing well, and the weights of the network only need to be changed slightly, and therefore the training is almost finished. However, it was observed that this was not true for the trained models since there was still much noise in the embedding space. This indicated that the loss value did not represent the actual performance of the model accurately.
 \newline
 \newline
@@ -332,8 +334,8 @@ Two embedding models were trained using the same hyperparameters for 40 epochs, 
     \label{fig:Triplet-Loss-Techniques}
 \end{figure}
 
-\subsection{Embedding space}
-\label{sub:Eval-Embedding-Space-DCASE}
+\subsection{Resulting model}
+\label{sub:Results-DCASE-Resulting-Model}
 \begin{table}[ht]
     \captionsetup{format=plain}
     \centering
@@ -363,9 +365,9 @@ Two embedding models were trained using the same hyperparameters for 40 epochs, 
         \midrule[1pt]
         Sample rate & 16000 \\ 
         \hline
-        Sample tile size & 5 \\
+        Sample tile size & 5s \\
         \hline
-        Sample tile range & 5 \\
+        Sample tile range & 5s \\
         \hline
         Convert to mono & True \\
         \midrule[1pt]
@@ -387,8 +389,9 @@ The optimal embedding space architecture for the DCASE task 5 challenge in this 
 \newline
 \newline
 The model was trained for 110 epochs and reached a triplet loss value of 0.1879, which is by far the lowest loss of all the different experiments. The triplet loss value is shown in figure \ref{fig:Triplet-Loss-DCASE}. The plot shows that the model has decreased a significant amount between the 34 and the 39 epoch. 
-\newline
-\newline
+
+\subsection{Embedding space}
+\label{sub:Eval-Embedding-Space-DCASE}
 The embedding space was further examined to get detailed insights about the resulting clusters and the distances between them.  The entire development dataset was projected onto the embedding space and saved, including with the corresponding label, name and segment, to examine the embedding space. Afterwards the embedding space was converted into an \texttt{cKDTree} from \texttt{scipy}, which is a kd-tree for quick nearest-neighbor lookup. This tree was used to get the neighbours from a specific data point in the embedding space.
 \newline
 \newline
@@ -430,13 +433,76 @@ The resulting embedding model uses a state-of-the-art ResNet18 architecture, whi
 
 \section{Music dataset}
 \label{sec:Results-Music}
+This section describes the results of the experiments with the music dataset (\ref{sub:Music-Dataset}). The intention was to show that the created embedding space is applicable not only to the noise detection domain but can be used throughout the audio domain. The intention of using the embedding space was the same as for the \gls{DCASE} challenge dataset, to create an embedding space where distances represent the similarity between segments. When using the music dataset, this similarity between sound segments can then be used to find similar segments or to cluster segments by similarity. This section shows the examination of the embedding space to test if the model succeeded finding similarities, by first examining the embedding space manually (\ref{sub:Results-Music-Embedding-Space}), then by applying a clustering (\ref{sub:Results-Music-Clustering}) and then finally by conducting a qualitative analysis in the form of an interview with mister Emanuel Oehri (\ref{sub:Results-Music-Qualitative-analysis}). The final part of this section is to provide a conclusion about the model performance on the music dataset (\ref{sub:Results-Music-Conclusion}).
+
+\subsection{Resulting model}
+\label{sub:Results-Music-Resulting-Model}
+\begin{table}[ht]
+    \centering
+    \caption{Hyperparameters of the optimal embedding architecture for the music dataset}
+	\label{tab:Hyperparameters-Music}
+    \begin{tabular}{l|l}
+        \toprule
+        \textbf{Hyperparameter} & \textbf{value} \\ 
+        \midrule[1pt]
+        Model & ResNet18 \\ 
+        \hline
+        Epochs & 130 \\ 
+        \hline
+        Batch size & 32 \\ 
+        \hline
+        Optimizer & Adam \\ 
+        \hline
+        Learning rate & 1e-5 \\
+        \hline
+        Margin & 1.0 \\
+        \hline
+        L2 regularisation amount & 0.01 \\
+        \hline
+        Embedding dimension & 256 \\
+        \midrule[1pt]
+        \multicolumn{2}{l}{\textit{Audio sample}} \\
+        \midrule[1pt]
+        Sample rate & 44100 \\ 
+        \hline
+        Sample tile size & 10s \\
+        \hline
+        Sample tile range & 40s \\
+        \hline
+        Convert to mono & True \\
+        \midrule[1pt]
+        \multicolumn{2}{l}{\textit{Feature representation}} \\
+        \midrule[1pt]
+        Feature extractor & LogMelExtractor \\ 
+        \hline
+        Input size & 998 x 128 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+The same embedding architecture as the one for the noise detection dataset, with mostly the same hyperparameters, was used. The hyperparameters for the music dataset are given by table \ref{tab:Hyperparameters-Music} and table \ref{app:detailed-hyperparameters-music}, which shows the hyperparameters in more detail. The difference in the hyperparameters is mainly due to the different structure of the dataset and their audio samples. In the \gls{DCASE} challenge dataset, the samples are already split into 10s segments, whereas the samples in the music dataset are full songs of a specific genre, which leads to variable audio lengths in the dataset. However, this does not make any difference in the input pipeline but instead gives an additional possibility to split the samples into larger segments. The experiment with the different segment sizes (\ref{sub:Experiment-Segment-Size}), showed that using larger segments results in much clearer clusters and therefore, in a better embedding space. Therefore the segment size was increased from 5s to 10s, which further resulted in a two times larger input size. This further led to the decrease of the batch size to 32, because of the initial batch size led to an out of memory exception due to the lack of larger computational resources. The increase of the neighbouring range is as well because there is the possibility of doing so due to the nature of the samples of the dataset. The increase provides a vaster possibility of triplet combinations, which the model can only profit from.
+\newline
+\newline
+The resulting model was trained for 130 epochs, which took around seven and a half days, the training took this long, mainly because the triplet selection ant therefore also the splitting of the song was done on the fly in the input pipeline. The training process could be significantly decreased when using \texttt{TFRecords}\footnote{\href{https://www.tensorflow.org/tutorials/load\_data/tfrecord\#tfrecord\_files\_using\_tfdata}{www.tensorflow.org/tutorials/load\_data/tfrecord}}. However the conversion of the dataset to \texttt{TFRecords} was neglected since this would provide a more static dataset, rather than a more dynamic one. If the dataset is more dynamic, the model learns to handle differences in the dataset a lot better, since the dataset is continually changing and therefore focuses more on the underlying structure of each segment. However, this leads to models which need to be trained a lot longer than with a more static dataset.
+\newline
+\newline
+The figure \ref{fig:Triplet-Loss-Music} shows the line plot of the triplet loss value of the trained epochs. It shows that the model starts with a relatively high loss value and decreases over time. At the end of the training, at epoch 130, the model reached a triplet loss value of approximately 0.35. The line plot further shows that the model could potentially profit from additional training with a lower learning rate to get an even lower triplet loss value.
+\begin{figure}[ht]
+\centering
+    \includegraphics[width=0.6\linewidth]{img/triplet_loss_music_final.png}
+    \caption{Triplet loss plot of the final embedding model for the music dataset}
+    \label{fig:Triplet-Loss-Music}
+\end{figure}
 
 \subsection{Embedding space}
+\label{sub:Results-Music-Embedding-Space}
+The music embedding space is carefully examined, just like the noise detection space (\ref{sub:Eval-Embedding-Space-DCASE}). For the examination, the entire dataset is projected onto the embedding space and the value, including the metadata of each point in the embedding space, is saved. The first part of the examination is to examine the neighbourhood of the embedding space, which is done by building a neighbouring tree using the \texttt{cKDTree} from \texttt{scipy}. Then to examine the neighbourhood, from each of the embedded points its nearest 30 neighbours are checked, and their labels are compared, which aims to find inconsistencies. If a sample has 28 or more different labels in its neighbourhood, it is further examined, since this represents either a malfunction of the embedding space or a significant sample in the dataset, which can be classified as a different genre.
 
 \subsection{Clustering applied to embedding space}
+\label{sub:Results-Music-Clustering}
 
 \subsection{Qualitative analysis}
-\label{sub:Qualitative-analysis}
+\label{sub:Results-Music-Qualitative-analysis}
 
 \subsection{Conclusion}
+\label{sub:Results-Music-Conclusion}
 

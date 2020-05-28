@@ -298,7 +298,7 @@ This chapter contains all of the study docs from the conducted experiments, they
 \label{app:detailed-hyperparameters-dcase}
 \begin{table}[ht]
     \centering
-    \caption{Hyperparameters of the optimal embedding architecture for the noise detection dataset}
+    \caption{Detailed hyperparameters of the optimal embedding architecture for the noise detection dataset}
 	\label{tab:Hyperparameters-Detailed-DCASE}
     \begin{tabular}{l|l}
         \toprule
@@ -340,11 +340,82 @@ This chapter contains all of the study docs from the conducted experiments, they
         \midrule[1pt]
         Sample rate & 16000 \\ 
         \hline
-        Sample size & 10 \\
+        Sample size & 10s \\
         \hline
-        Sample tile size & 5 \\
+        Sample tile size & 5s \\
         \hline
-        Sample tile range & 5 \\
+        Sample tile range & 5s \\
+        \hline
+        Convert to mono & True \\
+        \midrule[1pt]
+        \multicolumn{2}{l}{\textit{Feature representation}} \\
+        \midrule[1pt]
+        Feature extractor & LogMelExtractor \\ 
+        \hline
+        Frame length & 480 \\
+        \hline
+        Frame step & 160 \\
+        \hline
+        FFT size & 1024 \\
+        \hline
+        Number of Mel bins & 128 \\
+        \hline
+        Number of MFCC bins & 13 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Music dataset}
+\label{app:detailed-hyperparameters-music}
+\begin{table}[ht]
+    \centering
+    \caption{Detailed hyperparameters of the optimal embedding architecture for the music dataset}
+	\label{tab:Hyperparameters-Detailed-Music}
+    \begin{tabular}{l|l}
+        \toprule
+        \textbf{Hyperparameter} & \textbf{value} \\ 
+        \midrule[1pt]
+        Dataset & MusicDataset \\
+        \hline
+        Model & ResNet18 \\ 
+        \hline
+        Epochs & 130 \\ 
+        \hline
+        Batch size & 32 \\ 
+        \hline
+        Optimizer & Adam \\ 
+        \hline
+        Learning rate & 1e-5 \\
+        \hline
+        Margin & 1.0 \\
+        \hline
+        L2 regularisation amount & 0.01 \\
+        \hline
+        Embedding dimension & 256 \\
+        \hline
+        Prefetch batches & Autotune (-1) \\ 
+        \hline
+        Random selection buffer & 16 \\ 
+        \hline
+        Shuffle dataset & True \\
+        \hline
+        Random seed & 1234 \\
+        \midrule[1pt]
+        \multicolumn{2}{l}{\textit{Multi threading}} \\
+        \midrule[1pt]
+        Number of generators & 16 \\ 
+        \hline
+        Number of parallel calls & 16 \\
+        \midrule[1pt]
+        \multicolumn{2}{l}{\textit{Audio sample}} \\
+        \midrule[1pt]
+        Sample rate & 44100 \\ 
+        \hline
+        Sample size & variable \\
+        \hline
+        Sample tile size & 10s \\
+        \hline
+        Sample tile range & 40s \\
         \hline
         Convert to mono & True \\
         \midrule[1pt]
