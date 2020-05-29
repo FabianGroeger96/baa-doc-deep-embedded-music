@@ -151,10 +151,10 @@ The figure \ref{fig:plot-embeddings-epochs} shows the different triplet loss val
 The plot further shows that the loss value of the embedding sizes \texttt{16, 32, 64} are relatively similar and are therefore further compared by examining their resulting embedding space. Which is shown in figure \ref{fig:embedding-space-16}, \ref{fig:embedding-space-32} and \ref{fig:embedding-space-64}. The result shows that there are vast differences in the embedding spaces, even though the triplet loss value is not that different. The embedding size of \texttt{16} shows only approximately four resulting clusters, which indicates a noisy embedding space where small classes are not well separated from each other. The embedding space of \texttt{32} and \texttt{64} show significant more resulting clusters and they result therefore in a better embedding space. However, it is to say that both embedding spaces further have more noise in it than the lower-dimensional space.
 \newline
 \newline
-The line plot \ref{fig:embedding-size-classifier-f1} shows the resulting F1 score when a simple logistic classifier is trained on top of the resulting embedding space. Since the DCASE dataset is heavily unbalanced, the F1 score is compared. All of the classifiers are trained for 20 epochs using the same parameters as the one for training the embedding space. The figure \ref{fig:embedding-size-classifier-f1} shows that the F1 score of the embedding space \texttt{16} is the highest out of the three.
+The graph \ref{fig:embedding-size-classifier-f1} shows the resulting F1 score when a simple logistic classifier is trained on top of the resulting embedding space. Since the DCASE dataset is heavily unbalanced, the F1 score is compared. All of the classifiers are trained for 20 epochs using the same parameters as the one for training the embedding space. The figure \ref{fig:embedding-size-classifier-f1} shows that the F1 score of the embedding space \texttt{16} is the highest out of the three.
 \newline
 \newline
-The line plot \ref{fig:embedding-size-classifier-loss} shows the sparse categorical cross-entropy loss value of the embedding spaces \texttt{16} and \texttt{64}.
+The graph \ref{fig:embedding-size-classifier-loss} shows the sparse categorical cross-entropy loss value of the embedding spaces \texttt{16} and \texttt{64}.
 \newline
 \newline
 The figure \ref{fig:plot-embeddings-epochs} shows that the smallest embedding size can be omitted since it has the highest triplet loss value significantly. The other three embedding spaces have quite similar values and are, therefore, further compared. The trained classifier on top of the embedding space shows (figure \ref{fig:embedding-size-classifier-f1}) that the embedding size \texttt{32} can be omitted since it has a significantly lower score than the others. The figure \ref{fig:embedding-size-classifier-f1} shows, that the embedding size \texttt{16} has achieved the highest F1 score of approximately \texttt{0.39}. However, the figure \ref{fig:embedding-size-classifier-loss} shows that the loss value of the embedding size \texttt{16} converges, which indicates that the training process is finished and the classifier will not show any improvements when training longer. The embedding size \texttt{64} has a lower F1 score, but the loss value is still decreasing at the end of epoch 20, which indicates that the model can benefit from further training. Further training will increase the F1 score until it converges.
@@ -173,7 +173,7 @@ The figure \ref{fig:plot-embeddings-epochs} shows that the smallest embedding si
   \caption{sparse categorical cross-entropy loss}
   \label{fig:embedding-size-classifier-loss}
 \end{subfigure}
-\caption{Line plot of the metrics from the different classifiers trained on top of the resulting embedding spaces}
+\caption{graph of the metrics from the different classifiers trained on top of the resulting embedding spaces}
 \label{fig:embedding-size-experiment-classifier-metrics}
 \end{figure}
 \newline
@@ -229,7 +229,7 @@ Figure \ref{fig:plot-triplet-loss} shows the difference between the triplet loss
   \caption{sparse categorical cross-entropy loss}
   \label{fig:regularisation-experiment-classifier-loss}
 \end{subfigure}
-\caption{Line plot of the F1 score and the loss from the different classifiers trained on top of the resulting embedding spaces}
+\caption{graph of the F1 score and the loss from the different classifiers trained on top of the resulting embedding spaces}
 \label{fig:regularisation-experiment-classifier-metrics}
 \end{figure}
 \newline
@@ -300,7 +300,7 @@ From figure \ref{fig:plot-triplet-loss-feature-representations} it seems that th
 This experiment shows that the optimal feature representation for the current thesis is using the log Mel spectrogram, since it resulted in a higher F1 score of the classifier, even though the triplet loss value is higher than the one using the MFCCs. 
 \newline
 \newline
-This is mainly due to the different nature of the feature representations. The MFCCs representation input size (498, 13) is significantly lower than the log Mel spectrogram representation input size (498, 128). The MFCCs is a more compact representation, which seems to have a negative effect on the model's performance.
+This is mainly due to the different nature of the feature representations. The MFCCs representation input size (498, 13) is significantly lower than the log Mel spectrogram representation input size (498, 128). The MFCCs is a more compact representation, which seems to have a negative effect on the model performance.
 \newline
 \newline
 This experiment shows that the model benefits from using a representation which has more features and therefore, the log Mel spectrogram is used as the optimal representation for the thesis.
@@ -485,7 +485,7 @@ The same embedding architecture as the one for the noise detection dataset, with
 The resulting model was trained for 130 epochs, which took around seven and a half days, the training took this long, mainly because the triplet selection ant therefore also the splitting of the song was done on the fly in the input pipeline. The training process could be significantly decreased when using \texttt{TFRecords}\footnote{\href{https://www.tensorflow.org/tutorials/load\_data/tfrecord\#tfrecord\_files\_using\_tfdata}{www.tensorflow.org/tutorials/load\_data/tfrecord}}. However the conversion of the dataset to \texttt{TFRecords} was neglected since this would provide a more static dataset, rather than a more dynamic one. If the dataset is more dynamic, the model learns to handle differences in the dataset a lot better, since the dataset is continually changing and therefore focuses more on the underlying structure of each segment. However, this leads to models which need to be trained a lot longer than with a more static dataset.
 \newline
 \newline
-The figure \ref{fig:Triplet-Loss-Music} shows the line plot of the triplet loss value of the trained epochs. It shows that the model starts with a relatively high loss value and decreases over time. At the end of the training, at epoch 130, the model reached a triplet loss value of approximately 0.35. The line plot further shows that the model could potentially profit from additional training with a lower learning rate to get an even lower triplet loss value.
+The figure \ref{fig:Triplet-Loss-Music} shows the graph of the triplet loss value of the trained epochs. It shows that the model starts with a relatively high loss value and decreases over time. At the end of the training, at epoch 130, the model reached a triplet loss value of approximately 0.35. The graph further shows that the model could potentially profit from additional training with a lower learning rate to get an even lower triplet loss value.
 \begin{figure}[ht]
 \centering
     \includegraphics[width=0.6\linewidth]{img/triplet_loss_music_final.png}
@@ -495,13 +495,126 @@ The figure \ref{fig:Triplet-Loss-Music} shows the line plot of the triplet loss 
 
 \subsection{Embedding space}
 \label{sub:Results-Music-Embedding-Space}
-The music embedding space is carefully examined, just like the noise detection space (\ref{sub:Eval-Embedding-Space-DCASE}). For the examination, the entire dataset is projected onto the embedding space and the value, including the metadata of each point in the embedding space, is saved. The first part of the examination is to examine the neighbourhood of the embedding space, which is done by building a neighbouring tree using the \texttt{cKDTree} from \texttt{scipy}. Then to examine the neighbourhood, from each of the embedded points its nearest 30 neighbours are checked, and their labels are compared, which aims to find inconsistencies. If a sample has 28 or more different labels in its neighbourhood, it is further examined, since this represents either a malfunction of the embedding space or a significant sample in the dataset, which can be classified as a different genre.
+The music embedding space was similarly examined as the noise detection space (\ref{sub:Eval-Embedding-Space-DCASE}). For the examination, the entire dataset was projected onto the embedding space and the value, including the metadata of each point, was saved. The examination was done in a jupyter notebook located in the \texttt{notebooks} folder called \texttt{examination\_embedding\_space.ipynb}.
+\newline
+\newline
+The first part of the examination was to explore the neighbourhood of the embedding space, which was done by building a neighbouring tree using the \texttt{cKDTree} from \texttt{scipy}. Then to examine the neighbourhood, from each of the embedded points its nearest 30 neighbours were checked, and their labels were compared, which aims to find inconsistencies. If a sample had 28 or more different labels in its neighbourhood, it was further examined, since this represents either a malfunction of the embedding space or a significant sample in the dataset, which can be classified as a different genre. These points were then appended with its five nearest neighbours and a song was created, which represents the neighbourhood. This song showed that even if the neighbourhood was inconsistent, the resulting sound did still sound very similar to an amateur. However, since this needs to be evaluated by an expert, these generated songs were used in the qualitative analysis (\ref{sub:Results-Music-Qualitative-analysis}) and evaluated by a professional DJ.
+\newline
+\newline
+The next examination of the embedding space was to compute the centroids of each category cluster, and then taking the five nearest neighbours from each, which will then be used to create a song from all of the segments. This created song should represent a typical song of the specific cluster. For an amateur this it sounds like this is the case, however, this needs to be shown in the qualitative analysis (\ref{sub:Results-Music-Qualitative-analysis}).
+\newline
+\newline
+The last examination of the embedding space was walking through the embedding space, which was already done and described in the section above from the noise detection dataset (\ref{sub:Eval-Embedding-Space-DCASE}). The idea is to walk from cluster to cluster with a specified amount of steps and taking the three next neighbours from each one of the steps. All of the audios were then appended and a this results in a song, which should represent a song with the starting point in a specific cluster and then ends in a different one, where the transitions should sound reasonable. This \flqq walk through the embedding space\frqq \ can further be represented as an image, where the log Mel representation is computed of each of the segments and then appended as a sub-figure to the overall figure. Such an image is shown in figure \ref{fig:Walk-through-Music}. The figure shows, that when purely looking at it, the transitions seem reasonable and a clear build up was noticed to the label \textit{Trance}. However, this needs to be shown in the qualitative analysis (\ref{sub:Results-Music-Qualitative-analysis}) as well. Each combination of categories was computed and the resulting song with the corresponding image of the \flqq walk through the embedding space\frqq \ was saved.
+\begin{figure}[ht]
+\centering
+    \includegraphics[width=0.9\linewidth]{img/Walk_through_music_space.png}
+    \caption{\flqq walk through the embedding space\frqq \ of the music space from \textit{IndieDance} to \textit{Trance}}
+    \label{fig:Walk-through-Music}
+\end{figure}
 
 \subsection{Clustering applied to embedding space}
 \label{sub:Results-Music-Clustering}
+\begin{figure}[ht]
+\centering
+    \includegraphics[width=0.6\linewidth]{img/elbow_method_music_dataset.png}
+    \caption{Plot of the elbow method on the music embedding space to find the optimal number of clusters}
+    \label{fig:Elbow-Clusters}
+\end{figure}
+\noindent
+One of the requirements of the thesis was to apply a standard clustering algorithm to the embedding space and examining the resulting clusters. For this thesis, K-Means is chosen as the clustering algorithm (\ref{sub:K-Means}), since clustering was explicitly excluded from the thesis and only a simple and easy to implement algorithm should be used. To apply clustering to the embedding space and to visualise the results, the dimensionality had to be reduced to at least three dimensions. The dimensionality reduction was done by computing \gls{PCA} and using only three principal components. Afterwards, these three principal components were used to compute the \gls{WCSS}, for the different number of clusters, with results in computing the elbow method, which is used to find the optimal number of clusters. The \gls{WCSS} measures the average squared distance of all the points within a cluster to the cluster centroid. Figure \ref{fig:Elbow-Clusters} shows the plot of the \gls{WCSS} when increasing the number of clusters. The figure shows that the optimal number of classes is between six and seven because this represents the \flqq elbow\frqq \ of the graph. For this evaluation, the optimal number of clusters is chosen to be seven, since this was also the number of different sub-genres in the dataset. Thereafter, K-Means was computed using seven clusters by using the implementation of \texttt{sklearn}. When visualising the cluster, this results in the figure \ref{fig:K-Means-Visualisation}, where the colours represent the clusters and the \flqq x\frqq \ represents the centre of each cluster.
+\newline
+\newline
+The resulting clusters were examined by looking at the distribution of the different labels contained in each. This aims to show which cluster contains which labels. Table \ref{tab:Distribution-KMeans-Clusters} shows the distribution of each of the seven clusters. The clustering result shows that in every cluster, there is a different sub-genre which occurs most frequently. This shows that even with such a simple clustering algorithm, there are separated clusters of each of the seven sub-genres. However, the clusters still contain a fair amount of different labels, which is typical in such entangled categories as the ones in the music dataset.
+\begin{figure}[ht]
+\centering
+    \includegraphics[width=0.8\linewidth]{img/kmeans_music.png}
+    \caption{K-Means visualisation of the embedding space}
+    \label{fig:K-Means-Visualisation}
+\end{figure}
+\begin{table}[ht]
+    \centering
+    \caption{Distribution of the sub-genres in each one of the seven clusters computed with K-Means}
+	\label{tab:Distribution-KMeans-Clusters}
+    \begin{tabular}{l|l}
+        \toprule
+        \textbf{cluster id} & \textbf{sub-categories (count of each)} \\ 
+        \midrule[1pt]
+        1 & \begin{minipage}{4in}
+        \vskip 4pt
+        MelodicHouseAndTechno (28) \\
+        Techno\_Raw\_Deep\_Hypnotic (54) \\
+        Trance (711)
+        \vskip 4pt
+        \end{minipage} \\ 
+        \hline
+        2 & \begin{minipage}{4in}
+        \vskip 4pt
+        DeepHouse (183) \\
+        Electronica\_Downtempo (139) \\
+        IndieDance (451) \\
+        MelodicHouseAndTechno (362) \\
+        Trance (31)
+        \vskip 4pt
+        \end{minipage} \\
+        \hline
+        3 & \begin{minipage}{4in}
+        \vskip 4pt
+        DeepHouse (395) \\
+        Electronica\_Downtempo (112) \\
+        IndieDance (99) \\
+        MelodicHouseAndTechno (209) \\
+        Techno\_PeakTime\_Driving\_Hard (105) \\
+        Techno\_Raw\_Deep\_Hypnotic (86) \\
+        Trance (115)
+        \vskip 4pt
+        \end{minipage} \\
+        \hline
+        4 & \begin{minipage}{4in}
+        \vskip 4pt
+        DeepHouse (93) \\
+        Electronica\_Downtempo (164) \\
+        IndieDance (165) \\
+        Techno\_PeakTime\_Driving\_Hard (49) \\
+        Techno\_Raw\_Deep\_Hypnotic (521) \\
+        Trance (62)
+        \vskip 4pt
+        \end{minipage} \\
+        \hline
+        5 & \begin{minipage}{4in}
+        \vskip 4pt
+        DeepHouse (101) \\
+        Electronica\_Downtempo (625) \\
+        IndieDance (43) \\
+        MelodicHouseAndTechno (91) \\
+        Techno\_Raw\_Deep\_Hypnotic (53) 
+        \vskip 4pt
+        \end{minipage} \\
+        \hline
+        6 & \begin{minipage}{4in}
+        \vskip 4pt
+        DeepHouse (373) \\
+        Electronica\_Downtempo (36) \\
+        IndieDance (300) \\
+        MelodicHouseAndTechno (644) 
+        \vskip 4pt
+        \end{minipage} \\
+        \hline
+        7 & \begin{minipage}{4in}
+        \vskip 4pt
+        IndieDance (34) \\
+        MelodicHouseAndTechno (55) \\
+        Techno\_PeakTime\_Driving\_Hard (975) \\
+        Techno\_Raw\_Deep\_Hypnotic (174) \\
+        Trance (91)
+        \vskip 4pt
+        \end{minipage} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 \subsection{Qualitative analysis}
 \label{sub:Results-Music-Qualitative-analysis}
+The qualitative analysis aims to evaluate the embedding space created for music, with the help of en expert. In this thesis the expert is mister Emanuel Oehri, which is a DJ and also kindly provided the music dataset and therefore is very familiar with the sub-genres of the dataset, since he himself picked these out. The qualitative analysis was done in the form of an interview, where the interview guide can be found in the appendix \ref{sec:Interview-Guide}. The key elements of the analysis were summarised and described in this subsection. The detailed interview can be found in the appendix REF.
 
 \subsection{Conclusion}
 \label{sub:Results-Music-Conclusion}
