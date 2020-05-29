@@ -1,108 +1,76 @@
 \chapter{Evaluation and validation}
 \label{ch:Evalutation-Validation}
+This chapter presents the results and experiments conducted in this thesis. Section \ref{sec:Results-DCASE} describes the results of the experiments done on the \gls{DCASE} dataset (\ref{sub:DCASE-Task-Dataset}). In section \ref{sec:Results-Music}, the results of the experiments done on the music dataset (\ref{sub:Music-Dataset}) are described. Further, this chapter presents the resulting models and both its resulting embedding spaces from the datasets along with detailed insights about the properties of each.
+\newline
+\newline
+In conclusion, the experiments conducted on the \gls{DCASE} dataset were used to find the optimal hyperparameters for the triplet loss architecture adapted to audio streams. These parameters were then used to train a final model on the noise detection dataset and the music dataset, with slight adaptions to the dataset. Both of the resulting embedding spaces were examined and showed significant characteristics, such as they succeeded in learning the underlying structure of the audios and therefore also succeeded in learning similarity between the audio segments.
 
 \section{DCASE 2018 challenge - task 5 dataset}
 \label{sec:Results-DCASE}
-This section describes the various experiments done on the \nameref{sub:DCASE-Task-Dataset}, where each led to a crucial conclusion for training the embedding space. These conclusions then led to the final hyperparameters used for training the embedding space for the DCASE dataset. This section further examines the embedding space (\ref{sub:Eval-Embedding-Space-DCASE}) and compares the logistic classifier trained on top of the embedding space with the results from the DCASE challenge (\ref{sub:Eval-Comparison-DCASE}). In the end, a conclusion of the experiments with the \nameref{sub:DCASE-Task-Dataset} is made (\ref{sub:Eval-Conclusion-DCASE}), which contains ideas on more experiments to conduct and further improvements.
+This section first describes the experiments conducted on the \nameref{sub:DCASE-Task-Dataset}, each of these experiments led to essential results, which were then used to find the optimal hyperparameters for the \gls{DCASE} dataset. Then, this section describes the detailed exploration of the embedding space (\ref{sub:Eval-Embedding-Space-DCASE}) and further compares a logistic classifier trained on top of the embedding space with the results from the \gls{DCASE} challenge (\ref{sub:Eval-Comparison-DCASE}). Then, to finalise this section, a conclusion to the experiments with the noise detection dataset is provided (\ref{sub:Eval-Conclusion-DCASE}), which contains ideas on further experiments and other improvements to consider when proceeding this research. 
 \newline
 \newline
-For each experiment a detailed study doc is written, which includes in depth information about the conducted experiment. All of the study docs are attached as PDF, in the appendix \ref{app:Study-Doc}.
+For each experiment, a detailed study doc is written, which includes in-depth information about the conducted experiment as well as the results. All of the study docs are attached as PDF, in the appendix \ref{app:Study-Doc}.
 
 \subsection{Experiment: margin}
-\begin{figure}[tb]
-\centering
-\begin{subfigure}{.5\linewidth}
-  \centering
-  \includegraphics[width=.9\linewidth]{study-doc/experiment_margin/assets/margin_all_plot.png}
-  \caption{triplet loss from all margins}
-  \label{fig:sub-margin-all}
-\end{subfigure}%
-\begin{subfigure}{.5\linewidth}
-  \centering
-  \includegraphics[width=.9\linewidth]{study-doc/experiment_margin/assets/margin_5_7_10_plot.png}
-  \caption{triplet loss from margins=\texttt{0.5, 0.7, 1.0}}
-  \label{fig:sub-margin-5-7-10}
-\end{subfigure}
-\caption{Plot of the triplet loss value of the margin experiment}
-\label{fig:margin-experiment-triplet-loss-plot}
-\end{figure}
-\noindent
-This experiment aims to show the affect of changing the margin $\alpha$ within a triplet loss on the DCASE dataset. A very important hyperparameter when training a triplet loss is the margin, denoted as $\alpha$. The margin makes sure that the network is not allowed to output the trivial solution, where all the embeddings vectors are zero or contain the same values. Within the triplet loss function, it is used to put a limit on how far the network can push the negative sample away to improve the loss. Thus the distance of the negative sample has to be higher than the distance from the anchor to the positive sample plus the margin $\alpha$. This experiment aims to show the importance of the margin as well as to find the optimal one for the DCASE dataset.
-\newline
-\newline
-The hyperparameters used for this experiment are shown in the corresponding study doc in the appendix \ref{app:Study-Doc}. The margin is evaluated using a state of the art ResNet18 architecture on the DCASE dataset. The hyperparameters in section \textit{Feature representation} as well as the sample rate are the default ones proposed by the organisers of the DCASE challenge within the baseline project. The margin is evaluated for six different values \texttt{[0.3, 0.5, 0.7, 1, 2, 10]}.
-\newline
-\newline
-Five models with the same hyperparameters, were trained for ten epochs. The value of the triplet loss is the most important criteria for selecting the optimal margin since the margin has the most significant impact on the loss function. Figure \ref{fig:sub-margin-all} shows all the trained models in a single plot to visualise the impact on changing the margin. From this figure, the resulting embeddings improved from the trivial solution as the margin is increased. Thus as the margin is decreased the total number of triplets generated whose loss is higher than zero decreases, therefore, they do not contribute to the training of the model thus reducing the accuracy of the outputted embedding’s.
-\newline
-\newline
-There is a vast difference in the value of the loss values. The \texttt{margin=10} has by far the highest loss value of approximately 8, which is very intuitive since the distance to the opposite has to be higher than the distance to the neighbour plus the margin, which is in this case \texttt{8}. This constraint is tough to satisfy, and therefore the loss is relatively high.
-\newline
-\newline
-The smallest loss value is the one from the \texttt{margin=0.3}. The reason for that is the same as for the high margin, but vice-versa. The constraint it has to satisfy is that the distance to the opposite has to be higher than the distance to the neighbour plus the margin. This is very easily satisfied since it is a relatively small distance.
-\newline
-\newline
-The figure \ref{fig:sub-margin-5-7-10} shows the triplet loss of the margin values \texttt{0.5, 0.7, 1.0}. It can be seen that the loss is fairly similar and approaches zero.
-\newline
-\newline
-Since the highest and lowest margin can be omitted simply by examining the triplet loss plot because the lowest margin does not contribute to the training and the highest sets a constraint which can only be satisfied in a small number of cases, in the other cases it is a much harder decision since the loss value is fairly the same. However, when looking at the resulting embedding space, it can be seen that the \texttt{margin=1.0} distances between the centroids of each label are fairly equally distributed, which is the optimal outcome. Figure \ref{fig:dist-margin-1} shows the distance matrix of the \texttt{margin=1.0}. Whereas the other margins do not have such an equally distributed distance matrix, which indicates that one or more label can be distinguished better than others. However, the optimal solution should be that the distances from all clusters are fairly the same. Therefore the \texttt{margin=1.0} is chosen as the optimal parameter for the DCASE dataset and is used in all of the further experiments as the standard hyperparameter.
-\begin{figure}[tb]
+\label{sub:Experiment-Margin}
+\begin{figure}[hb]
 \centering
     \includegraphics[width=0.5\linewidth]{study-doc/experiment_margin/assets/distance_mat_margin_1.png}
     \caption{Distance matrix of the margin=\texttt{1.0}}
     \label{fig:dist-margin-1}
 \end{figure}
+\noindent
+One of the most important hyperparameter when training a triplet loss is the margin, which is denoted as $\alpha$. The margin makes sure that the network is not allowed to output the trivial solution, where all the embedding vectors are zero or contain the same values. In the triplet loss function, $\alpha$ is used to put a limit on how far the network can push the negative sample away to improve the loss. Thus the distance of the negative sample has to be higher than the distance from the anchor to the positive sample plus the margin $\alpha$. This experiment aims to show the importance of the margin as well as desires to find the optimal margin for the \gls{DCASE} dataset. The margin is evaluated for six different values \texttt{[0.3, 0.5, 0.7, 1, 2, 10]}.
+\newline
+\newline
+The experiment was conducted by training five models with the same hyperparameters for ten epochs. To evaluate the optimal value for $\alpha$, the value of the triplet loss is used, since it has the most significant impact on it. The resulting embeddings improved from the trivial solution as the margin is increased. When the margin is decreased the total number of triplets generated whose loss is higher than zero decreases, therefore, they do not contribute to the training of the model and therefore reduce the performance of the model.
+\newline
+\newline
+The highest and lowest margin can be omitted simply by examining the triplet loss because the lowest margin does not contribute to the training and the highest sets a constraint which can only be satisfied by a small number of triplets. To choose between the other margins is a much harder decision since the loss value is fairly the same. However, when looking at the resulting embedding space, it can be seen that the model using the \texttt{margin=1.0} results in a space, where the distances between the centroids of each label are fairly equally distributed. This characteristic of the embedding space is the one striving for. Figure \ref{fig:dist-margin-1} shows the distance matrix of the \texttt{margin=1.0}. When examining the embedding spaces from the other margins, it is observed that they do not have such an equally distributed distance matrix. Therefore the \texttt{margin=1.0} is chosen as the optimal parameter for the \gls{DCASE} dataset and is used in all of the further experiments as a hyperparameter.
 
 \subsection{Experiment: segment size}
 \label{sub:Experiment-Segment-Size}
-\begin{figure}[tb]
+\begin{figure}[hb]
 \centering
     \includegraphics[width=0.5\linewidth]{study-doc/experiment_tile_size/assets/tile_sizes_plot.png}
-    \caption{Plot of the triplet loss of the different tile sizes}
+    \caption{Plot of the triplet loss of the different segment sizes}
     \label{fig:tile-size-plot}
 \end{figure}
 \noindent
-The experiment aims to show the effect of the size of the audio segments which is used as the size of the triplets. The size of each triplet, which is fed to the network, is an essential hyperparameter which needs to be carefully chosen. Because it specifies how much information each segment contains and is therefore fed to the network. If the segments are chosen too small, it does not contain enough information to distinguish between categories. If the size is too big, the segment contains too much information, and therefore, the model needs to work with a lot more data and gets a lot heavier. This experiment is conducted to search an optimal segment size for the triplets.
+The size of each triplet, which is fed to the network, is an essential hyperparameter which needs to be carefully chosen. Because it specifies how much information each segment contains and is therefore fed to the network. If the segments are chosen too small, it does not contain enough information to distinguish between categories. If the size is too big, the segment contains too much information, and therefore, the model needs to work with a lot more data and gets a lot heavier. This experiment is conducted to find an optimal segment size for the triplets. The sample segment size is evaluated for three different values \texttt{[1, 2, 4]} in seconds.
 \newline
 \newline
-The hyperparameters used for this experiment are shown in the corresponding study doc in the appendix \ref{app:Study-Doc}. The experiment is conducted using a state of the art ResNet18 architecture on the DCASE dataset. The hyperparameters in section \textit{Feature representation} as well as the sample rate are the default ones proposed by the organisers of the DCASE challenge within the baseline project. The sample tile size is evaluated for three different values \texttt{[1, 2, 4]} in seconds.
+The experiment was conducted by training three models with the same hyperparameters for 20 epochs. As a primary evaluation criterion for comparing the different segment sizes, the triplet loss is used, since the size mostly affects this value, because it should show how much of an audio sample is needed to distinguish between the different classes. Figure \ref{fig:tile-size-plot} shows all the trained models in a single plot to visualise the impact of changing the sample size. However, it is quite hard to interpret the different graphs since all of them are nearly zero or become zero very swiftly.
 \newline
 \newline
-Three models with the same hyperparameters were trained for 20 epochs. The value of the triplet loss is the primary evaluation criteria which is used to compare the different triplet sizes since it has the most effect on this value because it should show how much of an audio sample is needed to distinguish between different classes. Figure \ref{fig:tile-size-plot} shows all the trained models in a single plot to visualise the impact of changing the sample size. Nevertheless, it is quite hard to interpret the different graphs since all of them are near zero.
+The figure \ref{fig:tile-size-plot} shows that the segment size 5s has the highest loss value, while the segment sizes 1s and 2s have relatively similar values. However, this does not mean that the segment size of 5s is the worst out of the three, it instead means that the model finds it harder to distinguish audio files when a larger sample is available, which is pretty evident since longer samples contain more information. Further, the figure \ref{fig:tile-size-plot} shows that the segment sizes of 1s and 2s have a very steep graph at the beginning and then hardly change their value. This indicates that it is relatively simple to achieve a good loss value with small audio samples, which means that the model can easily distinguish between small samples. This is as well reasonable since smaller segments contain a lot less information, and therefore, it is easier to distinguish between then since there is not enough information. Figure \ref{fig:tile-size-experiment-embedding-space} shows the embedding space visualised using the Embedding Projector from the Tensorboard, which visualises the space by computing a \gls{PCA} with three dimensions. This figure shows that the embedding space using a segment size of 5s (\ref{fig:embedding-5s}) results in much clearer clusters than when using 1s segments (\ref{fig:embedding-1s}). 
 \newline
 \newline
-The figure \ref{fig:tile-size-plot} shows that the tile size 5s has the highest loss value while the tile sizes 1s and 2s have relatively similar values. However, this does not mean that the tile size of 5s is the worst out of the three, it instead means that the model finds it harder to distinguish audio files when a larger sample is available, which is pretty evident since longer samples contain more information.
-\newline
-\newline
-The figure \ref{fig:tile-size-plot} further shows that the tile sizes of 1s and 2s have a very steep graph at the beginning and then hardly change their value. This indicates that it is relatively simple to achieve a good loss value with small audio samples, which means that the model can easily distinguish between small samples.
-\newline
-\newline
-Both of these interpretations of the plot is pretty straight forward, but when the resulting embedding space is further examined using the Embedding Projector from the tensorboard, it can be seen that the tile size of 5s (\ref{fig:embedding-5s}) results in much clearer clusters than the tile size of 1s (\ref{fig:embedding-1s}). 
-\newline
-\newline
-If the optimal parameter for the sample tile is only chosen from the loss value and therefore, from the plot \ref{fig:tile-size-plot}, it would be quite hard. However, since the visualisation of the embedding space shows a clear benefit in using a larger sample, the \textbf{sample tile size of 5s} is chosen to be the optimal one for the DCASE dataset. This can be explained because smaller samples much often contain sounds which do not indicate a specific sound in that class, say for example there is a two-second silence in a sound file of the class eating, it would be projected in the nearby region of silence in a sound of a different class, which is useful for other applications but since the goal is to achieve a best possible embedding space, this is not a satisfying result. Therefore, the larger sound segments are more robust to such problems, since they hold much more information about the resulting class. 
+If the optimal parameter for the segment size would only be chosen from the loss value and therefore, from the plot \ref{fig:tile-size-plot}, it would be quite hard. However, since the visualisation of the embedding space shows a clear benefit in using a larger size, the segment size of 5s is chosen to be the optimal one for the \gls{DCASE} dataset. This can be explained because smaller samples much often contain sounds which do not indicate a specific sound in that class, say for example there is a two-second silence in a sound file of the class eating, it would be projected in the nearby region of silence in a sound of a different class, which is useful for other applications but since the goal is to achieve a best possible embedding space, this is not a satisfying result. Therefore, the larger sound segments are more robust to such problems, since they hold much more information about the resulting classes. 
 \newline
 \newline
 If the thesis focused on supervised triplet loss, it would make sense to cut the audio files in much smaller segments than in the unsupervised setting, since in supervised learning the triplet selection makes sure that the clustering focuses on the classes and not some other arbitrary criteria, which happens in unsupervised learning. In the unsupervised triplet loss, it is challenging to examine what exactly is being clustered, because there can be an underlying structure which can not be seen for us humans.
-\begin{figure}[tb]
+\begin{figure}[htb]
 \centering
 \begin{subfigure}{.5\linewidth}
   \centering
   \includegraphics[width=.9\linewidth]{study-doc/experiment_tile_size/assets/embedding_space_5s.png}
-  \caption{tile size 5s}
+  \caption{segment size 5s}
   \label{fig:embedding-5s}
 \end{subfigure}%
 \begin{subfigure}{.5\linewidth}
   \centering
   \includegraphics[width=.9\linewidth]{study-doc/experiment_tile_size/assets/embedding_space_1s.png}
-  \caption{tile size 1s}
+  \caption{segment size 1s}
   \label{fig:embedding-1s}
 \end{subfigure}
-\caption{Visualisation of the embedding space from the tile size 5s and 1s}
+\caption{Visualisation of the embedding space from the segment size 5s and 1s}
 \label{fig:tile-size-experiment-embedding-space}
 \end{figure}
 
 \subsection{Experiment: embedding size}
+\label{sub:Experiment-Embedding-Size}
 \begin{figure}[t]
 \centering
     \includegraphics[width=0.5\linewidth]{study-doc/experiment_embedding_size/assets/plot_embedding_sizes.png}
@@ -112,7 +80,7 @@ If the thesis focused on supervised triplet loss, it would make sense to cut the
 The experiment aims to show the effect of the size of the last dense layer from the embedding architecture, further called the \textbf{embedding size}. The size of the embedding space is essential for the performance, since choosing the wrong hyperparameter can lead to over- or underfitting of the model. The size defines how many dimensions the resulting embedding space has. Therefore if this parameter $e$ is selected to be too big, the model almost certainly overfits, because the model has many options to project the input data onto the embedding space. However, if $e$ is chosen to be too small, there is not enough room to project inputs in different regions. This experiment aims to search an optimal parameter for $e$.
 \newline
 \newline
-The experiment is conducted using a state of the art ResNet18 architecture on the DCASE dataset. The hyperparameters in section \textit{Feature representation} as well as the sample rate are the default ones proposed by the organisers of the DCASE challenge within the baseline project. The embedding size $e$ is evaluated for four different values \texttt{[2, 16, 32, 64]}.
+The experiment is conducted using a state of the art ResNet18 architecture on the \gls{DCASE} dataset. The hyperparameters in section \textit{Feature representation} as well as the sample rate are the default ones proposed by the organisers of the \gls{DCASE} challenge within the baseline project. The embedding size $e$ is evaluated for four different values \texttt{[2, 16, 32, 64]}.
 \newline
 \newline
 Four models with the same hyperparameters were trained for a different amount of epochs. The training was stopped when no more learning was observed. 
@@ -151,7 +119,7 @@ The figure \ref{fig:plot-embeddings-epochs} shows the different triplet loss val
 The plot further shows that the loss value of the embedding sizes \texttt{16, 32, 64} are relatively similar and are therefore further compared by examining their resulting embedding space. Which is shown in figure \ref{fig:embedding-space-16}, \ref{fig:embedding-space-32} and \ref{fig:embedding-space-64}. The result shows that there are vast differences in the embedding spaces, even though the triplet loss value is not that different. The embedding size of \texttt{16} shows only approximately four resulting clusters, which indicates a noisy embedding space where small classes are not well separated from each other. The embedding space of \texttt{32} and \texttt{64} show significant more resulting clusters and they result therefore in a better embedding space. However, it is to say that both embedding spaces further have more noise in it than the lower-dimensional space.
 \newline
 \newline
-The graph \ref{fig:embedding-size-classifier-f1} shows the resulting F1 score when a simple logistic classifier is trained on top of the resulting embedding space. Since the DCASE dataset is heavily unbalanced, the F1 score is compared. All of the classifiers are trained for 20 epochs using the same parameters as the one for training the embedding space. The figure \ref{fig:embedding-size-classifier-f1} shows that the F1 score of the embedding space \texttt{16} is the highest out of the three.
+The graph \ref{fig:embedding-size-classifier-f1} shows the resulting F1 score when a simple logistic classifier is trained on top of the resulting embedding space. Since the \gls{DCASE} dataset is heavily unbalanced, the F1 score is compared. All of the classifiers are trained for 20 epochs using the same parameters as the one for training the embedding space. The figure \ref{fig:embedding-size-classifier-f1} shows that the F1 score of the embedding space \texttt{16} is the highest out of the three.
 \newline
 \newline
 The graph \ref{fig:embedding-size-classifier-loss} shows the sparse categorical cross-entropy loss value of the embedding spaces \texttt{16} and \texttt{64}.
@@ -159,7 +127,6 @@ The graph \ref{fig:embedding-size-classifier-loss} shows the sparse categorical 
 \newline
 The figure \ref{fig:plot-embeddings-epochs} shows that the smallest embedding size can be omitted since it has the highest triplet loss value significantly. The other three embedding spaces have quite similar values and are, therefore, further compared. The trained classifier on top of the embedding space shows (figure \ref{fig:embedding-size-classifier-f1}) that the embedding size \texttt{32} can be omitted since it has a significantly lower score than the others. The figure \ref{fig:embedding-size-classifier-f1} shows, that the embedding size \texttt{16} has achieved the highest F1 score of approximately \texttt{0.39}. However, the figure \ref{fig:embedding-size-classifier-loss} shows that the loss value of the embedding size \texttt{16} converges, which indicates that the training process is finished and the classifier will not show any improvements when training longer. The embedding size \texttt{64} has a lower F1 score, but the loss value is still decreasing at the end of epoch 20, which indicates that the model can benefit from further training. Further training will increase the F1 score until it converges.
 \begin{figure}[t]
-\captionsetup{format=plain}
 \centering
 \begin{subfigure}{.5\linewidth}
   \centering
@@ -197,6 +164,7 @@ The experiment further showed another important conclusion, that the longer the 
 \end{figure}
 
 \subsection{Experiment: regularisation factor}
+\label{sub:Experiment-Regularisation-Factor}
 \begin{figure}[ht]
 \centering
     \includegraphics[width=0.5\linewidth]{study-doc/experiment_regularisation/assets/triplet_loss.png}
@@ -207,7 +175,7 @@ The experiment further showed another important conclusion, that the longer the 
 The experiment aims to show how the embedding space will change for different regularisation factors. The purpose of regularisation is that it prevents models from overfitting, by penalising high weights. The regularisation is calculated for all layers weights separately and is then added to the standard loss function, in this case, the triplet loss. The combined loss value is then used to calculate the gradients and update the weights of the model. There are a lot of different regularisation techniques, which successfully reduce the chance of overfitting. In this experiment, the \texttt{L2-Regularisation} is used and evaluated with different values. The parameter which will control the value of the \texttt{L2-Regularisation} is denoted as $\lambda$.
 \newline
 \newline
-The experiment will be conducted using a state of the art ResNet18 architecture on the DCASE dataset. The hyperparameters in section \textit{Feature representation} as well as the sample rate are the default ones proposed by the organisers of the DCASE challenge within the baseline project. The regularisation factor $\lambda$ will be evaluated for three different values \texttt{[1.0, 0.1, 0.01]}.
+The experiment will be conducted using a state of the art ResNet18 architecture on the \gls{DCASE} dataset. The hyperparameters in section \textit{Feature representation} as well as the sample rate are the default ones proposed by the organisers of the \gls{DCASE} challenge within the baseline project. The regularisation factor $\lambda$ will be evaluated for three different values \texttt{[1.0, 0.1, 0.01]}.
 \newline
 \newline
 Comparing the effect of different regularisation factors on the embedding space is pretty hard, since comparing embedding spaces is not very straight forward and is a rather tricky task. This is mainly because of the fact, that to visualise the high dimensional embedding space in a way humans can perceive it, it has to be reduced to two or three dimensions. Therefore the original space can not be examined, and the visual representation is always an approximation of the space in a lower dimension. To still compare the embedding spaces and the effect of $\lambda$, a simple logistic classifier is trained on top of the resulting embedding spaces, which aims to show how well a simple classifier works with the embedding space. This will show how good the resulting embedding space is. The classifier is trained for 20 epochs with the same parameters as the embedding model.
@@ -215,7 +183,6 @@ Comparing the effect of different regularisation factors on the embedding space 
 \newline
 Figure \ref{fig:plot-triplet-loss} shows the difference between the triplet loss values of the embedding model when changing the regularisation factor. It shows that the model with $\lambda = 1.0$ has the highest triplet loss value, which is obvious, since the bigger the regularisation factor is, the longer the model optimises the weights to satisfy the constraint of having very small weights. The lower $\lambda$, the faster the model optimises the triplet loss value. $\lambda = 0.01$ has the lowest triplet loss value.
 \begin{figure}[tb]
-\captionsetup{format=plain}
 \centering
 \begin{subfigure}{.5\linewidth}
   \centering
@@ -259,8 +226,8 @@ The experiment shows that the regularisation factor $\lambda = 0.01$ gives the b
 The experiment showed that the regularisation factor $\lambda$ has an essential impact on the embedding space and should therefore not be chosen to be too big nor too small since this either leads to over- or underfitting. The optimal regularisation parameter $\lambda$ should be further examined in later and more extensive experiments with a lot more values for $\lambda$.
 
 \subsection{Experiment: feature representation}
+\label{sub:Experiment-Feature-Representation}
 \begin{figure}[htb]
-\captionsetup{format=plain}
 \centering
 \begin{subfigure}{.5\linewidth}
   \centering
@@ -281,7 +248,7 @@ The experiment showed that the regularisation factor $\lambda$ has an essential 
 The purpose of the feature representation is to represent the audio in a more compact form than the raw audio. The feature representation further determines the input size for the model. There are a lot of different ways to represent the an audio file in a more compact form. One of the most popular representations is the MFCCs, which is heavily used in the audio domain. However in the recent years, the trend leads more towards using the log Mel spectrogram, which is very similar to the MFCCs, but by omitting the last step of the calculation. This experiment aims to find the optimal feature representation for the thesis.
 \newline
 \newline
-The experiment will be conducted using a state of the art ResNet18 architecture on the DCASE dataset. The hyperparameters in section \textit{Feature representation} as well as the sample rate are the default ones proposed by the organisers of the DCASE challenge within the baseline project.
+The experiment will be conducted using a state of the art ResNet18 architecture on the \gls{DCASE} dataset. The hyperparameters in section \textit{Feature representation} as well as the sample rate are the default ones proposed by the organisers of the \gls{DCASE} challenge within the baseline project.
 The optimal feature representation will be evaluated for \texttt{[LogMel, MFCCs]}.
 \newline
 \newline
@@ -300,7 +267,7 @@ From figure \ref{fig:plot-triplet-loss-feature-representations} it seems that th
 This experiment shows that the optimal feature representation for the current thesis is using the log Mel spectrogram, since it resulted in a higher F1 score of the classifier, even though the triplet loss value is higher than the one using the MFCCs. 
 \newline
 \newline
-This is mainly due to the different nature of the feature representations. The MFCCs representation input size (498, 13) is significantly lower than the log Mel spectrogram representation input size (498, 128). The MFCCs is a more compact representation, which seems to have a negative effect on the model performance.
+This is mainly due to the different nature of the feature representations. The MFCCs representation input size (498, 13) is significantly lower than the log Mel spectrogram representation input size (498, 128). The MFCCs is a more compact representation, which seems to have a negative effect on the models' performance.
 \newline
 \newline
 This experiment shows that the model benefits from using a representation which has more features and therefore, the log Mel spectrogram is used as the optimal representation for the thesis.
@@ -337,7 +304,6 @@ Two embedding models were trained using the same hyperparameters for 40 epochs, 
 \subsection{Resulting model}
 \label{sub:Results-DCASE-Resulting-Model}
 \begin{table}[ht]
-    \captionsetup{format=plain}
     \centering
     \caption{Hyperparameters of the optimal embedding architecture for the noise detection dataset}
 	\label{tab:Hyperparameters-DCASE}
@@ -357,7 +323,7 @@ Two embedding models were trained using the same hyperparameters for 40 epochs, 
         \hline
         Margin & 1.0 \\
         \hline
-        L2 regularisation amount & 0.01 \\
+        L2 regularisation factor & 0.01 \\
         \hline
         Embedding dimension & 256 \\
         \midrule[1pt]
@@ -365,9 +331,9 @@ Two embedding models were trained using the same hyperparameters for 40 epochs, 
         \midrule[1pt]
         Sample rate & 16000 \\ 
         \hline
-        Sample tile size & 5s \\
+        Sample segment size & 5s \\
         \hline
-        Sample tile range & 5s \\
+        Sample segment range & 5s \\
         \hline
         Convert to mono & True \\
         \midrule[1pt]
@@ -385,10 +351,11 @@ Two embedding models were trained using the same hyperparameters for 40 epochs, 
     \caption{Triplet loss plot of the final embedding model for the noise detection dataset}
     \label{fig:Triplet-Loss-DCASE}
 \end{figure}
-The optimal embedding space architecture for the DCASE task 5 challenge in this thesis is given by the hyperparameters in table \ref{tab:Hyperparameters-DCASE} as well as in table \ref{tab:Hyperparameters-Detailed-DCASE}, which shows the hyperparameters in more detail.
+\noindent
+The optimal embedding space architecture for the \gls{DCASE} task 5 challenge in this thesis is given by the hyperparameters in table \ref{tab:Hyperparameters-DCASE} as well as in table \ref{tab:Hyperparameters-Detailed-DCASE}, which shows the hyperparameters in more detail. Most of the parameters in the list result out of the conducted experiments. However, the ones who did not result out of an experiment are default ones proposed by the organizers of the \gls{DCASE} challenge. The margin resulted out of the margin experiment \ref{sub:Experiment-Margin}, the regularisation factor out of the regularisation experiment \ref{sub:Experiment-Regularisation-Factor}, the embedding dimension from the experiment \ref{sub:Experiment-Embedding-Size}, the sample segment size from the experiment \ref{sub:Experiment-Segment-Size} and the feature extractor from the experiment \ref{sub:Experiment-Feature-Representation}. The batch size was chosen to be the highest possible value without getting an out of memory exception. With more extensive computing resources, a larger batch size could be used, and the model would almost surely only benefit from it.
 \newline
 \newline
-The model was trained for 110 epochs and reached a triplet loss value of 0.1879, which is by far the lowest loss of all the different experiments. The triplet loss value is shown in figure \ref{fig:Triplet-Loss-DCASE}. The plot shows that the model has decreased a significant amount between the 34 and the 39 epoch. 
+The model was trained for 110 epochs until convergence and reached a triplet loss value of 0.1879, which is by far the lowest loss of all the different experiments. The triplet loss value is shown in figure \ref{fig:Triplet-Loss-DCASE}. The plot shows that the model has decreased a significant amount between the 34 and the 39 epoch and afterwards started to converge.
 
 \subsection{Embedding space}
 \label{sub:Eval-Embedding-Space-DCASE}
@@ -400,7 +367,6 @@ First, the miss-classified embeddings were further examined, this is done by loo
 \newline
 The other examination of the embedding space focused on the correct classified segments and aimed to show the nature of the embedding space. The idea is to select two labels of the dataset, for example, \textit{working} and \textit{eating}, then to loop over the dataset and checking if the embedding belongs to one of these classes and further has five neighbours from the same label. If this is the case, the embedding will be appended to a list of the corresponding label. These lists are then used to calculate the mean of the clusters from each label. The checking of the neighbourhood of each embedding is used to neglect the problem of outliers in clusters. Afterwards, the distance between the clusters is calculated and divided by a specified number of steps, which indicates how many steps have to be taken to reach the other label. Then the centroid of the first label is taken, and the step difference is added to it. From this position, the nearest neighbours are taken and displayed. This process is repeated until the position of the other centroid label is reached. This \flqq walk through the embedding space\frqq can then be represented as an image (\ref{fig:Walk-through-DCASE}) or as a continuous recording of the segments appended with each other. This representation shows that the embedding space represents much meaning because when walking through the space, for example from \textit{working} to \textit{social\_activity} the figure \ref{fig:Walk-through-DCASE} shows that there is more sound activity when approaching \textit{social\_activity}. However this increase is done in a rather slow matter and for example in the figure \ref{fig:Walk-through-DCASE}, the line three represents audios from \textit{social\_activity} where there is still a lot of silence or quiet talking.
 \begin{figure}[ht]
-\captionsetup{format=plain}
 \centering
     \includegraphics[width=0.8\linewidth]{img/Walk_through_dcase_space.png}
     \caption{\flqq walk through the embedding space\frqq \ of the DCASE space from \textit{working} to \textit{social\_activity}}
@@ -409,12 +375,11 @@ The other examination of the embedding space focused on the correct classified s
 
 \subsection{Comparison to challenge results}
 \label{sub:Eval-Comparison-DCASE}
-One of the primary evaluations for the embedding space is how well a simple logistic classifier, which is trained on top of the embedding space, performs. The metrics of the classifier are used to compare and evaluate different embedding spaces and also to compare how well it performs in comparison to the models submitted in the DCASE task 5 challenge. The submitted architectures were compared using the F1 score of the evaluation dataset using. The main goal of the challenge was to show that models are able to recognise daily activities using different microphone arrays. Therefore, to compare the models in the challenge, the F1 score was calculated from the evaluation set where the microphones were unknown and were not present in the training dataset. The winner of the challenge was a team from IBM, which accomplished an F1 score on the unknown microphones of 88.4\% and a 90.4\% F1 score on the entire evaluation dataset. The embedding space in this thesis was only compared using the full evaluation dataset.
+One of the primary evaluations for the embedding space is how well a simple logistic classifier, which is trained on top of the embedding space, performs. The metrics of the classifier are used to compare and evaluate different embedding spaces and also to compare how well it performs in comparison to the models submitted in the \gls{DCASE} task 5 challenge. The submitted architectures were compared using the F1 score of the evaluation dataset using. The main goal of the challenge was to show that models are able to recognise daily activities using different microphone arrays. Therefore, to compare the models in the challenge, the F1 score was calculated from the evaluation set where the microphones were unknown and were not present in the training dataset. The winner of the challenge was a team from IBM, which accomplished an F1 score on the unknown microphones of 88.4\% and a 90.4\% F1 score on the entire evaluation dataset. The embedding space in this thesis was only compared using the full evaluation dataset.
 \newline
 \newline
 On the final embedding architecture for this challenge, described in \ref{sub:Eval-Embedding-Space-DCASE}, the trained classifier accomplished a macro-averaged F1 score of 62.19\% on the full evaluation dataset. The difference between the results of this thesis and the challenge is approximately 30\% to the winner and 20\% to the others. A detailed classification report is given by figure \ref{fig:classification-report-DCASE}, which shows the precision, recall and F1-score of each class. It can be seen that the classes \textit{other} and \textit{eating} are the hardest to classify. This is mainly due to the nature of their sounds and the high imbalance in the dataset. The class \textit{other} is used when an activity is performed, which does not belong to a label in the dataset and therefore contains a lot of different sounds. The label \textit{eating} is very hard to differentiate, because the sound of eating itself is very similar to \textit{dish washing} or \textit{cooking} since there are mainly noises of kitchen utilities present.
 \begin{figure}[ht]
-\captionsetup{format=plain}
 \centering
     \includegraphics[width=0.8\linewidth]{img/DCASE_F1_classification_report.png}
     \caption{Classification report of the classifier on the evaluation dataset from the DCASE challenge}
@@ -423,7 +388,7 @@ On the final embedding architecture for this challenge, described in \ref{sub:Ev
 
 \subsection{Conclusion}
 \label{sub:Eval-Conclusion-DCASE}
-The results from the examination of the embedding space for the DCASE challenge are quite astonishing since the embedding space represents much meaning, such as the distribution of the clusters and miss-classified segments are off place. It is fascinating that all of this meaning can be extracted purely based on the nature of the sound rather than the underlying label. One of the most astonishing properties of the embedding space is that it can find miss-classified audios or even microphone malfunctions within the dataset. 
+The results from the examination of the embedding space for the \gls{DCASE} challenge are quite astonishing since the embedding space represents much meaning, such as the distribution of the clusters and miss-classified segments are off place. It is fascinating that all of this meaning can be extracted purely based on the nature of the sound rather than the underlying label. One of the most astonishing properties of the embedding space is that it can find miss-classified audios or even microphone malfunctions within the dataset. 
 \newline
 \newline
 However, when comparing the model to the challenge results, the embedding space performs not so well, which means that there is a 20\% gap between the trained embedding model and the challenge results. Nevertheless, since the goal was not to beat the participants in the challenge, but rather to create an embedding space which represents meaning and the comparison to the challenge was only used to show the difference between the approaches, the accomplished results compared to the challenge are still good. Furthermore, if a more extensive architecture, such as a ResNet, would be trained on top of the embedding space, the results could be profoundly improved.
@@ -433,7 +398,7 @@ The resulting embedding model uses a state-of-the-art ResNet18 architecture, whi
 
 \section{Music dataset}
 \label{sec:Results-Music}
-This section describes the results of the experiments with the music dataset (\ref{sub:Music-Dataset}). The intention was to show that the created embedding space is applicable not only to the noise detection domain but can be used throughout the audio domain. The intention of using the embedding space was the same as for the \gls{DCASE} challenge dataset, to create an embedding space where distances represent the similarity between segments. When using the music dataset, this similarity between sound segments can then be used to find similar segments or to cluster segments by similarity. This section shows the examination of the embedding space to test if the model succeeded finding similarities, by first examining the embedding space manually (\ref{sub:Results-Music-Embedding-Space}), then by applying a clustering (\ref{sub:Results-Music-Clustering}) and then finally by conducting a qualitative analysis in the form of an interview with mister Emanuel Oehri (\ref{sub:Results-Music-Qualitative-analysis}). The final part of this section is to provide a conclusion about the model performance on the music dataset (\ref{sub:Results-Music-Conclusion}).
+This section describes the results of the experiments with the music dataset (\ref{sub:Music-Dataset}). The intention was to show that the created embedding space is applicable not only to the noise detection domain but can be used throughout the audio domain. The intention of using the embedding space was the same as for the \gls{DCASE} challenge dataset, to create an embedding space where distances represent the similarity between segments. When using the music dataset, this similarity between sound segments can then be used to find similar segments or to cluster segments by similarity. This section shows the examination of the embedding space to test if the model succeeded finding similarities, by first examining the embedding space manually (\ref{sub:Results-Music-Embedding-Space}), then by applying a clustering (\ref{sub:Results-Music-Clustering}) and then finally by conducting a qualitative analysis in the form of an interview with mister Emanuel Oehri (\ref{sub:Results-Music-Qualitative-analysis}). The final part of this section is to provide a conclusion about the models' performance on the music dataset (\ref{sub:Results-Music-Conclusion}).
 
 \subsection{Resulting model}
 \label{sub:Results-Music-Resulting-Model}
@@ -457,7 +422,7 @@ This section describes the results of the experiments with the music dataset (\r
         \hline
         Margin & 1.0 \\
         \hline
-        L2 regularisation amount & 0.01 \\
+        L2 regularisation factor & 0.01 \\
         \hline
         Embedding dimension & 256 \\
         \midrule[1pt]
@@ -465,9 +430,9 @@ This section describes the results of the experiments with the music dataset (\r
         \midrule[1pt]
         Sample rate & 44100 \\ 
         \hline
-        Sample tile size & 10s \\
+        Sample segment size & 10s \\
         \hline
-        Sample tile range & 40s \\
+        Sample segment range & 40s \\
         \hline
         Convert to mono & True \\
         \midrule[1pt]
@@ -479,6 +444,7 @@ This section describes the results of the experiments with the music dataset (\r
         \bottomrule
     \end{tabular}
 \end{table}
+\noindent
 The same embedding architecture as the one for the noise detection dataset, with mostly the same hyperparameters, was used. The hyperparameters for the music dataset are given by table \ref{tab:Hyperparameters-Music} and table \ref{app:detailed-hyperparameters-music}, which shows the hyperparameters in more detail. The difference in the hyperparameters is mainly due to the different structure of the dataset and their audio samples. In the \gls{DCASE} challenge dataset, the samples are already split into 10s segments, whereas the samples in the music dataset are full songs of a specific genre, which leads to variable audio lengths in the dataset. However, this does not make any difference in the input pipeline but instead gives an additional possibility to split the samples into larger segments. The experiment with the different segment sizes (\ref{sub:Experiment-Segment-Size}), showed that using larger segments results in much clearer clusters and therefore, in a better embedding space. Therefore the segment size was increased from 5s to 10s, which further resulted in a two times larger input size. This further led to the decrease of the batch size to 32, because of the initial batch size led to an out of memory exception due to the lack of larger computational resources. The increase of the neighbouring range is as well because there is the possibility of doing so due to the nature of the samples of the dataset. The increase provides a vaster possibility of triplet combinations, which the model can only profit from.
 \newline
 \newline
