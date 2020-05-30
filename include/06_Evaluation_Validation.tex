@@ -497,7 +497,7 @@ The resulting clusters were examined by looking at the distribution of the diffe
     \caption{K-Means visualisation of the embedding space}
     \label{fig:K-Means-Visualisation}
 \end{figure}
-\begin{table}[ht]
+\begin{table}[htbp]
     \centering
     \caption{Distribution of the sub-genres in each one of the seven clusters computed with K-Means}
 	\label{tab:Distribution-KMeans-Clusters}
@@ -580,8 +580,40 @@ The resulting clusters were examined by looking at the distribution of the diffe
 
 \subsection{Qualitative analysis}
 \label{sub:Results-Music-Qualitative-analysis}
-The qualitative analysis aims to evaluate the embedding space created for music, with the help of en expert. In this thesis the expert is mister Emanuel Oehri, which is a DJ and also kindly provided the music dataset and therefore is very familiar with the sub-genres of the dataset, since he himself picked these out. The qualitative analysis was done in the form of an interview, where the interview guide can be found in the appendix \ref{sec:Interview-Guide}. The key elements of the analysis were summarised and described in this subsection. The detailed interview can be found in the appendix REF.
+The qualitative analysis aims to evaluate the embedding space created for music, with the help of an expert. In this thesis, the expert is mister Emanuel Oehri, which is a DJ and also kindly provided the music dataset and therefore is very familiar with the sub-genres of the dataset, since he picked these out. In the following subsection, Emanuel Oehri will be referred to as the expert. The qualitative analysis was done in the form of an interview, where the interview guide can be found in the appendix \ref{sec:Interview-Guide}. The key elements of the analysis were summarised and described in this subsection. The detailed interview can be found in the appendix \ref{sec:Interview-Answers}.
+\newline
+\newline
+First, the songs of each cluster centre were evaluated with the expert. The process of calculating these combined songs are described in \ref{sub:Results-Music-Embedding-Space}. The expert pointed out that the songs represent the underlying category very well. However, he further mentioned, that the song of the category \textit{DeepHouse} after 30 seconds sounded much more typical than the other segments, which indicates that there is still some noise even in the cluster centres of each sub-category.
+\newline
+\newline
+Second, the expert evaluated the songs which did not have a consistent neighbourhood from the section \ref{sub:Results-Music-Embedding-Space} and he mentioned, that even though the category of them are different, they sound very similar and their similarity is reasonable. He then further pointed out that some of the songs, which had an inconsistent neighbourhood, were from the start or the end of a song. This indicates that the embedding space succeeds in embedding the middle part of the songs correctly, which is evident since this part of the song represents its genre much better than a start or an end. However, he also found some segments in the songs, which would probably fit better in another cluster.
+\newline
+\newline
+Together with the expert, some of the distances and calculations between the clusters were examined, and a few interesting ones were found. Such as the ones shown in \ref{eq:Subtracting-Adding-Clusters-Music}. These few equations show that the embedding space succeeded to find some similarity or dissimilarity between the genres. It further indicates, that the position of each cluster in the embedding space has a meaning behind it, which can further be used to compute the similarities between them. However, from 42 of these combinations computed, only four of them represented correct properties. 
+\myequations{Subtracting and adding distances of cluster centers in the music embedding space}
+\begin{equation}
+    \centering
+    \begin{split}
+        &\text{IndieDance} - \text{Techno\_Raw\_Deep\_Hypnotic} = \text{DeepHouse} \\
+        &\text{DeepHouse} - \text{Electronica\_Downtempo} = \text{MelodicHouseAndTechno} \\
+        &\text{DeepHouse} - \text{IndieDance} = \text{Electronica\_Downtempo}
+    \end{split}
+    \label{eq:Subtracting-Adding-Clusters-Music}
+\end{equation}
+Further, the clusters resulting from k-Means were examined by the expert mainly with the focus of the combination of each clusters' sub-genres. For the expert, the combinations of sub-genres within each cluster made much sense, even though these were sometimes a bit noisy. The most important criteria when evaluating these clusters was that each cluster must have a significantly higher amount of a specific class within it. This criterion was satisfied for all of the seven clusters in the embedding space.
+\newline
+\newline
+When examining the \flqq walk through the embedding space\frqq \ the expert pointed out that some of the transitions, mostly from very different sub-genres, were not very smooth or contained some segments, which did not fit as well as the others. However, when looking at the \flqq walk\frqq \ between somewhat similar categories, the transitions sounded very interesting (in a good way) for the expert.
+\newline
+\newline
+Overall the expert was very impressed with the achieved results since the identified similarities made complete sense for him. He mentioned that it was more like finding the flaws rather than finding good properties. He then further mentioned, that he would consider the experiment to be a success, since that the embedding space succeeded in finding similarities between songs even if they are not in the same category but still, in fact, sounds very similar. The expert found some of the transitions between the sub-genre very impressive and could imagine playing these in a live DJ set.
 
 \subsection{Conclusion}
 \label{sub:Results-Music-Conclusion}
-
+The examination of the embedding space for the music dataset showed some significant properties, such as that it succeeded in finding similarities in even such entangled sub-genres, which are quite impressive. Further, the examination showed that the embedding space successfully built seven clusters for each of the sub-genres. Each one of these clusters still contains segments of other categories. However, this is evident, since the goal of the project was to find the underlying structure of the data, rather than to classify the genres correctly. In the interview with mister Emanuel Oehri, he mentioned, that the genre can be chosen by the label itself when uploading the song, which means that there is also the possibility that a song which is labelled as one category, would, in fact, better belong into a different category.
+\newline
+\newline
+Nevertheless, during the examination, a few flaws of the embedding space were found. One of which is that the embedding space has problems when it comes to embedding the start or the end of a song, which further states that the embedding space has great difficulty in finding useful similarities in these segments of the song. This is mainly because at the start or the end of a song, the main characteristics of the genre are not present or only very limited. This problem could be solved, when using larger segments than 10 seconds, which provides even more information and therefore would result in an even better embedding space. Another way to solve this issue would be to train the model even longer with a lower learning rate and check if the model after this extensive learning period succeeds in learning to cluster the starting and ending segments of a song.
+\newline
+\newline
+Another weakness of the embedding space is that the transitions between genres, which are relatively different from each other, such as \textit{Electronica\_Downtempo} and \textit{Trance}, are not as smooth as some others. This problem can be solved, if a more extensive dataset would be used, maybe with even more genres, which would provide the embedding space with more songs to smoothen the transitions. Another possibility would be to check if the transitions would benefit when using larger segments to train the model.
