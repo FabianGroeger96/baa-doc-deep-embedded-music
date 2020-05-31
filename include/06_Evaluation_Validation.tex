@@ -55,13 +55,13 @@ If the thesis focused on supervised triplet loss, it would make sense to cut the
 \centering
 \begin{subfigure}{.5\linewidth}
   \centering
-  \includegraphics[width=.9\linewidth]{study-doc/experiment_tile_size/assets/embedding_space_5s.png}
+  \includegraphics[width=.6\linewidth]{study-doc/experiment_tile_size/assets/embedding_space_5s.png}
   \caption{segment size 5s}
   \label{fig:embedding-5s}
 \end{subfigure}%
 \begin{subfigure}{.5\linewidth}
   \centering
-  \includegraphics[width=.9\linewidth]{study-doc/experiment_tile_size/assets/embedding_space_1s.png}
+  \includegraphics[width=.6\linewidth]{study-doc/experiment_tile_size/assets/embedding_space_1s.png}
   \caption{segment size 1s}
   \label{fig:embedding-1s}
 \end{subfigure}
@@ -71,22 +71,17 @@ If the thesis focused on supervised triplet loss, it would make sense to cut the
 
 \subsection{Experiment: embedding size}
 \label{sub:Experiment-Embedding-Size}
-\begin{figure}[t]
+\begin{figure}[htb]
 \centering
     \includegraphics[width=0.5\linewidth]{study-doc/experiment_embedding_size/assets/plot_embedding_sizes.png}
     \caption{Plot of the triplet loss of the different embedding sizes}
     \label{fig:plot-embeddings-epochs}
 \end{figure}
-The experiment aims to show the effect of the size of the last dense layer from the embedding architecture, further called the \textbf{embedding size}. The size of the embedding space is essential for the performance, since choosing the wrong hyperparameter can lead to over- or underfitting of the model. The size defines how many dimensions the resulting embedding space has. Therefore if this parameter $e$ is selected to be too big, the model almost certainly overfits, because the model has many options to project the input data onto the embedding space. However, if $e$ is chosen to be too small, there is not enough room to project inputs in different regions. This experiment aims to search an optimal parameter for $e$.
+\noindent
+The experiment aims to show the effect of the size of the last dense layer from the embedding architecture, further called the embedding size. The size of the embedding space is essential for the performance, since choosing the wrong hyperparameter can lead to over- or underfitting of the model. The size defines how many dimensions the resulting embedding space has. Therefore if this parameter $e$ is selected to be too big, the model almost certainly overfits, because the model has many options to project the input data onto the embedding space. However, if $e$ is chosen to be too small, there is not enough room to project inputs in different regions. This experiment aims to search an optimal parameter for $e$. The embedding size $e$ is evaluated for four different values \texttt{[2, 16, 32, 64]}.
 \newline
 \newline
-The experiment is conducted using a state of the art ResNet18 architecture on the \gls{DCASE} dataset. The hyperparameters in section \textit{Feature representation} as well as the sample rate are the default ones proposed by the organisers of the \gls{DCASE} challenge within the baseline project. The embedding size $e$ is evaluated for four different values \texttt{[2, 16, 32, 64]}.
-\newline
-\newline
-Four models with the same hyperparameters were trained for a different amount of epochs. The training was stopped when no more learning was observed. 
-\newline
-\newline
-Comparing different embedding sizes is pretty hard since most of the metrics in the thesis focus on distances between embedding points. In higher dimensional embedding spaces, distances have a different scale and different meanings. This is especially true if small embedding sizes, such as \texttt{2}, and large sizes, such as \texttt{64}, are compared with each other. Therefore a simple classifier was trained on the resulting embedding spaces, and the metrics of the classifier was compared to find the optimal parameter. To further compare the embedding spaces, they were visualised using the Tensorboard Embedding Projector and manually compared with each other.
+The experiment was conducted by training four models with the same hyperparameters for a different amount epochs. The training was stopped when no more learning was observed. Since comparing the different embedding sizes is pretty hard because most of the metrics in the thesis focus on distances between embedding points. In higher dimensional embedding spaces, distances have a different scale and different meanings. This is especially true if small embedding sizes, such as \texttt{2}, and large sizes, such as \texttt{64}, are compared with each other. Therefore a simple classifier was trained on the resulting embedding spaces, and the metrics of the classifier was compared to find the optimal parameter. To further compare the embedding spaces, they were visualised using the Tensorboard Embedding Projector and manually compared with each other.
 \newline
 \newline
 The figure \ref{fig:plot-embeddings-epochs} shows the different triplet loss values of the embedding sizes. The embedding size \texttt{2} has a significantly higher value than other embedding sizes, which shows that in the two-dimensional embedding space, it is a lot harder to project the data points apart from each other. Whereas in high dimensional embedding spaces, the model can easier build clusters.
@@ -172,10 +167,7 @@ The experiment further showed another important conclusion, that the longer the 
     \label{fig:plot-triplet-loss}
 \end{figure}
 \noindent
-The experiment aims to show how the embedding space will change for different regularisation factors. The purpose of regularisation is that it prevents models from overfitting, by penalising high weights. The regularisation is calculated for all layers weights separately and is then added to the standard loss function, in this case, the triplet loss. The combined loss value is then used to calculate the gradients and update the weights of the model. There are a lot of different regularisation techniques, which successfully reduce the chance of overfitting. In this experiment, the \texttt{L2-Regularisation} is used and evaluated with different values. The parameter which will control the value of the \texttt{L2-Regularisation} is denoted as $\lambda$.
-\newline
-\newline
-The experiment will be conducted using a state of the art ResNet18 architecture on the \gls{DCASE} dataset. The hyperparameters in section \textit{Feature representation} as well as the sample rate are the default ones proposed by the organisers of the \gls{DCASE} challenge within the baseline project. The regularisation factor $\lambda$ will be evaluated for three different values \texttt{[1.0, 0.1, 0.01]}.
+The experiment aims to show how the embedding space will change for different regularisation factors. The purpose of regularisation is that it prevents models from overfitting, by penalising high weights. The regularisation is calculated for all layers weights separately and is then added to the standard loss function, in this case, the triplet loss. The combined loss value is then used to calculate the gradients and update the weights of the model. There are a lot of different regularisation techniques, which successfully reduce the chance of overfitting. In this experiment, the \texttt{L2-Regularisation} is used and evaluated with different values. The parameter which will control the value of the \texttt{L2-Regularisation} is denoted as $\lambda$. The regularisation factor $\lambda$ will be evaluated for three different values \texttt{[1.0, 0.1, 0.01]}.
 \newline
 \newline
 Comparing the effect of different regularisation factors on the embedding space is pretty hard, since comparing embedding spaces is not very straight forward and is a rather tricky task. This is mainly because of the fact, that to visualise the high dimensional embedding space in a way humans can perceive it, it has to be reduced to two or three dimensions. Therefore the original space can not be examined, and the visual representation is always an approximation of the space in a lower dimension. To still compare the embedding spaces and the effect of $\lambda$, a simple logistic classifier is trained on top of the resulting embedding spaces, which aims to show how well a simple classifier works with the embedding space. This will show how good the resulting embedding space is. The classifier is trained for 20 epochs with the same parameters as the embedding model.
@@ -245,11 +237,7 @@ The experiment showed that the regularisation factor $\lambda$ has an essential 
 \label{fig:feature-experiment-metrics}
 \end{figure}
 \noindent
-The purpose of the feature representation is to represent the audio in a more compact form than the raw audio. The feature representation further determines the input size for the model. There are a lot of different ways to represent the an audio file in a more compact form. One of the most popular representations is the MFCCs, which is heavily used in the audio domain. However in the recent years, the trend leads more towards using the log Mel spectrogram, which is very similar to the MFCCs, but by omitting the last step of the calculation. This experiment aims to find the optimal feature representation for the thesis.
-\newline
-\newline
-The experiment will be conducted using a state of the art ResNet18 architecture on the \gls{DCASE} dataset. The hyperparameters in section \textit{Feature representation} as well as the sample rate are the default ones proposed by the organisers of the \gls{DCASE} challenge within the baseline project.
-The optimal feature representation will be evaluated for \texttt{[LogMel, MFCCs]}.
+The purpose of the feature representation is to represent the audio in a more compact form than the raw audio. The feature representation further determines the input size for the model. There are a lot of different ways to represent the an audio file in a more compact form. One of the most popular representations is the MFCCs, which is heavily used in the audio domain. However in the recent years, the trend leads more towards using the log Mel spectrogram, which is very similar to the MFCCs, but by omitting the last step of the calculation. This experiment aims to find the optimal feature representation for the thesis. The optimal feature representation will be evaluated for \texttt{[LogMel, MFCCs]}.
 \newline
 \newline
 Comparing the effect of different regularisation factors on the embedding space is pretty hard, since comparing embedding spaces is not very straight forward and is a rather tricky task. This is mainly because of the fact, that to visualise the high dimensional embedding space in a way humans can perceive it, it has to be reduced to two or three dimensions. Therefore the original space can not be examined, and the visual representation is always an approximation of the space in a lower dimension. To still compare the feature representations, a simple logistic classifier is trained on top of the resulting embedding spaces, which aims to show how well a simple classifier works with the embedding space. This will show how good the resulting embedding space is. The classifier is trained for 40 epochs with the same parameters as the embedding model.
