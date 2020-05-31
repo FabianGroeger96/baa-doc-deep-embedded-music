@@ -84,7 +84,7 @@ The experiment aims to show the effect of the size of the last dense layer from 
 The experiment was conducted by training four models with the same hyperparameters for a different amount epochs. The training was stopped when no more learning was observed. Since comparing the different embedding sizes is pretty hard because most of the metrics in the thesis focus on distances between embedding points. In higher dimensional embedding spaces, distances have a different scale and different meanings. This is especially true if small embedding sizes, such as \texttt{2}, and large sizes, such as \texttt{64}, are compared with each other. Therefore a simple classifier was trained on the resulting embedding spaces, and the metrics of the classifier was compared to find the optimal parameter. To further compare the embedding spaces, they were visualised using the Tensorboard Embedding Projector and manually compared with each other.
 \newline
 \newline
-The figure \ref{fig:plot-embeddings-epochs} shows the different triplet loss values of the embedding sizes. The embedding size \texttt{2} has a significantly higher value than other embedding sizes, which shows that in the two-dimensional embedding space, it is a lot harder to project the data points apart from each other. Whereas in high dimensional embedding spaces, the model can easier build clusters.
+The figure \ref{fig:plot-embeddings-epochs} shows the different triplet loss values of the embedding sizes. The embedding size \texttt{2} has a significantly higher value than the other embedding sizes, which shows that in the two-dimensional embedding space, it is a lot harder to project the data points apart from each other. Whereas in high dimensional embedding spaces, the model can easier build clusters.
 \begin{figure}[t]
 \centering
 \begin{subfigure}{.33\linewidth}
@@ -114,10 +114,7 @@ The figure \ref{fig:plot-embeddings-epochs} shows the different triplet loss val
 The plot further shows that the loss value of the embedding sizes \texttt{16, 32, 64} are relatively similar and are therefore further compared by examining their resulting embedding space. Which is shown in figure \ref{fig:embedding-space-16}, \ref{fig:embedding-space-32} and \ref{fig:embedding-space-64}. The result shows that there are vast differences in the embedding spaces, even though the triplet loss value is not that different. The embedding size of \texttt{16} shows only approximately four resulting clusters, which indicates a noisy embedding space where small classes are not well separated from each other. The embedding space of \texttt{32} and \texttt{64} show significant more resulting clusters and they result therefore in a better embedding space. However, it is to say that both embedding spaces further have more noise in it than the lower-dimensional space.
 \newline
 \newline
-The graph \ref{fig:embedding-size-classifier-f1} shows the resulting F1 score when a simple logistic classifier is trained on top of the resulting embedding space. Since the \gls{DCASE} dataset is heavily unbalanced, the F1 score is compared. All of the classifiers are trained for 20 epochs using the same parameters as the one for training the embedding space. The figure \ref{fig:embedding-size-classifier-f1} shows that the F1 score of the embedding space \texttt{16} is the highest out of the three.
-\newline
-\newline
-The graph \ref{fig:embedding-size-classifier-loss} shows the sparse categorical cross-entropy loss value of the embedding spaces \texttt{16} and \texttt{64}.
+The graph \ref{fig:embedding-size-classifier-f1} shows the resulting F1 score when a simple logistic classifier is trained on top of the resulting embedding space. Since the \gls{DCASE} dataset is heavily unbalanced, the F1 score is compared. All of the classifiers are trained for 20 epochs using the same parameters as the one for training the embedding space. The figure \ref{fig:embedding-size-classifier-f1} shows that the F1 score of the embedding space, where \texttt{16} accomplished the highest out of the three. The graph \ref{fig:embedding-size-classifier-loss} shows the corresponding sparse categorical cross-entropy loss value of the classifier trained on the embedding spaces \texttt{16} and \texttt{64}.
 \newline
 \newline
 The figure \ref{fig:plot-embeddings-epochs} shows that the smallest embedding size can be omitted since it has the highest triplet loss value significantly. The other three embedding spaces have quite similar values and are, therefore, further compared. The trained classifier on top of the embedding space shows (figure \ref{fig:embedding-size-classifier-f1}) that the embedding size \texttt{32} can be omitted since it has a significantly lower score than the others. The figure \ref{fig:embedding-size-classifier-f1} shows, that the embedding size \texttt{16} has achieved the highest F1 score of approximately \texttt{0.39}. However, the figure \ref{fig:embedding-size-classifier-loss} shows that the loss value of the embedding size \texttt{16} converges, which indicates that the training process is finished and the classifier will not show any improvements when training longer. The embedding size \texttt{64} has a lower F1 score, but the loss value is still decreasing at the end of epoch 20, which indicates that the model can benefit from further training. Further training will increase the F1 score until it converges.
@@ -141,26 +138,20 @@ The figure \ref{fig:plot-embeddings-epochs} shows that the smallest embedding si
 \newline
 \newline
 \noindent
-Because of this result, the optimal embedding size, out of the four, is \texttt{64}, since it has an optimal triplet loss value, a high enough F1 score and the loss value still decreases after 20 epochs of training the classifier.
+Because of this result, the optimal embedding size, out of the four, is \texttt{64}, since it has an optimal triplet loss value, a high enough F1 score and the loss value still decreases after 20 epochs of training the classifier. For the next experiments, the embedding space size \texttt{64} is chosen. The embedding space should also be evaluated on significant higher spaces, such as \texttt{256} or \texttt{512} (\ref{sub:Experiment-Larger-Embedding-Sizes}).
 \newline
 \newline
-This experiment showed that changing the dimension of the embedding space results in significant different embedding spaces and therefore resulting clusters. The experiment should further be conducted for the music dataset because this parameter highly depends on the underlying structure of the data. 
-\newline
-\newline
-For the next experiments, the embedding space size \texttt{64} is chosen. The embedding space should also be evaluated on significant higher spaces, such as \texttt{256} or \texttt{512}.
-\newline
-\newline
-The experiment further showed another important conclusion, that the longer the embedding space is trained, the more the loss value oscillates which indicates that a learning rate decay should be used to reduce the learning rate over time (\ref{fig:plot-triplet-64}).
-\begin{figure}[h]
+The experiment further showed, that the longer the embedding space was trained, the more the loss value oscillates which indicates that a learning rate decay should be used to reduce the learning rate over time (\ref{fig:plot-triplet-64}). It further showed, that the triplet loss value vanished after ten epochs of training (\ref{fig:plot-embeddings-epochs}, which indicates that the model fails to learn the underlying structure of the data. This can have many different reasons, one of the most plausible assumptions is, that the model overfits, because the model succeeds in learning representation of the data (\ref{fig:embedding-size-experiment-embedding-space}). However, when this particular representation is learnt, the model stops to train and only produces a low loss. To mitigate the problem of overfitting, an L2-normalisation will be implemented, and an experiment to find the optimal regularisation factors is conducted (\ref{sub:Experiment-Regularisation-Factor}).
+\begin{figure}[htb]
 \centering
-    \includegraphics[width=0.5\linewidth]{study-doc/experiment_embedding_size/assets/plot_triplet_loss.png}
+    \includegraphics[width=0.4\linewidth]{study-doc/experiment_embedding_size/assets/plot_triplet_loss.png}
     \caption{Plot of the triplet loss of the embedding space 64}
     \label{fig:plot-triplet-64}
 \end{figure}
 
 \subsection{Experiment: regularisation factor}
 \label{sub:Experiment-Regularisation-Factor}
-\begin{figure}[ht]
+\begin{figure}[H]
 \centering
     \includegraphics[width=0.5\linewidth]{study-doc/experiment_regularisation/assets/triplet_loss.png}
     \caption{Plot of the triplet loss values of the different regularisation factors $\lambda$}
@@ -170,7 +161,7 @@ The experiment further showed another important conclusion, that the longer the 
 The experiment aims to show how the embedding space will change for different regularisation factors. The purpose of regularisation is that it prevents models from overfitting, by penalising high weights. The regularisation is calculated for all layers weights separately and is then added to the standard loss function, in this case, the triplet loss. The combined loss value is then used to calculate the gradients and update the weights of the model. There are a lot of different regularisation techniques, which successfully reduce the chance of overfitting. In this experiment, the \texttt{L2-Regularisation} is used and evaluated with different values. The parameter which will control the value of the \texttt{L2-Regularisation} is denoted as $\lambda$. The regularisation factor $\lambda$ will be evaluated for three different values \texttt{[1.0, 0.1, 0.01]}.
 \newline
 \newline
-Comparing the effect of different regularisation factors on the embedding space is pretty hard, since comparing embedding spaces is not very straight forward and is a rather tricky task. This is mainly because of the fact, that to visualise the high dimensional embedding space in a way humans can perceive it, it has to be reduced to two or three dimensions. Therefore the original space can not be examined, and the visual representation is always an approximation of the space in a lower dimension. To still compare the embedding spaces and the effect of $\lambda$, a simple logistic classifier is trained on top of the resulting embedding spaces, which aims to show how well a simple classifier works with the embedding space. This will show how good the resulting embedding space is. The classifier is trained for 20 epochs with the same parameters as the embedding model.
+To compare the different resulting embedding spaces, a simple logistic classifier is trained on top of the resulting embedding spaces, which aims to show how well a simple classifier works with the embedding space. This will show how good the resulting embedding space is. The classifier is trained for 20 epochs with the same parameters as the embedding model.
 \newline
 \newline
 Figure \ref{fig:plot-triplet-loss} shows the difference between the triplet loss values of the embedding model when changing the regularisation factor. It shows that the model with $\lambda = 1.0$ has the highest triplet loss value, which is obvious, since the bigger the regularisation factor is, the longer the model optimises the weights to satisfy the constraint of having very small weights. The lower $\lambda$, the faster the model optimises the triplet loss value. $\lambda = 0.01$ has the lowest triplet loss value.
@@ -203,19 +194,13 @@ The figure \ref{fig:regularisation-experiment-classifier-loss} shows the corresp
 Figure \ref{fig:regularisation-experiment-classifier-f1} shows that the highest regularisation factor $\lambda = 1.0$ can be omitted since it did not accomplish an equally good F1 score. This result is expectable since a high regularisation factor forces the embedding model to work with very small weights and can, therefore, lead to performance loss. 
 \newline
 \newline
-The regularisation factor $\lambda = 0.1$ and $\lambda = 0.01$ only show very little difference in F1 performance as well as in triplet loss value. Never the less, the factor $\lambda = 0.01$ provides slightly better results than $\lambda = 0.1$. 
+The regularisation factor $\lambda = 0.1$ and $\lambda = 0.01$ only show very little difference in F1 performance as well as in triplet loss value. Never the less, the factor $\lambda = 0.01$ provides slightly better results than $\lambda = 0.1$. The triplet loss value and the loss value of the classifier of the regularisation factor $\lambda = 0.01$ is still decreasing at the end of the training, which indicates that the model can benefit from further training. Further training will increase the resulting embedding space and the F1 score of the classifier until it converges.
 \newline
 \newline
-The triplet loss value and the loss value of the classifier of the regularisation factor $\lambda = 0.01$ is still decreasing at the end of the training, which indicates that the model can benefit from further training. Further training will increase the resulting embedding space and the F1 score of the classifier until it converges.
+The figure \ref{fig:plot-triplet-loss} and \ref{fig:regularisation-experiment-classifier-f1} further indicate one essential conclusion, that the value of the triplet loss is directly related to how well the classifier performs, which is further an indication how well the created embedding space works. Therefore the assumption is, that the lower the triplet loss value, the better the classifier performs and the better the embedding space is. 
 \newline
 \newline
-The figure \ref{fig:plot-triplet-loss} and \ref{fig:regularisation-experiment-classifier-f1} further indicate one very important conclusion, that the value of the triplet loss is directly related to how well the classifier performs, which is further an indication how well the created embedding space works. Therefore the assumption is, that the lower the triplet loss value, the better the classifier performs and the better the embedding space is. 
-\newline
-\newline
-The experiment shows that the regularisation factor $\lambda = 0.01$ gives the best results out of the three since it has an optimal triplet loss value, a high enough F1 score and the loss value still decreases after 20 epochs of training the classifier.
-\newline
-\newline
-The experiment showed that the regularisation factor $\lambda$ has an essential impact on the embedding space and should therefore not be chosen to be too big nor too small since this either leads to over- or underfitting. The optimal regularisation parameter $\lambda$ should be further examined in later and more extensive experiments with a lot more values for $\lambda$.
+The experiment shows that the regularisation factor $\lambda = 0.01$ gives the best results out of the three since it has an optimal triplet loss value, a high enough F1 score and the loss value still decreases after 20 epochs of training the classifier. The experiment showed that the regularisation factor $\lambda$ has an essential impact on the embedding space and should therefore not be chosen to be too big nor too small since this either leads to over- or underfitting.
 
 \subsection{Experiment: feature representation}
 \label{sub:Experiment-Feature-Representation}
@@ -237,31 +222,60 @@ The experiment showed that the regularisation factor $\lambda$ has an essential 
 \label{fig:feature-experiment-metrics}
 \end{figure}
 \noindent
-The purpose of the feature representation is to represent the audio in a more compact form than the raw audio. The feature representation further determines the input size for the model. There are a lot of different ways to represent the an audio file in a more compact form. One of the most popular representations is the MFCCs, which is heavily used in the audio domain. However in the recent years, the trend leads more towards using the log Mel spectrogram, which is very similar to the MFCCs, but by omitting the last step of the calculation. This experiment aims to find the optimal feature representation for the thesis. The optimal feature representation will be evaluated for \texttt{[LogMel, MFCCs]}.
+The purpose of the feature representation is to represent the audio in a more compact form than the raw audio. The feature representation further determines the input size for the model. There are a lot of different ways to represent an audio file in a more compact form. One of the most popular representations is \glspl{MFCC}, which is heavily used in the audio domain. However, in recent years, the trend leads more towards using the log Mel spectrogram, which is very similar to the \glspl{MFCC}, but by omitting the last step of the calculation. This experiment aims to find the optimal feature representation for the thesis. The optimal feature representation will be evaluated for \texttt{[LogMel, MFCCs]}.
 \newline
 \newline
-Comparing the effect of different regularisation factors on the embedding space is pretty hard, since comparing embedding spaces is not very straight forward and is a rather tricky task. This is mainly because of the fact, that to visualise the high dimensional embedding space in a way humans can perceive it, it has to be reduced to two or three dimensions. Therefore the original space can not be examined, and the visual representation is always an approximation of the space in a lower dimension. To still compare the feature representations, a simple logistic classifier is trained on top of the resulting embedding spaces, which aims to show how well a simple classifier works with the embedding space. This will show how good the resulting embedding space is. The classifier is trained for 40 epochs with the same parameters as the embedding model.
+To compare the different resulting embedding spaces, a simple logistic classifier is trained on top of the resulting embedding spaces, which aims to show how well a simple classifier works with the embedding space. This will show how good the resulting embedding space is. The classifier is trained for 40 epochs with the same parameters as the embedding model.
 \newline
 \newline
-Figure \ref{fig:plot-triplet-loss-feature-representations} shows the difference between the triplet loss from the model using the different feature representations. It shows that the model trained using the MFCCs results in a significantly lower loss than the model using the log Mel spectrogram. The model using the log Mel spectrogram seem already converging at epoch 30.
+Figure \ref{fig:plot-triplet-loss-feature-representations} shows the difference between the triplet loss from the model using the different feature representations. It shows that the model trained using the \glspl{MFCC} results in a significantly lower loss than the model using the log Mel spectrogram. The model using the log Mel spectrogram seem already converging at epoch 30.
 \newline
 \newline
-Figure \ref{fig:classifier-f1-feature-represenations} shows the different F1 scores of the logistic classifier, which is trained using the embedding space as input. This provides an idea of how well the embedding space separates the classes and therefore gives a performance gain. The figure \ref{fig:classifier-f1-feature-represenations} shows clearly that the classifier trained on top of the log Mel spectrogram reached a higher F1 score. The metric further shows, that the classifier using the MFCCs embedding space fails to improve the F1 score over time, whereas the classifier for the log Mel spectrogram shows a definite increase over time.
+Figure \ref{fig:classifier-f1-feature-represenations} shows both of the F1 scores of the logistic classifier, which were trained using the embedding space as input. This provides an idea of how well the embedding space separates the classes and therefore gives a performance gain. The figure \ref{fig:classifier-f1-feature-represenations} shows clearly that the classifier trained on top of the log Mel spectrogram reached a higher F1 score than the \glspl{MFCC}. The metric further shows, that the classifier using the \glspl{MFCC} embedding space fails to improve the F1 score over time, whereas the classifier for the log Mel spectrogram shows a definite increase over time.
 \newline
 \newline
-From figure \ref{fig:plot-triplet-loss-feature-representations} it seems that the optimal feature representation is the MFCCs since it reached a significantly lower loss value. It further shows that the model would be able to benefit from further training since the model is still decreasing. However, when looking at the resulting F1 score of the classifiers (figure \ref{fig:classifier-f1-feature-represenations}), the result shows, that even though the MFCCs representation reached a lower triplet loss, the classifier fails to separate the resulting clusters using a hyperplane. 
+From figure \ref{fig:plot-triplet-loss-feature-representations} it seems that the optimal feature representation is the \glspl{MFCC} since it reached a significantly lower loss value. It further shows that the model would be able to benefit from further training since the model is still decreasing. However, when looking at the resulting F1 score of the classifiers (figure \ref{fig:classifier-f1-feature-represenations}), the result shows, that even though the \glspl{MFCC} representation reached a lower triplet loss, the classifier fails to separate the resulting clusters using a hyperplane. 
 \newline
 \newline
-This experiment shows that the optimal feature representation for the current thesis is using the log Mel spectrogram, since it resulted in a higher F1 score of the classifier, even though the triplet loss value is higher than the one using the MFCCs. 
+This experiment shows that the optimal feature representation for the current thesis is using the log Mel spectrogram, since it resulted in a higher F1 score of the classifier, even though the triplet loss value is higher than the one using the \glspl{MFCC}. This is mainly due to the different nature of the feature representations. The \glspl{MFCC} representation input size (498, 13) is significantly lower than the log Mel spectrogram representation input size (498, 128). The \glspl{MFCC} is a more compact representation, which seems to have a negative effect on the models' performance. This experiment shows that the model benefits from using a representation which has more features and therefore, the log Mel spectrogram is used as the optimal representation for the thesis.
+
+\subsection{Experiment: Larger embedding sizes}
+\label{sub:Experiment-Larger-Embedding-Sizes}
+\begin{figure}[htb]
+\centering
+\begin{subfigure}{.5\linewidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{img/triplet_loss_dcase_embedding_large.png}
+  \caption{Triplet loss}
+  \label{fig:plot-triplet-loss-embedding-sizes-larger}
+\end{subfigure}%
+\begin{subfigure}{.5\linewidth}
+  \centering
+  \includegraphics[width=.9\linewidth]{img/f1_dcase_embedding_large.png}
+  \caption{F1 score of the classifier}
+  \label{fig:classifier-f1-embedding-sizes-larger}
+\end{subfigure}
+\caption{Plot of the metrics from the models trained using the different larger embedding sizes}
+\label{fig:embedding-sizes-larger-experiment-metrics}
+\end{figure}
+\noindent
+The size of the embedding space $e$ is one of the most important hyperparameters in this thesis, because it defines how big the size of the embedding space is. In the first part of finding the optimal size $e$, sizes \texttt{[2, 16, 32, 64]} were evaluated. The optimal embedding size was choosen to be \texttt{64}, since it provided an optimal loss value and a high F1 score. To make sure that the optimal embedding size will be found, the same experiment was conducted again with larger embedding sizes and the improvements from the experiments conducted until now. Therefore the experiment is conducted again and evaluated for the embedding sizes  \texttt{[64, 128, 256]}. All of the models were trained for 50 epochs, since the experiments conducted before, showed that the models would still benefit from a further training after epoch 30. The models were compared using the triplet loss value and the F1 score of the classifier, trained using the embedding space.
 \newline
 \newline
-This is mainly due to the different nature of the feature representations. The MFCCs representation input size (498, 13) is significantly lower than the log Mel spectrogram representation input size (498, 128). The MFCCs is a more compact representation, which seems to have a negative effect on the models' performance.
+Figure \ref{fig:plot-triplet-loss-embedding-sizes-larger} shows the triplet loss graphs of the models trained with the different embedding sizes. It shows, that the embedding size \texttt{256} reached the lowest triplet loss value out of the three. Further it shows, that the embedding size \texttt{256} has decreased a significant amount between epoch 35 and 40, whereas the other models stayed around the same value. Figure \ref{fig:classifier-f1-embedding-sizes-larger} shows the macro-averaged F1 score of the different classifiers trained on top of the embedding space. The figure shows, that the embedding size \texttt{256} reached the highest score of approximately 68\%.
 \newline
 \newline
-This experiment shows that the model benefits from using a representation which has more features and therefore, the log Mel spectrogram is used as the optimal representation for the thesis.
+From the figures \ref{fig:embedding-sizes-larger-experiment-metrics} it can be seen that the optimal embeddings size is \texttt{256}, since it has clearly reached the lowest triplet loss and reached the highest F1 score out of the three sizes. Therefore, the embedding size \texttt{256} was chosen to be the optimal hyperparameter for the thesis.
 
 \subsection{Triplet loss}
 \label{sub:Results-Triplet-Loss}
+\begin{figure}[htb]
+\centering
+    \includegraphics[width=0.6\linewidth]{img/Triplet-Loss-Comparison-Techniques.png}
+    \caption{Triplet loss comparison of different techniques}
+    \label{fig:Triplet-Loss-Techniques}
+\end{figure}
+\noindent
 The first experiments were conducted using the standard triplet loss equation given by \ref{eq:Triplet-Loss}. The loss value is given by calculating the triplet loss for the entire batch of triplets and afterwards taking the mean of the batch of triplet losses. This resulted in the triplet loss value, which was used to optimise the model. After a few experiments, one could identify that the triplet loss value decreased rapidly to almost zero and then only oscillated minimally. A low loss value typically means that the model is performing well, and the weights of the network only need to be changed slightly, and therefore the training is almost finished. However, it was observed that this was not true for the trained models since there was still much noise in the embedding space. This indicated that the loss value did not represent the actual performance of the model accurately.
 \newline
 \newline
@@ -282,12 +296,6 @@ When calculating the triplet loss of a batch of triplets where 70\% of the batch
     \label{eq:Triplet-loss-justification}
 \end{equation}
 Two embedding models were trained using the same hyperparameters for 40 epochs, to test the newly proposed triplet loss calculation. The only difference is the calculation of the triplet loss. After the training has finished, a logistic classifier was trained for 20 epochs using the resulted embedding space. Both classifiers were then compared with each other, using the F1 score. This comparison is shown in figure \ref{fig:Triplet-Loss-Techniques}. There is a significant difference between the resulting scores, which indicates that the optimisation proposed above provided a significant benefit in comparison to the triplet loss without filtering. This notable difference is mainly because when training a model with mean filtering, the loss value remains a lot higher than without it, which results in better optimisation of the model. The mean filtering triplet loss is therefore used for all the experiments, because it provided a significant benefit.
-\begin{figure}[ht]
-\centering
-    \includegraphics[width=0.6\linewidth]{img/Triplet-Loss-Comparison-Techniques.png}
-    \caption{Triplet loss comparison of different techniques}
-    \label{fig:Triplet-Loss-Techniques}
-\end{figure}
 
 \subsection{Resulting model}
 \label{sub:Results-DCASE-Resulting-Model}
@@ -340,7 +348,7 @@ Two embedding models were trained using the same hyperparameters for 40 epochs, 
     \label{fig:Triplet-Loss-DCASE}
 \end{figure}
 \noindent
-The optimal embedding space architecture for the \gls{DCASE} task 5 challenge in this thesis is given by the hyperparameters in table \ref{tab:Hyperparameters-DCASE} as well as in table \ref{tab:Hyperparameters-Detailed-DCASE}, which shows the hyperparameters in more detail. Most of the parameters in the list result out of the conducted experiments. However, the ones who did not result out of an experiment are default ones proposed by the organizers of the \gls{DCASE} challenge. The margin resulted out of the margin experiment \ref{sub:Experiment-Margin}, the regularisation factor out of the regularisation experiment \ref{sub:Experiment-Regularisation-Factor}, the embedding dimension from the experiment \ref{sub:Experiment-Embedding-Size}, the sample segment size from the experiment \ref{sub:Experiment-Segment-Size} and the feature extractor from the experiment \ref{sub:Experiment-Feature-Representation}. The batch size was chosen to be the highest possible value without getting an out of memory exception. With more extensive computing resources, a larger batch size could be used, and the model would almost surely only benefit from it.
+The optimal embedding space architecture for the \gls{DCASE} task 5 challenge in this thesis is given by the hyperparameters in table \ref{tab:Hyperparameters-DCASE} as well as in table \ref{tab:Hyperparameters-Detailed-DCASE}, which shows the hyperparameters in more detail. Most of the parameters in the list result out of the conducted experiments. However, the ones who did not result out of an experiment are default ones proposed by the organizers of the \gls{DCASE} challenge. The margin resulted out of the margin experiment \ref{sub:Experiment-Margin}, the regularisation factor out of the regularisation experiment \ref{sub:Experiment-Regularisation-Factor}, the embedding dimension from the experiment \ref{sub:Experiment-Embedding-Size} and \ref{sub:Experiment-Larger-Embedding-Sizes}, the sample segment size from the experiment \ref{sub:Experiment-Segment-Size} and the feature extractor from the experiment \ref{sub:Experiment-Feature-Representation}. The batch size was chosen to be the highest possible value without getting an out of memory exception. With more extensive computing resources, a larger batch size could be used, and the model would almost surely only benefit from it.
 \newline
 \newline
 The model was trained for 110 epochs until convergence and reached a triplet loss value of 0.1879, which is by far the lowest loss of all the different experiments. The triplet loss value is shown in figure \ref{fig:Triplet-Loss-DCASE}. The plot shows that the model has decreased a significant amount between the 34 and the 39 epoch and afterwards started to converge.
@@ -433,7 +441,7 @@ This section describes the results of the experiments with the music dataset (\r
     \end{tabular}
 \end{table}
 \noindent
-The same embedding architecture as the one for the noise detection dataset, with mostly the same hyperparameters, was used. The hyperparameters for the music dataset are given by table \ref{tab:Hyperparameters-Music} and table \ref{app:detailed-hyperparameters-music}, which shows the hyperparameters in more detail. The difference in the hyperparameters is mainly due to the different structure of the dataset and their audio samples. In the \gls{DCASE} challenge dataset, the samples are already split into 10s segments, whereas the samples in the music dataset are full songs of a specific genre, which leads to variable audio lengths in the dataset. However, this does not make any difference in the input pipeline but instead gives an additional possibility to split the samples into larger segments. The experiment with the different segment sizes (\ref{sub:Experiment-Segment-Size}), showed that using larger segments results in much clearer clusters and therefore, in a better embedding space. Therefore the segment size was increased from 5s to 10s, which further resulted in a two times larger input size. This further led to the decrease of the batch size to 32, because of the initial batch size led to an out of memory exception due to the lack of larger computational resources. The increase of the neighbouring range is as well because there is the possibility of doing so due to the nature of the samples of the dataset. The increase provides a vaster possibility of triplet combinations, which the model can only profit from.
+The same embedding architecture as the one for the noise detection dataset, with mostly the same hyperparameters, was used. The hyperparameters for the music dataset are given by table \ref{tab:Hyperparameters-Music} and table \ref{tab:Hyperparameters-Detailed-Music}, which shows the hyperparameters in more detail. The difference in the hyperparameters is mainly due to the different structure of the dataset and their audio samples. In the \gls{DCASE} challenge dataset, the samples are already split into 10s segments, whereas the samples in the music dataset are full songs of a specific genre, which leads to variable audio lengths in the dataset. However, this does not make any difference in the input pipeline but instead gives an additional possibility to split the samples into larger segments. The experiment with the different segment sizes (\ref{sub:Experiment-Segment-Size}), showed that using larger segments results in much clearer clusters and therefore, in a better embedding space. Therefore the segment size was increased from 5s to 10s, which further resulted in a two times larger input size. This further led to the decrease of the batch size to 32, because of the initial batch size led to an out of memory exception due to the lack of larger computational resources. The increase of the neighbouring range is as well because there is the possibility of doing so due to the nature of the samples of the dataset. The increase provides a vaster possibility of triplet combinations, which the model can only profit from.
 \newline
 \newline
 The resulting model was trained for 130 epochs, which took around seven and a half days, the training took this long, mainly because the triplet selection ant therefore also the splitting of the song was done on the fly in the input pipeline. The training process could be significantly decreased when using \texttt{TFRecords}\footnote{\href{https://www.tensorflow.org/tutorials/load\_data/tfrecord\#tfrecord\_files\_using\_tfdata}{www.tensorflow.org/tutorials/load\_data/tfrecord}}. However the conversion of the dataset to \texttt{TFRecords} was neglected since this would provide a more static dataset, rather than a more dynamic one. If the dataset is more dynamic, the model learns to handle differences in the dataset a lot better, since the dataset is continually changing and therefore focuses more on the underlying structure of each segment. However, this leads to models which need to be trained a lot longer than with a more static dataset.
@@ -449,7 +457,17 @@ The figure \ref{fig:Triplet-Loss-Music} shows the graph of the triplet loss valu
 
 \subsection{Embedding space}
 \label{sub:Results-Music-Embedding-Space}
+\begin{figure}[ht]
+\centering
+    \includegraphics[width=0.9\linewidth]{img/music_plot_classif_report.png}
+    \caption{Classification report of the classifier trained on the music dataset}
+    \label{fig:Classification-Report-Muisc}
+\end{figure}
+\noindent
 The music embedding space was similarly examined as the noise detection space (\ref{sub:Eval-Embedding-Space-DCASE}). For the examination, the entire dataset was projected onto the embedding space and the value, including the metadata of each point, was saved. The examination was done in a jupyter notebook located in the \texttt{notebooks} folder called \texttt{examination\_embedding\_space.ipynb}.
+\newline
+\newline
+Similar as for the evaluation of the noise detection embedding space, the same logistic classifier was trained using embedded audio segments as input, which aimed to show how easy a classifier can separate the clusters in the embedding space by only fitting hyperplanes in it. The classifier was trained using the same hyperparameters as the resulting model (\ref{sub:Results-Music-Resulting-Model}) for 40 epochs and accomplished a macro-averaged F1 score of 84\%. The detailed classification report is shown in figure \ref{fig:Classification-Report-Muisc}.
 \newline
 \newline
 The first part of the examination was to explore the neighbourhood of the embedding space, which was done by building a neighbouring tree using the \texttt{cKDTree} from \texttt{scipy}. Then to examine the neighbourhood, from each of the embedded points its nearest 30 neighbours were checked, and their labels were compared, which aims to find inconsistencies. If a sample had 28 or more different labels in its neighbourhood, it was further examined, since this represents either a malfunction of the embedding space or a significant sample in the dataset, which can be classified as a different genre. These points were then appended with its five nearest neighbours and a song was created, which represents the neighbourhood. This song showed that even if the neighbourhood was inconsistent, the resulting sound did still sound very similar to an amateur. However, since this needs to be evaluated by an expert, these generated songs were used in the qualitative analysis (\ref{sub:Results-Music-Qualitative-analysis}) and evaluated by a professional DJ.
