@@ -24,7 +24,7 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
      title height=1,
      title label font=\bfseries\footnotesize,
      progress=today,
-     today=13,
+     today=14,
      today label=Current Week,
      bar/.append style={fill=blue!50},
      group/.append style={draw=black, fill=orange!40!white},
@@ -74,7 +74,7 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
     % 3. Phase: Experiments
     \ganttgroup[inline=false]{Experiments}{9}{12} \\
     \ganttbar[progress=100,inline=false]{Conduct experiments}{9}{9} \\
-    \ganttbar[progress=80,inline=false]{Validate embeddings}{10}{11} \\
+    \ganttbar[progress=100,inline=false]{Validate embeddings}{10}{11} \\
     \ganttmilestone[inline=false]{Experiments finished}{11} \\ % M4
     \ganttbar[progress=100,inline=false]{Visualise embeddings}{12}{12} \\
     
@@ -83,11 +83,10 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
     
     % 4. Phase: Documentation
     \ganttgroup[inline=false]{Finalise documentation}{14}{16} \\
-    \ganttbar[progress=30,inline=false]{Create pitch video and web abstract}{14}{14} \\
-    \ganttbar[progress=40,inline=false]{Finalise documentation}{14}{15} \\
+    \ganttbar[progress=50,inline=false]{Create pitch video and web abstract}{14}{14} \\
+    \ganttbar[progress=100,inline=false]{Finalise documentation}{14}{15} \\
     \ganttbar[progress=20,inline=false]{Proofread documentation}{16}{16} \\
     \ganttmilestone[inline=false]{Thesis submission}{16}
-
 \end{ganttchart}
 \caption{Project plan}
 \label{fig:Project-Plan}
@@ -323,34 +322,33 @@ Another requirement of the embedding space is that it should provide some simila
 
 \section{Testing}
 \label{sec:Testing}
-All of the components in the project are tested with the TensorFlow unit tests module called \texttt{tf.test}\footnote{\url{https://www.tensorflow.org/api_docs/python/tf/test}}. A test environment is created to provide the necessary datasets for the project, but in a much smaller size to speed up the testing process, since testing on the entire set would be infeasible. All of the test cases for the components are kept as small as possible, but a lot of them require other dependencies, such as the input pipeline, to conduct the test which is fine, because the project is a research project and would need to go through an extensive testing phase before it could be used in a productive environment.
+All of the components in the project are tested with the TensorFlow unit tests module called \texttt{tf.test}\footnote{\url{https://www.tensorflow.org/api_docs/python/tf/test}}. A test environment is created, which contains a small fraction of the dataset to speed up the testing process because testing on the entire dataset would be infeasible. For the entire implementation process, the test first principle is used to produce better and more reliable code. All of the test cases are kept as small as possible. However, a lot of them require other dependencies, such as the input pipeline to work. Therefore some tests are quite big because they need a lot of different dependencies. However, since all of the components are tested as well, and the thesis is a research project, it is plausible.
 \newline
 \newline
-The complete test concept, which contains each of the test cases along with the test status, can be found in the appendix test concept (\ref{tab:Test-Concept}). All of the unit tests can be found in the source repository of this project in the \texttt{test} directory.
-
+Table \ref{tab:Components-Testing} lists all of the components in the project and gives detailed information about the testing method and the reason behind it. All of the unit tests can be found in the source repository of this project in the \texttt{test} directory, categorised by the component they test. Since some of the tests are conducted manually, a comprehensive test concept can be found in the appendix (\ref{tab:Test-Concept}) for the manual tests.
 \begin{table}[htbp]
     \centering
     \caption{Testing method of each project component}
 	\label{tab:Components-Testing}
-    \begin{tabular}{p{.15\textwidth} | p{.20\textwidth} | p{.60\textwidth}}
+    \begin{tabular}{p{.15\textwidth} | p{.20\textwidth} | p{.55\textwidth}}
         \toprule
         \textbf{Component} & \textbf{Testing method} & \textbf{Reason} \\ 
         \midrule[1pt]
-        Feature extractor & unit test & result can be validated, since result is deterministic \\
+        \texttt{dataset} & unit test & result can be validated, since result is deterministic \\
         \hline
-        Datasets & unit test & result can be validated, since result is deterministic \\
+        \texttt{feature\_extractor} & unit test & result can be validated, since result is deterministic \\
         \hline
-        Input pipeline & unit test & result can be validated, since result is deterministic \\
+        \texttt{input\_pipeline} & unit test & result can be validated, since result is deterministic \\
         \hline
-        Embedding models & unit test + manual testing & automated tests check if the model can be built and outputs values if the model trains can only be checked manually by observing the metrics \\
+        \texttt{loss}  & unit test & result can be validated, since result is deterministic \\
         \hline
-        Classifier models & unit test + manual testing & automated tests check if the model can be built and outputs values if the model trains can only be checked manually by observing the metrics \\
+        \texttt{models\_classifier} & unit test + manual testing & automated tests check if the model can be built and outputs values if the model trains can only be checked manually by observing the metrics \\
         \hline
-        Triplet loss  & unit test & result can be validated, since result is deterministic \\
+        \texttt{models\_embedding} & unit test + manual testing & automated tests check if the model can be built and outputs values if the model trains can only be checked manually by observing the metrics \\
         \hline
-        Training & manual testing & result is not deterministic and can therefore only be tested manually by looking at the metrics over the training process \\
+        \texttt{training} & manual testing & result is not deterministic and can therefore only be tested manually by looking at the metrics over the training process \\
         \hline
-        Utils & unit test & result can be validated, since result is deterministic \\
+        \texttt{utils} & unit test & result can be validated, since result is deterministic \\
         \bottomrule
     \end{tabular}
 \end{table}

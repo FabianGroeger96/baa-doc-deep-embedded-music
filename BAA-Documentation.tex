@@ -25,6 +25,8 @@
 \usepackage{tabularx}
 \usepackage[table]{xcolor}
 \usepackage{diagbox}
+\usepackage{makecell}
+\usepackage{longtable}
 
 % Better enumerisation env
 \usepackage{enumitem}
@@ -101,8 +103,6 @@
 \usepackage{lipsum}
 
 \usepackage[absolute]{textpos}
-
-\usepackage{longtable}
 
 % Header
 \usepackage{scrlayer-scrpage}
@@ -233,8 +233,6 @@ sort=standard
 
 \setglossarystyle{listgroup}
 
-% Redefine the quote charachter as we are using ngerman
-%\GlsSetQuote{+}
 % Define the usage of an acronym, Abbreviation (Abbr.), next usage: The Abbr. of ...
 \setacronymstyle{long-short}
 
@@ -245,9 +243,7 @@ sort=standard
 	bibstyle=authoryear,
 	citestyle=authoryear
 	]{biblatex}
-\addbibresource{references_zotero.bib}
-\addbibresource{Referenzen.bib}
-\addbibresource{Links.bib}
+\addbibresource{references.bib}
 \DeclareLanguageMapping{english}{english-apa}
 
 %%% COMMAND REBINDINGS %%%

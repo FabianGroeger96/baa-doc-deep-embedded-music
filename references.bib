@@ -1,0 +1,742 @@
+
+@inproceedings{dai_acoustic_2016,
+	title = {Acoustic Scene Recognition with Deep Learning},
+	abstract = {Background. Sound complements visual inputs, and is an important modality for perceiving the environment. Increasingly, machines in various environments have the ability to hear, such as smartphones, autonomous robots, or security systems. This work applies state-of-the-art Deep Learning models that have revolutionized speech recognition to understanding general environmental sounds. Aim. This work aims to classify 15 common indoor and outdoor locations using environmental sounds. We compare both conventional and Deep Learning models for this task. Data. We use a dataset from the ongoing {IEEE} challenge on Detection and Classification of Acoustic Scenes and Events ({DCASE}). The dataset contains 15 diverse indoor and outdoor locations, such as buses, cafes, cars, city centers, forest paths, libraries, and trains, totaling 9.75 hours of audio recording. Methods. We extract features using signal processing techniques, such as mel-frequency cepstral coefficients ({MFCC}), various statistical functionals, and spectrograms. We extract 4 feature sets: {MFCCs} (60-dimensional), Smile983 (983-dimensional), Smile6k (6573-dimensional), and spectrograms (only for {CNN}-based models). On these features we apply 5 models: Gaussian Mixture Models ({GMMs}), Support Vector Machines ({SVMs}), Deep Neural Networks ({DNNs}), Recurrent Neural Networks ({RNNs}), Recurrent Deep Neural Networks ({RDNNs}), Convolutional Neural Networks ({CNNs}), and Recurrent Convolutional Neural Networks ({RCNNs}). Among them {GMMs} and {SVMs} are popular conventional models for this task, while {RDNNs}, {CNNs}, and {RCNNs} are, to our knowledge, the first application of these models in the context of environmental sound. Results. Our experiments show that model performance varies with features. With a small set of features ({MFCCs} and Smile983) temporal models ({RNNs}, {RDNNs}) outperform non-temporal models ({GMMs}, {SVMs}, {DNNs}). However, with large feature sets (Smile6k) {DNNs} outperform temporal models ({RNNs} and {RDNNs}) and achieve the best performance among all studied methods. The {GMM} with {MFCC} features, the baseline model provided by the {DCASE} contest, achieves 67.6\% test accuracy, while the best performing model (a {DNN} with the Smile6k feature) reaches 80\% test accuracy. {RNNs} and {RDNNs} generally have performance in the range of 68∼77\%, while {SVMs} vary between 56∼73\%. {CNNs} and {RCNNs} with spectrogram features lag in performance compared with other Deep Learning models, reaching 63∼64\% accuracy. Conclusions. We find that Deep Learning models compare favorably to conventional models ({GMMs} and {SVMs}). No single model outperforms all other models across all feature sets, showing that model performance varies significantly with the feature representation. The fact that the best performing model is a non-temporal {DNN} is evidence that environmental sounds do not exhibit strong temporal dynamics. This is consistent with our day-to-day experience that environmental sounds tend to be random and unpredictable.},
+	author = {Dai, Wei},
+	date = {2016}
+}
+
+@article{ghassemi_convolutional_2019,
+	title = {Convolutional Neural Networks for On-Board Cloud Screening},
+	volume = {11},
+	rights = {http://creativecommons.org/licenses/by/3.0/},
+	url = {https://www.mdpi.com/2072-4292/11/12/1417},
+	doi = {10.3390/rs11121417},
+	abstract = {A cloud screening unit on a satellite platform for Earth observation can play an important role in optimizing communication resources by selecting images with interesting content while skipping those that are highly contaminated by clouds. In this study, we address the cloud screening problem by investigating an encoder\&ndash;decoder convolutional neural network ({CNN}). {CNNs} usually employ millions of parameters to provide high accuracy; on the other hand, the satellite platform imposes hardware constraints on the processing unit. Hence, to allow an onboard implementation, we investigate experimentally several solutions to reduce the resource consumption by {CNN} while preserving its classification accuracy. We experimentally explore approaches such as halving the computation precision, using fewer spectral bands, reducing the input size, decreasing the number of network filters and also making use of shallower networks, with the constraint that the resulting {CNN} must have sufficiently small memory footprint to fit the memory of a low-power accelerator for embedded systems. The trade-off between the network performance and resource consumption has been studied over the publicly available {SPARCS} dataset. Finally, we show that the proposed network can be implemented on the satellite board while performing with reasonably high accuracy compared with the state-of-the-art.},
+	pages = {1417},
+	number = {12},
+	journaltitle = {Remote Sensing},
+	author = {Ghassemi, Sina and Magli, Enrico},
+	urldate = {2020-05-07},
+	date = {2019-01},
+	langid = {english},
+	note = {Number: 12
+Publisher: Multidisciplinary Digital Publishing Institute},
+	keywords = {cloud screening, convolutional neural networks, deep learning}
+}
+
+@article{dai_acoustic_nodate,
+	title = {Acoustic Scene Recognition with Deep Learning},
+	abstract = {Background. Sound complements visual inputs, and is an important modality for perceiving the environment. Increasingly, machines in various environments have the ability to hear, such as smartphones, autonomous robots, or security systems. This work applies state-of-the-art Deep Learning models that have revolutionized speech recognition to understanding general environmental sounds. Aim. This work aims to classify 15 common indoor and outdoor locations using environmental sounds. We compare both conventional and Deep Learning models for this task. Data. We use a dataset from the ongoing {IEEE} challenge on Detection and Classiﬁcation of Acoustic Scenes and Events ({DCASE}). The dataset contains 15 diverse indoor and outdoor locations, such as buses, cafes, cars, city centers, forest paths, libraries, and trains, totaling 9.75 hours of audio recording.
+Methods. We extract features using signal processing techniques, such as mel-frequency cepstral coeﬃcients ({MFCC}), various statistical functionals, and spectrograms. We extract 4 feature sets: {MFCCs} (60-dimensional), Smile983 (983-dimensional), Smile6k (6573-dimensional), and spectrograms (only for {CNN}-based models). On these features we apply 5 models: Gaussian Mixture Models ({GMMs}), Support Vector Machines ({SVMs}), Deep Neural Networks ({DNNs}), Recurrent Neural Networks ({RNNs}), Recurrent Deep Neural Networks ({RDNNs}), Convolutional Neural Networks ({CNNs}), and Recurrent Convolutional Neural Networks ({RCNNs}). Among them {GMMs} and {SVMs} are popular conventional models for this task, while {RDNNs}, {CNNs}, and {RCNNs} are, to our knowledge, the ﬁrst application of these models in the context of environmental sound.
+Results. Our experiments show that model performance varies with features. With a small set of features ({MFCCs} and Smile983) temporal models ({RNNs}, {RDNNs}) outperform non-temporal models ({GMMs}, {SVMs}, {DNNs}). However, with large feature sets (Smile6k) {DNNs} outperform temporal models ({RNNs} and {RDNNs}) and achieve the best performance among all studied methods. The {GMM} with {MFCC} features, the baseline model provided by the {DCASE} contest, achieves 67.6\% test accuracy, while the best performing model (a {DNN} with the Smile6k feature) reaches 80\% test accuracy. {RNNs} and {RDNNs} generally have performance in the range of 68∼77\%, while {SVMs} vary between 56∼73\%. {CNNs} and {RCNNs} with spectrogram features lag in performance compared with other Deep Learning models, reaching 63∼64\% accuracy.
+Conclusions. We ﬁnd that Deep Learning models compare favorably to conventional models ({GMMs} and {SVMs}). No single model outperforms all other models across all feature sets, showing that model performance varies signiﬁcantly with the feature representation. The fact that the best performing model is a non-temporal {DNN} is evidence that environmental sounds do not exhibit strong temporal dynamics. This is consistent with our day-to-day experience that environmental sounds tend to be random and unpredictable.},
+	pages = {18},
+	author = {Dai, Wei},
+	langid = {english}
+}
+
+@article{palacio-nino_evaluation_2019,
+	title = {Evaluation Metrics for Unsupervised Learning Algorithms},
+	url = {http://arxiv.org/abs/1905.05667},
+	abstract = {Determining the quality of the results obtained by clustering techniques is a key issue in unsupervised machine learning. Many authors have discussed the desirable features of good clustering algorithms. However, Jon Kleinberg established an impossibility theorem for clustering. As a consequence, a wealth of studies have proposed techniques to evaluate the quality of clustering results depending on the characteristics of the clustering problem and the algorithmic technique employed to cluster data.},
+	journaltitle = {{arXiv}:1905.05667 [cs, stat]},
+	author = {Palacio-Niño, Julio-Omar and Berzal, Fernando},
+	urldate = {2020-04-24},
+	date = {2019-05-23},
+	langid = {english},
+	eprinttype = {arxiv},
+	eprint = {1905.05667},
+	keywords = {Computer Science - Machine Learning, Statistics - Machine Learning}
+}
+
+@article{zhang_learning_2018,
+	title = {Learning Incremental Triplet Margin for Person Re-identification},
+	url = {http://arxiv.org/abs/1812.06576},
+	abstract = {Person re-identiﬁcation ({ReID}) aims to match people across multiple non-overlapping video cameras deployed at different locations. To address this challenging problem, many metric learning approaches have been proposed, among which triplet loss is one of the state-of-the-arts. In this work, we explore the margin between positive and negative pairs of triplets and prove that large margin is beneﬁcial. In particular, we propose a novel multi-stage training strategy which learns incremental triplet margin and improves triplet loss effectively. Multiple levels of feature maps are exploited to make the learned features more discriminative. Besides, we introduce global hard identity searching method to sample hard identities when generating a training batch. Extensive experiments on Market-1501, {CUHK}03, and {DukeMTMCreID} show that our approach yields a performance boost and outperforms most existing state-of-the-art methods.},
+	journaltitle = {{arXiv}:1812.06576 [cs]},
+	author = {Zhang, Yingying and Zhong, Qiaoyong and Ma, Liang and Xie, Di and Pu, Shiliang},
+	urldate = {2020-04-23},
+	date = {2018-12-16},
+	langid = {english},
+	eprinttype = {arxiv},
+	eprint = {1812.06576},
+	keywords = {Computer Science - Computer Vision and Pattern Recognition, Computer Science - Machine Learning}
+}
+
+@online{zheng_evaluating_2015,
+	title = {Evaluating Machine Learning Models},
+	url = {https://www.oreilly.com/content/evaluating-machine-learning-models/},
+	abstract = {A beginner's guide to key concepts and pitfalls.},
+	titleaddon = {O’Reilly Media},
+	author = {Zheng, Alice},
+	urldate = {2020-04-23},
+	date = {2015-10-21},
+	langid = {american},
+	note = {Library Catalog: www.oreilly.com}
+}
+
+@book{celma_music_2010,
+	location = {Berlin, Heidelberg},
+	title = {Music Recommendation and Discovery},
+	isbn = {978-3-642-13286-5 978-3-642-13287-2},
+	url = {http://link.springer.com/10.1007/978-3-642-13287-2},
+	publisher = {Springer Berlin Heidelberg},
+	author = {Celma, Òscar},
+	urldate = {2020-04-16},
+	date = {2010},
+	langid = {english},
+	doi = {10.1007/978-3-642-13287-2}
+}
+
+@book{muller_fundamentals_2015,
+	location = {Cham},
+	title = {Fundamentals of Music Processing},
+	isbn = {978-3-319-21944-8 978-3-319-21945-5},
+	url = {http://link.springer.com/10.1007/978-3-319-21945-5},
+	publisher = {Springer International Publishing},
+	author = {Müller, Meinard},
+	urldate = {2020-04-16},
+	date = {2015},
+	langid = {english},
+	doi = {10.1007/978-3-319-21945-5}
+}
+
+@book{knees_music_2016,
+	location = {Berlin, Heidelberg},
+	title = {Music Similarity and Retrieval},
+	volume = {36},
+	isbn = {978-3-662-49720-3 978-3-662-49722-7},
+	url = {http://link.springer.com/10.1007/978-3-662-49722-7},
+	series = {The Information Retrieval Series},
+	publisher = {Springer Berlin Heidelberg},
+	author = {Knees, Peter and Schedl, Markus},
+	urldate = {2020-04-16},
+	date = {2016},
+	langid = {english},
+	doi = {10.1007/978-3-662-49722-7}
+}
+
+@article{hashemi_enlarging_2019,
+	title = {Enlarging smaller images before inputting into convolutional neural network: zero-padding vs. interpolation},
+	volume = {6},
+	issn = {2196-1115},
+	url = {https://doi.org/10.1186/s40537-019-0263-7},
+	doi = {10.1186/s40537-019-0263-7},
+	shorttitle = {Enlarging smaller images before inputting into convolutional neural network},
+	abstract = {The input to a machine learning model is a one-dimensional feature vector. However, in recent learning models, such as convolutional and recurrent neural networks, two- and three-dimensional feature tensors can also be inputted to the model. During training, the machine adjusts its internal parameters to project each feature tensor close to its target. After training, the machine can be used to predict the target for previously unseen feature tensors. What this study focuses on is the requirement that feature tensors must be of the same size. In other words, the same number of features must be present for each sample. This creates a barrier in processing images and texts, as they usually have different sizes, and thus different numbers of features. In classifying an image using a convolutional neural network ({CNN}), the input is a three-dimensional tensor, where the value of each pixel in each channel is one feature. The three-dimensional feature tensor must be the same size for all images. However, images are not usually of the same size and so are not their corresponding feature tensors. Resizing images to the same size without deforming patterns contained therein is a major challenge. This study proposes zero-padding for resizing images to the same size and compares it with the conventional approach of scaling images up (zooming in) using interpolation. Our study showed that zero-padding had no effect on the classification accuracy but considerably reduced the training time. The reason is that neighboring zero input units (pixels) will not activate their corresponding convolutional unit in the next layer. Therefore, the synaptic weights on outgoing links from input units do not need to be updated if they contain a zero value. Theoretical justification along with experimental endorsements are provided in this paper.},
+	pages = {98},
+	number = {1},
+	journaltitle = {Journal of Big Data},
+	shortjournal = {J Big Data},
+	author = {Hashemi, Mahdi},
+	urldate = {2020-04-08},
+	date = {2019-11-14},
+	langid = {english}
+}
+
+@article{lee_samplecnn_2018,
+	title = {{SampleCNN}: End-to-End Deep Convolutional Neural Networks Using Very Small Filters for Music Classification},
+	volume = {8},
+	issn = {2076-3417},
+	url = {http://www.mdpi.com/2076-3417/8/1/150},
+	doi = {10.3390/app8010150},
+	shorttitle = {{SampleCNN}},
+	abstract = {Convolutional Neural Networks ({CNN}) have been applied to diverse machine learning tasks for different modalities of raw data in an end-to-end fashion. In the audio domain, a raw waveform-based approach has been explored to directly learn hierarchical characteristics of audio. However, the majority of previous studies have limited their model capacity by taking a frame-level structure similar to short-time Fourier transforms. We previously proposed a {CNN} architecture which learns representations using sample-level ﬁlters beyond typical frame-level input representations. The architecture showed comparable performance to the spectrogram-based {CNN} model in music auto-tagging. In this paper, we extend the previous work in three ways. First, considering the sample-level model requires much longer training time, we progressively downsample the input signals and examine how it affects the performance. Second, we extend the model using multi-level and multi-scale feature aggregation technique and subsequently conduct transfer learning for several music classiﬁcation tasks. Finally, we visualize ﬁlters learned by the sample-level {CNN} in each layer to identify hierarchically learned features and show that they are sensitive to log-scaled frequency.},
+	pages = {150},
+	number = {1},
+	journaltitle = {Applied Sciences},
+	shortjournal = {Applied Sciences},
+	author = {Lee, Jongpil and Park, Jiyoung and Kim, Keunhyoung and Nam, Juhan},
+	urldate = {2020-04-08},
+	date = {2018-01-22},
+	langid = {english}
+}
+
+@article{pons_timbre_2017,
+	title = {Timbre Analysis of Music Audio Signals with Convolutional Neural Networks},
+	url = {http://arxiv.org/abs/1703.06697},
+	abstract = {The focus of this work is to study how to efﬁciently tailor Convolutional Neural Networks ({CNNs}) towards learning timbre representations from log-mel magnitude spectrograms. We ﬁrst review the trends when designing {CNN} architectures. Through this literature overview we discuss which are the crucial points to consider for efﬁciently learning timbre representations using {CNNs}. From this discussion we propose a design strategy meant to capture the relevant time-frequency contexts for learning timbre, which permits using domain knowledge for designing architectures. In addition, one of our main goals is to design efﬁcient {CNN} architectures – what reduces the risk of these models to over-ﬁt, since {CNNs}’ number of parameters is minimized. Several architectures based on the design principles we propose are successfully assessed for different research tasks related to timbre: singing voice phoneme classiﬁcation, musical instrument recognition and music auto-tagging.},
+	journaltitle = {{arXiv}:1703.06697 [cs]},
+	author = {Pons, Jordi and Slizovskaia, Olga and Gong, Rong and Gómez, Emilia and Serra, Xavier},
+	urldate = {2020-04-08},
+	date = {2017-06-02},
+	langid = {english},
+	eprinttype = {arxiv},
+	eprint = {1703.06697},
+	keywords = {Computer Science - Sound}
+}
+
+@inproceedings{turpault_semi-supervised_2019,
+	location = {Brighton, United Kingdom},
+	title = {Semi-supervised Triplet Loss Based Learning of Ambient Audio Embeddings},
+	isbn = {978-1-4799-8131-1},
+	url = {https://ieeexplore.ieee.org/document/8683774/},
+	doi = {10.1109/ICASSP.2019.8683774},
+	abstract = {Deep neural networks are particularly useful to learn relevant representations from data. Recent studies have demonstrated the potential of unsupervised representation learning for ambient sound analysis using various ﬂavors of the triplet loss. They have compared this approach to supervised learning. However, in real situations, it is common to have a small labeled dataset and a large unlabeled one. In this paper, we combine unsupervised and supervised triplet loss based learning into a semi-supervised representation learning approach. We propose two ﬂavors of this approach, whereby the positive samples for those triplets whose anchors are unlabeled are obtained either by applying a transformation to the anchor, or by selecting the nearest sample in the training set. We compare our approach to supervised and unsupervised representation learning as well as the ratio between the amount of labeled and unlabeled data. We evaluate all the above approaches on an audio tagging task using the {DCASE} 2018 Task 4 dataset, and we show the impact of this ratio on the tagging performance.},
+	eventtitle = {{ICASSP} 2019 - 2019 {IEEE} International Conference on Acoustics, Speech and Signal Processing ({ICASSP})},
+	pages = {760--764},
+	booktitle = {{ICASSP} 2019 - 2019 {IEEE} International Conference on Acoustics, Speech and Signal Processing ({ICASSP})},
+	publisher = {{IEEE}},
+	author = {Turpault, Nicolas and Serizel, Romain and Vincent, Emmanuel},
+	urldate = {2020-04-08},
+	date = {2019-05},
+	langid = {english}
+}
+
+@inproceedings{jansen_unsupervised_2018,
+	location = {Calgary, {AB}},
+	title = {Unsupervised Learning of Semantic Audio Representations},
+	isbn = {978-1-5386-4658-8},
+	url = {https://ieeexplore.ieee.org/document/8461684/},
+	doi = {10.1109/ICASSP.2018.8461684},
+	abstract = {Even in the absence of any explicit semantic annotation, vast collections of audio recordings provide valuable information for learning the categorical structure of sounds. We consider several classagnostic semantic constraints that apply to unlabeled nonspeech audio: (i) noise and translations in time do not change the underlying sound category, (ii) a mixture of two sound events inherits the categories of the constituents, and (iii) the categories of events in close temporal proximity are likely to be the same or related. Without labels to ground them, these constraints are incompatible with classiﬁcation loss functions. However, they may still be leveraged to identify geometric inequalities needed for triplet loss-based training of convolutional neural networks. The result is low-dimensional embeddings of the input spectrograms that recover 41\% and 84\% of the performance of their fully-supervised counterparts when applied to downstream query-by-example sound retrieval and sound event classiﬁcation tasks, respectively. Moreover, in limited-supervision settings, our unsupervised embeddings double the state-of-the-art classiﬁcation performance.},
+	eventtitle = {{ICASSP} 2018 - 2018 {IEEE} International Conference on Acoustics, Speech and Signal Processing ({ICASSP})},
+	pages = {126--130},
+	booktitle = {2018 {IEEE} International Conference on Acoustics, Speech and Signal Processing ({ICASSP})},
+	publisher = {{IEEE}},
+	author = {Jansen, Aren and Plakal, Manoj and Pandya, Ratheet and Ellis, Daniel P. W. and Hershey, Shawn and Liu, Jiayang and Moore, R. Channing and Saurous, Rif A.},
+	urldate = {2020-04-08},
+	date = {2018-04},
+	langid = {english}
+}
+
+@article{zhang_mixup_2018,
+	title = {mixup: Beyond Empirical Risk Minimization},
+	url = {http://arxiv.org/abs/1710.09412},
+	shorttitle = {mixup},
+	abstract = {Large deep neural networks are powerful, but exhibit undesirable behaviors such as memorization and sensitivity to adversarial examples. In this work, we propose mixup, a simple learning principle to alleviate these issues. In essence, mixup trains a neural network on convex combinations of pairs of examples and their labels. By doing so, mixup regularizes the neural network to favor simple linear behavior in-between training examples. Our experiments on the {ImageNet}-2012, {CIFAR}-10, {CIFAR}-100, Google commands and {UCI} datasets show that mixup improves the generalization of state-of-the-art neural network architectures. We also find that mixup reduces the memorization of corrupt labels, increases the robustness to adversarial examples, and stabilizes the training of generative adversarial networks.},
+	journaltitle = {{arXiv}:1710.09412 [cs, stat]},
+	author = {Zhang, Hongyi and Cisse, Moustapha and Dauphin, Yann N. and Lopez-Paz, David},
+	urldate = {2020-04-06},
+	date = {2018-04-27},
+	eprinttype = {arxiv},
+	eprint = {1710.09412},
+	keywords = {Computer Science - Machine Learning, Statistics - Machine Learning}
+}
+
+@inproceedings{takahashi_deep_2016,
+	title = {Deep Convolutional Neural Networks and Data Augmentation for Acoustic Event Recognition},
+	url = {http://www.isca-speech.org/archive/Interspeech_2016/abstracts/0805.html},
+	doi = {10.21437/Interspeech.2016-805},
+	abstract = {We propose a novel method for Acoustic Event Recognition ({AER}). In contrast to speech, sounds coming from acoustic events may be produced by a wide variety of sources. Furthermore, distinguishing them often requires analyzing an extended time period due to the lack of a clear sub-word unit. In order to incorporate the long-time frequency structure for {AER}, we introduce a convolutional neural network ({CNN}) with a large input ﬁeld. In contrast to previous works, this enables to train audio event detection end-to-end. Our architecture is inspired by the success of {VGGNet} [1] and uses small, 3×3 convolutions, but more depth than previous methods in {AER}. In order to prevent over-ﬁtting and to take full advantage of the modeling capabilities of our network, we further propose a novel data augmentation method to introduce data variation. Experimental results show that our {CNN} signiﬁcantly outperforms state of the art methods including Bag of Audio Words ({BoAW}) and classical {CNNs}, achieving a 16\% absolute improvement.},
+	eventtitle = {Interspeech 2016},
+	pages = {2982--2986},
+	author = {Takahashi, Naoya and Gygli, Michael and Pfister, Beat and Gool, Luc Van},
+	urldate = {2020-04-06},
+	date = {2016-09-08},
+	langid = {english}
+}
+
+@article{cheng_tensorflow_2017,
+	title = {{TensorFlow} Estimators: Managing Simplicity vs. Flexibility in High-Level Machine Learning Frameworks},
+	url = {http://arxiv.org/abs/1708.02637},
+	doi = {10.1145/3097983.3098171},
+	shorttitle = {{TensorFlow} Estimators},
+	abstract = {We present a framework for specifying, training, evaluating, and deploying machine learning models. Our focus is on simplifying cu ing edge machine learning for practitioners in order to bring such technologies into production. Recognizing the fast evolution of the eld of deep learning, we make no a empt to capture the design space of all possible model architectures in a domain- speci c language ({DSL}) or similar con guration language. We allow users to write code to de ne their models, but provide abstractions that guide developers to write models in ways conducive to productionization. We also provide a unifying Estimator interface, making it possible to write downstream infrastructure (e.g. distributed training, hyperparameter tuning) independent of the model implementation. We balance the competing demands for exibility and simplicity by o ering {APIs} at di erent levels of abstraction, making common model architectures available out of the box, while providing a library of utilities designed to speed up experimentation with model architectures. To make out of the box models exible and usable across a wide range of problems, these canned Estimators are parameterized not only over traditional hyperparameters, but also using feature columns, a declarative speci cation describing how to interpret input data.},
+	pages = {1763--1771},
+	journaltitle = {Proceedings of the 23rd {ACM} {SIGKDD} International Conference on Knowledge Discovery and Data Mining  - {KDD} '17},
+	author = {Cheng, Heng-Tze and Haque, Zakaria and Hong, Lichan and Ispir, Mustafa and Mewald, Clemens and Polosukhin, Illia and Roumpos, Georgios and Sculley, D. and Smith, Jamie and Soergel, David and Tang, Yuan and Tucker, Philipp and Wicke, Martin and Xia, Cassandra and Xie, Jianwei},
+	urldate = {2020-03-19},
+	date = {2017},
+	langid = {english},
+	eprinttype = {arxiv},
+	eprint = {1708.02637},
+	keywords = {Computer Science - Distributed, Parallel, and Cluster Computing, Computer Science - Machine Learning}
+}
+
+@article{yu_multi-scale_2016,
+	title = {Multi-Scale Context Aggregation by Dilated Convolutions},
+	url = {http://arxiv.org/abs/1511.07122},
+	abstract = {State-of-the-art models for semantic segmentation are based on adaptations of convolutional networks that had originally been designed for image classification. However, dense prediction and image classification are structurally different. In this work, we develop a new convolutional network module that is specifically designed for dense prediction. The presented module uses dilated convolutions to systematically aggregate multi-scale contextual information without losing resolution. The architecture is based on the fact that dilated convolutions support exponential expansion of the receptive field without loss of resolution or coverage. We show that the presented context module increases the accuracy of state-of-the-art semantic segmentation systems. In addition, we examine the adaptation of image classification networks to dense prediction and show that simplifying the adapted network can increase accuracy.},
+	journaltitle = {{arXiv}:1511.07122 [cs]},
+	author = {Yu, Fisher and Koltun, Vladlen},
+	urldate = {2020-03-16},
+	date = {2016-04-30},
+	eprinttype = {arxiv},
+	eprint = {1511.07122},
+	keywords = {Computer Science - Computer Vision and Pattern Recognition}
+}
+
+@inproceedings{liu_ensemble_2018,
+	title = {{AN} {ENSEMBLE} {SYSTEM} {FOR} {DOMESTIC} {ACTIVITY} {RECOGNITION} Technical Report},
+	abstract = {As one of the most important sensing modalities, the acoustics is becoming more and more popular in achieving our smart environment nowadays. In this challenge, we try to tackle the task of monitoring domestic activities based on multi-channel accoustics. Several acoustic features including the Mel-Spectrograms, {MFCC} and {VGGish} features are extracted from the raw audio and fused to train different deep neural networks. An ensemble system is then established with the trained models. The experimental results on the development dataset demonstrate that the proposed system has shown superior performance in recognizing domestic activities.},
+	author = {Liu, Huaping and Wang, Feng and Liu, Xinzhu and Guo, Di and Sun, Fuchun},
+	date = {2018}
+}
+
+@book{inoue_domestic_2018,
+	title = {Domestic Activities Classification Based on {CNN} Using Shuffling and Mixing Data Augmentation},
+	abstract = {This technical report describes our proposed design and implementation of the system used for the {DCASE} 2018 Challenge submission. The work focuses on Task 5 of the challenge, which is about monitoring and classifying domestic activities based on multi-channel acoustics. We propose data augmentation techniques using shuffling and mixing two sounds in a same class to mitigate the unbalanced training dataset. This data augmentation can generate new variations on both the sequence and the density of sound events. The experimental results show that the proposed system achieves an average of 89.95\% of macro-averaged F1 score over 4 folds on the development dataset. This is a significant improvement from the baseline result of 84.50\%. In the final evaluation for the submission, four proposed classifiers are trained with four folds of training and validation data in the development dataset. Then we ensemble these four models by averaging their predictions.},
+	author = {Inoue, Tadanobu and Vinayavekhin, Phongtharin and Wang, Shiqiang and Wood, David and Greco, Nancy and Tachibana, Ryuki},
+	date = {2018-09-01}
+}
+
+@article{purwins_deep_2019,
+	title = {Deep Learning for Audio Signal Processing},
+	volume = {13},
+	issn = {1932-4553, 1941-0484},
+	url = {http://arxiv.org/abs/1905.00078},
+	doi = {10.1109/JSTSP.2019.2908700},
+	abstract = {Given the recent surge in developments of deep learning, this article provides a review of the state-of-the-art deep learning techniques for audio signal processing. Speech, music, and environmental sound processing are considered sideby-side, in order to point out similarities and differences between the domains, highlighting general methods, problems, key references, and potential for cross-fertilization between areas. The dominant feature representations (in particular, log-mel spectra and raw waveform) and deep learning models are reviewed, including convolutional neural networks, variants of the long short-term memory architecture, as well as more audio-speciﬁc neural network models. Subsequently, prominent deep learning application areas are covered, i.e. audio recognition (automatic speech recognition, music information retrieval, environmental sound detection, localization and tracking) and synthesis and transformation (source separation, audio enhancement, generative models for speech, sound, and music synthesis). Finally, key issues and future questions regarding deep learning applied to audio signal processing are identiﬁed.},
+	pages = {206--219},
+	number = {2},
+	journaltitle = {{IEEE} Journal of Selected Topics in Signal Processing},
+	shortjournal = {{IEEE} J. Sel. Top. Signal Process.},
+	author = {Purwins, Hendrik and Li, Bo and Virtanen, Tuomas and Schlüter, Jan and Chang, Shuo-yiin and Sainath, Tara},
+	urldate = {2020-03-12},
+	date = {2019-05},
+	langid = {english},
+	eprinttype = {arxiv},
+	eprint = {1905.00078},
+	keywords = {Computer Science - Sound, Electrical Engineering and Systems Science - Audio and Speech Processing, H.5.1, I.2.6, Statistics - Machine Learning}
+}
+
+@article{cho_learning_2014,
+	title = {Learning Phrase Representations using {RNN} Encoder-Decoder for Statistical Machine Translation},
+	url = {http://arxiv.org/abs/1406.1078},
+	abstract = {In this paper, we propose a novel neural network model called {RNN} Encoder–Decoder that consists of two recurrent neural networks ({RNN}). One {RNN} encodes a sequence of symbols into a ﬁxedlength vector representation, and the other decodes the representation into another sequence of symbols. The encoder and decoder of the proposed model are jointly trained to maximize the conditional probability of a target sequence given a source sequence. The performance of a statistical machine translation system is empirically found to improve by using the conditional probabilities of phrase pairs computed by the {RNN} Encoder–Decoder as an additional feature in the existing log-linear model. Qualitatively, we show that the proposed model learns a semantically and syntactically meaningful representation of linguistic phrases.},
+	journaltitle = {{arXiv}:1406.1078 [cs, stat]},
+	author = {Cho, Kyunghyun and van Merrienboer, Bart and Gulcehre, Caglar and Bahdanau, Dzmitry and Bougares, Fethi and Schwenk, Holger and Bengio, Yoshua},
+	urldate = {2020-03-11},
+	date = {2014-09-02},
+	langid = {english},
+	eprinttype = {arxiv},
+	eprint = {1406.1078},
+	keywords = {Computer Science - Computation and Language, Computer Science - Machine Learning, Computer Science - Neural and Evolutionary Computing, Statistics - Machine Learning}
+}
+
+@article{rosenblatt_perceptron_1958,
+	title = {The Perceptron: A Probabilistic Model for Information Storage and Organization in The Brain},
+	shorttitle = {The Perceptron},
+	abstract = {If we are eventually to understand the capability of higher organisms for perceptual recognition, generalization, recall, and thinking, we must first have answers to three fundamental questions: 1. How is information about the physical world sensed, or detected, by the biological system? 2. In what form is information stored, or remembered? 3. How does information contained in storage, or in memory, influence recognition and behavior? The first of these questions is in the},
+	pages = {65--386},
+	journaltitle = {Psychological Review},
+	author = {Rosenblatt, F.},
+	date = {1958}
+}
+
+@article{mcculloch_logical_1943,
+	title = {A logical calculus of the ideas immanent in nervous activity},
+	volume = {5},
+	issn = {1522-9602},
+	url = {https://doi.org/10.1007/BF02478259},
+	doi = {10.1007/BF02478259},
+	abstract = {Because of the “all-or-none” character of nervous activity, neural events and the relations among them can be treated by means of propositional logic. It is found that the behavior of every net can be described in these terms, with the addition of more complicated logical means for nets containing circles; and that for any logical expression satisfying certain conditions, one can find a net behaving in the fashion it describes. It is shown that many particular choices among possible neurophysiological assumptions are equivalent, in the sense that for every net behaving under one assumption, there exists another net which behaves under the other and gives the same results, although perhaps not in the same time. Various applications of the calculus are discussed.},
+	pages = {115--133},
+	number = {4},
+	journaltitle = {The bulletin of mathematical biophysics},
+	shortjournal = {Bulletin of Mathematical Biophysics},
+	author = {{McCulloch}, Warren S. and Pitts, Walter},
+	urldate = {2020-03-05},
+	date = {1943-12-01},
+	langid = {english}
+}
+
+@article{zeng_deep_2019,
+	title = {Deep Triplet Neural Networks with Cluster-{CCA} for Audio-Visual Cross-modal Retrieval},
+	url = {http://arxiv.org/abs/1908.03737},
+	abstract = {Cross-modal retrieval aims to retrieve data in one modality by a query in another modality, which has been avery interesting research issue in the filed of multimedia, information retrieval, and computer vision, anddatabase. Most existing works focus on cross-modal retrieval between text-image, text-video, and lyrics-audio.little research addresses cross-modal retrieval between audio and video due to limited audio-video paireddataset and semantic information. The main challenge of audio-visual cross-modal retrieval task focuses on learning joint embeddings from a shared subspace for computing the similarity across different modalities, were generating new representations is to maximize the correlation between audio and visual modalities space. In this work, we propose a novel deep triplet neural network with cluster-based canonical correlationanalysis ({TNN}-C-{CCA}), which is an end-to-end supervised learning architecture with audio branch and videobranch. we not only consider the matching pairs in the common space but also compute the mismatching pairs when maximizing the correlation. In particular, two significant contributions are made in this work: i) abetter representation by constructing deep triplet neural network with triplet loss for optimal projections canbe generated to maximize correlation in the shared subspace. ii) positive examples and negative examplesare used in the learning stage to improve the capability of embedding learning between audio and video. Our experiment is run over 5-fold cross-validation, where average performance is applied to demonstratethe performance of audio-video cross-modal retrieval. The experimental results achieved on two different audio-visual datasets show the proposed learning architecture with two branches outperforms the state-of-art cross-modal retrieval methods.},
+	journaltitle = {{arXiv}:1908.03737 [cs]},
+	author = {Zeng, Donghuo and Yu, Yi and Oyama, Keizo},
+	urldate = {2020-03-01},
+	date = {2019-08-10},
+	langid = {english},
+	eprinttype = {arxiv},
+	eprint = {1908.03737},
+	keywords = {Computer Science - Information Retrieval, Computer Science - Multimedia}
+}
+
+@article{bredin_tristounet_2017,
+	title = {{TristouNet}: Triplet Loss for Speaker Turn Embedding},
+	url = {http://arxiv.org/abs/1609.04301},
+	shorttitle = {{TristouNet}},
+	abstract = {{TristouNet} is a neural network architecture based on Long Short-Term Memory recurrent networks, meant to project speech sequences into a ﬁxed-dimensional euclidean space. Thanks to the triplet loss paradigm used for training, the resulting sequence embeddings can be compared directly with the euclidean distance, for speaker comparison purposes. Experiments on short (between 500ms and 5s) speech turn comparison and speaker change detection show that {TristouNet} brings signiﬁcant improvements over the current state-of-the-art techniques for both tasks.},
+	journaltitle = {{arXiv}:1609.04301 [cs, stat]},
+	author = {Bredin, Hervé},
+	urldate = {2020-03-01},
+	date = {2017-04-11},
+	langid = {english},
+	eprinttype = {arxiv},
+	eprint = {1609.04301},
+	keywords = {Computer Science - Sound, Statistics - Machine Learning}
+}
+
+@article{oord_wavenet_2016,
+	title = {{WaveNet}: A Generative Model for Raw Audio},
+	url = {http://arxiv.org/abs/1609.03499},
+	shorttitle = {{WaveNet}},
+	abstract = {This paper introduces {WaveNet}, a deep neural network for generating raw audio waveforms. The model is fully probabilistic and autoregressive, with the predictive distribution for each audio sample conditioned on all previous ones; nonetheless we show that it can be efficiently trained on data with tens of thousands of samples per second of audio. When applied to text-to-speech, it yields state-of-the-art performance, with human listeners rating it as significantly more natural sounding than the best parametric and concatenative systems for both English and Mandarin. A single {WaveNet} can capture the characteristics of many different speakers with equal fidelity, and can switch between them by conditioning on the speaker identity. When trained to model music, we find that it generates novel and often highly realistic musical fragments. We also show that it can be employed as a discriminative model, returning promising results for phoneme recognition.},
+	journaltitle = {{arXiv}:1609.03499 [cs]},
+	author = {Oord, Aaron van den and Dieleman, Sander and Zen, Heiga and Simonyan, Karen and Vinyals, Oriol and Graves, Alex and Kalchbrenner, Nal and Senior, Andrew and Kavukcuoglu, Koray},
+	urldate = {2020-03-01},
+	date = {2016-09-19},
+	eprinttype = {arxiv},
+	eprint = {1609.03499},
+	keywords = {Computer Science - Machine Learning, Computer Science - Sound}
+}
+
+@article{schroff_facenet_2015,
+	title = {{FaceNet}: A Unified Embedding for Face Recognition and Clustering},
+	url = {http://arxiv.org/abs/1503.03832},
+	doi = {10.1109/CVPR.2015.7298682},
+	shorttitle = {{FaceNet}},
+	abstract = {Despite significant recent advances in the field of face recognition, implementing face verification and recognition efficiently at scale presents serious challenges to current approaches. In this paper we present a system, called {FaceNet}, that directly learns a mapping from face images to a compact Euclidean space where distances directly correspond to a measure of face similarity. Once this space has been produced, tasks such as face recognition, verification and clustering can be easily implemented using standard techniques with {FaceNet} embeddings as feature vectors. Our method uses a deep convolutional network trained to directly optimize the embedding itself, rather than an intermediate bottleneck layer as in previous deep learning approaches. To train, we use triplets of roughly aligned matching / non-matching face patches generated using a novel online triplet mining method. The benefit of our approach is much greater representational efficiency: we achieve state-of-the-art face recognition performance using only 128-bytes per face. On the widely used Labeled Faces in the Wild ({LFW}) dataset, our system achieves a new record accuracy of 99.63\%. On {YouTube} Faces {DB} it achieves 95.12\%. Our system cuts the error rate in comparison to the best published result by 30\% on both datasets. We also introduce the concept of harmonic embeddings, and a harmonic triplet loss, which describe different versions of face embeddings (produced by different networks) that are compatible to each other and allow for direct comparison between each other.},
+	pages = {815--823},
+	journaltitle = {2015 {IEEE} Conference on Computer Vision and Pattern Recognition ({CVPR})},
+	author = {Schroff, Florian and Kalenichenko, Dmitry and Philbin, James},
+	urldate = {2020-02-27},
+	date = {2015-06},
+	eprinttype = {arxiv},
+	eprint = {1503.03832},
+	keywords = {Computer Science - Computer Vision and Pattern Recognition}
+}
+
+@article{mohd_ali_analysis_2013,
+	title = {Analysis of Accent-Sensitive Words in Multi-Resolution Mel-Frequency Cepstral Coefficients for Classification of Accents in Malaysian English},
+	volume = {7},
+	doi = {10.15282/ijame.7.2012.21.0086},
+	abstract = {This paper investigates the most accent-sensitive words for Malaysian English ({MalE}) speakers in multi-resolution 13 Mel-frequency cepstral coefficients. A text-independent accent system was implemented using different numbers of Mel-filters to determine the optimal settings for this database. Then, text-dependent accent systems were developed to rank the most accent-sensitive words for {MalE} speakers according to the classification rates. Prior work has also been conducted to test the significance of the wordlist for both gender and accent factors, and to investigate any interaction between these two factors. Experimental results show that male speakers have a higher intensity of accent effects compared with female speakers by 3.91\% on text-independent and 3.47\% on text-dependent tasks. Another finding has proven that by selecting appropriate words that carry severe accent markers could improve the task of speaker accent classification. An improvement of at most 8.45\% and 8.91\% was achieved on the male and female datasets, respectively, following vocabulary selection.},
+	pages = {1053--1073},
+	journaltitle = {International Journal of Automotive and Mechanical Engineering},
+	shortjournal = {International Journal of Automotive and Mechanical Engineering},
+	author = {mohd ali, Yusnita and M P, Paulraj and Yaacob, Sazali and Yusuf, Raghad and Abu bakar, Shahriman},
+	date = {2013-06-30}
+}
+
+@book{anne_acoustic_2015,
+	title = {Acoustic Modeling for Emotion Recognition},
+	isbn = {978-3-319-15530-2},
+	abstract = {This book presents state of art research in speech emotion recognition. Readers are first presented with basic research and applications – gradually more advance information is provided, giving readers comprehensive guidance for classify emotions through speech. Simulated databases are used and results extensively compared, with the features and the algorithms implemented using {MATLAB}. Various emotion recognition models like Linear Discriminant Analysis ({LDA}), Regularized Discriminant Analysis ({RDA}), Support Vector Machines ({SVM}) and K-Nearest neighbor ({KNN}) and are explored in detail using prosody and spectral features, and feature fusion techniques.},
+	pagetotal = {72},
+	publisher = {Springer},
+	author = {Anne, Koteswara Rao and Kuchibhotla, Swarna and Vankayalapati, Hima Deepthi},
+	date = {2015-03-14},
+	langid = {english},
+	note = {Google-Books-{ID}: {JbhnBwAAQBAJ}},
+	keywords = {Computers / Natural Language Processing, Computers / User Interfaces, Language Arts \& Disciplines / Linguistics / General, Science / Acoustics \& Sound, Science / Waves \& Wave Mechanics, Technology \& Engineering / Electrical, Technology \& Engineering / Electronics / General, Technology \& Engineering / Imaging Systems}
+}
+
+@article{noauthor_logan_paper_nodate,
+	title = {logan\_paper}
+}
+
+@article{park_fully_2016,
+	title = {A Fully Convolutional Neural Network for Speech Enhancement},
+	url = {http://arxiv.org/abs/1609.07132},
+	abstract = {In hearing aids, the presence of babble noise degrades hearing intelligibility of human speech greatly. However, removing the babble without creating artifacts in human speech is a challenging task in a low {SNR} environment. Here, we sought to solve the problem by finding a `mapping' between noisy speech spectra and clean speech spectra via supervised learning. Specifically, we propose using fully Convolutional Neural Networks, which consist of lesser number of parameters than fully connected networks. The proposed network, Redundant Convolutional Encoder Decoder (R-{CED}), demonstrates that a convolutional network can be 12 times smaller than a recurrent network and yet achieves better performance, which shows its applicability for an embedded system: the hearing aids.},
+	journaltitle = {{arXiv}:1609.07132 [cs]},
+	author = {Park, Se Rim and Lee, Jinwon},
+	urldate = {2020-02-20},
+	date = {2016-09-22},
+	eprinttype = {arxiv},
+	eprint = {1609.07132},
+	keywords = {Computer Science - Machine Learning}
+}
+
+@article{franceschi_unsupervised_2020,
+	title = {Unsupervised Scalable Representation Learning for Multivariate Time Series},
+	url = {http://arxiv.org/abs/1901.10738},
+	abstract = {Time series constitute a challenging data type for machine learning algorithms, due to their highly variable lengths and sparse labeling in practice. In this paper, we tackle this challenge by proposing an unsupervised method to learn universal embeddings of time series. Unlike previous works, it is scalable with respect to their length and we demonstrate the quality, transferability and practicability of the learned representations with thorough experiments and comparisons. To this end, we combine an encoder based on causal dilated convolutions with a novel triplet loss employing time-based negative sampling, obtaining general-purpose representations for variable length and multivariate time series.},
+	journaltitle = {{arXiv}:1901.10738 [cs, stat]},
+	author = {Franceschi, Jean-Yves and Dieuleveut, Aymeric and Jaggi, Martin},
+	urldate = {2020-02-20},
+	date = {2020-01-03},
+	langid = {english},
+	eprinttype = {arxiv},
+	eprint = {1901.10738},
+	keywords = {Computer Science - Machine Learning, Computer Science - Neural and Evolutionary Computing, Statistics - Machine Learning}
+}
+
+@inproceedings{dekkers_sins_2017,
+	title = {The {SINS} Database for Detection of Daily Activities in a Home Environment Using an Acoustic Sensor Network},
+	abstract = {There is a rising interest in monitoring and improving human wellbeing at home using different types of sensors including microphones. In the context of Ambient Assisted Living ({AAL}) persons are monitored, e.g. to support patients with a chronic illness and older persons, by tracking their activities being performed at home. When considering an acoustic sensing modality, a performed activity can be seen as an acoustic scene. Recently, acoustic detection and classification of scenes and events has gained interest in the scientific community and led to numerous public databases for a wide range of applications. However, no public databases exist which a) focus on daily activities in a home environment, b) contain activities being performed in a spontaneous manner, c) make use of an acoustic sensor network, and d) are recorded as a continuous stream. In this paper we introduce a database recorded in one living home, over a period of one week. The recording setup is an acoustic sensor network containing thirteen sensor nodes, with four low-cost microphones each, distributed over five rooms. Annotation is available on an activity level. In this paper we present the recording and annotation procedure, the database content and a discussion on a baseline detection benchmark. The baseline consists of Mel-Frequency Cepstral Coefficients, Support Vector Machine and a majority vote late-fusion scheme. The database is publicly released to provide a common ground for future research.},
+	pages = {32--36},
+	booktitle = {Proceedings of the Detection and Classification of Acoustic Scenes and Events 2017 Workshop ({DCASE}2017)},
+	author = {Dekkers, Gert and Lauwereins, Steven and Thoen, Bart and Adhana, Mulu Weldegebreal and Brouckxon, Henk and van Waterschoot, Toon and Vanrumste, Bart and Verhelst, Marian and Karsmakers, Peter},
+	date = {2017-11},
+	keywords = {Acoustic Event Detection, Acoustic Scene Classification, Acoustic Sensor Networks, Database, Dataset}
+}
+
+@report{dekkers_dcase_2018,
+	title = {{DCASE} 2018 Challenge - Task 5: Monitoring of domestic activities based on multi-channel acoustics},
+	url = {https://arxiv.org/abs/1807.11246},
+	abstract = {The {DCASE} 2018 Challenge consists of five tasks related to automatic classification and detection of sound events and scenes. This paper presents the setup of Task 5 which includes the description of the task, dataset and the baseline system. In this task, it is investigated to which extend multi-channel acoustic recordings are beneficial for the purpose of classifying domestic activities. The goal is to exploit spectral and spatial cues independent of sensor location using multi-channel audio. For this purpose we provided a development and evaluation dataset which are derivatives of the {SINS} database and contain domestic activities recorded by multiple microphone arrays. The baseline system, based on a Neural Network architecture using convolutional and dense layer(s), is intended to lower the hurdle to participate the challenge and to provide a reference performance.},
+	institution = {{KU} Leuven},
+	author = {Dekkers, Gert and Vuegen, Lode and van Waterschoot, Toon and Vanrumste, Bart and Karsmakers, Peter},
+	date = {2018},
+	keywords = {Acoustic scene classification, Activities of the Daily Living, Dataset Baseline Code, Multi-channel}
+}
+
+@book{goodfellow_deep_2016,
+	title = {Deep Learning},
+	publisher = {{MIT} Press},
+	author = {Goodfellow, Ian and Bengio, Yoshua and Courville, Aaron},
+	date = {2016}
+}
+
+@book{zheng_evaluating_2015-1,
+	edition = {First edition.},
+	title = {Evaluating machine learning models: a beginner's guide to key concepts and pitfalls},
+	url = {http://proquest.tech.safaribooksonline.de/?uiCode=&xmlId=9781492048756},
+	shorttitle = {Evaluating machine learning models},
+	publisher = {Sebastopol, {CA} O'Reilly Media},
+	author = {Zheng, Alice},
+	urldate = {2020-02-17},
+	date = {2015},
+	keywords = {Machine learning; Data mining; Electronic books}
+}
+
+@article{chuan_context_nodate,
+	title = {From context to concept: exploring semantic relationships in music with word2vec},
+	url = {https://link.springer.com/article/10.1007/s00521-018-3923-1?utm_source=researcher_app&utm_medium=referral&utm_campaign=RESR_MRKT_Researcher_inbound},
+	doi = {10.1007/s00521-018-3923-1},
+	abstract = {{\textless}h3 class="a-plus-plus"{\textgreater}Abstract{\textless}/h3{\textgreater}
+                  {\textless}p class="a-plus-plus"{\textgreater}We explore the potential of a popular distributional semantics vector space model, {\textless}em class="a-plus-plus"{\textgreater}word2vec{\textless}/em{\textgreater}, for capturing meaningful relationships in ecological (complex polyphonic) music. More precisely, the skip-gram version of word2vec is used to model slices of music from a large corpus spanning eight musical genres. In this newly learned vector space, a metric based on cosine distance is able to distinguish between functional chord relationships, as well as harmonic associations in the music. Evidence, based on cosine distance between chord-pair vectors, suggests that an implicit circle-of-fifths exists in the vector space. In addition, a comparison between pieces in different keys reveals that key relationships are represented in word2vec space. These results suggest that the newly learned embedded vector representation does in fact capture tonal and harmonic characteristics of music, without receiving explicit information about the musical content of the constituent slices. In order to investigate whether proximity in the discovered space of embeddings is indicative of ‘semantically-related’ slices, we explore a music generation task, by automatically replacing existing slices from a given piece of music with new slices. We propose an algorithm to find substitute slices based on spatial proximity and the pitch class distribution inferred in the chosen subspace. The results indicate that the size of the subspace used has a significant effect on whether slices belonging to the same key are selected. In sum, the proposed word2vec model is able to learn music-vector embeddings that capture meaningful tonal and harmonic relationships in music, thereby providing a useful tool for exploring musical properties and comparisons across pieces, as a potential input representation for deep learning models, and as a music generation device.{\textless}/p{\textgreater}},
+	journaltitle = {Neural Computing and Applications},
+	author = {Chuan, Ching-Hua and Agres, Kat and Herremans, Dorien}
+}
+
+@article{verma_neuralogram_nodate,
+	title = {Neuralogram: A Deep Neural Network Based Representation for Audio Signals. ({arXiv}:1904.05073v1 [cs.{SD}])},
+	url = {http://arxiv.org/abs/1904.05073},
+	doi = {arXiv:1904.05073v1},
+	abstract = {We propose the Neuralogram -- a deep neural network based representation for
+understanding audio signals which, as the name suggests, transforms an audio
+signal to a dense, compact representation based upon embeddings learned via a
+neural architecture. Through a series of probing signals, we show how our
+representation can encapsulate pitch, timbre and rhythm-based information, and
+other attributes. This representation suggests a method for revealing
+meaningful relationships in arbitrarily long audio signals that are not readily
+represented by existing algorithms. This has the potential for numerous
+applications in audio understanding, music recommendation, meta-data extraction
+to name a few.},
+	journaltitle = {{arXiv} Computer Science},
+	author = {Verma, Jonathan Berger Chris Chafe Prateek}
+}
+
+@article{kim_are_nodate,
+	title = {Are Nearby Neighbors Relatives?: Testing Deep Music Embeddings. ({arXiv}:1904.07154v3 [cs.{LG}] {UPDATED})},
+	url = {http://arxiv.org/abs/1904.07154?utm_source=researcher_app&utm_medium=referral&utm_campaign=RESR_MRKT_Researcher_inbound},
+	doi = {arXiv:1904.07154v3},
+	abstract = {Deep neural networks have frequently been used to directly learn
+representations useful for a given task from raw input data. In terms of
+overall performance metrics, machine learning solutions employing deep
+representations frequently have been reported to greatly outperform those using
+hand-crafted feature representations. At the same time, they may pick up on
+aspects that are predominant in the data, yet not actually meaningful or
+interpretable. In this paper, we therefore propose a systematic way to test the
+trustworthiness of deep music representations, considering musical semantics.
+The underlying assumption is that in case a deep representation is to be
+trusted, distance consistency between known related points should be maintained
+both in the input audio space and corresponding latent deep space. We generate
+known related points through semantically meaningful transformations, both
+considering imperceptible and graver transformations. Then, we examine within-
+and between-space distance consistencies, both considering audio space and
+latent embedded space, the latter either being a result of a conventional
+feature extractor or a deep encoder. We illustrate how our method, as a
+complement to task-specific performance, provides interpretable insight into
+what a network may have captured from training data signals.},
+	journaltitle = {{arXiv} Computer Science},
+	author = {Kim, Jaehun and Urbano, Julián and Liem, Cynthia C. S. and Hanjalic, Alan}
+}
+
+@article{pu_music_nodate,
+	title = {Music recommender using deep embedding-based features and behavior-based reinforcement learning},
+	url = {http://link.springer.com/article/10.1007/s11042-019-08356-9?utm_source=researcher_app&utm_medium=referral&utm_campaign=RESR_MRKT_Researcher_inbound},
+	doi = {10.1007/s11042-019-08356-9},
+	abstract = {With the rapid increase of digital music on online music platforms, it has become difficult for users to find unknown but interesting songs. Although many collaborative filtering or content based recommendation methods have been proposed, they have various relatively serious some problems, including cold start, diversity of recommendations. etc. Therefore, we propose a reinforcement personal music recommendation system ({RPMRS}) to address these problems. {RPMRS} comprises two main components. First, deep representation of audio and lyrics extracted by {WaveNet} and Word2Vec models, respectively, and apply a proposed content based recommendation method from these. Second, we employ reinforcement learning is to learn user preferences from their song playing log. Experimental results confirm, that hybrid features are superior to audio or lyrics based features for content recommendation, largely because independent audio features significantly outperform lyrics features; and reinforcement learning improves personalized recommendations. Overall, the proposed {RPMRS} provides dynamic and personalized music recommendations for the user.},
+	journaltitle = {Multimedia Tools and Applications},
+	author = {Pu, Ying-Hung}
+}
+
+@article{balntas_pn-net_2016,
+	title = {{PN}-Net: Conjoined Triple Deep Network for Learning Local Image Descriptors},
+	url = {http://arxiv.org/abs/1601.05030},
+	shorttitle = {{PN}-Net},
+	abstract = {In this paper we propose a new approach for learning local descriptors for matching image patches. It has recently been demonstrated that descriptors based on convolutional neural networks ({CNN}) can significantly improve the matching performance. Unfortunately their computational complexity is prohibitive for any practical application. We address this problem and propose a {CNN} based descriptor with improved matching performance, significantly reduced training and execution time, as well as low dimensionality. We propose to train the network with triplets of patches that include a positive and negative pairs. To that end we introduce a new loss function that exploits the relations within the triplets. We compare our approach to recently introduced {MatchNet} and {DeepCompare} and demonstrate the advantages of our descriptor in terms of performance, memory footprint and speed i.e. when run in {GPU}, the extraction time of our 128 dimensional feature is comparable to the fastest available binary descriptors such as {BRIEF} and {ORB}.},
+	journaltitle = {{arXiv}:1601.05030 [cs]},
+	author = {Balntas, Vassileios and Johns, Edward and Tang, Lilian and Mikolajczyk, Krystian},
+	urldate = {2020-02-14},
+	date = {2016-01-19},
+	eprinttype = {arxiv},
+	eprint = {1601.05030},
+	keywords = {Computer Science - Computer Vision and Pattern Recognition}
+}
+
+@article{hoffer_deep_2018,
+	title = {Deep metric learning using Triplet network},
+	url = {http://arxiv.org/abs/1412.6622},
+	abstract = {Deep learning has proven itself as a successful set of models for learning useful semantic representations of data. These, however, are mostly implicitly learned as part of a classification task. In this paper we propose the triplet network model, which aims to learn useful representations by distance comparisons. A similar model was defined by Wang et al. (2014), tailor made for learning a ranking for image information retrieval. Here we demonstrate using various datasets that our model learns a better representation than that of its immediate competitor, the Siamese network. We also discuss future possible usage as a framework for unsupervised learning.},
+	journaltitle = {{arXiv}:1412.6622 [cs, stat]},
+	author = {Hoffer, Elad and Ailon, Nir},
+	urldate = {2020-02-14},
+	date = {2018-12-04},
+	eprinttype = {arxiv},
+	eprint = {1412.6622},
+	keywords = {Computer Science - Computer Vision and Pattern Recognition, Computer Science - Machine Learning, Statistics - Machine Learning}
+}
+
+@online{arnal_quantifying_2019,
+	title = {Quantifying circ2vec versus tile2vec performance},
+	url = {https://medium.com/@alexarnal/quantifying-circ2vec-versus-tile2vec-performance-3e00b587957e},
+	abstract = {The original article by Jean et al. in 2018 proposed a model which takes as input a square tile and outputs a 10D vector. The particular…},
+	titleaddon = {Medium},
+	author = {Arnal, Alex},
+	urldate = {2020-02-10},
+	date = {2019-10-20},
+	langid = {english}
+}
+
+@article{jean_tile2vec_2018,
+	title = {Tile2Vec: Unsupervised representation learning for spatially distributed data},
+	url = {http://arxiv.org/abs/1805.02855},
+	shorttitle = {Tile2Vec},
+	abstract = {Geospatial analysis lacks methods like the word vector representations and pre-trained networks that significantly boost performance across a wide range of natural language and computer vision tasks. To fill this gap, we introduce Tile2Vec, an unsupervised representation learning algorithm that extends the distributional hypothesis from natural language -- words appearing in similar contexts tend to have similar meanings -- to spatially distributed data. We demonstrate empirically that Tile2Vec learns semantically meaningful representations on three datasets. Our learned representations significantly improve performance in downstream classification tasks and, similar to word vectors, visual analogies can be obtained via simple arithmetic in the latent space.},
+	journaltitle = {{arXiv}:1805.02855 [cs, stat]},
+	author = {Jean, Neal and Wang, Sherrie and Samar, Anshul and Azzari, George and Lobell, David and Ermon, Stefano},
+	urldate = {2020-02-10},
+	date = {2018-05-30},
+	eprinttype = {arxiv},
+	eprint = {1805.02855},
+	keywords = {Computer Science - Computer Vision and Pattern Recognition, Computer Science - Machine Learning, Statistics - Machine Learning}
+}
+
+@video{noauthor_vincent_nodate,
+	title = {Vincent Spruyt: Loc2Vec: Self-supervised metric learning through triplet-loss},
+	url = {https://www.youtube.com/watch?v=SUM670TPTQ0},
+	shorttitle = {Vincent Spruyt},
+	abstract = {Self-supervised learning is an increasingly popular technique to learn meaningful representations of data when no labels are available. A related problem is that of learning a mapping from raw input data into a metric space, where distances between latent data points are proportional to the semantic similarity between the original data instances. In this talk, we show how triplet-loss can be used to train a neural network in a self-supervised manner by applying it to location data. The result is a transformation from raw latitude/longitude coordinates to an embedding vector with similar properties as word2vec exhibits for natural language.
+
+Bio: Vincent serves as Chief {AI} Officer at Sentiance, a scale-up that uses {AI} to model, predict and coach human behaviour using smartphone sensor data. Previously, he acted as Chief Scientist and Vice President of Sentiance since joining in June 2014, during which he was responsible for building out the machine learning team at Sentiance, applying state-of-the-art academic research to real-life problems. Vincent holds a {PhD} in machine learning and was awarded the {MIT} innovators under 35 award in 2017. He founded several startups in his past and has years of experience in both the technology industry and the world of academic research. Being the driving force behind the Ethical {AI} task force within Sentiance, he is deeply involved in the process of providing tooling and education to ensure algorithmic fairness across the Sentiance platform.
+
+*Sponsors*
+Man {AHL}: At Man {AHL}, we mix machine learning, computer science and engineering with terabytes of data to invest billions of dollars every day.
+
+Evolution {AI}: Machines that Read - get answers from your text data.},
+	urldate = {2020-02-10}
+}
+@article{balntas_pn-net_2016,
+	title = {{PN}-Net: Conjoined Triple Deep Network for Learning Local Image Descriptors},
+	url = {http://arxiv.org/abs/1601.05030},
+	shorttitle = {{PN}-Net},
+	abstract = {In this paper we propose a new approach for learning local descriptors for matching image patches. It has recently been demonstrated that descriptors based on convolutional neural networks ({CNN}) can significantly improve the matching performance. Unfortunately their computational complexity is prohibitive for any practical application. We address this problem and propose a {CNN} based descriptor with improved matching performance, significantly reduced training and execution time, as well as low dimensionality. We propose to train the network with triplets of patches that include a positive and negative pairs. To that end we introduce a new loss function that exploits the relations within the triplets. We compare our approach to recently introduced {MatchNet} and {DeepCompare} and demonstrate the advantages of our descriptor in terms of performance, memory footprint and speed i.e. when run in {GPU}, the extraction time of our 128 dimensional feature is comparable to the fastest available binary descriptors such as {BRIEF} and {ORB}.},
+	journaltitle = {{arXiv}:1601.05030 [cs]},
+	author = {Balntas, Vassileios and Johns, Edward and Tang, Lilian and Mikolajczyk, Krystian},
+	urldate = {2020-02-10},
+	date = {2016-01-19},
+	eprinttype = {arxiv},
+	eprint = {1601.05030},
+	keywords = {Computer Science - Computer Vision and Pattern Recognition}
+}
+
+@article{hoffer_deep_2018,
+	title = {Deep metric learning using Triplet network},
+	url = {http://arxiv.org/abs/1412.6622},
+	abstract = {Deep learning has proven itself as a successful set of models for learning useful semantic representations of data. These, however, are mostly implicitly learned as part of a classification task. In this paper we propose the triplet network model, which aims to learn useful representations by distance comparisons. A similar model was defined by Wang et al. (2014), tailor made for learning a ranking for image information retrieval. Here we demonstrate using various datasets that our model learns a better representation than that of its immediate competitor, the Siamese network. We also discuss future possible usage as a framework for unsupervised learning.},
+	journaltitle = {{arXiv}:1412.6622 [cs, stat]},
+	author = {Hoffer, Elad and Ailon, Nir},
+	urldate = {2020-02-10},
+	date = {2018-12-04},
+	eprinttype = {arxiv},
+	eprint = {1412.6622},
+	keywords = {Computer Science - Computer Vision and Pattern Recognition, Computer Science - Machine Learning, Statistics - Machine Learning}
+}
+
+@online{noauthor_loc2vec_2018,
+	title = {Loc2Vec: Learning location embeddings with triplet-loss networks},
+	url = {https://www.sentiance.com/2018/05/03/venue-mapping/},
+	shorttitle = {Loc2Vec},
+	abstract = {Introduction At Sentiance, we developed a platform that takes in smartphone sensor data such as accelerometer, gyroscope and location information, and extracts behavioral insights. Our {AI} platform learns about the user’s patterns and is able to predict and explain why and when things happen, allowing our customers to coach their users and engage with them...},
+	titleaddon = {Sentiance},
+	urldate = {2020-02-10},
+	date = {2018-05-03},
+	langid = {american}
+}
+
+@online{noauthor_docker_nodate,
+	title = {Docker Hub},
+	url = {https://hub.docker.com/},
+	urldate = {2019-12-19}
+}
+
+@online{noauthor_enterprise_nodate,
+	title = {Enterprise Container Platform},
+	url = {https://www.docker.com/},
+	abstract = {Build, Share, and Run Any App, Anywhere. Learn about the only enterprise-ready container platform to cost-effectively build and manage your application portfolio.},
+	titleaddon = {Docker},
+	urldate = {2019-12-19},
+	langid = {english}
+}
+
+@online{noauthor_mt_2019,
+	title = {{MT} for Beginners: Was ist {TER}?},
+	url = {https://www.lengoo.de/blog/mt-for-beginners-was-ist-ter/},
+	shorttitle = {{MT} for Beginners},
+	abstract = {Wie funktioniert {TER} und wo liegen die Limits dieser Metrik? Wir interviewen {MT} Expertin Svetlana Tchistiakova zum Thema.},
+	titleaddon = {lengoo blog},
+	urldate = {2019-11-11},
+	date = {2019-01-28},
+	langid = {german}
+}
+
+@online{noauthor_mt_2019-1,
+	title = {{MT} for Beginners: Was ist {BLEU} und wo liegt das Problem?},
+	url = {https://www.lengoo.de/blog/mt-for-beginners-was-sind-bleu-scores/},
+	shorttitle = {{MT} for Beginners},
+	abstract = {Wir erklären was sich hinter "{BLEU} Scores" versteckt - und wieso die Frage nach der Korrektheit von Übersetzungen geradezu philosophische Ausmaße annimmt.},
+	titleaddon = {lengoo blog},
+	urldate = {2019-11-11},
+	date = {2019-01-09},
+	langid = {german}
+}
+
+@online{noauthor_modelle_nodate,
+	title = {Modelle bewerten {\textbar} {AutoML} Translation-Dokumentation},
+	url = {https://cloud.google.com/translate/automl/docs/evaluate?hl=de},
+	titleaddon = {Google Cloud},
+	urldate = {2019-11-11},
+	langid = {german}
+}
+
+@online{sunnak_evolution_2019,
+	title = {Evolution of Natural Language Generation},
+	url = {https://medium.com/sfu-big-data/evolution-of-natural-language-generation-c5d7295d6517},
+	abstract = {Abhishek Sunnak, Sri Gayatri Rachakonda, Oluwaseyi Talabi},
+	titleaddon = {Medium},
+	author = {Sunnak, Abhishek},
+	urldate = {2019-10-31},
+	date = {2019-03-16},
+	langid = {english}
+}
+
+@online{noauthor_neural_nodate,
+	title = {neural style transfer - Google-Suche},
+	url = {https://www.google.com/search?client=safari&rls=en&q=neural+style+transfer&ie=UTF-8&oe=UTF-8},
+	urldate = {2019-09-26}
+}
+
+@online{sciforce_comprehensive_2019,
+	title = {A Comprehensive Guide to Natural Language Generation},
+	url = {https://medium.com/sciforce/a-comprehensive-guide-to-natural-language-generation-dd63a4b6e548},
+	abstract = {As long as Artificial Intelligence helps us to get more out of the natural language, we see more tasks and fields mushrooming at the…},
+	titleaddon = {Medium},
+	author = {Sciforce},
+	urldate = {2019-09-26},
+	date = {2019-07-04},
+	langid = {english}
+}
+
+@article{wiseman_challenges_2017,
+	title = {Challenges in Data-to-Document Generation},
+	url = {http://arxiv.org/abs/1707.08052},
+	abstract = {Recent neural models have shown significant progress on the problem of generating short descriptive texts conditioned on a small number of database records. In this work, we suggest a slightly more difﬁcult data-to-text generation task, and investigate how effective current approaches are on this task. In particular, we introduce a new, large-scale corpus of data records paired with descriptive documents, propose a series of extractive evaluation methods for analyzing performance, and obtain baseline results using current neural generation methods. Experiments show that these models produce ﬂuent text, but fail to convincingly approximate humangenerated documents. Moreover, even templated baselines exceed the performance of these neural models on some metrics, though copy- and reconstructionbased extensions lead to noticeable improvements.},
+	journaltitle = {{arXiv}:1707.08052 [cs]},
+	author = {Wiseman, Sam and Shieber, Stuart M. and Rush, Alexander M.},
+	urldate = {2019-09-26},
+	date = {2017-07-25},
+	langid = {english},
+	eprinttype = {arxiv},
+	eprint = {1707.08052},
+	keywords = {Computer Science - Computation and Language}
+}

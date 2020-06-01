@@ -222,49 +222,82 @@ The current milestone was not reached since two tasks could not be finished enti
     \item Not enough experience with the hyperparameters; therefore will be discussed within the next meeting
 \end{enumerate}
 
-\chapter{Test concept}
-\label{app:Test-Concept}
-
 \clearpage
 \landscapevalues
 
-\begin{table}[htbp]
-    \centering
-    \caption{Test concept}
-	\label{tab:Test-Concept}
-    \begin{tabular}{p{.15\textwidth} | p{.40\textwidth} | p{.05\textwidth} | p{.15\textwidth} | p{.15\textwidth}}
+\chapter{Test concept}
+\label{app:Test-Concept}
+This chapter of the appendix contains detailed information about the manual tests conducted in the project to test each component thoroughly. For each manually conducted test case the steps, the status, the expected result and the actual result is given. The automated tests can be found in the \texttt{test} directory of the source code repository.
+
+\begin{longtable}{p{.15\textwidth} | p{.40\textwidth} | p{.05\textwidth} | p{.15\textwidth} | p{.15\textwidth}}
+        \caption{Test concept of the manual conducted tests}
+	    \label{tab:Test-Concept} \\
         \toprule
         \textbf{Test case} & \textbf{Steps} & \textbf{Status} & \textbf{Expected result} & \textbf{Actual result} \\ 
-        \midrule[1pt]
-        DCASE iterator & 
-        \begin{minipage}{5in}
+    \midrule[1pt]
+        Embedding models successfully train & 
+        \begin{minipage}{3.8in}
         \vskip 4pt
+        For each of the embedding models in the project:
         \begin{enumerate}
         \setlength\itemsep{0em}
-        \item get dataset from model factory
-        \item loop over dataset using for loop
-        \item check if the entries are not \texttt{None}
+        \item choose the embedding model to train
+        \item train the model for ten epochs on the DCASE dataset
+        \item check if the model started to converge during the training, by checking if the triplet loss value decreases
         \end{enumerate}
         \vskip 4pt
-        \end{minipage} & \cellcolor{green!30!white}passed & entries available & entries available \\
+        \end{minipage} & \cellcolor{green!30!white}passed & models converge & all of the models converged during the training \\
     \hline
-        DCASE triplets & 
-        \begin{minipage}{5in}
+        Classifier models successfully train & 
+        \begin{minipage}{3.8in}
+        \vskip 4pt
+        For each of the classifier models in the project:
+        \begin{enumerate}
+        \setlength\itemsep{0em}
+        \item choose a trained embedding model to embed the segments into the embedding space
+        \item choose the classifier model to train
+        \item train the classifier for ten epochs on the DCASE dataset
+        \item for each of the segments in the dataset, embed and then feed them to the classifier
+        \item check if the model started to converge during the training, by checking if the sparse categorical cross-entropy loss decreases 
+        \end{enumerate}
+        \vskip 4pt
+        \end{minipage} & \cellcolor{green!30!white}passed & classifiers converge & all of the classifiers converged during the training \\
+    \hline
+        Training process works & 
+        \begin{minipage}{3.8in}
         \vskip 4pt
         \begin{enumerate}
         \setlength\itemsep{0em}
-        \item get dataset from model factory
-        \item loop over dataset using for loop
-        \item for each entry in the dataset load triplets
-        \item loop over resulting triplets
-        \item check if there are three triplets
-        \item check if all constituents have dimension two 
+        \item choose a random embedding model, optimally not a very computing intensive one
+        \item train the model for ten epochs on the DCASE dataset
+        \item check if after ten epochs the training terminates
+        \item check if there were no errors during the training, for example because of the input pipeline
+        \item check if all of the metrics are correctly displayed on the Tensorboard
+        \item check if all of the metrics seem reasonable, no extremely low or high values after a few epochs
+        \item check if the model is successfully saved at the end of each epoch
         \end{enumerate}
         \vskip 4pt
-        \end{minipage} & \cellcolor{green!30!white}passed & dataset generates valid triplets & valid triplets generated \\
-        \bottomrule
-    \end{tabular}
-\end{table}
+        \end{minipage} & \cellcolor{green!30!white}passed & training process works & all of the checks were successfully and therefore the training process works \\
+    \hline
+        Training process stopped and started again & 
+        \begin{minipage}{3.8in}
+        \vskip 4pt
+        \begin{enumerate}
+        \setlength\itemsep{0em}
+        \item choose a random embedding model, optimally not a very computing intensive one
+        \item train the model for ten epochs on the DCASE dataset
+        \item after five epochs, stop the training procedure
+        \item start the training procedure again for five epochs with the same model, by changing the params in the \texttt{params.json} file
+        \item check if the model was successfully loaded
+        \item check if the model was trained from the fifth epoch again and not from scratch
+        \item check if there were no errors during the training, for example because of the input pipeline
+        \item check if the metrics show that the model was stopped during the training
+        \item check if the model is successfully saved
+        \end{enumerate}
+        \vskip 4pt
+        \end{minipage} & \cellcolor{green!30!white}passed & training process loads models correctly & all of the checks were successfully and therefore the training process for loading already trained models works, the metrics further show a continuous graph even if the training is stopped and than started again \\
+    \bottomrule
+\end{longtable}
 
 \clearpage
 \defaultpagestyle
@@ -437,12 +470,12 @@ This chapter contains all of the study docs from the conducted experiments, they
     \end{tabular}
 \end{table}
 
+\clearpage
+\landscapevalues
+
 \chapter{Work journal}
 \label{app:Work-Journal}
 Within this chapter, the whole work journal of the thesis is shown. The journal is divided into subcategories, so that the \fullref{tab:Work-Journal} is more pleased to read. These categories show what exactly was done in the different project phases, which can be seen in the \fullref{fig:Project-Plan}. There is also one more category called \flqq General\frqq, where all the administrative tasks are shown, including the meetings with the advisor.
-
-\clearpage
-\landscapevalues
 
 \begin{longtable}{| p{.10\textwidth} | p{.20\textwidth} | p{.50\textwidth} | p{.10\textwidth} |} 
 	\caption{Work Journal}
@@ -455,7 +488,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
     \hline
     \multicolumn{4}{|l|}{\textbf{General}} \\
     \hline
-    17.02.2020 & Preparation for Kick-Off Meeting & 
+    17.02.2020 & preparation for kick-off meeting & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -467,7 +500,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 1h  \\
     \hline
-    17.02.2020 & Kick-Off Meeting (number 1)& 
+    17.02.2020 & kick-off meeting (number 1)& 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -478,7 +511,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 1h 30min  \\
     \hline
-    24.02.2020 & Meeting (number 2) & 
+    24.02.2020 & meeting (number 2) & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -490,7 +523,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 2h  \\
     \hline
-    02.03.2020 & Meeting (number 3) & 
+    02.03.2020 & meeting (number 3) & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -502,7 +535,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 2h  \\
     \hline
-    02.03.2020 & Meeting GPU with Thomas Koller & 
+    02.03.2020 & meeting GPU with Thomas Koller & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -514,7 +547,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 0.5h  \\
     \hline
-    09.03.2020 & Meeting (number 4) & 
+    09.03.2020 & meeting (number 4) & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -526,7 +559,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 2h  \\
     \hline
-    16.03.2020 & Meeting (number 5) & 
+    16.03.2020 & meeting (number 5) & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -538,7 +571,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 2h  \\
     \hline
-    23.03.2020 & Meeting (number 6) & 
+    23.03.2020 & meeting (number 6) & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -550,7 +583,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 2h  \\
     \hline
-    30.03.2020 & Meeting (number 7) & 
+    30.03.2020 & meeting (number 7) & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -562,7 +595,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 2h  \\
     \hline
-    06.04.2020 & Meeting (number 8) & 
+    06.04.2020 & meeting (number 8) & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -574,7 +607,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 2h  \\
     \hline
-    15.04.2020 & Meeting (number 9) & 
+    15.04.2020 & meeting (number 9) & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -585,10 +618,108 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \vskip 4pt
         \end{minipage}
         & 2h  \\
+    \hline
+    20.04.2020 & meeting (number 10) & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item preparation of the meeting
+        \item meeting itself
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 2h  \\
+    \hline
+    21.04.2020 & interim presentation & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item preparation
+        \item presentation
+        \item discussion
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 5h  \\
+    \hline
+    27.04.2020 & meeting (number 11) & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item preparation of the meeting
+        \item meeting itself
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 2h  \\
+    \hline
+    04.05.2020 & meeting (number 12) & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item preparation of the meeting
+        \item meeting itself
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 2h  \\
+    \hline
+    11.05.2020 & meeting (number 13) & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item preparation of the meeting
+        \item meeting itself
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 2h  \\
+    \hline
+    19.05.2020 & meeting (number 14) & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item preparation of the meeting
+        \item meeting itself
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 2h  \\
+    \hline
+    25.05.2020 & meeting (number 15) & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item preparation of the meeting
+        \item meeting itself
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 2h  \\
+    \hline
+    28.05.2020 & interview Emanuel Oehri & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item preparation of interview guide
+        \item preparation of resources
+        \item interview itself
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 6h  \\
     \hline
     \multicolumn{4}{|l|}{\textbf{Documentation}} \\
     \hline
-    17.02.2020 & Documentation setup & 
+    17.02.2020 & documentation setup & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -602,37 +733,37 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 2h  \\
     \hline
-    19.02.2020 & Dataset documented & 
+    19.02.2020 & dataset documented & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item SINS Database
-        \item DCASE Task dataset
+        \item SINS database
+        \item DCASE task dataset
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 3h  \\
     \hline
-    24.02.2020 & Dataset section finished & 
+    24.02.2020 & dataset section finished & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Created table of the recorded activities in the \gls{SINS} database
-        \item Reread section and corrected
+        \item created table of the recorded activities in the \gls{SINS} database
+        \item reread section and corrected
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 1h  \\
     \hline
-    02.03.2020 & Triplet Loss section finished & 
+    02.03.2020 & triplet Loss section finished & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Documented Triplet Loss in related work
-        \item Reread section and corrected
+        \item documented Triplet Loss in related work
+        \item reread section and corrected
         \end{itemize}
         \vskip 4pt
         \end{minipage}
@@ -643,123 +774,123 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Documented Tile2Vec in related work
-        \item Reread section and corrected
-        \item Corrected equations
+        \item documented Tile2Vec in related work
+        \item reread section and corrected
+        \item corrected equations
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 2h  \\
     \hline
-    05.03.2020 & Started with intro to neural networks & 
+    05.03.2020 & started with intro to neural networks & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Researched neural networks
-        \item Documented neural networks
+        \item researched neural networks
+        \item documented neural networks
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 4h  \\
     \hline
-    06.03.2020 & Finished with intro to neural networks & 
+    06.03.2020 & finished with intro to neural networks & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Documented neural networks
+        \item documented neural networks
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 4h  \\
     \hline
-    05.03.2020 & Started with intro to convolutional neural networks & 
+    05.03.2020 & started with intro to convolutional neural networks & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Researched convolutional neural networks
-        \item Documented convolutional neural networks
+        \item researched convolutional neural networks
+        \item documented convolutional neural networks
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 2h  \\
     \hline
-    09.03.2020 & Finished intro to convolutional neural networks & 
+    09.03.2020 & finished intro to convolutional neural networks & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Documented convolutional neural networks
+        \item documented convolutional neural networks
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 3h  \\
     \hline
-    09.03.2020 & Documented various parts & 
+    09.03.2020 & documented various parts & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Documented project plan and milestones
-        \item Documented introduction
-        \item Documented appendix
-        \item Documented into to clustering
+        \item documented project plan and milestones
+        \item documented introduction
+        \item documented appendix
+        \item documented into to clustering
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 3h  \\
     \hline
-    11.03.2020 & Document changes applied from meeting & 
+    11.03.2020 & document changes applied from meeting & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Moving Dataset to related work
-        \item Changed denotation of loss function
-        \item Changed NN section
+        \item moving Dataset to related work
+        \item changed denotation of loss function
+        \item changed \gls{NN} section
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 1h  \\
     \hline
-    11.03.2020 & Finished intro to gated recurrent unit & 
+    11.03.2020 & finished intro to gated recurrent unit & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Documented gated recurrent unit
+        \item documented gated recurrent unit
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 2h  \\
     \hline
-    13.03.2020 & Finished status in relation to project & 
+    13.03.2020 & finished status in relation to project & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Researched state-of-the-art in audio deep learning
-        \item Documented status in relation to project
+        \item researched state-of-the-art in audio deep learning
+        \item documented status in relation to project
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 4h  \\
     \hline
-    15.03.2020 & Finished related work & 
+    15.03.2020 & finished related work & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Researched dilated convolution
-        \item Documented dilated convolution
+        \item researched dilated convolution
+        \item documented dilated convolution
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 2h  \\
     \hline
-    15.03.2020 & Milestone review & 
+    15.03.2020 & milestone review & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -770,31 +901,31 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 1h  \\
     \hline
-    27.03.2020 & Started with changes from Daniel & 
+    27.03.2020 & started with changes from Daniel & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Related Work changes
+        \item related work changes
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 2h  \\
     \hline
-    28.03.2020 & Started with chapter 3, Ideas and concepts & 
+    28.03.2020 & started with chapter 3, ideas and concepts & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Data preprocessing
-        \item Feature extraction
-        \item Data augmentation
+        \item data preprocessing
+        \item feature extraction
+        \item data augmentation
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 3h  \\
     \hline
-    29.03.2020 & Milestone review & 
+    29.03.2020 & milestone review & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -805,31 +936,31 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 1h  \\
     \hline
-    06.04.2020 & Finished with changes from Daniel & 
+    06.04.2020 & finished with changes from Daniel & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Related Work changes
+        \item related Work changes
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 1h  \\
     \hline
-    06.04.2020 & Worked on chapter 3, Ideas and concepts & 
+    06.04.2020 & worked on chapter 3, ideas and concepts & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Input pipeline
-        \item Triplet selection
+        \item input pipeline
+        \item triplet selection
         \item refactoring of chapter
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 3h 30min  \\
     \hline
-    12.04.2020 & Milestone review & 
+    12.04.2020 & milestone review & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -840,92 +971,208 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 1h  \\
     \hline
-    13.04.2020 & Worked on chapter 3, Ideas and concepts & 
+    13.04.2020 & worked on chapter 3, ideas and concepts & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Rewrote most of the sections
-        \item Finished draft of chapter 3
+        \item rewrote most of the sections
+        \item finished draft of chapter 3
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 3h \\
     \hline
-    13.04.2020 & Worked on chapter 4, Method &
+    13.04.2020 & worked on chapter 4, method &
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Updated project plan
-        \item Started with documentation of procedure model
+        \item updated project plan
+        \item started with documentation of procedure model
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 1h \\
     \hline
-    15.04.2020 & Worked on interim presentation &
+    15.04.2020 & worked on interim presentation &
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Created slides
-        \item Reviewed slides
+        \item created slides
+        \item reviewed slides
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 4h \\
     \hline
-    16.04.2020 & Worked on interim presentation &
+    16.04.2020 & worked on interim presentation &
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Practised presentation
+        \item practised presentation
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 4h \\
     \hline
-    20.04.2020 & Worked on interim presentation &
+    20.04.2020 & worked on interim presentation &
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Practised presentation
+        \item practised presentation
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 2h \\
     \hline
-    24.04.2020 & Worked on chapter 4, Method &
+    24.04.2020 & worked on chapter 4, method &
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Project structure
-        \item Resources
-        \item Evaluation
+        \item project structure
+        \item resources
+        \item evaluation
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 6h \\
     \hline
-    \multicolumn{4}{|l|}{\textbf{Research}} \\
-    \hline
-    17.02.2020 & Research Dataset & 
+    25.04.2020 & worked on chapter 5, realisation &
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item finished with DCASE - Challenge description
-        \item started with SINS Database Paper
+        \item overall structure
+        \item started with UML diagrams
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 3h \\
+    \hline
+    30.04.2020 & thesis changes of chapter 1, 3, 4 and 5 &
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item thesis corrections
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 4h \\
+    \hline
+    03.05.2020 & milestone review & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item M5 milestone review
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 1h  \\
+    \hline
+    06.05.2020 & worked on chapter 5, realisation &
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item documented realisation
+        \item created UML diagrams
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 4h \\
+    \hline
+    08.05.2020 & worked on chapter 5, realisation &
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item finished with realisation
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 6h \\
+    \hline
+    23.05.2020 & worked on chapter 6, results &
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item started with results from DCASE challenge dataset
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 4h \\
+    \hline
+    25.05.2020 & worked on chapter 4, method &
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item added detailed information about work packages, artefacts and phases
+        \item added risk analysis
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 3h \\
+    \hline
+    30.05.2020 & worked on chapter 6, results &
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item results from DCASE challenge dataset
+        \item results from music dataset
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 6h \\
+    \hline
+    31.05.2020 & worked on chapter 6, results &
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item finished with chapter
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 3h \\
+    \hline
+    31.05.2020 & worked on chapter 7, conclusion &
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item project conclusion
+        \item discussion
+        \item outlook
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 5h \\
+    \hline
+    \multicolumn{4}{|l|}{\textbf{Research}} \\
+    \hline
+    17.02.2020 & research dataset & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item finished with DCASE - challenge description
+        \item started with SINS database paper
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 2h 30min  \\
     \hline
-    21.02.2020 & Audio processing research & 
+    21.02.2020 & audio processing research & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -940,7 +1187,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 5h  \\
     \hline
-    26.02.2020 & Audio processing research & 
+    26.02.2020 & audio processing research & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -952,7 +1199,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 3h  \\
     \hline
-    27.02.2020 & Audio processing research & 
+    27.02.2020 & audio processing research & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -964,7 +1211,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 4h  \\
     \hline
-    28.02.2020 & Triplet Loss research & 
+    28.02.2020 & triplet loss research & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -975,7 +1222,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 3h  \\
     \hline
-    01.03.2020 & Triplet Loss research & 
+    01.03.2020 & triplet loss research & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -998,9 +1245,20 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 5h  \\
     \hline
+    31.05.2020 & documented other relevant work & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item summarised other relevant work for the thesis
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 2h  \\
+    \hline
     \multicolumn{4}{|l|}{\textbf{Realisation}} \\
     \hline
-    14.03.2020 & Started with project setup and input pipeline & 
+    14.03.2020 & started with project setup and input pipeline & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -1013,7 +1271,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 8h  \\
     \hline
-    15.03.2020 & Started with input pipeline & 
+    15.03.2020 & started with input pipeline & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -1025,7 +1283,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 2h  \\
     \hline
-    16.03.2020 & Input pipeline finished & 
+    16.03.2020 & input pipeline finished & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -1037,7 +1295,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 7h  \\
     \hline
-    18.03.2020 & Project setup & 
+    18.03.2020 & project setup & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -1048,67 +1306,67 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 2h  \\
     \hline
-    18.03.2020 & Implementation & 
+    18.03.2020 & implementation & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Triplet loss implemented
-        \item Dense model implemented
-        \item Started with projector visualisation
+        \item triplet loss implemented
+        \item dense model implemented
+        \item started with projector visualisation
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 5h  \\
     \hline
-    20.03.2020 & Implementation & 
+    20.03.2020 & implementation & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Train workflow implemented
+        \item train workflow implemented
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 5h  \\
     \hline
-    23.03.2020 & Implementation & 
+    23.03.2020 & implementation & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Tested models and workflow on GPU
-        \item Convolutional model implemented
+        \item tested models and workflow on GPU
+        \item convolutional model implemented
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 5h  \\
     \hline
-    25.03.2020 & Implementation & 
+    25.03.2020 & implementation & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Convolutional model edited (1D and 2D)
-        \item Training workflow edited
+        \item convolutional model edited (1D and 2D)
+        \item training workflow edited
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 4h  \\
     \hline
-    27.03.2020 & Implementation & 
+    27.03.2020 & implementation & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Factories implemented
-        \item Metrics implemented
+        \item factories implemented
+        \item metrics implemented
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 5h  \\
     \hline
-    31.03.2020 & Implementation & 
+    31.03.2020 & implementation & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
@@ -1120,82 +1378,140 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 4h  \\
     \hline
-    03.04.2020 & Implementation & 
+    03.04.2020 & implementation & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Music dataset pipeline
-        \item Unit tests finished
-        \item Documentation of code
-        \item Worked on Classifier
+        \item music dataset pipeline
+        \item unit tests finished
+        \item documentation of code
+        \item worked on classifier
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 6h  \\
     \hline
-    04.04.2020 & Implementation & 
+    04.04.2020 & implementation & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Worked on evaluation workflow
+        \item worked on evaluation workflow
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 3h  \\
     \hline
-    07.04.2020 & Implementation & 
+    07.04.2020 & implementation & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Input pipeline multiprocessing
+        \item input pipeline multiprocessing
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 5h  \\
     \hline
-    08.04.2020 & Implementation & 
+    08.04.2020 & implementation & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Changed triplet selection of datasets
+        \item changed triplet selection of datasets
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 6h  \\
     \hline
-    12.04.2020 & Implementation & 
+    12.04.2020 & implementation & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Finished evaluation workflow
-        \item Added new metrics to classifier
+        \item finished evaluation workflow
+        \item added new metrics to classifier
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 4h  \\
     \hline
-    14.04.2020 & Implementation & 
+    14.04.2020 & implementation & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Input pipeline speedup
+        \item input pipeline speedup
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 3h  \\
     \hline
-    15.04.2020 & Implementation & 
+    15.04.2020 & implementation & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item Added ResNet architecture
+        \item added ResNet architecture
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 4h  \\
+    \hline
+    22.04.2020 & implementation & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item bug fixes
+        \item added zero filtering triplet loss strategy
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 4h  \\
+    \hline
+    28.04.2020 & implementation & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item regularisation added to models
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 4h  \\
+    \hline
+    30.04.2020 & implementation & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item bug fixes classifier
+        \item bug fixes metrics
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 3h  \\
+    \hline
+    05.05.2020 & implementation & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item added logistic classifier
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 1h  \\
+    \hline
+    08.05.2020 & implementation & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item big refactoring
+        \item code documentation
         \end{itemize}
         \vskip 4pt
         \end{minipage}
@@ -1203,38 +1519,108 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
     \hline
     \multicolumn{4}{|l|}{\textbf{Experiments}} \\
     \hline
-    17.03.2020 & Started with first experiment & 
+    17.04.2020 until 22.04.2020 & experiment margin & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item margin experiment
+        \item started experiment
+        \item evaluated results
+        \item created study doc template
+        \item wrote study doc
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 8h  \\
+    \hline
+    22.04.2020 until 28.04.2020 & experiment feature & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item started experiment
+        \item evaluated results
+        \item wrote study doc
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 6h  \\
+    \hline
+    30.04.2020 until 05.05.2020 & experiment tile size & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item started experiment
+        \item evaluated results
+        \item wrote study doc
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 6h  \\
+    \hline
+    06.05.2020 until 11.05.2020 & experiment embedding size & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item started experiment
+        \item evaluated results
+        \item wrote study doc
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 8h  \\
+    \hline
+    11.05.2020 until 13.05.2020 & experiment regularisation factor & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item started experiment
+        \item evaluated results
+        \item wrote study doc
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 5h  \\
     \hline
-    22.03.2020 & Finished with first experiment & 
+    15.05.2020 until 20.05.2020 & experiment embedding size larger & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item margin experiment
+        \item started experiment
+        \item evaluated results
+        \item wrote study doc
         \end{itemize}
         \vskip 4pt
         \end{minipage}
-        & 5h  \\
+        & 6h  \\
     \hline
-    23.03.2020 & Started with experiment & 
+    20.05.2020 until 24.05.2020 & final model for DCASE dataset trained & 
         \begin{minipage}{5in}
         \vskip 4pt
         \begin{itemize}
         \setlength\itemsep{0em}
-        \item feature representation
+        \item final model trained
+        \item evaluated results
         \end{itemize}
         \vskip 4pt
         \end{minipage}
         & 3h  \\
+    \hline
+    23.05.2020 until 30.05.2020 & final model for music dataset trained & 
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item trained model using the same hyperparameters on the music dataset
+        \item evaluated results
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 5h  \\
     \hline
 \end{longtable}
 
@@ -1243,7 +1629,6 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
 
 \chapter{Task definition bachelor thesis}
 \label{app:Task-Definition}
-
 Within this chapter the final task definition, which was submitted and accepted by the Transfer Office of the Lucerne University of Applied Sciences and Arts on the 25.02.2020, is attached.
 
 \includepdf[scale=1.0, pages=1-]{files/Aufgabenstellung_DeepEmbeddedMusic.pdf}
