@@ -1,10 +1,10 @@
 \chapter{Method}
 \label{ch:Method}
-In this chapter, the used methods within the thesis will be described. This includes the project plan (\ref{sec:Project-Plan}), where the whole project plan is explained in detail, and the procedure model (\ref{sec:Procedure-Model}), which is used to realise the thesis. This chapter also contains the methods and structure on how to test (\ref{sec:Testing}) and evaluate (\ref{sec:Evaluation}) the success of the project, as well as the overall project structure (\ref{sec:Project-Structure}).
+In this chapter, the methods, which are used in the thesis, will be described. This includes the project plan (\ref{sec:Project-Plan}), where the whole project plan is explained in detail, the procedure model (\ref{sec:Procedure-Model}), which is used to realise the thesis and the risk analysis (\ref{sec:Risk-Analysis}). This chapter further describes how the success of the project is measured and compared (\ref{sec:Evaluation}) as well as how to test the individual components (\ref{sec:Testing}). Finally, it contains information about the overall project structure (\ref{sec:Project-Structure}).
 
 \section{Project plan}
 \label{sec:Project-Plan}
-Within this section of the thesis, the project plan is shown, which is illustrated in figure \ref{fig:Project-Plan}. The project is divided into four different phases. At the end of each phase, there is a milestone, which will review the process within the phase and provide an outlook on the next phase. The first phase is doing research, where many resources are gathered, and essential pieces of information are extracted and documented. The goal of this stage is to get a better understanding of the concepts, which will need to be used, as well as what already has been done by other researchers. Afterwards, the realisation of the project takes place, where the models, input pipeline and Tile2Vec will be implemented and tested. Then different experiments will be conducted, to validate the realisation and experiment with different hyperparameters. At last, the documentation will be finalised and proofread. There is also a one week buffer before the finalisation of the documentation, which will be used for unpredictable problems. The chapters of the documentation will be regularly written during each phase.
+Within this section of the thesis, the project plan is shown, based on figure \ref{fig:Project-Plan}. The project is divided into four different phases. At the end of each phase, there is a milestone, which will review the process within the phase and provide an outlook on the next phase. The first phase is doing research, where many resources are gathered, and essential pieces of information are extracted and documented. The goal of this stage is to get a better understanding of the concepts, which already exist. It further aims to get insights into the current status of the research in the audio domain. Afterwards, the realisation of the project takes place, where the models, input pipeline and Tile2Vec will be implemented and tested. Then different experiments will be conducted, to validate the realisation and experiment with different hyperparameters. At last, the documentation will be finalised and proofread. There is also a one week buffer before the finalisation of the documentation, which will be used for unpredictable problems. The chapters of the documentation will be continuously written during each phase.
 \newline
 \newline
 The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases are shown in orange, tasks within each phase are blue, and milestones are red diamonds. Each dotted column represents one week within a specific month (e.g. Feb, Mar). A task further has information about how far it is into completion.
@@ -101,7 +101,7 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
 The waterfall model is a breakdown of project activities into linear sequential phases, where each phase depends on the deliverables of the previous one and corresponds to a specialisation of tasks. For this project, a custom waterfall model is used, which differs quite profoundly from Royce's original waterfall model. The procedure model is shown in figure \ref{fig:Project-Plan}.
 \newline
 \newline
-The main reason why a linear procedure model is used and not an iterative such as SCRUM is, that, the project is an innovation/research project, where the main focus is on conducting experiments and searching for new findings for the problem definition. Therefore, it is obvious which tasks need to be completed during each phase and what each one of them has to deliver before going to the next phase. Another reason why the waterfall model is chosen is that the project is done only by a single person and therefore there is no waiting for others to complete their task before going to the next phase since all of the work carried out is done by one person. Another benefit compared to an iterative procedure model is, that the project is already clearly defined by the start of the project and the artefacts, which will need to be delivered by the end of the project, is also given at the start. Therefore the status of the project is evident at any point during the project.
+The main reason why a linear procedure model is used and not an iterative such as SCRUM is, that, the project is an innovation/research project, where the main focus is on conducting experiments and searching for new findings for the problem definition. Therefore, it is obvious which tasks need to be completed during each phase and what each one of them has to deliver before going to the next phase. Another reason why the waterfall model is chosen is that the project is done only by a single person and therefore there is no waiting for others to complete their task before going to the next phase since all of the work carried out is done by one person. Another benefit compared to an iterative procedure model is, that the project is already clearly defined by the start of the project and the artefacts, which will need to be delivered by the end of the project, is as well given at the start. Therefore the status of the project is evident at any point during the project.
 
 \subsection{Project phases}
 \label{sec:Project-Phases}
@@ -121,12 +121,12 @@ The main reason why a linear procedure model is used and not an iterative such a
         \hline
         P4 & Buffer & The buffer phase is used to provide an extra one week buffer if there is a  delay with one of the phases before. Therefore, this phase is variable and does not have clear deliverables at the start of the project. If the buffer is not needed, it will be used to extend the last phase P5. \\
         \hline
-        P5 & Finalise documentation & The last phase is used to finalise the thesis, create the web abstract and the pitching video. These are all artefacts, which are needed to submit the thesis. The deliverables are therefore the finished documentation, the pitching video and the web abstract (D5). \\
+        P5 & Finalise documentation & The last phase is used to finalise the thesis, create the web abstract and the pitching video. These are all artefacts, which are needed to submit the thesis. The deliverables are, therefore, the finished documentation, the pitching video and the web abstract (D5). \\
         \bottomrule
     \end{tabular}
 \end{table}
 \noindent
-The project is grouped into four phases, \textit{research}, \textit{realisation}, \textit{experiments} and \textit{finalise documentation}. However, there is also an additional \textit{buffer} phase which will be used where ever there is a need for an additional week to finish the phase. All of these phases consist of multiple tasks which need to be completed before going on the next one. Each phase is only then completed when the deliverables for the phase are delivered and reviewed. The table \ref{tab:Phases}, describes each phase in more detail and further describes the deliverables of each one of them.
+The project is grouped into four phases, \textit{research}, \textit{realisation}, \textit{experiments} and \textit{finalise documentation}. However, there is as well an additional \textit{buffer} phase which will be used where ever there is a need for an additional week to finish the phase. All of these phases consist of multiple tasks which need to be completed before going to the next step. Each phase is only then completed when the deliverables for the phase are delivered and reviewed. The table \ref{tab:Phases}, describes each phase in more detail and further describes the deliverables of each one of them.
 
 \subsection{Deliverables}
 \label{sec:Deliverables-Project}
@@ -142,7 +142,7 @@ The project is grouped into four phases, \textit{research}, \textit{realisation}
         \hline
         D2 & Evaluation workflow &  Implementation of the evaluation workflow to validate the model performance on either of the datasets. \\
         \hline
-        D3 & Implementation codebase & Implementation of the codebase for training the model. This consists of the implementation of the input and training pipeline. \\
+        D3 & Implementation codebase & Implementation of the codebase for training the model. This consists of the realisation of the input and training pipeline. \\
         \hline
         D4 & Experiments (study docs) &  For each of the conducted experiments, a separate study doc needs to be delivered, which will be used to provide detailed information about the experiments and its outcome. \\
         \hline
@@ -180,7 +180,7 @@ Deliverables are artefacts which need to be delivered at the end of each phase t
     \end{tabular}
 \end{table}
 \noindent
-There is a specific milestone at the end of each phase \ref{tab:Phases}, which reviews the deliverables and the work done within the phase. The milestone review further aims to provide an outlook on the next phase and the current status of the project. The review is done by writing a report for each milestone, which can be found in the appendix milestone reports (\ref{app:Milestone-Reports}). Each of these reports gives insight about the status of the project by answering the questions \textit{what was done since the last reporting?}, \textit{what is the state of progress of the project} and \textit{what are the top three risks?}, which also includes the planned measures to take. The reports provide valuable insights into the projects current status and are therefore used to plan the next phases. Table \ref{tab:Milestones} shows all the milestones with the corresponding data assigned to it. The milestones are illustrated in the full project plan \ref{fig:Project-Plan} in red.
+There is a specific milestone at the end of each phase \ref{tab:Phases}, which reviews the deliverables and the work done within the phase. The milestone review further aims to provide an outlook on the next phase and the current status of the project. The review is done by writing a report for each milestone, which can be found in the appendix milestone reports (\ref{app:Milestone-Reports}). Each of these reports gives insight about the status of the project by answering the questions \textit{what was done since the last reporting?}, \textit{what is the state of progress of the project} and \textit{what are the top three risks?}, which further includes the planned measures to take. The reports provide valuable insights into the projects current status and are therefore used to plan the next phases. Table \ref{tab:Milestones} shows all the milestones with the corresponding data assigned to it. The milestones are illustrated in the full project plan \ref{fig:Project-Plan} in red.
 \newline
 \newline
 It is important to note that the milestone \textit{M4: Interim presentation} does not conclude a phase. It is purely used to show wherein the project the interim presentation is held and what needs to be delivered until then. Therefore, for this milestone, no milestone report is being written.
@@ -209,7 +209,7 @@ It is important to note that the milestone \textit{M4: Interim presentation} doe
         \hline
         R5 & The model fails to find an optimal embedding space for the music dataset & The second part of the project fails, and the unsupervised triplet loss approach will be discarded. & This is a limitation of the project and is part of the research process. \\
         \hline
-        R6 & The project can not be completed due to time limitations. & Some of the deliverables can not be delivered at the end of the project. The goal of the project is not reached. & Early start of the documentation, consequent documentation, meetings with the advisor and rapid changes if a loss of time is observed. \\ 
+        R6 & The project can not be completed due to time limitations. & Some of the deliverables can not be delivered at the end of the project. The goal of the project is not reached. & Early start of the documentation, consequent documenting, meetings with the advisor and rapid changes if a loss of time is observed. \\ 
         \bottomrule
     \end{tabular}
 \end{table}
@@ -259,16 +259,16 @@ The evaluation is done for both used datasets separately, and in a relatively di
 The evaluation of the embedding space for the \fullref{sub:DCASE-Task-Dataset} is done in a few separate steps. The development dataset of the challenge is further split into an \texttt{development-training} and an \texttt{development-evaluation} set. First, an arbitrary embedding architecture is being trained on the \texttt{development-training} dataset and evaluated on the \texttt{development-evaluation} set using the metrics available for the embedding (\ref{sec:Metrics}), this process is repeated until an architecture with the desired performance is found.
 \newline
 \newline
-To then further evaluate the performance of the resulting embedding space, a simple classifier is trained using the embeddings as input. There are two different classifiers used to evaluate the embedding space, a logistic classifier and a two-layered classifier. Both of the classifiers are visualised in figure \ref{fig:Classifier-DCASE-Visualisation}.
+To then further evaluate the performance of the resulting embedding space, a simple classifier is trained using the embeddings as input. There are two different classifiers used to evaluate the embedding space, a linear logistic classifier and a two-layered classifier. Both of the classifiers are visualised in figure \ref{fig:Classifier-DCASE-Visualisation}.
 \newline
 \newline
-The logistic classifier (\ref{fig:logistic-classifier}) only consists out of a single softmax output layer, which has the same amount of output units as there are classes in the dataset. The two-layered classifier (\ref{fig:dense-classifier}) consists of a two-layered dense model and a softmax output layer. Both classifiers are used to evaluate the embedding space. However, their idea is quite different from each other. The logistic classifier tries to separate the embedding space using a hyperplane and therefore shows how well separated the embedding clusters are. The dense classifier shows how much of a performance gain there is when using the embedding space with a deeper \gls{NN}.
+The linear logistic classifier (\ref{fig:logistic-classifier}) only consists of a single softmax output layer, which has the same amount of output units as there are classes in the dataset. The two-layered classifier (\ref{fig:dense-classifier}) consists of a two-layered dense model and a softmax output layer. Both classifiers are used to evaluate the embedding space. However, their idea is quite different from each other. The linear classifier tries to separate the embedding space using a hyperplane and therefore shows how well separated the embedding clusters are. The dense classifier shows how much of a performance gain there is when using the embedding space with a deeper \gls{NN}.
 \newline
 \newline
-The macro-averaged F1 score of the logistic classifier is compared to other F1 scores from the experiment, to evaluate the different embedding spaces. The classifier is trained on the raw audio representation itself to provide a baseline F1 score, to show the performance gain when using the embedding space.
+The macro-averaged F1 score of the linear logistic classifier is compared to other F1 scores from the experiment, to evaluate the different embedding spaces. The classifier is trained on the raw audio representation itself to provide a baseline F1 score, to show the performance gain when using the embedding space.
 \newline
 \newline
-In the final step, the resulting embedding space, as well as the trained logistic classifier will be used on the evaluation dataset of the challenge, where the resulting macro-averaged F1 score is compared to the accomplished score by the submitted models. This aims to show the result which can be accomplished when using the dataset in an unsupervised setting and only focusing on the audio data itself rather than the label.
+In the final step, the resulting embedding space, as well as the trained classifier will be used on the evaluation dataset of the challenge, where the resulting macro-averaged F1 score is compared to the accomplished score by the submitted models. The aim is to show the result which can be accomplished when using the dataset in an unsupervised setting and only focusing on the audio data itself rather than the label.
 \newline
 \newline
 The overall goal is to achieve the highest possible macro-averaged F1 score on the evaluation dataset provided by the DCASE challenge. 
@@ -300,7 +300,7 @@ However, the main goal is to show that the resulting embedding space represents 
         \node[activation] {Dense output: \\ 9 units (num. of classes), softmax};
         \node[point] {Output};
     \end{tikzpicture}
-  \caption{Logistic classifier}
+  \caption{Linear logistic classifier}
   \label{fig:logistic-classifier}
 \end{subfigure}
 \caption{Visualisation of the different classifier architectures}
@@ -312,7 +312,7 @@ However, the main goal is to show that the resulting embedding space represents 
 The process of evaluating the embedding space for the music dataset (\ref{sub:Music-Dataset}) is a bit more complicated since there are no prior results on this exact dataset, nor a baseline model to compare it to. The first evaluation of the embedding is relatively similar to the one for the \fullref{sub:Eval-DCASE}. The dataset is split into an \texttt{training}, \texttt{evaluation} and \texttt{test} set. Then the \texttt{training} dataset is used to train the embedding architecture and is evaluated on the \texttt{evaluation} set with the metrics specified in metrics (\ref{sec:Metrics}). After that, the model, which resulted in the best metrics, is chosen and is further evaluated.
 \newline
 \newline
-The idea of training a simple logistic classifier using the embedding space as input, which was specifically made for the comparison of the noise detection dataset, can however also be used when evaluating the music dataset. The result of the classifier is then not used to compare the results to some other results, but to check how easy a logistic classifier can separate the clusters, by trying to place a hyperplane between them. This result then gives some insights about the resulting clusters and their separation.
+The idea of training a simple linear logistic classifier using the embedding space as input, which was specifically made for the comparison of the noise detection dataset, can however as well be used when evaluating the music dataset. The result of the classifier is then not used to compare the results to some other results, but to check how easy a linear classifier can separate the clusters, by trying to place a hyperplane between them. This result then gives some insights about the resulting clusters and their separation.
 \newline
 \newline
 Since one of the requirements of the project is to examine the resulting clusters of the music embedding space, a simple clustering algorithm, such as \fullref{sub:K-Means}, is being applied on the resulting embeddings of the \texttt{test} set and afterwards on the full dataset. This should provide a crucial insight into the resulting clusters and the performance of the embedding architecture. It further aims to show which categories of the dataset are in the nearby region and therefore should represent similar categories. 
@@ -322,7 +322,7 @@ Another requirement of the embedding space is that it should provide some simila
 
 \section{Testing}
 \label{sec:Testing}
-All of the components in the project are tested with the TensorFlow unit tests module called \texttt{tf.test}\footnote{\url{https://www.tensorflow.org/api_docs/python/tf/test}}. A test environment is created, which contains a small fraction of the dataset to speed up the testing process because testing on the entire dataset would be infeasible. For the entire implementation process, the test first principle is used to produce better and more reliable code. All of the test cases are kept as small as possible. However, a lot of them require other dependencies, such as the input pipeline to work. Therefore some tests are quite big because they need a lot of different dependencies. However, since all of the components are tested as well, and the thesis is a research project, it is plausible.
+All of the components in the project are tested with the TensorFlow unit tests module called \texttt{tf.test}\footnote{\url{https://www.tensorflow.org/api_docs/python/tf/test}}. A test environment is created, which contains a small fraction of the dataset to speed up the testing process because testing on the entire dataset would be infeasible. For the entire implementation process, the test first principle is used to produce better and more reliable code. All test cases are kept as small as possible. However, some require other dependencies, such as the input pipeline to work. Therefore some tests are quite big because they need a lot of different dependencies. However, since all of the components are tested as well, and the thesis is a research project, it is plausible.
 \newline
 \newline
 Table \ref{tab:Components-Testing} lists all of the components in the project and gives detailed information about the testing method and the reason behind it. All of the unit tests can be found in the source repository of this project in the \texttt{test} directory, categorised by the component they test. Since some of the tests are conducted manually, a comprehensive test concept can be found in the appendix (\ref{tab:Test-Concept}) for the manual tests.
@@ -360,18 +360,18 @@ The thesis consists of two projects, a project for the documentation and a proje
 \begin{figure}[ht]
     \dirtree{%
     .1 deep-embedded-music/.
-    .2 data/ \ldots{} (contains the datasets used).
+    .2 data/.
     .2 experiments/.
-    .3 config/ \ldots{} (configuration for the experiment).
-    .3 DCASE/ \ldots{} (results from DCASE experiments).
-    .3 DJ/ \ldots{} (results from DJ experiments).
-    .2 notebooks/ \ldots{} (contains the jupyter-notebooks).
-    .2 src/ \ldots{} (source code of the thesis).
-    .2 test/ \ldots{} (contains the unit tests).
-    .2 test-environment/ \ldots{} (test environment for the unit tests).
-    .2 Dockerfile \ldots{} (docker file for the repository).
-    .2 onstart.sh \ldots{} (script to start the training).
-    .2 requirements.txt \ldots{} (requirements for the project).
+    .3 config/.
+    .3 DCASE/.
+    .3 DJ/.
+    .2 notebooks/.
+    .2 src/.
+    .2 test/.
+    .2 test-environment/.
+    .2 Dockerfile.
+    .2 onstart.sh.
+    .2 requirements.txt.
     }
 \caption{Overview of the source repository \flqq deep embedded music\frqq}
 \label{fig:Project-Overview-Source}
@@ -382,10 +382,15 @@ Figure \ref{fig:Project-Overview-Source} illustrates the project structure of th
 \begin{figure}[ht]
     \dirtree{%
     .1 baa-doc-deep-embedded-music/.
-    .2 baa-documentation/.
-    .2 baa-intermediate-presentation/.
-    .2 baa-final-presentation/.
-    .2 baa-study-doc/.
+    .2 files/.
+    .2 img/.
+    .2 include/.
+    .2 intermediate-presentation/.
+    .2 final-presentation/.
+    .2 study-doc/.
+    .2 BAA-Documentation.tex.
+    .2 README.md.
+    .2 references.bib.
     }
 \caption{Overview of the documentation repository \flqq baa-doc-deep-embedded-music\frqq}
 \label{fig:Project-Overview-Documentation}
@@ -397,7 +402,7 @@ Figure \ref{fig:Project-Overview-Documentation} illustrates the project structur
 Both datasets used for the thesis were used as they are and therefore did not need to be kept within a specific repository for the project. The dataset of the DCASE challenge 2018 - Task 5 consists of a development and evaluation dataset, which are both hosted on Zendo\footnote{\url{https://zenodo.org}}. The development dataset is available under \url{https://zenodo.org/record/1247102} while the evaluation dataset is available under \url{https://zenodo.org/record/1964758}. 
 \newline
 \newline
-The music dataset was kindly provided by mister Emanuel Oehri and is available as a private GitLab Git LFS repository, which will be kept as a private repository since all the songs provided are property of mister Oehri.
+The music dataset was kindly provided by Mr Emanuel Oehri and is available as a private GitLab Git LFS repository, which will be kept as a private repository since all the songs provided are property of Mr Oehri.
 
 \section{Resources}
 \label{sec:Resources}

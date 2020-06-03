@@ -1,6 +1,6 @@
 \chapter{Realisation}
 \label{ch:Realisation}
-This chapter describes the realisation of the project, and provides some insights into the ideas, which led to the current implementation. The implementation was written in \textbf{Python 3.6.9} and \textbf{TensorFlow 2.1}. To standardise the realisation, standard docker images are used, which are provided by TensorFlow, called \texttt{tensorflow/tensorflow:2.1.0-py3}, respectively \texttt{tensorflow/tensorflow:2.1.0-gpu-py3} to utilise a GPU.
+This chapter describes the realisation of the project and provides some insights into the ideas, which led to the current implementation. The implementation was written in \textbf{Python 3.6.9} and \textbf{TensorFlow 2.1}. To standardise the realisation, standard docker images are used, which are provided by TensorFlow, called \texttt{tensorflow/tensorflow:2.1.0-py3}, respectively \texttt{tensorflow/tensorflow:2.1.0-gpu-py3} to utilise a GPU.
 
 \section{Project components}
 \label{sec:Project-Components}
@@ -104,7 +104,7 @@ Each one of these components is described in further detail within this section 
 	\label{fig:UML-Params}
 \end{figure}
 \noindent
-In machine learning projects one of the most important aspects of it are the hyperparameters, which are parameters directly chosen by the developer and are not optimised by the algorithm itself. These hyperparameters are used for tuning the model to achieve the best possible outcome and to do that, a lot of experiments have to be conducted. Therefore it is important to have the possibility to tune each parameter in a single file which are then used through out the entire training process for the particular model. In this project the class \texttt{Params} does exactly that, shown in figure \ref{fig:UML-Params}, it is a class which reads the hyperparameters from a json file called \texttt{params.json} and saves the values to the specified variable. These variables are then used throughout the project and modify the model accordingly.
+In machine learning projects, one of the most important aspects, are the hyperparameters, which are parameters directly chosen by the developer, and are not optimised by the algorithm itself. These hyperparameters are used for tuning the model to achieve the best possible outcome and to do that, a lot of experiments have to be conducted. Therefore it is essential to have the possibility to tune each parameter in a single file, which is then used throughout the entire training process for the particular model. In this project the class \texttt{Params} does exactly that (\ref{fig:UML-Params}), it is a class which reads the hyperparameters from a JSON file called \texttt{params.json} and saves the values to the specified variable. These variables are then used throughout the project and modify the model accordingly.
 
 \subsection{Feature extractor}
 \label{sub:Component-Feature-Extractor}
@@ -288,7 +288,7 @@ The main benefit of the factory pattern is, that, the representation used to tra
 	\label{fig:UML-Input-Pipeline}
 \end{figure}
 \noindent
-The entire input pipeline consists out of different components, the \texttt{BaseDataset} and its implementations, the \texttt{DatasetFactory}, the \texttt{DatasetType} enum and the \texttt{TripletsInputPipeline}, which is the core component. All of the components and their connection are visualised in figure \ref{fig:UML-Input-Pipeline} as an UML diagram. The pipeline is responsible for loading and preparing the data in a machine readable format, by connecting the \texttt{Feature extractor} with the \texttt{Dataset}. The output of the pipeline will then be fed into the model for training or testing.
+The entire input pipeline consists out of different components, the \texttt{BaseDataset} and its implementations, the \texttt{DatasetFactory}, the \texttt{DatasetType} enum and the \texttt{TripletsInputPipeline}, which is the core component. All of the components and their connection are visualised in figure \ref{fig:UML-Input-Pipeline} as a UML diagram. The pipeline is responsible for loading and preparing the data in a machine-readable format, by connecting the \texttt{Feature extractor} with the \texttt{Dataset}. The output of the pipeline will then be fed into the model for training or testing.
 \newline
 \newline
 The \texttt{BaseDataset} provides a base implementation of a dataset along with some general functions. \texttt{DCASEDataset} and \texttt{MusicDataset} are concrete implementations of the \texttt{BaseDataset}. These implementations are responsible for loading the dataset from the raw data and for the process of triplet selection. Both of these responsibilities have to be implemented separately for each dataset. The \texttt{DatasetFactory} is a factory class, which is responsible for instantiating the different implementations of the \texttt{BaseDataset} in a handy way, by simply providing the name of the class registered in the factory. The factory is implemented using the python decorator pattern, which is a convenient way of registering each class in the factory since simply the decorator has to be added on top of each class.
@@ -714,10 +714,10 @@ ResNet is a state-of-the-art \gls{CNN} architecture, which has many different im
 	\label{fig:UML-Models-Classifier}
 \end{figure}
 \noindent
-The \texttt{models\_classifier} directory contains both of the classifier models, which are used to evaluate and compare the different embedding architectures. The structure of the directory is given by the figure \ref{fig:UML-Models-Classifier}. Both of the classifiers get an embedded audio segment as their input and then try to classify it in one of the given classes. The classifier is trained in a supervised setting, which means that for each embedded sample, its label is given.
+The \texttt{models\_classifier} directory contains both of the classifier models, which are used to evaluate and compare the different embedding architectures. The structure of the directory is given by figure \ref{fig:UML-Models-Classifier}. Both of the classifiers get an embedded audio segment as their input and then try to classify it in one of the given classes. The classifier is trained in a supervised setting, which means that for each embedded sample, its label is given.
 \newline
 \newline
-The difference between the \texttt{ClassifierDense} and the \texttt{ClassifierLogistic} is, that the dense classifier has two fully connected layers with 256 nodes before the output layer and the logistic classifier just has the output layer. The \texttt{ClassifierLogistic} aims to show how easy it is to separate the resulting clusters in the embedding space. This classifier is mainly used to compare different embedding spaces. The \texttt{ClassifierDense} aims to show how a simple model trained on the embedding space would perform.
+The difference between the \texttt{ClassifierDense} and the \texttt{ClassifierLogistic} is, that the dense classifier has two fully connected layers with 256 nodes before the output layer and the linear logistic classifier merely has the output layer. The \texttt{ClassifierLogistic} aims to show how easy it is to separate the resulting clusters in the embedding space. This classifier is mainly used to compare different embedding spaces. The \texttt{ClassifierDense} aims to show how a simple model trained on the embedding space would perform.
 
 \section{Training}
 \label{sec:Training}
