@@ -60,6 +60,13 @@ For the music dataset (\ref{sub:Music-Dataset}), the triplet selection is made r
 
 \section{Input pipeline}
 \label{sec:Input-Pipeline}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.4]{img/Input_Pipeline_Visualisation.png}
+	\caption{Visualisation of the input pipeline process}
+	\label{fig:Input-Pipeline-Visualisation}
+\end{figure}
+\noindent
 The input pipeline is responsible for creating the dataset, which will then be fed into the model by batches. For this project, the input pipeline is implemented using the TensorFlow \texttt{tf.data} API\footnotemark, along with a generator, which loops over the whole dataset and creates entries on the fly. The reason why a generator function is used, is that the entire dataset can not be loaded into memory, due to the large size of it. The entire process of the input pipeline is illustrated in figure \ref{fig:Input-Pipeline-Visualisation}.
 \footnotetext{\url{https://www.tensorflow.org/api_docs/python/tf/data}}
 \newline
@@ -78,25 +85,44 @@ After the extraction, the dataset is shuffled and returned to the training proce
 \newline
 \newline
 The advantages of this method are that this creates the dataset dynamically, because the dataset only contains the current batch along with some prefetched entries, which are entries from the next batch so that the \gls{GPU} can be fully utilised.
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[scale=0.4]{img/Input_Pipeline_Visualisation.png}
-	\caption{Visualisation of the input pipeline process}
-	\label{fig:Input-Pipeline-Visualisation}
-\end{figure}
 
 \section{Models}
 \label{sec:Models}
 This section describes the overall architecture of the models used in the thesis. The idea of the thesis is to evaluate different kinds of architectures and compare their results to find the optimal model for the thesis.
 \newline
 \newline
-The first architecture, which will be evaluated in the thesis are \glspl{CNN} (\ref{sub:Convolutional-Neural-Network}). They are used in a lot of audio applications because of their simplicity and robustness. A considerable amount of research in the past couple of years has shown the overall success of these models. Therefore it makes sense to evaluate these type of models extensively. 
+The first architecture, which will be evaluated are \glspl{CNN} (\ref{sub:Convolutional-Neural-Network}). They are used in a lot of audio applications because of their simplicity and robustness. A considerable amount of research in the past couple of years has shown the overall success of these models. Therefore it makes sense to evaluate these type of models extensively. Subsection \ref{sub:ResNet} describes a state-of-the-art \gls{CNN} architecture, which will be mainly used throughout the thesis.
 \newline
 \newline
 Another widely used model architecture is the \gls{RNN}, where \glspl{GRU} (\ref{sub:Gated-Recurrent-Unit}) is one of the most prominent implementations. Their application primarily lies in the text-domain. However, in recent years they have shown their success within the audio domain, mainly because of the sequential nature of the audio signal.
 \newline
 \newline
 The most prominent approach in audio research is the combination of \glspl{CNN} and \glspl{RNN}. The architecture consists of multiple convolution layers, and a single or multiple recurrent layers. The idea of these models is that they first reduce the input data to a specific lower-dimensional representation and then use recurrent models to make use of the sequential nature of the audio. Therefore the best ideas of both architectures are used within these \glspl{CRNN}.
+\newline
+\newline
+For the implementation and the experiments, \glspl{CNN} should be mainly used, and if there is time, to evaluate and implement state-of-the-art \gls{RNN} and \gls{CRNN} models.
+
+\subsection{ResNet}
+\label{sub:ResNet}
+\Gls{ResNet} is a state-of-the-art \gls{CNN} architecture, which was introduced in 2015 (\cite{he_deep_2015}), and was the winner of ImageNet Visual Recognition Challenge 2015. The problem \gls{ResNet} solves is the degradation problem, which has been observed when deeper networks start converging. The problem states, that with the network depth increasing, accuracy gets saturated and then degrades rapidly. Therefore, using deeper networks is degrading the performance of the model. \cite{he_deep_2015} tries to solve this problem using deep residual learning framework. The core idea introduced are so-called \flqq identity shortcut connection\frqq \ that skip one or more layers, as shown in figure \ref{fig:ResNet-Residual-Block}. Typical \gls{ResNet} models are implemented with double- or triple- layer skips that contain non-linearities (ReLU) and batch normalization in between, as shown in figure \ref{fig:ResNet-Skip-Layers}. The whole architecture is a stack of residual blocks with appropriate stride and pooling. These residual networks are easier to optimise and can gain accuracy from considerably increased depth. They have shown their applicability in much research in recent years and should, therefore, be used as the main model architecture throughout this thesis.
+\begin{figure}[htb]
+\centering
+\begin{subfigure}{.5\linewidth}
+  \centering
+  \includegraphics[width=\linewidth]{img/ResNet_SkipConnections.png}
+  \caption{Residual block}
+  \label{fig:ResNet-Residual-Block}
+\end{subfigure}%
+\begin{subfigure}{.5\linewidth}
+  \centering
+  \includegraphics[width=.75\linewidth]{img/ResNet_Stacks.png}
+  \caption{Triple layer skip connection}
+  \label{fig:ResNet-Skip-Layers}
+\end{subfigure}
+\caption[ResNet visualisations]{ResNet visualisations\footnotemark}
+\label{fig:ResNet-Visualisations}
+\end{figure}
+\footnotetext{\fullcite{he_deep_2015}}
 
 \section{Application to music}
 \label{sec:Application-Music}
