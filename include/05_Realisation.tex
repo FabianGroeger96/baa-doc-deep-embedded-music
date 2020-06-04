@@ -1,10 +1,20 @@
 \chapter{Realisation}
 \label{ch:Realisation}
-This chapter describes the realisation of the project and provides some insights into the ideas, which led to the current implementation. The implementation was written in \textbf{Python 3.6.9} and \textbf{TensorFlow 2.1}. To standardise the realisation, standard docker images are used, which are provided by TensorFlow, called \texttt{tensorflow/tensorflow:2.1.0-py3}, respectively \texttt{tensorflow/tensorflow:2.1.0-gpu-py3} to utilise a GPU.
+This chapter describes the realisation of the project and provides some insights into the ideas, which led to the current implementation. The implementation was written in \textbf{Python 3.6.9} and \textbf{TensorFlow 2.1}. To standardise the realisation, standard docker images are used as baseline environment, which are provided by TensorFlow, called \texttt{tensorflow/tensorflow:2.1.0-py3}, respectively \texttt{tensorflow/tensorflow:2.1.0-gpu-py3} to utilise a \gls{GPU}.
+\newline
+\newline
+First, the project components (\ref{sec:Project-Components}) are described in further detail. For each component, there is a complete UML, which describes the classes within it and their connection. Second, the training process (\ref{sec:Training}) is described for the embedding space (\ref{sub:Training-Embedding-Space}) and the classifier (\ref{sub:Training-Classifier}). Finally, the realisation of the evaluation is further described. This shows the implementation of the evaluation metrics and explains the use of the Tensorboard in much detail.
 
 \section{Project components}
 \label{sec:Project-Components}
-The project repository, which is shown in figure \ref{fig:Project-Overview-Source}, shows the overall structure of the realisation. All of the source code for the project is located in the \texttt{src} directory, which is further divided into folders for the components of the project. These components are illustrated in figure \ref{sec:Project-Components}. The figure shows that there are two main python scripts which orchestrate the training of the triplet loss and the classifier (\texttt{train-classifier.py} and \texttt{train-triplet-loss.py}). 
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.6\linewidth]{img/Component_Diagram.png}
+	\caption{Component diagram}
+	\label{fig:Component-Diagram}
+\end{figure}
+\noindent
+The project repository, which is shown in figure \ref{fig:Project-Overview-Source}, shows the overall structure of the realisation. All of the source code for the project is located in the \texttt{src} directory, which is further divided into folders for the components of the project. These components are illustrated in figure \ref{sec:Project-Components}. The figure shows that there are two main python scripts which orchestrate the training of the triplet loss and the classifier (\texttt{train-classifier.py} and \texttt{train-triplet-loss.py}). Figure \ref{fig:Component-Diagram} shows a component diagram of the project, along with their dependencies.
 
 \begin{figure}[ht]
     \dirtree{%
@@ -31,7 +41,9 @@ Each one of these components is described in further detail within this section 
 
 \subsection{Params}
 \label{sub:Params}
-\begin{figure}[htbp]
+In machine learning projects, one of the most important aspects, are the hyperparameters, which are parameters directly chosen by the developer, and are not optimised by the algorithm. These hyperparameters are used for tuning the model to achieve the best possible outcome. Therefore, many experiments have to be conducted to do that. Hence it is essential to have the possibility to tune each parameter in a single file, which is then used throughout the entire training process. In this project the class \texttt{Params} (\ref{fig:UML-Params}) does exactly that, it is a class which reads the hyperparameters from a JSON file, called \texttt{params.json} and saves the values to the specified variables. These variables are then used throughout the project and modify the model accordingly.
+\clearpage
+\begin{figure}[htp]
 	\centering
 	\resizebox{\linewidth / 3}{!}{%
         \begin{tikzpicture}
@@ -41,6 +53,7 @@ Each one of these components is described in further detail within this section 
             
             \attribute{+ dcase\_dataset\_path : str}
             \attribute{+ dcase\_dataset\_fold : str}
+            \attribute{+ dcase\_eval\_dataset\_path: str}
             
             \attribute{+ music\_dataset\_path : str}
             
@@ -103,12 +116,10 @@ Each one of these components is described in further detail within this section 
 	\caption{UML diagram of the \texttt{Params} class}
 	\label{fig:UML-Params}
 \end{figure}
-\noindent
-In machine learning projects, one of the most important aspects, are the hyperparameters, which are parameters directly chosen by the developer, and are not optimised by the algorithm itself. These hyperparameters are used for tuning the model to achieve the best possible outcome and to do that, a lot of experiments have to be conducted. Therefore it is essential to have the possibility to tune each parameter in a single file, which is then used throughout the entire training process for the particular model. In this project the class \texttt{Params} does exactly that (\ref{fig:UML-Params}), it is a class which reads the hyperparameters from a JSON file called \texttt{params.json} and saves the values to the specified variable. These variables are then used throughout the project and modify the model accordingly.
 
 \subsection{Feature extractor}
 \label{sub:Component-Feature-Extractor}
-\begin{figure}[htbp]
+\begin{figure}[htb]
 	\centering
 	\resizebox{0.8\linewidth}{!}{%
         \begin{tikzpicture}
@@ -156,11 +167,11 @@ In machine learning projects, one of the most important aspects, are the hyperpa
         \unidirectionalAssociation{ExtractorFactory}{creates}{}{BaseExtractor}
         \end{tikzpicture}
     }
-	\caption{UML diagram of the \texttt{feature extractor} directory}
+	\caption{UML diagram of the \texttt{feature\_extractor} directory}
 	\label{fig:UML-Feature-Extractor}
 \end{figure}
 \noindent
-The feature extractor is responsible for representing an audio signal in different feature representations. The structure is shown in figure \ref{fig:UML-Feature-Extractor}, it consists out of a abstract base class (\texttt{BaseExtractor}), two implementations of the base class (\texttt{LogMelBaseExtractor} and \texttt{MFCCBaseExtractor}) and a factory class (\texttt{ExtractorFactory}). The idea is that the abstract \texttt{BaseExtractor} implements the used methods to calculate a feature representation, such as calculating the \gls{STFT}, and the implementations (\texttt{LogMelBaseExtractor} and \texttt{MFCCBaseExtractor}) only have to call the calculations in the correct order. The factory class \texttt{ExtractorFactory} instantiates a specified \texttt{BaseExtractor} implementation given the name in the registry. The factory is implemented using the python decorator pattern, which is a convenient way of registering each class in the factory since simply the decorator has to be added on top of each class.
+The feature extractor is responsible for representing an audio signal in different feature representations. The structure is shown in figure \ref{fig:UML-Feature-Extractor}, it consists out of an abstract base class (\texttt{BaseExtractor}), two implementations of the base class (\texttt{LogMelBaseExtractor} and \texttt{MFCCBaseExtractor}) and a factory class (\texttt{ExtractorFactory}). The idea is that the abstract \texttt{BaseExtractor} implements the used methods to calculate a feature representation, such as calculating the \gls{STFT}, and the implementations (\texttt{LogMelBaseExtractor} and \texttt{MFCCBaseExtractor}) only have to call the calculations in the correct order. The factory class \texttt{ExtractorFactory} instantiates a specified \texttt{BaseExtractor} implementation given the name in the registry. The factory is implemented using the python decorator pattern, which is a convenient way of registering each class in the factory since simply the decorator has to be added on top of each class.
 
 \begin{code}[htbp]
 \begin{minted}{python}
@@ -170,9 +181,9 @@ The feature extractor is responsible for representing an audio signal in differe
 \label{code:Extractor-Factory}
 \end{code}
 \noindent
-The main benefit of the factory pattern is, that, the representation used to train the model can be changed using the name of the corresponding extractor. Therefore the name can be used as a hyperparameter. Due to using the factory pattern, the class is arbitrarily expandable, since it only needs to implement the abstract \texttt{BaseExtractor} and can then be used as a representation.
+The main benefit of the factory pattern is, that, the representation used to train the model can be changed using the name of the corresponding extractor. Therefore the name can be used as a hyperparameter called \texttt{feature\_extractor}, located in the \texttt{Params} class. Due to using the factory pattern, the class is arbitrarily expandable, since it only needs to implement the abstract \texttt{BaseExtractor} and can then be used as a representation.
 
-\subsection{Input pipeline}
+\subsection{Input pipeline and dataset}
 \label{sub:Component-Input-pipeline}
 \begin{figure}[ht]
 	\centering
@@ -184,7 +195,7 @@ The main benefit of the factory pattern is, that, the representation used to tra
             \attribute{+ logger : Logger}
             
             \operation{+ register(name : str) : Callable}
-            \operation{+ create\_extractor(name : str, **kwargs) : BaseDataset}
+            \operation{+ create\_dataset(name : str, **kwargs) : BaseDataset}
         \end{class}
         
         \begin{object}[text width=4cm]{DatasetType}{-3,0}
@@ -192,7 +203,7 @@ The main benefit of the factory pattern is, that, the representation used to tra
             \attribute{TRAIN = 0}
             \attribute{EVAL = 1}
             \attribute{TEST = 2}
-            \attribute{FULL = 3}
+            \attribute{TRAIN\_AND\_EVAL = 3}
         \end{object}
         
         \begin{class}[text width=14cm]{TripletsInputPipeline}{-8,-4}
@@ -204,8 +215,8 @@ The main benefit of the factory pattern is, that, the representation used to tra
             
             \operation{- \_\_init\_\_(params : Params, dataset : BaseDataset, log : bool)} 
             \operation{+ reinitialise()}
-            \operation{- generate\_samples(gen\_name, trim, return\_labels)}
-            \operation{+ get\_dataset(feature\_extractor, dataset\_type, shuffle, trim, return\_labels)}
+            \operation{- generate\_triplets(gen\_name, return\_labels)}
+            \operation{+ get\_dataset(feature\_extractor, dataset\_type, shuffle, return\_labels)}
         \end{class}
         
         \begin{abstractclass}[text width=14cm]{BaseDataset}{8,-4} 
@@ -221,8 +232,8 @@ The main benefit of the factory pattern is, that, the representation used to tra
             \attribute{+ current\_index : int}
             
             \operation{- \_\_init\_\_(params : Params, log : bool)} 
-            \operation[0]{+ \_\_iter\_\_()}
-            \operation[0]{+ \_\_next\_\_()}
+            \operation[0]{- \_\_iter\_\_()}
+            \operation[0]{- \_\_next\_\_()}
             \operation[0]{+ initialise()}
             \operation[0]{+ load\_data\_frame()}
             \operation[0]{+ fill\_opposite\_selection(anchor\_id)} 
@@ -237,7 +248,7 @@ The main benefit of the factory pattern is, that, the representation used to tra
             \operation{+ compare\_audio(audio\_1, audio\_2)} 
         \end{abstractclass}
         
-        \begin{class}[text width=15cm]{DCASEDataset}{-8,-16}
+        \begin{class}[text width=15cm]{DCASEDataset}{-8,-15}
             \inherit{BaseDataset}
             
             \attribute{+ EXPERIMENT\_FOLDER : str}
@@ -245,14 +256,15 @@ The main benefit of the factory pattern is, that, the representation used to tra
             \attribute{+ LABELS : List}
             \attribute{+ dataset\_path : Path}
             \attribute{+ fold : int}
+            \attribute{+ eval\_dataset\_path : Path}
             
             \operation{- \_\_init\_\_(params : Params, log : bool)} 
-            \operation{+ \_\_iter\_\_()}
-            \operation{+ \_\_next\_\_()}
-            \operation{+ initialise()}
+            \operation{- \_\_iter\_\_()}
+            \operation{- \_\_next\_\_()}
             \operation{- \_\_load\_train\_data\_frame()}
             \operation{- \_\_load\_eval\_data\_frame()}
             \operation{- \_\_load\_test\_data\_frame()}
+            \operation{+ initialise()}
             \operation{+ load\_data\_frame()}
             \operation{+ fill\_opposite\_selection(anchor\_id)} 
             \operation{+ get\_triplets(anchor\_id, anchor\_length, opposite\_choices)}
@@ -268,8 +280,8 @@ The main benefit of the factory pattern is, that, the representation used to tra
             \attribute{+ dataset\_path : Path}
             
             \operation{- \_\_init\_\_(params : Params, log : bool)} 
-            \operation{+ \_\_iter\_\_()}
-            \operation{+ \_\_next\_\_()}
+            \operation{- \_\_iter\_\_()}
+            \operation{- \_\_next\_\_()}
             \operation{+ initialise()}
             \operation{+ load\_data\_frame()}
             \operation{+ fill\_opposite\_selection(anchor\_id)} 
@@ -284,14 +296,14 @@ The main benefit of the factory pattern is, that, the representation used to tra
         \unidirectionalAssociation{TripletsInputPipeline}{uses}{}{BaseDataset}
         \end{tikzpicture}
     }
-	\caption{UML diagram of the \texttt{input pipeline} directory}
+	\caption{UML diagram of the \texttt{input\_pipeline} and \texttt{dataset} directory}
 	\label{fig:UML-Input-Pipeline}
 \end{figure}
 \noindent
-The entire input pipeline consists out of different components, the \texttt{BaseDataset} and its implementations, the \texttt{DatasetFactory}, the \texttt{DatasetType} enum and the \texttt{TripletsInputPipeline}, which is the core component. All of the components and their connection are visualised in figure \ref{fig:UML-Input-Pipeline} as a UML diagram. The pipeline is responsible for loading and preparing the data in a machine-readable format, by connecting the \texttt{Feature extractor} with the \texttt{Dataset}. The output of the pipeline will then be fed into the model for training or testing.
+The entire input pipeline consists of different components, the \texttt{BaseDataset} and its implementations, the \texttt{DatasetFactory}, the \texttt{DatasetType} enum and the \texttt{TripletsInputPipeline}, which is the core component. All of the components and their connections are visualised in figure \ref{fig:UML-Input-Pipeline} as a UML diagram. The pipeline is responsible for loading and preparing the data in a machine-readable format, by connecting the \texttt{Feature extractor} with the \texttt{Dataset}. The output of the pipeline will then be fed to the model for training or testing.
 \newline
 \newline
-The \texttt{BaseDataset} provides a base implementation of a dataset along with some general functions. \texttt{DCASEDataset} and \texttt{MusicDataset} are concrete implementations of the \texttt{BaseDataset}. These implementations are responsible for loading the dataset from the raw data and for the process of triplet selection. Both of these responsibilities have to be implemented separately for each dataset. The \texttt{DatasetFactory} is a factory class, which is responsible for instantiating the different implementations of the \texttt{BaseDataset} in a handy way, by simply providing the name of the class registered in the factory. The factory is implemented using the python decorator pattern, which is a convenient way of registering each class in the factory since simply the decorator has to be added on top of each class.
+The \texttt{BaseDataset} provides a base implementation of a dataset along with some general functions. \texttt{DCASEDataset} and \texttt{MusicDataset} are concrete implementations of the \texttt{BaseDataset}. These implementations are responsible for loading the dataset from raw data and for triplet selection. Both of these responsibilities have to be implemented separately for each dataset. The \texttt{DatasetFactory} is a factory class, which is responsible for instantiating the different implementations of the \texttt{BaseDataset} in a convenient way, by simply providing the name of the class registered in the factory. The dataset to use for training, can be specified by the parameter \texttt{dataset} of the \texttt{Params} class. The factory is implemented using the python decorator pattern, which is a convenient way of registering each class in the factory since simply the decorator has to be added on top of each class.
 
 \begin{code}[htbp]
 \begin{minted}{python}
@@ -301,10 +313,10 @@ The \texttt{BaseDataset} provides a base implementation of a dataset along with 
 \label{code:Dataset-Factory}
 \end{code}
 \noindent
-As mentioned before, the \texttt{TripletsInputPipeline} is the core component of the project. It is responsible for dynamically connecting the different components. The input pipeline further needs to be implemented very efficiently, because when the pipeline is slow, the entire training process suffers. The pipeline is implemented very narrowly to increase the expandability of the project. It contains a method for reinitialisation (\texttt{reinitialise()}), which reinitialises the pipeline after a full iteration of the dataset.
+As mentioned before, the \texttt{TripletsInputPipeline} is the core component of the project. It is responsible for dynamically connecting the different components. The input pipeline further needs to be implemented very efficiently, because when the pipeline is slow, the entire training process suffers. The pipeline is implemented very narrowly to increase the expandability of the project. It contains a method for reinitialisation \texttt{reinitialise()}, which reinitialises the pipeline after a full iteration of the dataset.
 \newline
 \newline
-The method \texttt{get\_dataset()} is responsible for creating an iterator, which dynamically creates batches of triplets which are then fed to the model. It does that by first creating multiple different generators, which then simultaneously fill-up the dataset using the \texttt{\_\_generate\_samples()} function. The \texttt{\_\_generate\_samples()} method loops over the given dataset, cuts the audio into segments of a specified length (sample tile size) and chooses for each one of the segments a valid neighbour and opposite segment, where the neighbour segment belongs to the same audio file, and the opposite segment belong to a different audio file. Then the triplet is yielded back to the different generators of the \texttt{get\_dataset()}. After there are enough triplets in the buffer for yielding a batch to the iterator, the entire batch is processed using the given \texttt{Feature extractor} to represent the raw audio segments in the specified representation. Then the data within a batch is shuffled and yielded to the iterator. Then the process starts again until the entire dataset is processed. 
+The method \texttt{get\_dataset()} is responsible for creating an iterator, which dynamically creates batches of triplets which are then fed to the model. It does that by first creating multiple different generators, which then simultaneously fill-up the dataset using the \texttt{\_\_generate\_triplets()} function. The \texttt{\_\_generate\_triplets()} method loops over the given dataset, cuts the audio into segments of a specified length (\texttt{sample\_tile\_size}) and chooses for each one of the segments a valid neighbour and opposite segment, where the neighbour segment belongs to the same audio file, and the opposite segment belong to a different audio file. Then the triplet is yielded back to the different generators of the \texttt{get\_dataset()}. After there are enough triplets in the buffer for yielding a batch to the iterator, the entire batch is processed using the given \texttt{Feature extractor} to represent the raw audio segments in the specified representation. Then the data within a batch is shuffled and yielded to the iterator. Afterwards, the process starts again until the entire dataset is processed. 
 \newline
 \newline
 This entire process of the pipeline is highly multi-threaded and aims to be as efficient as possible. The process further prefetches a specified amount of batches, which means that the pipeline always has a certain amount of triplets in the buffer to yield data to the iterator rapidly. The prefetching aims to utilise the \gls{GPU} as efficient as possible.
@@ -343,7 +355,7 @@ This entire process of the pipeline is highly multi-threaded and aims to be as e
 The \texttt{loss} directory, illustrated in figure \ref{fig:UML-Loss}, contains the class used to compute the triplet loss function along with an enumeration, which defines the strategy of the triplet loss. The \texttt{TripletLoss} class is the implementation of triplet loss in TensorFlow 2.1. It inherits from the Keras loss base class \texttt{tf.keras.losses.Loss} and overrides its \texttt{call()} function, which is responsible for calculating and returning the value of the loss. The calculation of the loss value is done using the equation \ref{eq:Triplet-Loss}. The \texttt{calculate\_distance()} function implements the calculation of the distance between the anchor embedding and an arbitrary embedding, which is mainly used as a metric to measure the distance between the anchor and the neighbour or opposite. Both functions are further decorated with the TensorFlow decorator \texttt{@tf.function}, which indicates that TensorFlow should compile the function into a callable TensorFlow graph. This optimises the performance of the decorated function.
 \newline
 \newline
-The \texttt{TripletLossStrategy} which is passed as an argument to the \texttt{TripletLoss} class, is used to define the strategy of the loss computation. The strategy \texttt{ALL} indicates that all of the distances are used to compute the loss. When using \texttt{ZERO\_FILTERED} as strategy, the computation will only take the nonzero loss values into account. This prevents the loss value to be very small when the constraint for all of the triplets are satisfied apart from a small number of triplets because when calculating the mean of a lot of zero values the result is close to zero even if there are some high nonzero values present. Therefore this strategy only calculates the mean of the nonzero values within the batch.
+The \texttt{TripletLossStrategy}, which is passed to the \texttt{TripletLoss} class, is used to define the strategy of the loss computation. The strategy \texttt{ALL} indicates that all of the distances are used to compute the loss. When using \texttt{ZERO\_FILTERED} as strategy, the computation will only take the nonzero loss values into account. This prevents the loss value to be very small when the constraint for all of the triplets are satisfied apart from a small number of triplets. Because when calculating the mean of a lot of zero values, the result is close to zero even if there are some high nonzero values present. Therefore, this strategy only calculates the mean of the nonzero values within the batch.
 
 \subsection{Training}
 \label{sub:Component-Training}
@@ -363,23 +375,7 @@ The \texttt{TripletLossStrategy} which is passed as an argument to the \texttt{T
 	\label{fig:UML-Train}
 \end{figure}
 \noindent
-The \texttt{training} directory contains utility functions for the model, shown in figure \ref{fig:UML-Train}. The \texttt{train\_step()} runs a full forward pass trough the model, which means that it gets a batch of triplets, embeds them into the embedding space, calculates the triplet loss of the batch and then updates the weights of the model so that the loss is being minimised. It then returns the different metric values in a dictionary. For each training step, there are five different metrics returned. 
-
-\begin{code}[htbp]
-\begin{minted}{python}
-losses = {
-    "loss": regularization_loss + triplet_loss,
-    "triplet_loss": triplet_loss,
-    "regularization_loss": regularization_loss,
-    "dist_neighbour": dist_neighbour,
-    "dist_opposite": dist_opposite
-}
-\end{minted}
-\caption{Loss values returned from the training step}
-\label{code:Loss-Values}
-\end{code}
-\noindent
-The \texttt{loss}, which is the overall loss of the model, combined out of the \texttt{triplet\_loss} and the \texttt{regularization\_loss}. Then the \texttt{triplet\_loss} and the \texttt{regularization\_loss} separately. And then the \texttt{dist\_neighbour} and \texttt{dist\_opposite}, which give an insight into the distance between the anchor and the neighbour or opposite.
+The \texttt{training} directory contains utility functions for the model, shown in figure \ref{fig:UML-Train}. The entire forward and backward pass of the model is done by calling the \texttt{train\_step()} function (\ref{code:Train-Step}). Which then returns the metric values of the current batch.
 \newline
 \newline
 The \texttt{embed\_triplets()} is used to embed a triplet, consisting of an anchor, neighbour and opposite, in the embedding space, given the model. This utility function is mainly used for evaluation or testing the model.
@@ -408,12 +404,18 @@ The \texttt{embed\_triplets()} is used to embed a triplet, consisting of an anch
         \begin{class}[text width=5cm]{Params}{-7,-4}
         \end{class}
         
-        \begin{object}[text width=27cm]{utils visualise}{0,-7}
+        \begin{object}[text width=7cm]{utils tensorflow}{-8,-5.5}
+            \operation{\underline{+ set\_gpu\_experimental\_growth()}}
+        \end{object}
+        
+        \begin{object}[text width=25cm]{utils visualise}{0,-7.5}
             \operation{\underline{+ save\_labels\_tsv(labels, filename, log\_dir, dataset)}}
+            \operation{\underline{+ save\_names\_tsv(labels, filename, log\_dir)}}
             \operation{\underline{+ save\_embeddings\_tsv(embeddings, filename, log\_dir)}}
             \operation{\underline{+ visualise\_embeddings(embeddings, labels, dataset, tensorboard\_path, save\_checkpoint)}}
             \operation{\underline{+ save\_graph(tensorboard\_path, execute\_callback, **args)}}
-            \operation{\underline{+ visualise\_model\_on\_epoch\_end(model, pipeline, extractor, epoch, loss\_fn, summary\_writer, tensorb\_path, reinitialise, visualise\_graphs, save\_checkpoint)}}
+            \operation{\underline{+ visualise\_model\_on\_epoch\_end(model, pipeline, extractor, epoch, loss\_fn, summary\_writer, tensorb\_path, visualise\_graphs, save\_checkpoint)}}
+            \operation{\underline{+ visualise\_embedding\_on\_training\_end(model, pipeline, extractor, tensorb\_path)}}
             \operation{\underline{+ visualise\_distance\_matrix(embeddings, labels, dataset, epoch, summary\_writer, visualise\_graphs)}}
             \operation{\underline{+ visualise\_distance\_graphs(distance\_matrix, epoch, summary\_writer)}}
             \operation{\underline{+ visualise\_distance\_matrix\_image(distance\_matrix, dataset, epoch, summary\_writer)}}
@@ -434,24 +436,27 @@ The \texttt{Utils} class contains various utility functions for creating folders
 The \texttt{AudioUtils} class contains various utility functions for loading audio files from a specified path and visualising triplets as log Mel spectrogram and as \glspl{MFCC}.
 \newline
 \newline
-\texttt{utils\_visualise} is responsible for visualising the model in different ways. These functions aim to get more insight into the model, which is being trained. They are mainly used to validate certain assumptions and to compare different models with each other. Its main function is \texttt{visualise\_model\_on\_epoch\_end()}, which visualises the model after an epoch as the name states. It does that in a few different ways. First, it embeds all of the triplets in the evaluation set in the embedding space and calculates the corresponding loss functions of the evaluation set. Then it uses the embedded triplets to calculate the clustering scores described in metrics (\ref{sec:Metrics}). After that, it visualises the distances between the centroids of each cluster in two ways (\texttt{visualise\_distance\_matrix}), by visualising each distance as a graph and by visualising it as an image. Then the last step is to visualise the embeddings using the Tensorboard Embedding Projector tool (\texttt{visualise\_embeddings}), which is a visual representation of the resulting embedding space.
+\texttt{utils\_tensorflow} is responsible for setting the memory growth of a \gls{GPU}, if one is available. If memory growth is enabled for a physical device, the runtime initialisation will not allocate all memory on the device. Otherwise, it will allocate all memory when initialising TensorFlow. Therefore, when setting the memory growth, the real-time use of the \glspl{GPU} memory can be observed and for example, can be used to increase the batch size.
+\newline
+\newline
+\texttt{utils\_visualise} is responsible for visualising the model in different ways. These functions aim to give more insight into the model, which is being trained. They are mainly used to validate certain assumptions and to compare different models with each other. Its main function is \texttt{visualise\_model\_on\_epoch\_end()}, which visualises the model after an epoch as the name states. It does that in a few different ways. First, it embeds all of the triplets in the evaluation set in the embedding space and calculates the corresponding loss functions of the evaluation set. Then it uses the embedded triplets to calculate the clustering scores described in metrics (\ref{sec:Metrics}). After that, it visualises the distances between the centroids of each cluster in two ways (\texttt{visualise\_distance\_matrix}), by visualising each distance as a graph and by visualising it as an image. Then the last step is to visualise the embeddings using the Tensorboard Embedding Projector tool (\texttt{visualise\_embeddings}), which is a visual representation of the resulting embedding space (\ref{sub:Tensorboard-Projector}).
 
 \subsection{Models embedding}
 \label{sub:Component-Models-Embedding}
-\begin{figure}[t]
+\begin{figure}[ht]
 	\centering
 	\resizebox{\linewidth}{!}{%
         \begin{tikzpicture}
         
-        \begin{class}[text width=10cm]{ModelFactory}{0,0}
+        \begin{class}[text width=9cm]{ModelFactory}{0,0}
             \attribute{+ registry : Dict}
             \attribute{+ logger : Logger}
             
             \operation{+ register(name : str) : Callable}
-            \operation{+ create\_extractor(name : str, **kwargs) : BaseModel}
+            \operation{+ create\_model(name : str, **kwargs) : BaseModel}
         \end{class}
         
-        \begin{class}[text width=10cm]{BasicBlock}{-11,0}
+        \begin{class}[text width=10cm]{BasicBlock}{-11.5,0}
             \attribute{+ l2\_regularization : tf.keras.regularizers.l2}
             \attribute{+ conv1 : tf.keras.layers.Conv2D}
             \attribute{+ bn1 : tf.keras.layers.BatchNormalization}
@@ -459,7 +464,7 @@ The \texttt{AudioUtils} class contains various utility functions for loading aud
             \attribute{+ bn2 : tf.keras.layers.BatchNormalization}
             \attribute{+ downsample : tf.keras.Sequential}
             
-            \operation{- \_\_init\_\_(filter\_num : int, blocks : int, stride : int, l2\_amount : float)}
+            \operation{- \_\_init\_\_(filter\_num : int, stride : int, l2\_amount : float)}
             \operation{+ call(inputs : tf.Tensor, training : bool, **kwargs)}
         \end{class}
         
@@ -473,22 +478,22 @@ The \texttt{AudioUtils} class contains various utility functions for loading aud
             \attribute{+ bn3 : tf.keras.layers.BatchNormalization}
             \attribute{+ downsample : tf.keras.Sequential}
             
-            \operation{- \_\_init\_\_(filter\_num : int, blocks : int, stride : int, l2\_amount : float)}
+            \operation{- \_\_init\_\_(filter\_num : int, stride : int, l2\_amount : float)}
             \operation{+ call(inputs : tf.Tensor, training : bool, **kwargs)}
         \end{class}
         
         \begin{abstractclass}[text width=17cm]{BaseModel}{2,-7} 
             \attribute{+ logger : Logger}
             \attribute{+ params : Params}
-            \attribute{+ l2\_amount : float}
             \attribute{+ embedding\_dim : int}
+            \attribute{+ l2\_amount : float}
             \attribute{+ model\_name : str}
             \attribute{+ expand\_dims : bool}
             \attribute{+ dense : tf.keras.layers.Dense}
             \attribute{+ flatten : tf.keras.layers.Flatten}
             \attribute{+ l2\_normalisation : tf.keras.layers.Lambda}
             
-            \operation{- \_\_init\_\_(embedding\_dim : int, model\_name : str, expand\_dims : bool, l2\_amount : float)} 
+            \operation{- \_\_init\_\_(params : Params, model\_name : str, expand\_dims : bool)} 
             \operation[0]{+ forward\_pass(inputs : tf.Tensor, training : bool)}
             \operation[0]{+ log\_model\_specific\_layers()} 
             \operation{+ call(inputs : tf.Tensor, training : bool)}
@@ -503,26 +508,26 @@ The \texttt{AudioUtils} class contains various utility functions for loading aud
             \operation{+ log\_dense\_layer(dense\_layer)} 
         \end{abstractclass}
         
-        \begin{class}[text width=10cm]{DenseEncoder}{-13,-6}
+        \begin{class}[text width=9cm]{DenseEncoder}{-12,-6}
             \inherit{BaseModel}
             
-            \operation{- \_\_init\_\_(embedding\_dim : int, model\_name : str, l2\_amount : float)} 
+            \operation{- \_\_init\_\_(params : Params, model\_name : str)} 
             \operation{+ forward\_pass(inputs : tf.Tensor, training : bool)}
             \operation{+ log\_model\_specific\_layers()} 
         \end{class}
         
-        \begin{class}[text width=10cm]{GRUNet}{-13,-10}
+        \begin{class}[text width=9cm]{GRUNet}{-12,-10}
             \inherit{BaseModel}
             
             \attribute{+ gru\_1 : tf.keras.layers.GRU}
             \attribute{+ gru\_2 : tf.keras.layers.GRU}
             
-            \operation{- \_\_init\_\_(embedding\_dim : int, model\_name : str, l2\_amount : float)} 
+            \operation{- \_\_init\_\_(params : Params, model\_name : str)} 
             \operation{+ forward\_pass(inputs : tf.Tensor, training : bool)}
             \operation{+ log\_model\_specific\_layers()} 
         \end{class}
         
-        \begin{class}[text width=10cm]{ConvNet1D}{-13,-14}
+        \begin{class}[text width=9cm]{ConvNet1D}{-12,-14}
             \inherit{BaseModel}
             
             \attribute{+ conv\_1 : tf.keras.layers.Conv1D}
@@ -531,12 +536,12 @@ The \texttt{AudioUtils} class contains various utility functions for loading aud
             \attribute{+ max\_pooling : tf.keras.layers.MaxPool1D}
             \attribute{+ dropout : tf.keras.layers.Dropout}
             
-            \operation{- \_\_init\_\_(embedding\_dim : int, model\_name : str, l2\_amount : float)} 
+            \operation{- \_\_init\_\_(params : Params, model\_name : str)} 
             \operation{+ forward\_pass(inputs : tf.Tensor, training : bool)}
             \operation{+ log\_model\_specific\_layers()} 
         \end{class}
         
-        \begin{class}[text width=10cm]{ConvNet2D}{13,-20}
+        \begin{class}[text width=9cm]{ConvNet2D}{12,-20}
             \inherit{BaseModel}
             
             \attribute{+ conv\_1 : tf.keras.layers.Conv2D}
@@ -546,15 +551,14 @@ The \texttt{AudioUtils} class contains various utility functions for loading aud
             \attribute{+ max\_pooling\_2 : tf.keras.layers.MaxPool2D}
             \attribute{+ max\_pooling\_3 : tf.keras.layers.MaxPool2D}
             \attribute{+ dropout : tf.keras.layers.Dropout}
-            \attribute{+ use\_batch\_normalisation : bool}
             \attribute{+ batch\_normalisation : tf.keras.layers.BatchNormalization}
             
-            \operation{- \_\_init\_\_(embedding\_dim : int, batch\_normalisation : bool, model\_name : str, l2\_amount : float)} 
+            \operation{- \_\_init\_\_(params : Params, model\_name : str)} 
             \operation{+ forward\_pass(inputs : tf.Tensor, training : bool)}
             \operation{+ log\_model\_specific\_layers()} 
         \end{class}
         
-        \begin{class}[text width=10cm]{ConvGRUNet}{-13,-20}
+        \begin{class}[text width=9cm]{ConvGRUNet}{-12,-20}
             \inherit{BaseModel}
             
             \attribute{+ conv\_1 : tf.keras.layers.Conv2D}
@@ -570,12 +574,12 @@ The \texttt{AudioUtils} class contains various utility functions for loading aud
             \attribute{+ batch\_normalisation : tf.keras.layers.BatchNormalization}
             \attribute{+ dropout : tf.keras.layers.Dropout}
             
-            \operation{- \_\_init\_\_(embedding\_dim : int, model\_name : str, l2\_amount : float)} 
+            \operation{- \_\_init\_\_(params : Params, model\_name : str)} 
             \operation{+ forward\_pass(inputs : tf.Tensor, training : bool)}
             \operation{+ log\_model\_specific\_layers()} 
         \end{class}
         
-        \begin{object}[text width=6cm]{ResNetType}{14,-15}
+        \begin{object}[text width=5cm]{ResNetType}{14,-17}
             \instanceOf{Enum}
             \attribute{TypeI = 0}
             \attribute{TypeII = 1}
@@ -596,33 +600,33 @@ The \texttt{AudioUtils} class contains various utility functions for loading aud
             
             \attribute{+ avgpool : tf.keras.layers.GlobalAveragePooling2D}
             
-            \operation{- \_\_init\_\_(layer\_params : list, resnet\_type : ResNetType, embedding\_dim : int, l2\_amount : float, model\_name : str)} 
+            \operation{- \_\_init\_\_(layer\_params : list, resnet\_type : ResNetType, params : Params, model\_name : str)} 
             \operation{+ forward\_pass(inputs : tf.Tensor, training : bool)}
             \operation{+ log\_model\_specific\_layers()} 
         \end{abstractclass}
         
-        \begin{class}[text width=8cm]{ResNet18}{-4,-30}
+        \begin{class}[text width=7cm]{ResNet18}{-4,-29}
             \inherit{ResNet}
             
-            \operation{- \_\_init\_\_(embedding\_dim : int, l2\_amount : float, model\_name : str)}
+            \operation{- \_\_init\_\_(params : Params, model\_name : str)}
         \end{class}
         
-        \begin{class}[text width=8cm]{ResNet50}{-13,-30}
+        \begin{class}[text width=7cm]{ResNet50}{-12,-29}
             \inherit{ResNet}
             
-            \operation{- \_\_init\_\_(embedding\_dim : int, l2\_amount : float, model\_name : str)}
+            \operation{- \_\_init\_\_(params : Params, model\_name : str)}
         \end{class}
         
-        \begin{class}[text width=8cm]{ResNet101}{5,-30}
+        \begin{class}[text width=7cm]{ResNet101}{4,-29}
             \inherit{ResNet}
             
-            \operation{- \_\_init\_\_(embedding\_dim : int, l2\_amount : float, model\_name : str)}
+            \operation{- \_\_init\_\_(params : Params, model\_name : str)}
         \end{class}
         
-        \begin{class}[text width=8cm]{ResNet152}{14,-30}
+        \begin{class}[text width=7cm]{ResNet152}{12,-29}
             \inherit{ResNet}
             
-            \operation{- \_\_init\_\_(embedding\_dim : int, l2\_amount : float, model\_name : str)}
+            \operation{- \_\_init\_\_(params : Params, model\_name : str)}
         \end{class}
         
         \unidirectionalAssociation{ModelFactory}{creates}{}{BaseModel}
@@ -635,7 +639,7 @@ The \texttt{AudioUtils} class contains various utility functions for loading aud
 	\label{fig:UML-Models-Embedding}
 \end{figure}
 \noindent
-The \texttt{models\_embedding} directory contains all of the embedding models used throughout the project, which embed an arbitrary input in the embedding space. The structure of the \texttt{model} directory is shown in figure \ref{fig:UML-Models-Embedding}. It consists out of a \texttt{BaseModel}, which is an abstract implementation of an embedding model, a \texttt{ModelFactory}, which is responsible for creating an instance of a concrete \texttt{BaseModel} implementation and different implementations of the \texttt{BaseModel}. The factory is implemented using the python decorator pattern, which is a convenient way of registering each class in the factory since simply the decorator has to be added on top of each class.
+The \texttt{models\_embedding} directory contains all of the embedding models used throughout the project. They can be trained to represent an embedding space using triplet loss. When the model is fully trained, it can embed an arbitrary input in the embedding space. The structure of the \texttt{model} directory is shown in figure \ref{fig:UML-Models-Embedding}. It consists out of a \texttt{BaseModel}, which is an abstract implementation of an embedding model, a \texttt{ModelFactory}, which is responsible for creating an instance of a concrete \texttt{BaseModel} implementation and different implementations of the \texttt{BaseModel}. The factory is implemented using the python decorator pattern, which is a convenient way of registering each class in the factory since simply the decorator has to be added on top of each class. The model to train can be specified by the parameter \texttt{model} in the \texttt{Params} class.
 
 \begin{code}[htbp]
 \begin{minted}{python}
@@ -645,23 +649,23 @@ The \texttt{models\_embedding} directory contains all of the embedding models us
 \label{code:Model-Factory}
 \end{code}
 \noindent
-The model can then be created using the \texttt{create\_model(name : str, **kwargs)} function, where the given \texttt{name} specifies the model name in the registry to create and the \texttt{**kwargs} are the arguments which will need to be passed to the model for instantiating it. If for example a ResNet18 model, with an embedding size of 64 and L2 regularisation of 0.1, needs to be created, the call looks as follows.
+The model can then be created using the \texttt{create\_model(name : str, **kwargs)} function, where the given \texttt{name} specifies the model name in the registry to create and the \texttt{**kwargs} are the arguments which will need to be passed to the model for instantiating it. If for example a ResNet18 model, with the hyperparameters loaded from the \texttt{params.json} file, needs to be created, the call looks as follows.
 
 \begin{code}[htbp]
 \begin{minted}{python}
-model = ModelFactory.create_model("ResNet18", embedding_dim=64, l2_amount=0.1)
+model = ModelFactory.create_model("ResNet18", params=params)
 \end{minted}
 \caption{Creating a model using the model factory}
 \label{code:Model-Factory-Creating}
 \end{code}
 \noindent
-The abstract \texttt{BaseModel} class is used as a base implementation of an embedding model. It defines the structure of the concrete implementations of the embedding models and further provides functions for logging the structure of the implemented model. It further provides methods for creating basic- and bottleneck-layers, which are mainly used in the \texttt{ResNet} models.
+The abstract \texttt{BaseModel} class is used as a base implementation of the embedding model. It defines the structure of the concrete implementations of the embedding models and further provides utility functions for logging the structure of the implemented model. It further provides methods for creating basic- and bottleneck-layers, which are mainly used in the \texttt{ResNet} models. The default embedding layer is a fully connected layer of specified size (\texttt{embedding\_size}). Since this layer is used in every implementation of the models, it is created in the \texttt{BaseModel} and called \texttt{dense}.
 \newline
 \newline
-The \texttt{DenseEncoder} was the first model, which was implemented in the project, to test the input pipeline and the entire training process. It is not used as a model, which will be trained and evaluated.
+The \texttt{DenseEncoder} was the first model, which was implemented in the project, to test the input pipeline and the entire training process. It is not used as a model, which will be trained and evaluated. It consists of a flatten layer followed by a single fully connected layer. The single dense layer, therefore, acts as the embedding layer.
 \newline
 \newline
-The \texttt{ConvNet1D} and \texttt{ConvNet2D} model, are simple \gls{CNN} architectures, which use the one or two-dimensional convolutional operations to process the input, followed by a max-pooling and dropout layer. Both models consist of three of these layers, followed by the default embedding layer as an output.
+The \texttt{ConvNet1D} and \texttt{ConvNet2D} model, are simple \gls{CNN} architectures, which use a one or two-dimensional convolutional layer to process the input, followed by a max-pooling and dropout layer. Both models consist of three of these layers, followed by the default embedding layer as an output.
 \newline
 \newline
 The \texttt{GRUNet} model is a simple \gls{RNN} architecture, which uses \glspl{GRU} as its layers. It consists of two \gls{GRU} layers, followed by the default embedding layer as an output.
@@ -670,11 +674,11 @@ The \texttt{GRUNet} model is a simple \gls{RNN} architecture, which uses \glspl{
 The \texttt{ConvGRUNet} model is a \gls{CRNN} implementation, which combines a \gls{CNN} and a \gls{RNN}. It consists out of four two-dimensional convolution layers, convolution followed by max-pooling, and one \gls{GRU} layer and then as the output layer the default embedding layer.
 \newline
 \newline
-ResNet is a state-of-the-art \gls{CNN} architecture, which has many different implementations, such as ResNet18, ResNet50 and many more. Therefore \texttt{ResNet} is implemented as an abstract class, which also inherits from the \texttt{BaseModel}. A concrete implementation is, for example, \texttt{ResNet18}, which can then be used to train the embedding architecture. All of the concrete \texttt{ResNet} implementations are standard implementation, except the fact, that the last layer is not a \texttt{softmax} layer, used for classification. In this project, the output layer is the default embedding layer. The other exception is that the implementation further has a \texttt{L2 regularisation} in each convolution layer of the model, which aims to prevent the model from overfitting. Figure \ref{fig:ResNet18} visualises a standard ResNet18 architecture with its skip connections.
+\Gls{ResNet} (\ref{sub:ResNet}) is a state-of-the-art \gls{CNN} architecture, which has many different implementations, such as ResNet18, ResNet50 and many more. Therefore \texttt{ResNet} is implemented as an abstract class, which also inherits from the \texttt{BaseModel}. A concrete implementation is, for example, \texttt{ResNet18}, which can then be used to train the embedding architecture. All of the concrete \texttt{ResNet} implementations are standard implementation, except the fact, that the last layer is not a \texttt{softmax} layer, used for classification. In this project, the output layer is the default embedding layer. The other exception is that the implementation further has a \texttt{L2 regularisation} in each convolution layer of the model, which aims to prevent the model from overfitting. Figure \ref{fig:ResNet18} visualises a standard ResNet18 architecture with its skip connections.
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\linewidth]{img/ResNet18.png}
-	\caption[Visualisation of a ResNet18]{Visualisation of a ResNet18 \footnotemark}
+	\caption[Visualisation of a ResNet18]{Visualisation of a ResNet18\footnotemark}
 	\label{fig:ResNet18}
 \end{figure}
 \footnotetext{\fullcite{ghassemi_convolutional_2019}}
@@ -714,25 +718,24 @@ ResNet is a state-of-the-art \gls{CNN} architecture, which has many different im
 	\label{fig:UML-Models-Classifier}
 \end{figure}
 \noindent
-The \texttt{models\_classifier} directory contains both of the classifier models, which are used to evaluate and compare the different embedding architectures. The structure of the directory is given by figure \ref{fig:UML-Models-Classifier}. Both of the classifiers get an embedded audio segment as their input and then try to classify it in one of the given classes. The classifier is trained in a supervised setting, which means that for each embedded sample, its label is given.
+The \texttt{models\_classifier} directory contains both of the classifier models, which are used to evaluate and compare the different embedding architectures. The structure of the directory is given by figure \ref{fig:UML-Models-Classifier}. Both of the classifiers get an embedded audio segment as input and then try to classify it in one of the given classes. The classifier is trained in a supervised setting, which means that for each embedded sample, its label is given.
 \newline
 \newline
-The difference between the \texttt{ClassifierDense} and the \texttt{ClassifierLogistic} is, that the dense classifier has two fully connected layers with 256 nodes before the output layer and the linear logistic classifier merely has the output layer. The \texttt{ClassifierLogistic} aims to show how easy it is to separate the resulting clusters in the embedding space. This classifier is mainly used to compare different embedding spaces. The \texttt{ClassifierDense} aims to show how a simple model trained on the embedding space would perform.
+The difference between the \texttt{ClassifierDense} and the \texttt{ClassifierLogistic} is, that the dense classifier has two fully connected layers with 256 nodes before the output layer and the linear logistic classifier merely has the output layer. The \texttt{ClassifierLogistic} aims to show how easy it is to separate the resulting clusters in the embedding space linearly. This classifier is mainly used to compare different embedding spaces. The \texttt{ClassifierDense} aims to show how a simple model trained on the embedding space would perform.
 
 \section{Training}
 \label{sec:Training}
-This section describes the entire training process of the models in the project. Since two different models for different purposes are trained, the section is divided into two parts. First, the training process of the embedding space \ref{sub:Training-Embedding-Space}, using triplet loss. Second, the training process of the classifier \ref{sub:Training-Classifier}, which is trained for the purpose to compare different embedding spaces.
+This section describes the entire training process of the models in much detail. Since two different models for different purposes are trained, the section is divided into two parts. First, the training process of the embedding space \ref{sub:Training-Embedding-Space}, using triplet loss. Second, the training process of the classifier \ref{sub:Training-Classifier}, which is trained to compare different embedding spaces.
 
 \subsection{Training embedding space}
 \label{sub:Training-Embedding-Space}
 The training process of the embedding space is located in the \texttt{train\_triplet\_loss.py} file. It connects the different components of the project, shown above (\ref{sec:Project-Components}), with each other and trains an embedding space using triplet loss in an unsupervised matter. This subsection goes through the entire process in detail and provides some useful insights into the training process.
 \newline
 \newline
-The first part of the process is to read the configuration file (\texttt{experiments/config/params.json}), which contains all of the hyperparameters for the training, and extract its values into the corresponding variables of the \texttt{Params} class (\ref{sub:Params}).
+The first part of the process is to read the configuration file (\texttt{experiments/config/params.json}), which contains all of the hyperparameters for the training, and extract its values into the corresponding variables of the \texttt{Params} class (\ref{sub:Params}). Code listing \ref{code:Parse-Params-File} shows the this process.
 
-\begin{code}[htbp]
+\begin{code}[H]
 \begin{minted}{python}
-# load the parameters from json file
 args = parser.parse_args()
 json_path = os.path.join(args.experiment_dir, "config", "params.json")
 params = Params(json_path)
@@ -741,16 +744,13 @@ params = Params(json_path)
 \label{code:Parse-Params-File}
 \end{code}
 \noindent
-Then the next step is to create an instance of a \texttt{BaseDataset} (\ref{sub:Component-Input-pipeline}) and a \texttt{BaseExtractor} (\ref{sub:Component-Feature-Extractor}) using the corresponding factory classes and the parameters of the params file from above. If in the params file no feature extractor is defined, by setting the value to \texttt{None}, the default audio representation is used to train the embedding space, which is the raw waveform.
+Then the next step is to create an instance of a \texttt{BaseDataset} (\ref{sub:Component-Input-pipeline}) and a \texttt{BaseExtractor} (\ref{sub:Component-Feature-Extractor}) using the corresponding factory classes (\texttt{ExtractorFactory} and \texttt{DatasetFactory}) and the parameters of the params file from above, shown in listing \ref{code:Create-Dataset-Extractor}. If in the params file no feature extractor is defined, by setting the value to \texttt{None}, the default audio representation is used to train the embedding space, which is the raw waveform.
 
-\begin{code}[htbp]
+\begin{code}[H]
 \begin{minted}{python}
-# define dataset
 dataset = DatasetFactory.create_dataset(name=params.dataset, params=params)s
-# get the feature extractor from the factory
 if not params.feature_extractor == "None":
-    extractor = ExtractorFactory.create_extractor(
-        params.feature_extractor, params=params)
+    extractor = ExtractorFactory.create_extractor(params.feature_extractor, params)
 else:
     extractor = None
 \end{minted}
@@ -758,58 +758,45 @@ else:
 \label{code:Create-Dataset-Extractor}
 \end{code}
 \noindent
-After that, the \texttt{TripletsInputPipeline} is created by passing in the instance of the parameters and an instance of the dataset, which will be used to sample the triplets from.
+After that, the \texttt{TripletsInputPipeline} (\ref{sub:Component-Input-pipeline}) is created by passing in the instance of the parameters and an instance of the dataset, which will be used to sample the triplets from (code listing \ref{code:Create-Pipeline}).
 
-\begin{code}[htbp]
+\begin{code}[H]
 \begin{minted}{python}
-# define triplet input pipeline
 pipeline = TripletsInputPipeline(params=params, dataset=dataset, log=False)
 \end{minted}
 \caption{Create Input pipeline}
 \label{code:Create-Pipeline}
 \end{code}
 \noindent
-Then the model for training the embedding space is instantiated along with the optimizer and loss function, where the loss function is the \texttt{TripletLoss} loss function, and as an optimizer, Adam is used.
+Then the model, for training the embedding space, is instantiated along with the optimizer and loss function. The loss function is the \texttt{TripletLoss} loss function, and as an optimizer, \texttt{Adam} is used (code listing \ref{code:Embedding-Model-Optimizer-Pipeline}).
 
-\begin{code}[htbp]
+\begin{code}[H]
 \begin{minted}{python}
-# create model from factory and specified name within the params
-model = ModelFactory.create_model(params.model, embedding_dim=params.embedding_size, 
-    l2_amount=params.l2_amount)
-# create the optimizer for the model
+model = ModelFactory.create_model(params.model, params=params)
 optimizer = tf.keras.optimizers.Adam(learning_rate=params.learning_rate)
-# create the loss function for the model
 triplet_loss_fn = TripletLoss(margin=params.margin)
 \end{minted}
 \caption{Create embedding model, optimizer and input pipeline}
 \label{code:Embedding-Model-Optimizer-Pipeline}
 \end{code}
 \noindent
-After all of the needed instances have been set, a \texttt{Checkpoint} along with a \texttt{CheckpointManager} is defined, they are responsible for saving the embedding model after a specified number of epochs. The saved model can then be used either to train it further or to use it to embed arbitrary audio segments.
+After all of the needed instances have been set, a \texttt{Checkpoint} along with a \texttt{CheckpointManager} is defined. They are responsible for saving the embedding model after a specified number of epochs. The saved model can then be used either to train it further or to use it to embed arbitrary audio segments (code listing \ref{code:Save-Restore-Embedding-Model}).
 
-\begin{code}[htbp]
+\begin{code}[H]
 \begin{minted}{python}
-# define checkpoint and checkpoint manager
 ckpt = tf.train.Checkpoint(optimizer=optimizer, net=model, step=tf.Variable(1))
 manager = tf.train.CheckpointManager(ckpt, save_path, max_to_keep=3)
-# check if models_embedding has been trained before
 ckpt.restore(manager.latest_checkpoint)
-if manager.latest_checkpoint:
-    logger.info("Restored models_embedding from {}".format(manager.latest_checkpoint))
-else:
-    logger.info("Initializing models_embedding from scratch.")
 \end{minted}
 \caption{Saving and restoring embedding model}
 \label{code:Save-Restore-Embedding-Model}
 \end{code}
 \noindent
-The training loop loops over the specified amount of epochs, which indicate how often the entire dataset is fed to the model. The first step every epoch is, to get the dataset from the created input pipeline, by giving it the feature extractor.
+The training loop iterates over the specified amount of epochs, which indicate how often the entire dataset is fed to the model. The first step of every epoch is, to get the dataset from the created input pipeline, by providing it with the feature extractor (code listing \ref{code:Epoch-Loop-Embedding-Model}).
 
-\begin{code}[htbp]
+\begin{code}[H]
 \begin{minted}{python}
-# start of the training loop
 for epoch in range(params.epochs):
-    logger.info("Starting epoch {0} from {1}".format(epoch + 1, params.epochs))
     dataset = pipeline.get_dataset(extractor, dataset_type=DatasetType.TRAIN,
                                    shuffle=params.shuffle_dataset)
 \end{minted}
@@ -817,16 +804,59 @@ for epoch in range(params.epochs):
 \label{code:Epoch-Loop-Embedding-Model}
 \end{code}
 \noindent
-Within each epoch, the dataset is fed to the model by batches. These batches consist of an anchor, neighbour and opposite audio segments, which are used to run a forward pass through the model. The entire forward and backward pass of the model is done by calling the \texttt{train\_step()} function. Which then returns the metric values of the current batch.
+Within each epoch, the dataset is fed to the model in batches (code listing \ref{code:Batch-Loop-Embedding-Model}). These batches consist of an anchor, neighbour and opposite audio segments. The \texttt{train\_step()} (code listing \ref{code:Train-Step}) runs a full forward pass trough the model, which means that it gets a batch of triplets (line 3), embeds them into the embedding space (line 8-10), calculates the regularisation, triplet and overall loss of the batch (line 13-17) and then updates the weights of the model so that the loss is being minimised (line 27-29). It then returns the different metric values in a dictionary (line 31-39). For each training step, there are five different metrics returned. The \texttt{loss} (line 17), which is the overall loss of the model, combined out of the \texttt{triplet\_loss} and the \texttt{regularization\_loss}. Then the \texttt{regularization\_loss} (line 13) and the \texttt{triplet\_loss} (line 15) separately. And then the \texttt{dist\_neighbour} and \texttt{dist\_opposite} (line 20-23), which give an insight into the distance between the anchor and the neighbour or opposite.
 
 \begin{code}[htbp]
 \begin{minted}{python}
-# iterate over the batches of the dataset
+@tf.function
+def train_step(batch, model, loss_fn, optimizer):
+    anchor, neighbour, opposite = batch
+
+    # record the operations run during the forward pass, enables auto differentiation
+    with tf.GradientTape() as tape:
+        # run the forward pass
+        emb_anchor = model(anchor, training=True)
+        emb_neighbour = model(neighbour, training=True)
+        emb_opposite = model(opposite, training=True)
+
+        # compute the regularization loss from layers
+        regularization_loss = tf.math.reduce_sum(model.losses)
+        # compute the triplet loss value for the batch
+        triplet_loss = loss_fn(None, [emb_anchor, emb_neighbour, emb_opposite])
+        # compute the overall loss
+        loss = regularization_loss + triplet_loss
+
+        # compute the distance losses between the embeddings
+        dist_neighbour = loss_fn.calculate_distance(anchor=emb_anchor, 
+            embedding=emb_neighbour)
+        dist_opposite = loss_fn.calculate_distance(anchor=emb_anchor, 
+            embedding=emb_opposite)
+
+    # GradientTape automatically retrieves the gradients of the trainable variables
+    # with respect to the loss
+    grads = tape.gradient(loss, model.trainable_weights)
+    # update the values of the trainable variables to minimize the loss
+    optimizer.apply_gradients(zip(grads, model.trainable_weights))
+
+    losses = {
+        "loss": loss,
+        "triplet_loss": triplet_loss,
+        "regularization_loss": regularization_loss,
+        "dist_neighbour": dist_neighbour,
+        "dist_opposite": dist_opposite
+    }
+
+    return losses
+\end{minted}
+\caption{Full forward pass through the model \texttt{train\_step()}}
+\label{code:Train-Step}
+\end{code}
+
+\begin{code}[H]
+\begin{minted}{python}
 for batch_index, (anchor, neighbour, opposite, _) in enumerate(dataset):
-    # run one training step
     batch = (anchor, neighbour, opposite)
-    losses = train_step(batch, model=model, 
-                        loss_fn=triplet_loss_fn, optimizer=optimizer)
+    losses = train_step(batch, model=model, loss_fn=triplet_loss_fn, optimizer=optimizer)
 \end{minted}
 \caption{Batch training loop of embedding model}
 \label{code:Batch-Loop-Embedding-Model}
@@ -834,9 +864,8 @@ for batch_index, (anchor, neighbour, opposite, _) in enumerate(dataset):
 \noindent
 As a next step, the returned metric values are saved using the summary writer, which is used to visualise the graphs on the Tensorboard. This entire process is repeated until all of the batches are processed, which indicates that the epoch is finished. At the end of each epoch, the model will be visualised on the evaluation dataset, by visualising the distances between the clusters and by visualising the embedding space.
 
-\begin{code}[htbp]
+\begin{code}[H]
 \begin{minted}{python}
-# visualise model: visualise embeddings, distance matrix, distance graphs
 visualise_model_on_epoch_end(model, pipeline=pipeline, extractor=extractor, 
     epoch=epoch, loss_fn=triplet_loss_fn, summary_writer=train_summary_writer, 
     tensorb_path=tensorb_path)
@@ -849,15 +878,15 @@ This entire process is repeated until the maximal number of epochs is reached, w
 
 \subsection{Training classifier}
 \label{sub:Training-Classifier}
-The training process of the classifier is located in a separate file called \texttt{train\_classifier.py}. The classifier provides an insight on how easy a simple classifier can be trained on the embedding space using only a very narrow architecture. The metrics of the classifier are mainly used to compare different embedding spaces with each other. It is also used to compare the unsupervised created embedding space to the supervised models of the \gls{DCASE} Task 5 challenge.
+The training process of the classifier is located in a separate file called \texttt{train\_classifier.py}. The classifier provides an insight on how easy a simple classifier can be trained on the embedding space using only a very narrow architecture. The results of the classifiers' performance are mainly used to compare different embedding spaces with each other. It is also used to compare the created embedding space to the models of the \gls{DCASE} Task 5 challenge.
 \newline
 \newline
-The classifier can be called by passing it certain command-line arguments, such as the \texttt{model\_to\_load} and \texttt{classifier\_type}. The \texttt{model\_to\_load} specifies which embedding space the classifier should use to embed the segments onto the embedding space. If \texttt{None} is passed as a parameter, the classifier will not use an embedding space and is therefore trained on the audio representation itself. This is used to provide metrics of a base classifier, which can then be compared to the classifiers trained on an embedding space to show the difference in performance. \texttt{classifier\_type} specifies the type of classifier to use, either \texttt{Dense} for the \texttt{ClassifierDense} or \texttt{Logistic} for the \texttt{ClassifierLogistic}.
+The classifier can be trained using the script \texttt{train\_classifier.py} by passing it specific command-line arguments, such as the \texttt{model\_to\_load} and \texttt{classifier\_type}. The \texttt{model\_to\_load} specifies which embedding space the classifier should use, to embed the segments onto the embedding space. If \texttt{None} is passed as a parameter, the classifier will not use an embedding space and is therefore trained on the audio representation itself. This is used to provide metrics of a \flqq base classifier\frqq, which can then be compared to the classifiers trained on an embedding space to show the difference in performance. \texttt{classifier\_type} specifies the type of classifier to use, either \texttt{Dense} for the \texttt{ClassifierDense} or \texttt{Logistic} for the \texttt{ClassifierLogistic}.
 \newline
 \newline
-As a first step in the training process of the classifier, the specified embedding model has to be loaded along with the corresponding implementation of the \texttt{BaseDataset}, \texttt{BaseExtractor} and \texttt{TripletsInputPipeline}. All of these three classes have to be loaded the same as the embedding model was trained on, therefore the \texttt{params.json} file of the trained embedding model is used to load the needed parameters. Then the classifier model has to be created from the given \texttt{classifier\_type}.
+As the first step in the training process of the classifier, the specified embedding model has to be loaded, along with the corresponding implementation of the \texttt{BaseDataset}, \texttt{BaseExtractor} and \texttt{TripletsInputPipeline}. All of these three classes have to be loaded the same as when training the embedding model. Therefore the \texttt{params.json} file of the trained embedding model is used to load the needed parameters. Then the classifier model has to be created from the given \texttt{classifier\_type} (code listing \ref{code:Classifier-Model-Creation}).
 
-\begin{code}[htbp]
+\begin{code}[H]
 \begin{minted}{python}
 if args.classifier_type == "Dense":
     classifier = ClassifierDense("DenseClassifier", n_labels=len(dataset.LABELS))
@@ -870,63 +899,55 @@ else:
 \label{code:Classifier-Model-Creation}
 \end{code}
 \noindent
-As the training of the classifier is located in a supervised setting, a different loss function is used than the one to train the embedding space. For the classifier a simple \texttt{SparseCategoricalCrossentropy} loss function is used, which is implemented in the \texttt{tf.keras.losses} package. As for the optimizer \texttt{Adam} is used.
+The training of the classifier is supervised since it needs to validate if the predicted value is accurate or not. Therefore, a different loss function is used than the one to train the embedding space. For the classifier a simple \texttt{SparseCategoricalCrossentropy} loss function is used, which is implemented in the \texttt{tf.keras.losses} package and \texttt{Adam} is used as the optimiser (code listing \ref{code:Classifier-Loss-Optimizer}).
 
-\begin{code}[htbp]
+\begin{code}[H]
 \begin{minted}{python}
-# loss for the classifier
 classifier_loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
-# optimizer for the classifier
 classifier_optimizer = tf.keras.optimizers.Adam(params_classifier.learning_rate)
 \end{minted}
 \caption{Classifier loss and optimizer}
 \label{code:Classifier-Loss-Optimizer}
 \end{code}
 \noindent
-After all of the instances for training are created, the metrics to visualise the training of the classifier (\ref{sub:Metrics-Classifier}) are created using the \texttt{tf.summary.create\_file\_writer}. The summary writer is responsible for saving the progress of the training process that the Tensorboard can visualise it as graphs. 
+After all of the instances for training are created, the metrics to record the training of the classifier (\ref{sub:Metrics-Classifier}) are created using the \texttt{tf.summary.create\_file\_writer}. The summary writer is responsible for saving the progress of the training in a form that the Tensorboard can visualise it as graphs. 
 \newline
 \newline
-As the training for the embedding space, it loops over the number of specified epochs and passes the dataset of each epoch in smaller batches to the model. The model will then use these passes to update its weights to minimise the loss. The training process of the classifier is split into two functions \texttt{train()} and \texttt{evaluate()} which will be called every epoch. The \texttt{train()} function is responsible for training the model on the training dataset and the \texttt{evaluate()} is responsible for evaluating the model on the evaluation dataset. This entire process is repeated until the max amount of epochs is reached, and the training is finished.
+The classifier is trained similarly to the training for the embedding space. It first loops over the number of specified epochs and passes the dataset in smaller batches to the model. The model will then use these batches to update its weights to minimise the loss. The training process of the classifier is split into two functions \texttt{train()} and \texttt{evaluate()} which will be called every epoch. The \texttt{train()} function is responsible for training the model on the training dataset and the \texttt{evaluate()} function is responsible for evaluating the model on the evaluation dataset. Both functions first embed the batches onto the embedding space and then pass these embedded samples to the classifier. This entire process is repeated until the max amount of epochs is reached, and the training is finished.
 
 \section{Evaluation}
 \label{sec:Realisation-Evaluation}
-This section describes the realisation of the evaluation, which aims to get a better understanding of how the model performs over time. The ability to have reliable and correct metrics are essential for training and optimising the model. The evaluation of the model is done by using TensorFlows Tensorboard \footnotemark, which is a visualisation toolkit for machine learning experimentation. The evaluation of a model is divided into different sections of metrics in different representations. They are all used for different purposes and are further described in the following section.
+This section describes the realisation of the evaluation, which aims to get a better understanding of how the model performs over time. The ability to have reliable and correct metrics are essential for training and optimising the models. The evaluation of the model is done by using TensorFlows' Tensorboard\footnotemark, which is a visualisation toolkit for machine learning experimentation. It is divided into different sections of metrics in different representations. They are all used for different purposes and are further described in the following section.
 \footnotetext{\url{https://www.tensorflow.org/tensorboard}}
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.85\linewidth]{img/Tensorboard_Scalars.png}
-	\caption{Tensorboard scalars visualisation}
-	\label{fig:Tensorboard-Scalars}
-\end{figure}
 
 \subsection{Tensorboard scalars}
 \label{sub:Tensorboard-Scalars}
-The first metric representation is scalars or graphs, which show the variation of a particular value over time. When using TensorFlow and Tensorboard, creating a graph of value is done in two simple steps. First, a \texttt{SummaryWriter} has to be created by providing an output path, where the summaries will be saved. This writer is responsible for saving the summary of a variable. If a value wants to be saved, the created writer can be used as default output, and the \texttt{tf.summary.scalar()} is used to save the current value of the variable at the current step. When calling \texttt{tf.summary.scalar()} the name of the variable has to be specified. By giving the variable a specific name, groups can be defined, for example when giving the variable the name \texttt{triplet\_loss\_train/loss\_triplet\_batches} a group called \texttt{triplet\_loss\_train} is created. All of the variables, which use the same prefix, will then belong to the same group. The saving of the variable has to be done in a loop, where the \texttt{step=} parameter defines the current step. This process is shown in code listing \ref{code:Summary-Scalar}.
+The first metric representation is scalars or graphs, which show the variation of a particular value over time. When using TensorFlow and Tensorboard, creating a graph of value is done in two simple steps. First, a \texttt{SummaryWriter} has to be created by providing an output path, where the summaries will be saved. This writer is then responsible for saving the summary of a variable. If a value wants to be saved, the created writer can be used as default output, and then the  \texttt{tf.summary.scalar()} saves the current value of the variable at the current step. When calling \texttt{tf.summary.scalar()} the name of the variable, which will be saved, has to be specified. By giving the variable a specific name, groups can be defined, for example when giving the variable the name \texttt{train/loss\_triplet\_batches} a group called \texttt{train} is created in the form of a ribbon. All of the variables, which use the same prefix, will then belong to the same group. The saving of the variable has to be done in a loop, where the \texttt{step=} parameter defines the current step. This process is shown in code listing \ref{code:Summary-Scalar}.
 
-\begin{code}[htbp]
+\begin{code}[H]
 \begin{minted}{python}
-# set the folder for the summary writer
 summary_writer = tf.summary.create_file_writer(tensorb_path)
-# write batch losses to summary writer
 with summary_writer.as_default():
-    # write summary of batch losses
-    tf.summary.scalar("triplet_loss_train/loss_triplet_batches", 
-        loss_triplet, step=int(ckpt.step))
+    tf.summary.scalar("train/loss_triplet_batches", loss_triplet, step=int(ckpt.step))
 \end{minted}
 \caption{Save summary of variable as a scalar}
 \label{code:Summary-Scalar}
 \end{code}
 \noindent
-The graph can be visualised when the training is finished or when the model is still training. The saved scalars can be seen in the Tensorboard tab \texttt{scalars}, which is shown in figure \ref{fig:Tensorboard-Scalars}. These graphs are mainly used to show how well a model performs by measuring certain variables over the training time, for example, loss and accuracy.
+The graph can be visualised when the training is finished or during training. The saved scalars can be seen in the Tensorboard tab \texttt{scalars}, which is shown in figure \ref{fig:Tensorboard-Scalars}. These graphs are mainly used to show how well a model performs by measuring certain variables over the training time, for example, loss and accuracy.
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.75\linewidth]{img/Tensorboard_Scalars.png}
+	\caption{Tensorboard scalars visualisation}
+	\label{fig:Tensorboard-Scalars}
+\end{figure}
 
 \subsection{Tensorboard images}
 \label{sub:Tensorboard-Images}
-Image representations are beneficial in a lot of different applications since displaying values as an image is a more compact form of representation and is, therefore, more obvious to interpret. The main idea is to display an image, which is either generated from the model data or is the output of the model on the Tensorboard. To visualise image data in the Tensorboard first, a \texttt{SummaryWriter} has to be created by providing an output path. Then an arbitrary image can be generated and needs to be converted into a \texttt{tf.Tensor}. After that the summary writer is used as default output to save the image, using the \texttt{tf.summary.image()} and passing it the image as well as the current step of the training process.
+Image representations are beneficial in a lot of different applications, since displaying values as an image is a more compact representation and is, therefore, more obvious to interpret. To visualise image data in the Tensorboard, first, a \texttt{SummaryWriter} has to be created by providing an output path. After an arbitrary image is generated, it needs to be converted into a \texttt{tf.Tensor}. Then the summary writer is used as default output to save the image using the \texttt{tf.summary.image()} and passing it the image tensor as well as the current step of the training process (code listing \ref{code:Summary-Image}).
 
-\begin{code}[htbp]
+\begin{code}[H]
 \begin{minted}{python}
-# set the folder for the summary writer
 summary_writer = tf.summary.create_file_writer(tensorb_path)
 with summary_writer.as_default():
     tf.summary.image("Label center distance matrix", image, step=epoch)
@@ -937,23 +958,14 @@ with summary_writer.as_default():
 
 \subsection{Tensorboard projector}
 \label{sub:Tensorboard-Projector}
-In 2016 Google open-sourced their Embedding Projector as part of TensorFlow \footnote{\url{https://ai.googleblog.com/2016/12/open-sourcing-embedding-projector-tool.html}}. It enables a more intuitive exploration process, for interactive visualisation and analysis of high-dimensional data recently, such as an embedding space. The Embedding Projector can, therefore, be used directly in the Tensorboard. The projector is used to visualise the embedding space generated from the embedding architecture trained using the triplet loss.
+In 2016 Google open-sourced their Embedding Projector as part of TensorFlow\footnote{\url{https://ai.googleblog.com/2016/12/open-sourcing-embedding-projector-tool.html}}. It enables a more intuitive exploration process, for interactive visualisation and analysis of high-dimensional data, such as an embedding space. The Embedding Projector can be used directly in the Tensorboard. The projector is used to visualise the embedding space generated from the embedding architecture trained using the triplet loss.
 \newline
 \newline
-A specified number of data points in the dataset has to be embedded using the trained embedding model, to visualise the embedding space. In this project, the evaluation dataset is used for this. These embeddings are then combined and result in one very big tensor, which is then converted to a \texttt{tf.Tensor}. Then the embeddings are saved in a \texttt{.tsv} file, which the projector will read and use to visualise the space. This saving process can be done by looping over the embedding tensor and writing each embedding on a separate line. Code listing \ref{code:Save-Embeddings} shows how to save the embeddings in a \texttt{.tsv} file, by introducing the function \texttt{save\_embeddings\_tsv()}. If the embedding space should also visualise the labels embeddings, the same process can be repeated and a separate \texttt{.tsv} file can be saved for the labels.
+A specified number of data points in the dataset have to be embedded, using the trained embedding model, to visualise the embedding space. In this project, the evaluation dataset is used for this purpose. These embeddings result in tensors, which are saved in a \texttt{.tsv} file. The projector will read this file and use it to visualise the space. Each embedding has to be written on a separate line. Code listing \ref{code:Save-Embeddings} shows how to save the embeddings in a \texttt{.tsv} file, by introducing the function \texttt{save\_embeddings\_tsv()}. If the embedding space should as well visualise the labels of the corresponding embeddings, the same process can be repeated and a separate \texttt{.tsv} file needs be saved.
 
-\begin{code}[htbp]
+\begin{code}[H]
 \begin{minted}{python}
 def save_embeddings_tsv(embeddings, filename, log_dir):
-    """
-    Saves the embeddings of the features to a given path as a *.tsv file.
-    The file can be used to visualise the embeddings within the projector.
-
-    :param embeddings: the embeddings to save.
-    :param filename: the name of the file.
-    :param log_dir: the path of the file.
-    :return: None.
-    """
     with open(os.path.join(log_dir, filename), 'w') as f:
         for embedding in embeddings.numpy():
             for vec in embedding:
@@ -964,9 +976,9 @@ def save_embeddings_tsv(embeddings, filename, log_dir):
 \label{code:Save-Embeddings}
 \end{code}
 \noindent
-Then the embeddings also have to be saved to a checkpoint file which the projector of the Tensorboard will load directly. This can be done by passing the embeddings converted to a tensor to a \texttt{Saver} and saving it as a \texttt{.ckpt} file, which is shown in code listing \ref{code:Save-Embeddings-Ckpt}.
+After saving the \texttt{.tsv} files, the embeddings have to be saved to a checkpoint file which the projector of the Tensorboard will load directly. This can be done by passing the embeddings converted to a tensor to a \texttt{Saver} and saving it as a \texttt{.ckpt} file, which is shown in code listing \ref{code:Save-Embeddings-Ckpt}.
 
-\begin{code}[htbp]
+\begin{code}[H]
 \begin{minted}{python}
 saver = tf.compat.v1.train.Saver([tensor_embeddings])
 saver.save(sess=None, global_step=0, save_path="embeddings.ckpt")
@@ -975,9 +987,9 @@ saver.save(sess=None, global_step=0, save_path="embeddings.ckpt")
 \label{code:Save-Embeddings-Ckpt}
 \end{code}
 \noindent
-As the last step the created embeddings have to be registered with the projector, which is done using the \texttt{tensorboard.plugins.projector} plugin, by providing the name of the embedding tensor and the label metadata file. The code listing \ref{code:Register-Embeddings} shows the process in more detail.
+The last step is to register the created embedding on the projector, which is done using the \texttt{tensorboard.plugins.projector} plugin, by providing the name of the embedding tensor and the label metadata file. The code listing \ref{code:Register-Embeddings} shows the process in more detail.
 
-\begin{code}[htbp]
+\begin{code}[H]
 \begin{minted}{python}
 config = projector.ProjectorConfig()
 embedding = config.embeddings.add()
@@ -989,7 +1001,7 @@ projector.visualize_embeddings(tensorboard_path, config)
 \label{code:Register-Embeddings}
 \end{code}
 \noindent
-The final result of the embedding space can be seen in on the Tensorboard in the \texttt{projector} tab. Figure \ref{fig:Embedding-Projector} shows a visualisation of the embedding space using the embedding projector. The labels of the embeddings can be visualised as colours of the different data points, which clearly shows resulting clusters of the space.
+The final result of the embedding space can be seen in on the Tensorboard in the \texttt{projector} tab. Figure \ref{fig:Embedding-Projector} shows a visualisation of the embedding space using the embedding projector. The labels of the embeddings can be visualised as colours.
 
 \begin{figure}[htbp]
 	\centering

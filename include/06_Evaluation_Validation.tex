@@ -33,7 +33,7 @@ The highest and lowest margin can be omitted simply by examining the triplet los
 \label{sub:Experiment-Segment-Size}
 \begin{figure}[hb]
 \centering
-    \includegraphics[width=0.5\linewidth]{study-doc/experiment_tile_size/assets/tile_sizes_plot.png}
+    \includegraphics[width=0.95\linewidth]{img/experiment_segment_size_triplet_loss_all.png}
     \caption{Plot of the triplet loss of the different segment sizes}
     \label{fig:tile-size-plot}
 \end{figure}
@@ -55,17 +55,17 @@ If the thesis focused on supervised triplet loss, it would make sense to cut the
 \centering
 \begin{subfigure}{.5\linewidth}
   \centering
-  \includegraphics[width=.6\linewidth]{study-doc/experiment_tile_size/assets/embedding_space_5s.png}
-  \caption{segment size 5s}
-  \label{fig:embedding-5s}
+  \includegraphics[width=.8\linewidth]{study-doc/experiment_tile_size/assets/embedding_space_1s.png}
+  \caption{segment size 1s}
+  \label{fig:embedding-1s}
 \end{subfigure}%
 \begin{subfigure}{.5\linewidth}
   \centering
-  \includegraphics[width=.6\linewidth]{study-doc/experiment_tile_size/assets/embedding_space_1s.png}
-  \caption{segment size 1s}
-  \label{fig:embedding-1s}
-\end{subfigure}
-\caption{Visualisation of the embedding space from the segment size 5s and 1s}
+  \includegraphics[width=.8\linewidth]{study-doc/experiment_tile_size/assets/embedding_space_5s.png}
+  \caption{segment size 5s}
+  \label{fig:embedding-5s}
+\end{subfigure}%
+\caption{Visualisation of the embedding space from the segment size 1s and 5s}
 \label{fig:tile-size-experiment-embedding-space}
 \end{figure}
 
@@ -73,7 +73,7 @@ If the thesis focused on supervised triplet loss, it would make sense to cut the
 \label{sub:Experiment-Embedding-Size}
 \begin{figure}[htb]
 \centering
-    \includegraphics[width=0.5\linewidth]{study-doc/experiment_embedding_size/assets/plot_embedding_sizes.png}
+    \includegraphics[width=0.95\linewidth]{img/experiment_embedding_space_triplet_loss_all.png}
     \caption{Plot of the triplet loss of the different embedding sizes}
     \label{fig:plot-embeddings-epochs}
 \end{figure}
@@ -105,7 +105,7 @@ The figure \ref{fig:plot-embeddings-epochs} shows the different triplet loss val
   \caption{embedding size 64}
   \label{fig:embedding-space-64}
 \end{subfigure}
-\caption{Plot of the resulting embedding spaces}
+\caption{Plot of the resulting embedding spaces from different sizes}
 \label{fig:embedding-size-experiment-embedding-space}
 \end{figure}
 \newline
@@ -144,7 +144,7 @@ Because of this result, the optimal embedding size, out of the four, is \texttt{
 The experiment further showed, that the longer the embedding space was trained, the more the loss value oscillates which indicates that a learning rate decay should be used to reduce the learning rate over time (\ref{fig:plot-triplet-64}). It further showed, that the triplet loss value vanished after ten epochs of training (\ref{fig:plot-embeddings-epochs}, which indicates that the model fails to learn the underlying structure of the data. This can have many different reasons, one of the most plausible assumptions is, that the model overfits, because the model succeeds in learning representation of the data (\ref{fig:embedding-size-experiment-embedding-space}). However, when this particular representation is learnt, the model stops to train and only produces a low loss. To mitigate the problem of overfitting, an L2-normalisation will be implemented, and an experiment to find the optimal regularisation factors is conducted (\ref{sub:Experiment-Regularisation-Factor}).
 \begin{figure}[htb]
 \centering
-    \includegraphics[width=0.4\linewidth]{study-doc/experiment_embedding_size/assets/plot_triplet_loss.png}
+    \includegraphics[width=0.95\linewidth]{img/experiment_embedding_size_triplet_loss.png}
     \caption{Plot of the triplet loss of the embedding space 64}
     \label{fig:plot-triplet-64}
 \end{figure}
@@ -153,7 +153,7 @@ The experiment further showed, that the longer the embedding space was trained, 
 \label{sub:Experiment-Regularisation-Factor}
 \begin{figure}[H]
 \centering
-    \includegraphics[width=0.5\linewidth]{study-doc/experiment_regularisation/assets/triplet_loss.png}
+    \includegraphics[width=0.95\linewidth]{img/experiment_regularisation_triplet_loss.png}
     \caption{Plot of the triplet loss values of the different regularisation factors $\lambda$}
     \label{fig:plot-triplet-loss}
 \end{figure}
@@ -271,7 +271,7 @@ From the figures \ref{fig:embedding-sizes-larger-experiment-metrics} it can be s
 \label{sub:Results-Triplet-Loss}
 \begin{figure}[htb]
 \centering
-    \includegraphics[width=0.6\linewidth]{img/Triplet-Loss-Comparison-Techniques.png}
+    \includegraphics[width=0.95\linewidth]{img/Triplet-Loss-Comparison-Techniques.png}
     \caption{Triplet loss comparison of different techniques}
     \label{fig:Triplet-Loss-Techniques}
 \end{figure}
@@ -343,7 +343,7 @@ Two embedding models were trained using the same hyperparameters for 40 epochs, 
 \end{table}
 \begin{figure}[ht]
 \centering
-    \includegraphics[width=0.6\linewidth]{img/Triplet_loss_DCASE_final.png}
+    \includegraphics[width=0.95\linewidth]{img/Triplet_loss_DCASE_final.png}
     \caption{Triplet loss plot of the final embedding model for the noise detection dataset}
     \label{fig:Triplet-Loss-DCASE}
 \end{figure}
@@ -450,7 +450,7 @@ The resulting model was trained for 130 epochs, which took around seven and a ha
 The figure \ref{fig:Triplet-Loss-Music} shows the graph of the triplet loss value of the trained epochs. It shows that the model starts with a relatively high loss value and decreases over time. At the end of the training, at epoch 130, the model reached a triplet loss value of approximately 0.35. The graph further shows that the model could potentially profit from additional training with a lower learning rate to get an even lower triplet loss value.
 \begin{figure}[ht]
 \centering
-    \includegraphics[width=0.6\linewidth]{img/triplet_loss_music_final.png}
+    \includegraphics[width=0.95\linewidth]{img/triplet_loss_music_final.png}
     \caption{Triplet loss plot of the final embedding model for the music dataset}
     \label{fig:Triplet-Loss-Music}
 \end{figure}
