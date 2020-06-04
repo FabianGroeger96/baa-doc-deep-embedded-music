@@ -215,6 +215,12 @@ The next step is to calculate the power spectrum of each frame. This is motivate
 \newline
 \newline
 To calculate the power spectrum for each frame, the \gls{DFT} has to be calculated with equation \ref{eq:MFCC-DFT-Frame}. Then the Periodogram-based power spectral estimate for the speech frame $s_i[n]$ can be calculated with the formula \ref{eq:MFCC-Periodogram-Frame}. Usually, a 512 point \gls{DFT} is being performed, which decomposes the signal frame $s_i[n]$ into 512 frequency building blocks and only the first 257 coefficients are kept.
+\myequations{Calculation of the hamming analysis window}
+\begin{equation}
+    \centering
+    h[n] = 0.54 - 0.46 \cos\left(\frac{2 \pi \, n}{N-1} \right)
+    \label{eq:MFCC-Hamming}
+\end{equation}
 \myequations{Calculate Discrete Fourier Transform of each frame}
 \begin{equation}
     \centering
@@ -377,7 +383,7 @@ A perceptron is the simplest neural network which consists of $n$ number of inpu
     \label{fig:Activation-Functions}
 \end{figure}
 \noindent
-The inputs which are denoted as $x_1, \dots, x_n$, are the values passed into the perceptron. The weights $\theta_{1}, \dots, \theta_{n}$ are values which are multiplied with the respective input, the bias is a special weight which shifts the activation function to the left or right. And the activation function $f(z)$ is used to introduce non-linearity into the output. Without the \gls{NN} would represent a linear function. With the non-linearity of the activation function, a layered \gls{NN} with enough capacity can learn any function. Such non-linear activation functions are illustrated in figure \ref{fig:Activation-Functions}. The output $\hat{y}$ is simply the result of the activation function, and it can be computed using equation \ref{eq:Perceptron-Calculate-Output}. In the case of a perceptron, it is the output of the \gls{NN}. The process of calculating the output of a \gls{NN} is called forward propagation.
+The inputs which are denoted as $x_1, \dots, x_n$, are the values passed into the perceptron. The weights $\theta_{1}, \dots, \theta_{n}$ are values which are multiplied with the respective input, the bias is a special weight which shifts the activation function to the left or right. And the activation function $f(z)$ is used to introduce non-linearity into the output. Without it, the \gls{NN} would only be capable of representing linear functions. With the non-linearity of the activation function, a layered \gls{NN} with enough capacity can learn any function. Such non-linear activation functions are illustrated in figure \ref{fig:Activation-Functions}. The output $\hat{y}$ is simply the result of the activation function, and it can be computed using equation \ref{eq:Perceptron-Calculate-Output}. In the case of a perceptron, it is the output of the \gls{NN}. The process of calculating the output of a \gls{NN} is called forward propagation.
 \myequations{Calculates the output of single layer neural network}
 \begin{equation}
     \centering

@@ -1,8 +1,165 @@
-\chapter{SINS database table}
+\chapter{Appendix}
+\label{app:Appendix}
+
+\section{Milestone reports}
+\label{app:Milestone-Reports}
+This chapter lists the individual milestone reports. These should provide information on the status of the project during the realisation. For every completed milestone, a report was written before the next phase could be started. The table \fullref{tab:Milestones} shows the milestones within the thesis as well as the corresponding dates when the milestone and the phase will be completed and reviewed. The milestones are also shown in the whole project plan in \fullref{fig:Project-Plan}.
+
+\subsection{Milestone report M1 from the 15.03.2020}
+In the first phase of the project, the main goal was to research the subjects used for the thesis. Within phase, the project also had to be initialised and started. More precisely, the project structure and documentation also had to be defined. The goal was also to finish the first chapter of the thesis \fullref{ch:Related-Work} along with the research.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Work carried out milestone M1 (15.03.2020)}
+	\label{tab:Work-Carried-Out-M1}
+    \begin{tabular}{p{.70\textwidth} | p{.20\textwidth}}
+        \toprule
+        \textbf{Task} & \textbf{Status} \\ 
+        \midrule[1pt]
+        Research: Dataset & finished \\
+        \hline
+        Research: Audio processing & finished \\
+        \hline
+        Research: Triplet Loss & finished \\
+        \hline
+        Research: Tile2Vec & finished \\
+        \hline
+        Research: Evaluate research & finished \\
+        \hline
+        Realisation: Project setup & started \\
+        \hline
+        Realisation: Input pipeline & started \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection{What work was carried out in the last reporting period}
+The tasks carried out within this period are shown in the table \fullref{tab:Work-Carried-Out-M1}, along with the status of the task at the time of the milestone review. A detailed report on the entire tasks carried out within the period is shown in the work journal \ref{tab:Work-Journal}. To reach the goal of simultaneously finishing the chapter \ref{ch:Related-Work} with the research, each researched topic was documented right away. 
+
+\subsubsection{State of progress}
+The current milestone was successfully reached since all the planned tasks could be finished. The phase was finished too early so that the next period could already be started, the realisation phase. 
+
+\subsubsection{Top three risks including planned measures}
+\begin{enumerate}
+    \setlength\itemsep{0em}
+    \item Formulas related work wrong, will be checked by Daniel Pfäffli
+    \item Topics missing in related work, will be checked by Daniel Pfäffli
+    \item Input pipeline structure, will be discussed at the next meeting
+\end{enumerate}
+
+\subsection{Milestone report M2 from the 29.03.2020}
+In the second milestone of the project, the main goal was to finish the whole project setup. The project repository had to be set up, the input pipeline was created for the dataset, and the default model architecture was created. The purpose was that after this milestone, the project is at a certain point, that the implementation of specific architectures is fast enough to experiment with different ones.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Work carried out milestone M2 (29.03.2020)}
+	\label{tab:Work-Carried-Out-M2}
+    \begin{tabular}{p{.70\textwidth} | p{.20\textwidth}}
+        \toprule
+        \textbf{Task} & \textbf{Status} \\ 
+        \midrule[1pt]
+        Realisation: Project setup & finished \\
+        \hline
+        Realisation: Input pipeline & finished \\
+        \hline
+        Realisation: Default architecture & finished \\
+        \hline
+        Realisation: Evaluation Workflow & midway \\
+        \hline
+        Realisation: Unit tests & midway \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection{What work was carried out in the last reporting period}
+The tasks carried out within this period are shown in the table \fullref{tab:Work-Carried-Out-M2}, along with the status of the task at the time of the milestone review. A detailed report on the entire tasks carried out within the period is shown in the work journal \ref{tab:Work-Journal}. Two tasks were not completed within the period, which was now prioritised in the next phase and will get completed first. The milestone could not be completed because to little time was planned for tasks like \flqq input pipeline\frqq or \flqq evaluation workflow\frqq. The evaluation workflow was completed except for the classifier, to evaluate the architecture in relation to the other models in the DCASE Challenge. Unit tests were not written for all the created models but will be right away at the start of the next milestone.
+
+\subsubsection{State of progress}
+The current milestone was not reached since two tasks could not be finished entirely. The uncompleted tasks were prioritised and were moved to the next phase of the project.
+
+\subsubsection{Top three risks including planned measures}
+\begin{enumerate}
+    \setlength\itemsep{0em}
+    \item GPU caching / file deletion problem, will be discussed at the next meeting
+    \item Classifier architecture, will be discussed at the next meeting
+    \item Unit tests for models, will be discussed at the next meeting 
+\end{enumerate}
+
+\subsection{Milestone report M3 from the 12.04.2020}
+The third milestone aimed to finalise the realisation. The idea of unsupervised triplet loss had to be implemented, like the one from Tile2Vec for both datasets. Furthermore, an easy to use architecture for the experiments had to be developed. Thus the experiments should be conducted relatively simple. The main goal is to provide an architecture which is reliable, arbitrarily expandable and repeatable. All of these points are essential for conducting successful experiments.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Work carried out milestone M3 (12.04.2020)}
+	\label{tab:Work-Carried-Out-M3}
+    \begin{tabular}{p{.70\textwidth} | p{.20\textwidth}}
+        \toprule
+        \textbf{Task} & \textbf{Status} \\ 
+        \midrule[1pt]
+        Realisation: Evaluation Workflow & finished \\
+        \hline
+        Realisation: Unit tests & finished \\
+        \hline
+        Realisation: Tile2Vec implementation & finished \\
+        \hline
+        Realisation: Architecture for experiments & finished \\
+        \hline
+        Experiments: Conduct experiments & started \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection{What work was carried out in the last reporting period}
+The tasks carried out within this period are shown in the table \fullref{tab:Work-Carried-Out-M3}, along with the status of the task at the time of the milestone review. A detailed report on the entire tasks carried out within the period is shown in the work journal \ref{tab:Work-Journal}. Two tasks were not completed during the last phase and were completed at the start of this phase by prioritising them. Both of the other tasks which were planned to complete during this phase were completed.
+
+\subsubsection{State of progress}
+The current milestone was successfully reached since all the planned tasks could be finished. The phase was finished too early so that the next period could already be started, the experiment phase. 
+
+\subsubsection{Top three risks including planned measures}
+\begin{enumerate}
+    \setlength\itemsep{0em}
+    \item Review evaluation workflow, will be discussed at the next meeting
+    \item Review of study doc, will be discussed at the next meeting
+    \item Review of test concept, will be discussed at the next meeting 
+\end{enumerate}
+
+\subsection{Milestone report M5 from the 03.05.2020}
+The last milestone before the thesis submission is the M5, which concludes the experiment phase. In the experiment phase, all of the experiments are conducted and validated. For each experiment, a separate study doc is written, which describes the experiments in more detail, and can be found in \ref{app:Study-Doc}. Within this phase, a lot of different experiments are conducted to find the optimal parameters for the problem definition. In this phase, the codebase will be adjusted if problems are found or if new ideas need to be implemented. The purpose of these adjustments is always to improve the performance of the models.
+\begin{table}[htbp]
+    \centering
+    \caption{Work carried out milestone M5 (03.05.2020)}
+	\label{tab:Work-Carried-Out-M5}
+    \begin{tabular}{p{.70\textwidth} | p{.20\textwidth}}
+        \toprule
+        \textbf{Task} & \textbf{Status} \\ 
+        \midrule[1pt]
+        Experiments: Conduct experiments & midway \\
+        \hline
+        Experiments: Validate experiments & midway \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection{What work was carried out in the last reporting period}
+The tasks carried out within this period are shown in the table \fullref{tab:Work-Carried-Out-M5}, along with the status of the task at the time of the milestone review. A detailed report on the entire tasks carried out within the period is shown in the work journal \ref{tab:Work-Journal}. Both of the tasks were not completed during the phase. That the tasks were not completed is because there were more experiments to conduct than intentionally thought. There was also the problem that some of the experiments took a long time to be conducted due to the lack of additional computing resources. Both tasks will be prioritised and completed in the next phase. 
+
+\subsubsection{State of progress}
+The current milestone was not reached since two tasks could not be finished entirely. The uncompleted tasks were prioritised and were moved to the next phase of the project.
+
+\subsubsection{Top three risks including planned measures}
+\begin{enumerate}
+    \setlength\itemsep{0em}
+    \item Not enough time to conduct all experiments; therefore the buffer phase will be used to conduct additional experiments
+    \item Not enough time to conduct all experiments; therefore additional computing power will be rented at \texttt{vast.ai}
+    \item Not enough experience with the hyperparameters; therefore will be discussed within the next meeting
+\end{enumerate}
+
+\clearpage
+\section{SINS database table}
 \label{app:SINS-Database-Table}
 This chapter shows a table with the different activities recorded within the SINS database. The activities are divided into the room where they were recorded.
 
-\begin{table}[htbp]
+\begin{table}[H]
     \centering
     \caption[SINS database recorded activities for each room]{SINS database recorded activities for each room \footnotemark}
 	\label{tab:sins-database-recorded-activities}
@@ -70,164 +227,12 @@ This chapter shows a table with the different activities recorded within the SIN
 \end{table}
 \footnotetext{\fullcite{dekkers_sins_2017}}
 
-\chapter{Milestone reports}
-\label{app:Milestone-Reports}
-This chapter lists the individual milestone reports. These should provide information on the status of the project during the realisation. For every completed milestone, a report was written before the next phase could be started. The table \fullref{tab:Milestones} shows the milestones within the thesis as well as the corresponding dates when the milestone and the phase will be completed and reviewed. The milestones are also shown in the whole project plan in \fullref{fig:Project-Plan}.
-
-\section{Milestone report M1 from the 15.03.2020}
-In the first phase of the project, the main goal was to research the subjects used for the thesis. Within phase, the project also had to be initialised and started. More precisely, the project structure and documentation also had to be defined. The goal was also to finish the first chapter of the thesis \fullref{ch:Related-Work} along with the research.
-
-\begin{table}[htbp]
-    \centering
-    \caption{Work carried out milestone M1 (15.03.2020)}
-	\label{tab:Work-Carried-Out-M1}
-    \begin{tabular}{p{.70\textwidth} | p{.20\textwidth}}
-        \toprule
-        \textbf{Task} & \textbf{Status} \\ 
-        \midrule[1pt]
-        Research: Dataset & finished \\
-        \hline
-        Research: Audio processing & finished \\
-        \hline
-        Research: Triplet Loss & finished \\
-        \hline
-        Research: Tile2Vec & finished \\
-        \hline
-        Research: Evaluate research & finished \\
-        \hline
-        Realisation: Project setup & started \\
-        \hline
-        Realisation: Input pipeline & started \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-\subsection{What work was carried out in the last reporting period}
-The tasks carried out within this period are shown in the table \fullref{tab:Work-Carried-Out-M1}, along with the status of the task at the time of the milestone review. A detailed report on the entire tasks carried out within the period is shown in the work journal \ref{tab:Work-Journal}. To reach the goal of simultaneously finishing the chapter \ref{ch:Related-Work} with the research, each researched topic was documented right away. 
-\subsection{State of progress}
-The current milestone was successfully reached since all the planned tasks could be finished. The phase was finished too early so that the next period could already be started, the realisation phase. 
-
-\subsection{Top three risks including planned measures}
-\begin{enumerate}
-    \setlength\itemsep{0em}
-    \item Formulas related work wrong, will be checked by Daniel Pfäffli
-    \item Topics missing in related work, will be checked by Daniel Pfäffli
-    \item Input pipeline structure, will be discussed at the next meeting
-\end{enumerate}
-
-\section{Milestone report M2 from the 29.03.2020}
-In the second milestone of the project, the main goal was to finish the whole project setup. The project repository had to be set up, the input pipeline was created for the dataset, and the default model architecture was created. The purpose was that after this milestone, the project is at a certain point, that the implementation of specific architectures is fast enough to experiment with different ones.
-
-\begin{table}[htbp]
-    \centering
-    \caption{Work carried out milestone M2 (29.03.2020)}
-	\label{tab:Work-Carried-Out-M2}
-    \begin{tabular}{p{.70\textwidth} | p{.20\textwidth}}
-        \toprule
-        \textbf{Task} & \textbf{Status} \\ 
-        \midrule[1pt]
-        Realisation: Project setup & finished \\
-        \hline
-        Realisation: Input pipeline & finished \\
-        \hline
-        Realisation: Default architecture & finished \\
-        \hline
-        Realisation: Evaluation Workflow & midway \\
-        \hline
-        Realisation: Unit tests & midway \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-\subsection{What work was carried out in the last reporting period}
-The tasks carried out within this period are shown in the table \fullref{tab:Work-Carried-Out-M2}, along with the status of the task at the time of the milestone review. A detailed report on the entire tasks carried out within the period is shown in the work journal \ref{tab:Work-Journal}. Two tasks were not completed within the period, which was now prioritised in the next phase and will get completed first. The milestone could not be completed because to little time was planned for tasks like \flqq input pipeline\frqq or \flqq evaluation workflow\frqq. The evaluation workflow was completed except for the classifier, to evaluate the architecture in relation to the other models in the DCASE Challenge. Unit tests were not written for all the created models but will be right away at the start of the next milestone.
-
-\subsection{State of progress}
-The current milestone was not reached since two tasks could not be finished entirely. The uncompleted tasks were prioritised and were moved to the next phase of the project.
-
-\subsection{Top three risks including planned measures}
-\begin{enumerate}
-    \setlength\itemsep{0em}
-    \item GPU caching / file deletion problem, will be discussed at the next meeting
-    \item Classifier architecture, will be discussed at the next meeting
-    \item Unit tests for models, will be discussed at the next meeting 
-\end{enumerate}
-
-\section{Milestone report M3 from the 12.04.2020}
-The third milestone aimed to finalise the realisation. The idea of unsupervised triplet loss had to be implemented, like the one from Tile2Vec for both datasets. Furthermore, an easy to use architecture for the experiments had to be developed. Thus the experiments should be conducted relatively simple. The main goal is to provide an architecture which is reliable, arbitrarily expandable and repeatable. All of these points are essential for conducting successful experiments.
-
-\begin{table}[htbp]
-    \centering
-    \caption{Work carried out milestone M3 (12.04.2020)}
-	\label{tab:Work-Carried-Out-M3}
-    \begin{tabular}{p{.70\textwidth} | p{.20\textwidth}}
-        \toprule
-        \textbf{Task} & \textbf{Status} \\ 
-        \midrule[1pt]
-        Realisation: Evaluation Workflow & finished \\
-        \hline
-        Realisation: Unit tests & finished \\
-        \hline
-        Realisation: Tile2Vec implementation & finished \\
-        \hline
-        Realisation: Architecture for experiments & finished \\
-        \hline
-        Experiments: Conduct experiments & started \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-\subsection{What work was carried out in the last reporting period}
-The tasks carried out within this period are shown in the table \fullref{tab:Work-Carried-Out-M3}, along with the status of the task at the time of the milestone review. A detailed report on the entire tasks carried out within the period is shown in the work journal \ref{tab:Work-Journal}. Two tasks were not completed during the last phase and were completed at the start of this phase by prioritising them. Both of the other tasks which were planned to complete during this phase were completed.
-
-\subsection{State of progress}
-The current milestone was successfully reached since all the planned tasks could be finished. The phase was finished too early so that the next period could already be started, the experiment phase. 
-
-\subsection{Top three risks including planned measures}
-\begin{enumerate}
-    \setlength\itemsep{0em}
-    \item Review evaluation workflow, will be discussed at the next meeting
-    \item Review of study doc, will be discussed at the next meeting
-    \item Review of test concept, will be discussed at the next meeting 
-\end{enumerate}
-
-\section{Milestone report M5 from the 03.05.2020}
-The last milestone before the thesis submission is the M5, which concludes the experiment phase. In the experiment phase, all of the experiments are conducted and validated. For each experiment, a separate study doc is written, which describes the experiments in more detail, and can be found in \ref{app:Study-Doc}. Within this phase, a lot of different experiments are conducted to find the optimal parameters for the problem definition. In this phase, the codebase will be adjusted if problems are found or if new ideas need to be implemented. The purpose of these adjustments is always to improve the performance of the models.
-\begin{table}[htbp]
-    \centering
-    \caption{Work carried out milestone M5 (03.05.2020)}
-	\label{tab:Work-Carried-Out-M5}
-    \begin{tabular}{p{.70\textwidth} | p{.20\textwidth}}
-        \toprule
-        \textbf{Task} & \textbf{Status} \\ 
-        \midrule[1pt]
-        Experiments: Conduct experiments & midway \\
-        \hline
-        Experiments: Validate experiments & midway \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-\subsection{What work was carried out in the last reporting period}
-The tasks carried out within this period are shown in the table \fullref{tab:Work-Carried-Out-M5}, along with the status of the task at the time of the milestone review. A detailed report on the entire tasks carried out within the period is shown in the work journal \ref{tab:Work-Journal}. Both of the tasks were not completed during the phase. That the tasks were not completed is because there were more experiments to conduct than intentionally thought. There was also the problem that some of the experiments took a long time to be conducted due to the lack of additional computing resources. Both tasks will be prioritised and completed in the next phase. 
-
-\subsection{State of progress}
-The current milestone was not reached since two tasks could not be finished entirely. The uncompleted tasks were prioritised and were moved to the next phase of the project.
-
-\subsection{Top three risks including planned measures}
-\begin{enumerate}
-    \setlength\itemsep{0em}
-    \item Not enough time to conduct all experiments; therefore the buffer phase will be used to conduct additional experiments
-    \item Not enough time to conduct all experiments; therefore additional computing power will be rented at \texttt{vast.ai}
-    \item Not enough experience with the hyperparameters; therefore will be discussed within the next meeting
-\end{enumerate}
-
 \clearpage
 \landscapevalues
 
-\chapter{Test concept}
+\section{Test concept}
 \label{app:Test-Concept}
-This chapter of the appendix contains detailed information about the manual tests conducted in the project to test each component thoroughly. For each manually conducted test case the steps, the status, the expected result and the actual result is given. The automated tests can be found in the \texttt{test} directory of the source code repository.
+This section of the appendix contains detailed information about the manual tests conducted in the project to test each component thoroughly. For each manually conducted test case the steps, the status, the expected result and the actual result is given. The automated tests can be found in the \texttt{test} directory of the source code repository.
 
 \begin{longtable}{p{.15\textwidth} | p{.40\textwidth} | p{.05\textwidth} | p{.15\textwidth} | p{.15\textwidth}}
         \caption{Test concept of the manual conducted tests}
@@ -302,7 +307,7 @@ This chapter of the appendix contains detailed information about the manual test
 \clearpage
 \defaultpagestyle
 
-\chapter{Study doc}
+\section{Study doc}
 \label{app:Study-Doc}
 This chapter contains all of the study docs from the conducted experiments, they include detailed information about each one of the experiments as well as the conclusion out of each.
 
@@ -316,23 +321,22 @@ This chapter contains all of the study docs from the conducted experiments, they
 
 \includepdf[scale=1.0, pages=1-]{study-doc/experiment_feature/Study_Doc_feature_representation.pdf}
 
-\chapter{Qualitative analysis}
+\section{Qualitative analysis}
 \label{app:Qualitative-analysis}
+This section shows the qualitative analysis conducted during the thesis to evaluate the music embedding space. The analysis was done in the form of an interview with Mr Emanuel Oehri as the expert, who is a DJ and provided the music dataset.
 
-\section{Interview guide}
-\label{sec:Interview-Guide}
+% Interview including answers
+\includepdf[scale=1.0, pages=1-]{files/bachelor_thesis_interview.pdf}
 
-\includepdf[scale=0.9, pages=1-]{files/bachelor_thesis_interview_guide.pdf}
+% Web abstract
+\includepdf[scale=0.75, pages=1,pagecommand={\section{Web abstract} \label{app:Web-abstract} \thispagestyle{empty}}, fitpaper=true]{files/bachelor_thesis_web_abstract.pdf}
+\includepdf[scale=0.75, pages=2-,pagecommand={\thispagestyle{empty}}, fitpaper=true]{files/bachelor_thesis_web_abstract.pdf}
 
-\section{Interview including answers}
-\label{sec:Interview-Answers}
-
-\includepdf[scale=0.9, pages=1-]{files/bachelor_thesis_interview.pdf}
-
-\chapter{Detailed hyperparameters of the models}
+\section{Detailed hyperparameters of the models}
 \label{app:detailed-hyperparameters}
+This section contains detailed information about both of the final models trained in the thesis. \ref{tab:Hyperparameters-Detailed-DCASE} shows the detailed hyperparameters for the DCASE dataset, while \ref{tab:Hyperparameters-Detailed-Music} shows them for the music dataset.
 
-\begin{table}[ht]
+\begin{table}[H]
     \centering
     \caption{Detailed hyperparameters of the optimal embedding architecture for the noise detection dataset}
 	\label{tab:Hyperparameters-Detailed-DCASE}
@@ -401,7 +405,7 @@ This chapter contains all of the study docs from the conducted experiments, they
     \end{tabular}
 \end{table}
 
-\begin{table}[ht]
+\begin{table}[H]
     \centering
     \caption{Detailed hyperparameters of the optimal embedding architecture for the music dataset}
 	\label{tab:Hyperparameters-Detailed-Music}
@@ -471,11 +475,131 @@ This chapter contains all of the study docs from the conducted experiments, they
 \end{table}
 
 \clearpage
+\section{Usage instructions}
+\label{app:Usage-Instructions}
+This section describes how to use the source code to train an embedding space and to evaluate it using the classifier. The instructions can as well be found in the \texttt{README.md} file of the source repository. As a first step, the source repository has to be cloned.
+\begin{code}[H]
+\begin{minted}{shell}
+git clone https://github.com/FabianGroeger96/deep-embedded-music.git
+\end{minted}
+\caption{Clone source repository}
+\label{code:Clone-Repo}
+\end{code}
+
+\subsection{Requirements}
+\begin{itemize}
+\setlength\itemsep{0em}
+\item
+  \href{https://github.com/tensorflow/tensorflow}{TensorFlow 2.1}
+\item
+  \href{https://pandas.pydata.org/}{pandas}
+\item
+  \href{https://numpy.org/}{numpy}
+\item
+  \href{https://www.scipy.org/}{scipy}
+\item
+  \href{https://scikit-learn.org/stable/}{scikit-learn}
+\item
+  \href{https://github.com/librosa/librosa}{librosa}
+\item
+  \href{https://matplotlib.org/}{matplotlib}
+\item
+  \href{https://seaborn.pydata.org/}{seaborn}
+\end{itemize}
+
+\subsection{Train embedding space}
+The following docker command can be executed using the \texttt{onstart.sh} script, to train the embedding space using triplet loss on a GPU. The container will start, and the training procedure begins right away.
+\begin{code}[H]
+\begin{minted}{shell}
+docker run -it -v ${PWD}:/tf/ -w /tf --name deep-embedded-music \
+--gpus all --privileged=true \
+tensorflow/tensorflow:2.1.0-gpu-py3 /bin/bash ./onstart.sh
+\end{minted}
+\caption{Train embedding space using triplet loss}
+\label{code:Train-triplet-loss}
+\end{code}
+
+\noindent
+Take note of your Docker version with \texttt{docker -v}. Versions earlier than
+19.03 require \texttt{nvidia-docker2} and the \texttt{--runtime=nvidia} flag. On versions
+including and after 19.03, the use of the \texttt{nvidia-container-toolkit}
+package and the \texttt{--gpus all} flag is needed.
+\newline
+\newline
+The training process can be started manually without the \texttt{onstart.sh} script, by starting the docker container and then executing the python script \texttt{train\_triplet\_loss.py} manually.
+\begin{code}[H]
+\begin{minted}{shell}
+cd deep-embedded-music
+python -m src.train_triplet_loss
+\end{minted}
+\caption{Train embedding space using triplet loss manually}
+\label{code:Train-triplet-loss-manually}
+\end{code}
+\noindent
+If the tensorboard profiler wants to be used, by setting the parameter
+\texttt{use\_profiler\ =\ 1}, the tensorflow nightly build
+\texttt{tensorflow/tensorflow:nightly-gpu-py3} has to be used to start
+the docker container as well as the option \texttt{--privileged=true}.
+This is due to NVIDIA CUPTI libary API change:
+\newline
+\href{https://developer.nvidia.com/nvidia-development-tools-solutions-err-nvgpuctrperm-cupti}{https://developer.nvidia.com}
+
+\subsection{Train classifier}
+A separate python script has to be called named
+\texttt{train\_classifier.py}, to train the classifier on top of the
+embedding architecture. The \texttt{--model\_to\_load} argument
+specifies which embedding model should be used to train the classifier,
+the classifier will be trained using the same dataset.
+\begin{code}[H]
+\begin{minted}{shell}
+cd deep-embedded-music
+python -m src.train_classifier --model_to_load results/path_to_model/
+\end{minted}
+\caption{Train classifier on top of the embedding space}
+\label{code:Train-classifier}
+\end{code}
+
+\subsection{Run tensorboard}
+The tensorboard can be used, to examine the results from the trained
+models. The tensorboard can be started by executing the docker command
+below. The tensorboard is then available on \url{http://localhost:6006}.
+The \texttt{--logdir} specifies the location of the results to
+visualise.
+\begin{code}[H]
+\begin{minted}{shell}
+docker run -it -p 6006:6006 --rm -v ${PWD}:/tf/ \
+--name deep-embedded-music-tensorboard \
+tensorflow/tensorflow:2.1.0-py3 \
+tensorboard --bind_all --logdir tf/experiments/DCASE/results/
+\end{minted}
+\caption{Run tensorboard to visualise the experiments}
+\label{code:Run-Tensorboard}
+\end{code}
+
+\clearpage
+\section{Zip folder}
+\label{app:Zip-folder}
+Together with the thesis, a zip-folder was delivered. The components of it are illustrated in figure \ref{fig:Contents-Zip-Folder}. \texttt{audios\_from\_documentation} contains the audio files, referenced in the thesis, for example, in the examination of the DCASE embedding space. \texttt{dcase\_results} contains the results and trained models on the DCASE dataset, whereas \texttt{music\_results} contains all of the models trained using the music dataset. \texttt{music\_best\_songs\_generated} contains some audio files, which were generated by the embedding space while examining it. \texttt{qualitative\_analysis} contains all of the resources for and from the qualitative analysis, such as the resources given to the expert, detailed interview guide and transcribed interview. Finally, \texttt{study\_docs} contains all of the study docs from different experiments.
+\begin{figure}[ht]
+    \dirtree{%
+    .1 deep\_embedded\_music\_resources/.
+    .2 audios\_from\_documentation/.
+    .2 dcase\_results/.
+    .2 music\_results/.
+    .2 music\_best\_songs\_generated/.
+    .2 qualitative\_analysis/.
+    .2 study\_docs/.
+    }
+\caption{Contents of the Zip-folder delivered with the thesis}
+\label{fig:Contents-Zip-Folder}
+\end{figure}
+
+\clearpage
 \landscapevalues
 
-\chapter{Work journal}
+\section{Work journal}
 \label{app:Work-Journal}
-Within this chapter, the whole work journal of the thesis is shown. The journal is divided into subcategories, so that the \fullref{tab:Work-Journal} is more pleased to read. These categories show what exactly was done in the different project phases, which can be seen in the \fullref{fig:Project-Plan}. There is also one more category called \flqq General\frqq, where all the administrative tasks are shown, including the meetings with the advisor.
+Within this section, the whole work journal of the thesis is shown. The journal is divided into subcategories, so that the \fullref{tab:Work-Journal} is more pleased to read. These categories show what exactly was done in the different project phases, which can be seen in the \fullref{fig:Project-Plan}. There is also one more category called \flqq General\frqq, where all the administrative tasks are shown, including the meetings with the advisor.
 
 \begin{longtable}{| p{.10\textwidth} | p{.20\textwidth} | p{.50\textwidth} | p{.10\textwidth} |} 
 	\caption{Work Journal}
@@ -1180,6 +1304,28 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
         \end{minipage}
         & 5h \\
     \hline
+    03.06.2020 & thesis corrections &
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item corrections
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 4h \\
+    \hline
+    04.06.2020 & thesis corrections &
+        \begin{minipage}{5in}
+        \vskip 4pt
+        \begin{itemize}
+        \setlength\itemsep{0em}
+        \item corrections
+        \end{itemize}
+        \vskip 4pt
+        \end{minipage}
+        & 7h \\
+    \hline
     \multicolumn{4}{|l|}{\textbf{Research}} \\
     \hline
     17.02.2020 & research dataset & 
@@ -1649,7 +1795,7 @@ Within this chapter, the whole work journal of the thesis is shown. The journal 
 \clearpage
 \defaultpagestyle
 
-\chapter{Task definition bachelor thesis}
+\section{Task definition bachelor thesis}
 \label{app:Task-Definition}
 Within this chapter the final task definition, which was submitted and accepted by the Transfer Office of the Lucerne University of Applied Sciences and Arts on the 25.02.2020, is attached.
 
