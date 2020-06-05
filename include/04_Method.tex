@@ -17,15 +17,12 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
 \begin{figure}
 \centering
      \begin{ganttchart}[%Specs
-     x unit = 0.9cm,  %<---------------------- New x unit 
+     x unit = 1.05cm,  %<---------------------- New x unit 
      y unit title=0.4cm,
      y unit chart=0.5cm,
      vgrid, hgrid,
      title height=1,
      title label font=\bfseries\footnotesize,
-     progress=today,
-     today=14,
-     today label=Current Week,
      bar/.append style={fill=blue!50},
      group/.append style={draw=black, fill=orange!40!white},
      milestone/.append style={draw=black, fill=red!40!white, xscale=0.55}, % 0.5/0.9 ≈ 0.5555
@@ -37,16 +34,16 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
      group top shift=0.5,
      group height=.3,
      group peaks width={0.2},
-     inline]{1}{16}
+     inline]{1}{15}
     %labels
 
     %\gantttitle{bachelor thesis - deep embedded music}{18}\\
-    \gantttitle[]{2020}{16} \\                
+    \gantttitle[]{2020}{15} \\                
     \gantttitle{Feb}{2}
     \gantttitle{Mar}{4}
     \gantttitle{Apr}{4}
     \gantttitle{May}{4}
-    \gantttitle{Jun}{2}\\
+    \gantttitle{Jun}{1}\\
     
     % 1. Phase: Research
     \ganttgroup[inline=false]{Research}{1}{4}\\ 
@@ -82,11 +79,11 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
     \ganttgroup[inline=false]{Buffer}{13}{13} \\
     
     % 4. Phase: Documentation
-    \ganttgroup[inline=false]{Finalise documentation}{14}{16} \\
-    \ganttbar[progress=50,inline=false]{Create pitch video and web abstract}{14}{14} \\
+    \ganttgroup[inline=false]{Finalise documentation}{14}{15} \\
+    \ganttbar[progress=100,inline=false]{Create pitch video and web abstract}{14}{14} \\
     \ganttbar[progress=100,inline=false]{Finalise documentation}{14}{15} \\
-    \ganttbar[progress=50,inline=false]{Proofread documentation}{16}{16} \\
-    \ganttmilestone[inline=false]{Thesis submission}{16}
+    \ganttbar[progress=100,inline=false]{Proofread documentation}{15}{15} \\
+    \ganttmilestone[inline=false]{Thesis submission}{15}
 \end{ganttchart}
 \caption{Project plan}
 \label{fig:Project-Plan}
@@ -101,7 +98,7 @@ The figure \ref{fig:Project-Plan} illustrates the project plan, where the phases
 The waterfall model is a breakdown of project activities into linear sequential phases, where each phase depends on the deliverables of the previous one and corresponds to a specialisation of tasks. For this project, a custom waterfall model is used, which differs quite profoundly from Royce's original waterfall model. The procedure model is shown in figure \ref{fig:Project-Plan}.
 \newline
 \newline
-The main reason why a linear procedure model is used and not an iterative such as SCRUM is, that, the project is an innovation/research project, where the main focus is on conducting experiments and searching for new findings for the problem definition. Therefore, it is obvious which tasks need to be completed during each phase and what each one of them has to deliver before going to the next phase. Another reason why the waterfall model is chosen is that the project is done only by a single person and therefore there is no waiting for others to complete their task before going to the next phase since all of the work carried out is done by one person. Another benefit compared to an iterative procedure model is, that the project is already clearly defined by the start of the project and the artefacts, which will need to be delivered by the end of the project, is as well given at the start. Therefore the status of the project is evident at any point during the project.
+The main reason why a linear procedure model is used and not an iterative such as SCRUM is, that, the project is an innovation/research project, where the main focus is on conducting experiments and searching for new findings for the problem definition. Therefore, it is obvious which tasks need to be completed during each phase and what each one of them has to deliver before going to the next phase. Another reason why the waterfall model is chosen is that the project is done only by a single person, and therefore, there is no waiting for others to complete their task before going to the next phase. Another benefit compared to an iterative procedure model is, that the project is already clearly defined by the start of the project and the artefacts, which will need to be delivered by the end of the project, is as well given at the start. Therefore the status of the project is evident at any point during the project.
 
 \subsection{Project phases}
 \label{sec:Project-Phases}
@@ -117,7 +114,7 @@ The main reason why a linear procedure model is used and not an iterative such a
         \hline
         P2 & Realisation & The second phase is relatively large and is used to implement the codebase of the project, which includes the code for training, testing and evaluating. The deliverable of this phase is a fully functional and tested codebase to train and evaluate embedding models (D2 \& D3).\\
         \hline
-        P3 & Experiments & In the third phase, all of the experiments will be conducted and evaluated. Within this phase, there is the possibility that the codebase will be adjusted to optimise the performance of the experiments. The deliverables of this phase are two fully trained models, one for the noise detection dataset and one for the music dataset (D4).\\
+        P3 & Experiments & In the third phase, all of the experiments will be conducted and evaluated. Within this phase, there is the possibility that the codebase will need to be adjusted to optimise the performance of the experiments. The deliverables of this phase are two fully trained models, one for the noise detection dataset and one for the music dataset (D4).\\
         \hline
         P4 & Buffer & The buffer phase is used to provide an extra one week buffer if there is a  delay with one of the phases before. Therefore, this phase is variable and does not have clear deliverables at the start of the project. If the buffer is not needed, it will be used to extend the last phase P5. \\
         \hline
@@ -180,7 +177,7 @@ Deliverables are artefacts which need to be delivered at the end of each phase t
     \end{tabular}
 \end{table}
 \noindent
-There is a specific milestone at the end of each phase \ref{tab:Phases}, which reviews the deliverables and the work done within the phase. The milestone review further aims to provide an outlook on the next phase and the current status of the project. The review is done by writing a report for each milestone, which can be found in the appendix milestone reports (\ref{app:Milestone-Reports}). Each of these reports gives insight about the status of the project by answering the questions \textit{what was done since the last reporting?}, \textit{what is the state of progress of the project} and \textit{what are the top three risks?}, which further includes the planned measures to take. The reports provide valuable insights into the projects current status and are therefore used to plan the next phases. Table \ref{tab:Milestones} shows all the milestones with the corresponding data assigned to it. The milestones are illustrated in the full project plan \ref{fig:Project-Plan} in red.
+There is a specific milestone at the end of each phase, shown in table \ref{tab:Phases}, which reviews the deliverables and the work done within the phase. The milestone review further aims to provide an outlook on the next phase and the current status of the project. The review is done by writing a report for each milestone, which can be found in the appendix milestone reports (\ref{app:Milestone-Reports}). Each of these reports gives insight about the status of the project by answering the questions \textit{what was done since the last reporting?}, \textit{what is the state of progress of the project} and \textit{what are the top three risks?}, which further includes the planned measures to take. The reports provide valuable insights into the projects current status and are therefore used to plan the next phases. Table \ref{tab:Milestones} shows all the milestones with the corresponding data assigned to it. The milestones are illustrated in the full project plan \ref{fig:Project-Plan} in red.
 \newline
 \newline
 It is important to note that the milestone \textit{M4: Interim presentation} does not conclude a phase. It is purely used to show wherein the project, the interim presentation is held and what needs to be delivered until then. Therefore, for this milestone, no milestone report is being written.
@@ -214,7 +211,7 @@ It is important to note that the milestone \textit{M4: Interim presentation} doe
     \end{tabular}
 \end{table}
 \noindent
-This section shows the risk analysis done to show the possible risks when conducting the project. Table \ref{tab:Risk-Analysis} shows the risk analysis, which consists of the risk, the possible consequences and the planned measurements. The table \ref{tab:Risk-Matrix} shows the residual risk matrix, which provides an overview of the possibility of the occurrence of each risk. For all of the risks, the measurements are planned to get them as low as reasonably possible. Therefore the goal is to have all of the risks in a green section, which indicates that it is acceptable. Yellow represents acceptable. However, further risk reduction should be made. Furthermore, red indicates not acceptable, and a risk reduction is profoundly needed. The risk matrix \ref{tab:Risk-Matrix} show the probability of the occurrence of each risk when taking the counter measurements already into account.
+This section shows the risk analysis done to show the possible risks when conducting the project. Table \ref{tab:Risk-Analysis} shows the risk analysis, which consists of the risk, the possible consequences and the planned measurements. The table \ref{tab:Risk-Matrix} shows the risk matrix, which provides an overview of the possibility of the occurrence of each risk. For all of the risks, the measurements are planned to get them as low as reasonably possible. Therefore the goal is to have all of the risks in a green section, which indicates that it is acceptable. Yellow represents acceptable. However, further risk reduction should be made. Furthermore, red indicates not acceptable, and a risk reduction is profoundly needed. The risk matrix \ref{tab:Risk-Matrix} show the probability of the occurrence of each risk when taking the counter measurements already into account.
 
 % set page back to portrait
 \clearpage
@@ -223,7 +220,7 @@ This section shows the risk analysis done to show the possible risks when conduc
 \begin{table}[htb]
 \centering
 \scriptsize
-\caption{Residual risk matrix}
+\caption{Risk matrix}
 \label{tab:Risk-Matrix}
 \begin{tabular}{|p{3cm}|p{2cm}|p{1.6cm}| p{1.8cm} |p{1.8cm}| p{1.6cm}|}
     \hline \diagbox[innerwidth=3cm]{Frequency}{Consequence} & 1-Very Unlikely & 2-Remote & 3-Occasional & 4-Probable & 5-Frequent\\ [10pt]
@@ -237,7 +234,7 @@ This section shows the risk analysis done to show the possible risks when conduc
 
 \section{Evaluation}
 \label{sec:Evaluation}
-The evaluation is done for both used datasets separately, and in a relatively different way, therefore both evaluations are described in different subsections, the evaluation of the DCASE dataset (\ref{sub:Eval-DCASE}) and the evaluation of the music dataset (\ref{sub:Eval-Music}).
+The evaluation is done for both datasets separately, and in a relatively different way, therefore both evaluations are described in different subsections, the evaluation of the DCASE dataset (\ref{sub:Eval-DCASE}) and the evaluation of the music dataset (\ref{sub:Eval-Music}).
 
 \subsection{DCASE 2018 - Task 5 dataset}
 \label{sub:Eval-DCASE}
@@ -265,13 +262,13 @@ To then further evaluate the performance of the resulting embedding space, a sim
 The linear logistic classifier (\ref{fig:logistic-classifier}) only consists of a single softmax output layer, which has the same amount of output units as there are classes in the dataset. The two-layered classifier (\ref{fig:dense-classifier}) consists of a two-layered dense model and a softmax output layer. Both classifiers are used to evaluate the embedding space. However, their idea is quite different from each other. The linear classifier tries to separate the embedding space using a hyperplane and therefore shows how well separated the embedding clusters are. The dense classifier shows how much of a performance gain there is when using the embedding space with a deeper \gls{NN}.
 \newline
 \newline
-The macro-averaged F1 score of the linear logistic classifier is compared to other F1 scores from the experiment, to evaluate the different embedding spaces. The classifier is trained on the raw audio representation itself to provide a baseline F1 score, to show the performance gain when using the embedding space.
+The macro-averaged F1 score of the linear logistic classifier is compared to other F1 scores from the experiment, to evaluate the different embedding spaces. 
 \newline
 \newline
-In the final step, the resulting embedding space, as well as the trained classifier will be used on the evaluation dataset of the challenge, where the resulting macro-averaged F1 score is compared to the accomplished score by the submitted models. The aim is to show the result which can be accomplished when using the dataset in an unsupervised setting and only focusing on the audio data itself rather than the label.
+In the final step, the resulting embedding space, as well as the trained classifier will be used on the evaluation dataset of the challenge, where the resulting macro-averaged F1 score is compared to the accomplished score by the submitted models. The aim is to show the results which can be accomplished when using a very simple linear logistic classifier and the trained embedding space.
 \newline
 \newline
-The overall goal is to achieve the highest possible macro-averaged F1 score on the evaluation dataset provided by the DCASE challenge. 
+One goal is to achieve the highest possible macro-averaged F1 score on the evaluation dataset provided by the DCASE challenge. 
 \newline
 \newline
 However, the main goal is to show that the resulting embedding space represents a specific structure of the dataset and therefore represents meaning. Since the embedding space only focuses on the audio stream itself, the optimal space clusters audio segments which sound similar in the nearby region irrelevant of the label. This evaluation is done manually by examining the embedding space.
@@ -318,7 +315,7 @@ The idea of training a simple linear logistic classifier using the embedding spa
 Since one of the requirements of the project is to examine the resulting clusters of the music embedding space, a simple clustering algorithm, such as \fullref{sub:K-Means}, is being applied on the resulting embeddings of the \texttt{test} set and afterwards on the full dataset. This should provide a crucial insight into the resulting clusters and the performance of the embedding architecture. It further aims to show which categories of the dataset are in the nearby region and therefore should represent similar categories. 
 \newline
 \newline
-Another requirement of the embedding space is that it should provide some similarity measure, for the embedded songs. Therefore the resulting clusters, as well as their distances between each other, are essential properties which will need to be evaluated. Since the examination of these distances as well as the similarity between each music genre is quite hard, mister Emanuel Oehri, who provided the music dataset (\ref{sub:Music-Dataset}), helps to examine the distances between the clusters and gives feedback about their similarity from his professional opinion. He will further examine the resulting similarity between two songs of different genres which are projected into their nearby region, as well as the similarity between segments which have an inconsistent neighbourhood. The evaluation with mister Emanuel Oehri will be structured as an interview, where the interview guide including the results can be found in the appendix \ref{app:Qualitative-analysis}.
+Another requirement of the embedding space is that it should provide some similarity measure, for the embedded songs. Therefore the resulting clusters, as well as their distances between each other, are essential properties which will need to be evaluated. Since the examination of these distances as well as the similarity between each music genre is quite hard, Mr Emanuel Oehri, who provided the music dataset (\ref{sub:Music-Dataset}), helps to examine the distances between the clusters and gives feedback about their similarity from his professional opinion. He will further examine the resulting similarities between two songs of different genres which are projected into their nearby region, as well as the similarity between segments which have an inconsistent neighbourhood. The evaluation with Mr Emanuel Oehri will be structured as an interview, where the interview guide, including the results, can be found in the appendix \ref{app:Qualitative-analysis}.
 
 \section{Testing}
 \label{sec:Testing}

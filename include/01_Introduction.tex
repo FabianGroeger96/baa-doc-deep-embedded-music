@@ -1,37 +1,37 @@
 \chapter{Introduction}
 \label{ch:Introduction}
-This chapter aims to introduce the thesis \flqq Deep Embedded Music\frqq \ and describes the task and the objectives of the project in detail. It should give an insight into the situation it arose from, as well as the motivation behind it. The detailed task, which was submitted to the Transfer Office of the Lucerne University of Applied Sciences and Arts, can be found in the appendix \fullref{app:Task-Definition}.
+This chapter aims to introduce the thesis \flqq Deep Embedded Music\frqq \ and describes the task and the objectives of the project in detail. It should give an insight into the situation it arose from, as well as the motivation behind it. The detailed task, which was submitted to the transfer osffice of the Lucerne University of Applied Sciences and Arts, can be found in the appendix \fullref{app:Task-Definition}.
 
 \section{Initial situation}
 \label{sub:Initial-Stituation}
 The last few years have seen significant advances in non-speech audio processing, as popular deep learning architectures, developed in the speech and image processing communities, have been ported to this relatively understudied domain. However, these data-hungry neural networks are not always matched to the available training data in the audio domain. While unlabeled audio is easy to collect, manually labelling data for each new sound application remains notoriously costly and time-consuming. Therefore a considerable amount of research in recent years focuses on the application of unsupervised machine learning in the audio domain.
 \newline
 \newline
-When listening to music, distinguishing between music genres is for humans, from easy to difficult, depending on how similar the given genres are. It is rather simple to distinguish music songs, for example, of classical music and techno or country and hip-hop rap. However, the difficulty increases when songs within the same genre will need to be compared. When it comes to finding the similarity between songs or to sort a list of songs by their similarity, even humans fail to succeed. 
+When listening to music, distinguishing between music genres is for humans, from easy to difficult, depending on how similar the given genres are. It is rather simple to distinguish music songs, for example, of classical music and techno or country and hip-hop rap. However, the difficulty increases when songs within the same genre will need to be compared. When it comes to finding the similarity between songs or to sort a list of songs by their similarity, it is hard, even for humans. 
 \newline
 \newline
-This thesis seeks to alleviate this problem by developing an alternative learning strategy that exploits basic semantic properties of sound that are not grounded by an explicit label. This alternative will then be applied to a noise detection dataset and a music dataset to show the applicability and performance of the approach. Further, it attempts to show that the representation learned, provides a similarity space for both datasets, which can then be used to compare specific audios, sort them by similarity or find similarities between categories.
+This thesis seeks to alleviate this problem by developing an alternative learning strategy that exploits basic semantic properties of sound that are not grounded by an explicit label. This alternative will then be applied to a noise detection dataset and a music dataset to show the applicability and performance of the approach. Further, it attempts to show that the representation learnt, provides a similarity space for both datasets, which can then be used to compare specific audios, sort them by similarity or find similarities between categories.
 
 \section{Task definition}
 \label{sub:Task-Definition}
 The goal of this thesis is to adapt Tile2Vec, an image embedding method, to audio streams and evaluate its performance on the noise detection dataset \flqq SINS, DCASE 2018: task 5\frqq. 
 \newline
 \newline
-To achieve this goal, a model, which transforms the audio signals into embeddings, needs to be trained first. Then to evaluate the performance on the DCASE dataset, a simple classifier will be used, which receives an embedding and classifies it into one of the given classes within the dataset. The light classifier will be trained, and the accuracy of the resulting architecture will be compared to the published results of the DCASE 2018 Task 5 challenge.
+To achieve this goal, a model, which transforms the audio signals into embeddings, needs to be trained first. Then to evaluate the performance on the DCASE dataset, a simple classifier will be used, which receives an embedding and classifies it into one of the given classes within the dataset. The light classifier will be trained, and the macro-averaged F1 score of the resulting architecture will be compared to the published results of the DCASE 2018 Task 5 challenge.
 \newline
 \newline
-This method is to be applied exploratively to different kinds of music, whereby a data set of 18h DJ music is available. The resulting clusters will be investigated qualitatively, by using clustering techniques as well as manual evaluation.
+This method is to be applied exploratively to different kinds of music, whereby a data set of 18h DJ music is available. The resulting clusters will be investigated qualitatively, by using clustering techniques as well as a manual evaluation.
 
 \section{Target setting}
 \label{sub:Target-Setting}
-As stated in \fullref{sub:Task-Definition}, the goal of the thesis is to adapt Tile2Vec to audio streams and evaluate its performance. The thesis is categorised as an exploratory innovation/research project since its main focus is to evaluate if the task can be completed and how well it performs. Another target is to further give an overview of how advanced the current research is in the section of unsupervised machine learning with audio and as well give an outlook on further projects, to explore and evaluate different approaches.
+As stated in \fullref{sub:Task-Definition}, the goal of the thesis is to adapt Tile2Vec to audio streams and evaluate its performance. The thesis is categorised as an exploratory innovation/research project since its main focus is to evaluate if the task can be completed and how well it performs. Another target is to further give an overview of how advanced the current research is in the section of unsupervised machine learning with audio is and as well give an outlook on further interesting approaches and projects.
 
 \section{Preliminaries}
 \label{sub:Preliminaries}
 The focus of the thesis is exclusively on the architecture of the embedding model and the preprocessing of the audio signal. Clustering and classification are explicitly excluded from the research. Instead, proven and established standard approaches are to be used.
 \newline
 \newline
-Clustering will only be used for evaluating the resulting clusters within the embedding space of the music dataset. For the classification, a simple two-layered dense model is used and should only to give some insights on how well a simple model performs on the resulting embedding space. The idea is to show that there is a specific performance gain when using the embedding space.
+Clustering will only be used for evaluating the resulting clusters within the embedding space of the music dataset. For the classification, a simple classifier is used and should only to give some insights on how well a simple model performs on the resulting embedding space. 
 \newline
 \newline
-Optimization methods for training neural networks are explicitly excluded from the research. Instead, state-of-the-art techniques implemented in Tensorflow are used.
+Optimisation methods for training neural networks are explicitly excluded from the research. Instead, state-of-the-art techniques implemented in Tensorflow are used.

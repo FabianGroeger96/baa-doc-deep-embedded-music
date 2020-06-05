@@ -7,10 +7,10 @@ This chapter introduces and explains terms and concepts used throughout the thes
 This section introduces the fundamentals of \gls{DSP}, which will be used repeatedly in the following sections, either to describe some behaviour or to reason. 
 \newline
 \newline
-What exactly is \gls{DSP}? \gls{DSP} is to take real-world signals like voice, audio, video, temperature, pressure, or position that have been digitized and mathematically manipulate them. A \gls{DSP} is designed for performing mathematical functions such as \textit{add}, \textit{subtract}, \textit{multiply} and \textit{divide} very quickly.
+\gls{DSP} is to take real-world signals like voice, audio, video, temperature, pressure, or position that have been digitized and mathematically manipulate them. A \gls{DSP} is designed for performing mathematical functions such as \textit{add}, \textit{subtract}, \textit{multiply} and \textit{divide} very quickly.
 \newline
 \newline
-Signals need to be processed, so that the information that they contain can be displayed, analyzed, or converted to another type of signal that may be of use. In the real-world, analogue products detect signals such as sound, light, temperature or pressure and manipulate them. Converters such as an \gls{ADC} then take the real-world signal and turn it into the digital format of \texttt{1}'s and \texttt{0}'s. From here, the \gls{DSP} takes over by capturing the digitized information and processing it. It then feeds the digitized information back for use in the real world. It does this in one of two ways, either digitally or in an analogue format by going through a \gls{DAC}. All of this occurs at very high speed.\footnotemark
+Signals need to be processed so that the information that they contain can be displayed, analysed, or converted to another type of signal that may be of use. In the real-world, analogue products detect signals such as sound, light, temperature or pressure and manipulate them. Converters such as an \gls{ADC} then take the real-world signal and turn it into the digital format of \texttt{1}'s and \texttt{0}'s. From here, the \gls{DSP} takes over by capturing the digitised information and by processing it. It then feeds the digitised information back for use in the real world. It does this in one of two ways, either digitally or in an analogue format by going through a \gls{DAC}. All of this occurs at very high speed.\footnotemark
 \footnotetext{\href{https://www.analog.com/en/design-center/landing-pages/001/beginners-guide-to-dsp.html}{https://analog.com/en/design-center/landing-pages/001/beginners-guide-to-dsp.html}}
 
 \subsection{Waveform}
@@ -146,7 +146,7 @@ A given function or signal can be converted between the time and the frequency d
 A spectrogram is a visual representation of the \gls{STFT} (\ref{subsub:Short-Time-Fourier-Transform}). More precisely it represents the spectrum of frequencies of a signal as it varies with time. The x-axis represents the time, the y-axis represents the frequencies, and the colours represent the magnitude of the observed frequency at a particular time. Bright colours represent powerful frequencies. Thus every spectrogram represents three domains: time, frequency and magnitude.
 \newline
 \newline
-To create a spectrogram, the audio signal is broken down into smaller frames (windows), and for each one, the \gls{DFT} or \gls{FFT} will be calculated. The resulting frequencies of each window will represent the time. It is important to note that the windows should overlap each other, not to lose any frequency. Typical window sizes are 20 to 30ms, but this size highly depends on the task to solve. Figure \ref{fig:Spectrogram} shows an example of such a spectrogram.
+To create a spectrogram, the audio signal is broken down into smaller frames (windows), and for each one, the \gls{DFT} or \gls{FFT} will be calculated. The resulting frequencies of each window will represent the time. It is important to note that the windows should overlap each other, not to lose any frequencies. Typical window sizes are 20 to 30ms, but this size highly depends on the task to solve. Figure \ref{fig:Spectrogram} shows an example of such a spectrogram.
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[scale=0.5]{img/log_mel_spectrogram.png}
@@ -156,7 +156,7 @@ To create a spectrogram, the audio signal is broken down into smaller frames (wi
 
 \subsection{Mel spectrogram}
 \label{sub:Mel-Spectrogram}
-\Glspl{MFCC} are a feature widely used in automatic speech and speaker recognition, mainly because they focus on the audio signal and discard all other information such as background noise, emotion and many more. They were introduced by Davis and Mermelstein in the 1980s, and have been state-of-the-art ever since.
+\Glspl{MFCC} are a feature widely used in automatic speech and speaker recognition, mainly because they focus on the audio signal and discard all other information such as background noise, emotion and many more. They were introduced by Davis and Mermelstein in the 1980s, and have been state-of-the-art ever since. Cepstrum is the information on the rate of change in spectral bands.
 \newline
 \newline
 The process of creating these \glspl{MFCC} are quite complex and follow five steps. Thus to the explanation of every step, there is a short example on how to perform the step in depth. For illustration, a speech signal with a sample rate of 16kHz is assumed. The whole process is illustrated in figure \ref{fig:MFCC-Overview}.
@@ -198,14 +198,14 @@ As a first step the signal has to be split into 20-40ms frames (normally 25ms is
 \myequations{Calculate frame length from signal}
 \begin{equation}
     \centering
-    0.025s * 16000Hz = 400 \ \text{samples}
+    0.025s \cdot 16000Hz = 400 \ \text{samples}
     \label{eq:MFCC-Frame-Length}
 \end{equation}
 Frame step is normally 10ms, which allows some overlap to the frames, and is calculated the same as the frame length.
 \myequations{Calculate frame step from signal}
 \begin{equation}
     \centering
-    0.01s * 16000Hz = 160 \ \text{samples}
+    0.01s \cdot 16000Hz = 160 \ \text{samples}
     \label{eq:MFCC-Frame-Step}
 \end{equation}
 This means that the first 400 samples start at 0, the next 400 frames start at sample 160, until the end of the speech signal is reached. If the speech signal does not divide into an even number of frames, it is padded with zeros until it does. The next steps within the example are applied to every single frame. Thus for every frame a set of features will be extracted, in this case a set of \glspl{MFCC}.
@@ -299,7 +299,7 @@ LibROSA is a python package for audio analysis and processing. At a high level, 
 
 \section{Introduction to neural networks}
 \label{sec:Intro-NN}
-This section provides an introduction to an essential concept in this thesis, neural networks. They will be used to build the model and tackle the problem. First, a general neural network (\ref{sub:Neural-Network}) is introduced to clarify some terminology. After that, convolutional neural network (\ref{sub:Convolutional-Neural-Network}) and gated recurrent unit (\ref{sub:Gated-Recurrent-Unit}) will be explained to give an overview of some specialized kind of neural networks.
+This section provides an introduction to an essential concept for this thesis, neural networks. They will be used to build the model and tackle the problem. First, a general neural network (\ref{sub:Neural-Network}) is introduced to clarify some terminology. After that, the convolutional neural network (\ref{sub:Convolutional-Neural-Network}) and gated recurrent unit (\ref{sub:Gated-Recurrent-Unit}) will be explained to give an overview of some specialised kind of neural networks.
 
 \subsection{Neural network}
 \label{sub:Neural-Network}
@@ -383,7 +383,7 @@ A perceptron is the simplest neural network which consists of $n$ number of inpu
     \label{fig:Activation-Functions}
 \end{figure}
 \noindent
-The inputs which are denoted as $x_1, \dots, x_n$, are the values passed into the perceptron. The weights $\theta_{1}, \dots, \theta_{n}$ are values which are multiplied with the respective input, the bias is a special weight which shifts the activation function to the left or right. And the activation function $f(z)$ is used to introduce non-linearity into the output. Without it, the \gls{NN} would only be capable of representing linear functions. With the non-linearity of the activation function, a layered \gls{NN} with enough capacity can learn any function. Such non-linear activation functions are illustrated in figure \ref{fig:Activation-Functions}. The output $\hat{y}$ is simply the result of the activation function, and it can be computed using equation \ref{eq:Perceptron-Calculate-Output}. In the case of a perceptron, it is the output of the \gls{NN}. The process of calculating the output of a \gls{NN} is called forward propagation.
+The inputs which are denoted as $x_1, \dots, x_n$, are the values passed into the perceptron. The weights $\theta_{1}, \dots, \theta_{n}$ are values which are multiplied with the respective input, the bias is a special weight, which shifts the activation function to the left or right. And the activation function $f(z)$ is used to introduce non-linearity into the output. Without it, the \gls{NN} would only be capable of representing linear functions. With the non-linearity of the activation function, a layered \gls{NN} with enough capacity can learn any function. Such non-linear activation functions are illustrated in figure \ref{fig:Activation-Functions}. The output $\hat{y}$ is simply the result of the activation function, and it can be computed using equation \ref{eq:Perceptron-Calculate-Output}. In the case of a perceptron, it is the output of the \gls{NN}. The process of calculating the output of a \gls{NN} is called forward propagation.
 \myequations{Calculates the output of single layer neural network}
 \begin{equation}
     \centering
@@ -439,7 +439,7 @@ In deeper networks, the output of one layer is then used again as the input of t
     \label{fig:MLP-Visualisation}
 \end{figure}
 \noindent
-In order that the \gls{NN} produces more reliable results, it has to learn the optimal parameters for a given problem. This procedure consists of two parts, backpropagation and optimisation. Backpropagation refers to the algorithm for computing the gradient of the loss function with respect to the parameters, to see how good the current predictions are. However, the term is often used to refer to the entire learning algorithm, including optimization. Furthermore, optimisation is the process of selecting the best element from some set of available alternatives, which in the case of a \gls{NN} is the selection of the best parameters.
+In order that the \gls{NN} produces more reliable results, it has to learn the optimal parameters for a given problem. This procedure consists of two parts, backpropagation and optimisation. Backpropagation refers to the algorithm for computing the gradients of the loss function with respect to the parameters, to see how good the current predictions are. The term is often as well used to refer to the entire learning algorithm, including optimisation. Furthermore, optimisation is the process of selecting the best element from some set of available alternatives, which in the case of a \gls{NN} is the selection of the best parameters.
 \newline
 \newline
 The first step in backpropagation is to know an estimation of how far away the current predictions are from the desired solution, which can be computed using a loss function. Typical loss functions are \gls{MSE}, binary cross-entropy, categorical cross-entropy or sparse categorical cross-entropy. The process of selecting the right loss function highly depends on the problem to solve. The equation \ref{eq:MSE} defines the \gls{MSE} cost (loss) function $\mathcal{L}$ for the entire dataset with size $n$.
@@ -465,7 +465,7 @@ In equation \ref{eq:Backpropagation-Gradient} the gradient of the cost function 
     \frac{\partial \mathcal{L}}{\partial\theta_i} = \frac{\partial \mathcal{L}}{\partial\hat{y}}\times\frac{\partial\hat{y}}{\partial z}\times\frac{\partial z}{\partial\theta_i}
     \label{eq:Backpropagation-Gradient}
 \end{equation}
-The last step in the learning process of a \gls{NN} is the optimisation. Gradient descent is one of many optimisation algorithms, and it changes the weights and bias, proportional to the negative of the gradient of the cost function with respect to the corresponding weight or bias. Learning rate $\alpha$ is a hyperparameter, which is used to control how much the weights and bias change. The weights and bias are updated with equations \ref{eq:Optimisation-Gradient-Descent-Weights}.
+The last step in the learning process of a \gls{NN} is the optimisation. Gradient descent is one of many optimisation algorithms. It changes the weights and bias, proportional to the negative of the gradient of the cost function with respect to the corresponding weight or bias. Learning rate $\alpha$ is a hyperparameter, which is used to control how much the weights and bias change. The weights and bias are updated with equations \ref{eq:Optimisation-Gradient-Descent-Weights}.
 \myequations{Optimisation of weights using gradient descent}
 \begin{equation}
     \centering
@@ -475,11 +475,11 @@ The last step in the learning process of a \gls{NN} is the optimisation. Gradien
 The whole learning process consisting of backpropagation and optimisation is repeated until the \gls{NN} convergences in a local or global minimum.
 \newline
 \newline
-\gls{MLP} have several drawbacks, especially when it comes to handling two-dimensional data, for example, audio or image data. \gls{MLP} use one perceptron for each input (e.g. pixel in an image, multiplied by 3 in the case of RGB). The amount of weights rapidly becomes unmanageable for large input data. In case of a 224x224 pixel image with three colour channels, there are around 150'000 weights that must be trained. As a result, difficulties arise while training and overfitting can occur. Another common problem is that \gls{MLP} react differently to the input and its shifted version — they are not translation invariant. For example, if a picture of a cat shows the cat is located in the top left corner of one of the images, the \gls{MLP} will try to update the weights accordingly and assume that all of the cats will appear in this section of the image. All the problems stated above as well apply to other areas such as with audio data. Thus \gls{MLP} are not ideal for processing two-dimensional data. In the next section, the convolutional neural network (\ref{sub:Convolutional-Neural-Network}) will be introduced, which will solve the problems stated above.
+\gls{MLP} have several drawbacks, especially when it comes to handling two-dimensional data, for example, audio or image data. \gls{MLP} use one perceptron for each input (e.g. pixel in an image, multiplied by 3 in the case of RGB). The amount of weights rapidly becomes unmanageable for large input data. In case of a 224x224 pixel image with three colour channels, there are around 150'000 weights that must be trained. As a result, difficulties arise while training and overfitting can occur. Another common problem is that \gls{MLP} react differently to the input and its shifted version — they are not translation invariant. For example, if a picture of a cat shows the cat is located in the top left corner of one of the images, the \gls{MLP} will try to update the weights accordingly and assume that all cats will appear in this section of the image. All the problems stated above as well apply to other areas such as with audio data. Thus \gls{MLP} are not ideal for processing two-dimensional data. In the next section, the convolutional neural network (\ref{sub:Convolutional-Neural-Network}) will be introduced, which will solve the problems stated above.
 
 \subsection{Convolutional neural network}
 \label{sub:Convolutional-Neural-Network}
-\Gls{CNN} is a specific kind of neural network for processing data that has a known grid-like topology. Examples include time-series data, which can be thought of as a 1-D grid taking samples at regular time intervals, and image data, which can be thought of as a 2-D grid of pixels. The name \flqq convolutional neural network\frqq \ indicates that the network employs a mathematical operation called convolution. Convolution is a specialized kind of linear operation. To summarize, \glspl{CNN} are neural networks that use the convolution operation instead of general matrix multiplication in at least one of their layers.\footnote{\fullcite[Chapter~9]{goodfellow_deep_2016}}
+\Gls{CNN} is a specific kind of neural network for processing data that has a grid-like topology. Examples include time-series data, which can be thought of as a 1-D grid taking samples at regular time intervals, and image data, which can be thought of as a 2-D grid of pixels. The name \flqq convolutional neural network\frqq \ indicates that the network employs a mathematical operation called convolution. Convolution is a specialised kind of linear operation. To summarise, \glspl{CNN} are neural networks that use the convolution operation instead of general matrix multiplication in at least one of their layers.\footnote{\fullcite[Chapter~9]{goodfellow_deep_2016}}
 \newline
 \newline
 A typical layer of a \gls{CNN} consists of three stages, which is illustrated in figure \ref{fig:Convolution-Layer-Visualisation}. In the first stage, the layer performs several convolutions in parallel to produce a set of linear activations, called a feature map. In the second stage, each linear activation is run through a non-linear activation function, such as the rectified linear activation function. This stage is sometimes called the detector stage. In the third stage, a pooling function is used to modify the output of the layer further.
@@ -645,7 +645,7 @@ To create a \gls{CNN}, all of the above concepts have to be put together to form
 \end{figure}
 \footnotetext{\fullcite{oord_wavenet_2016}}
 \noindent
-Dilated convolution is a specialized type of convolution, which was first introduced within the paper (\cite{yu_multi-scale_2016}). It is helpful first to understand why vanilla convolutions (normal convolutions) struggle to integrate the global context. Suppose a purely convolutional network composed of layers of $k \times k$ convolutions, without pooling. It is clear to see that size of the receptive field of each unit (the block of pixels which can influence its activation) is $l \times (k-1) + k$, where $l$ is the layer index. Therefore the effective receptive field of units can only grow-linearly with the layers. Especially for high-resolution input images, the linearly-grow is very limiting.
+Dilated convolution is a specialized type of convolution, which was first introduced in the paper (\cite{yu_multi-scale_2016}). It is helpful first to understand why vanilla convolutions (normal convolutions) struggle to integrate the global context. Suppose a purely convolutional network composed of layers of $k \times k$ convolutions, without pooling. It is clear to see that size of the receptive field of each unit (the block of pixels which can influence its activation) is $l \times (k-1) + k$, where $l$ is the layer index. Therefore the effective receptive field of units can only grow-linearly with the layers. Especially for high-resolution input images, the linearly-grow is very limiting.
 \newline
 \newline
 Dilated convolutions increase the kernel by inserting spaces between the kernel elements. The dilation rate is controlled by an additional hyperparameter $l$. These one dimensional dilated convolutions between signal $I$ and kernel $K$ and dilation factor $l$ is defined by formula \ref{eq:Dilated-Convolution}\footfullcite{yu_multi-scale_2016}. $\ast_l$ refers to the dilated convolution or a $l$-dilated convolution. The normal convolution $\ast$ is simply the 1-dilated-convolution. The figure \ref{fig:Dilated-Convolution} illustrates stacked dilated convolutions within a \gls{CNN}, where the dilation factor $l$ is increased exponentially.
@@ -659,7 +659,7 @@ Dilated convolutions are used to cheaply increase the receptive field of output 
 
 \subsection{Gated recurrent unit}
 \label{sub:Gated-Recurrent-Unit}
-\Gls{GRU} is a specialised type of \gls{NN} within the family of \glspl{RNN}, which focus on processing sequential data. \glspl{GRU} were introduced in the paper \cite{cho_learning_2014} to solve the vanishing gradient problem, which comes with a standard \glspl{RNN}. Their input consists of the current data point of the dataset and information about what they have perceived previously. The architecture of \glspl{RNN} can be thought of multiple feed-forward neural networks, passing information from one to the other. The vanishing gradient problem states that input from far behind (e.g. the first sample in a sequence) loses its importance in the last inputs (e.g. the last sample of a sequence) because it vanishes along the way.
+\Gls{GRU} is a specialised type of \gls{NN} within the family of \glspl{RNN}, which focuses on processing sequential data. \glspl{GRU} were introduced in the paper \cite{cho_learning_2014} to solve the vanishing gradient problem, which comes with a standard \glspl{RNN}. The vanishing gradient problem states that input from far behind (e.g. the first sample in a sequence) loses its importance in the last inputs (e.g. the last sample of a sequence) because it vanishes along the way. The input of \glspl{RNN} consists of the current data point of the dataset and information about what they have perceived previously. The architecture of \glspl{RNN} can be thought of multiple feed-forward neural networks, passing information from one to the other.
 
 \begin{figure}[htbp]
     \centering
@@ -813,7 +813,7 @@ The first step in k-Means clustering is to choose the number of clusters $K$. Th
 
 \section{Introduction to used datasets}
 \label{sec:Introduction-Used-Datasets}
-This section introduces the dataset used in the project, and as well explains the underlying data structure. The section \ref{sub:SINS-Database} introduces the \gls{SINS} database. And the subsequent section \ref{sub:DCASE-Task-Dataset} introduces a reduced derivation of the \gls{SINS} database, which is the primary dataset used in the project.
+This section introduces the dataset used in the project, and explains the underlying data structure. The section \ref{sub:SINS-Database} introduces the \gls{SINS} database. And the subsequent section \ref{sub:DCASE-Task-Dataset} introduces a reduced derivation of the \gls{SINS} database, which is the primary dataset used in the project.
 
 \subsection{SINS database}
 \label{sub:SINS-Database}
@@ -995,7 +995,7 @@ The sampling procedure for the triplet $(x_a, x_p, x_n)$ is described by two par
 
 \section{Status in relation to project}
 \label{sec:Status-Relation-Project}
-This section of the chapter focuses on the current state-of-the-art deep learning techniques for audio signal processing, which are relevant for this project. Many of these techniques were first introduced for the field of image processing and then adapted for audio processing. This adaption can be mostly done in a relatively easy way since the representation of an audio file is similar to an image because they are both just two-dimensional data.
+This section of the chapter focuses on the current state-of-the-art deep learning techniques for audio signal processing, which are relevant for this project. Many of these techniques were first introduced for the field of image processing and then adapted for audio processing. This adaption can be mostly done in a relatively easy way since the representation of audio data is similar to an image because they are both just two-dimensional data.
 \newline
 \newline
 Mel spectrograms (\ref{sub:Mel-Spectrogram}) are a common representation used in traditional audio signal processing. For deep learning models, log-mel spectrograms are the dominant feature followed by raw waveforms or complex spectrograms. Raw waveforms avoid hand-designed features, which should allow better to exploit the improved modelling capability of deep learning models. However, this implicates higher computational costs and data requirements, and the benefits are hard to realize in practice. For \gls{ASR}, log-mel spectrograms provide a more compact representation, and methods using these features usually need fewer data and training to achieve results, which are comparable in performance to a setup where raw audio is used. \glspl{MFCC} and log-mel spectrograms are commonly used because they were inspired by the human auditory system, which makes the use of these features reasonable.
@@ -1007,10 +1007,10 @@ Across many audio processing domains, \glspl{CNN}, \glspl{RNN} and \glspl{CRNN} 
 \glspl{RNN} can, theoretically, base their predictions on an unlimited temporal context, but first need to learn to do so, which may require adaptions to the model (such as gated recurrent units, \ref{sub:Gated-Recurrent-Unit}). Furthermore, it requires processing the input sequentially, making them slower to train and to evaluate, than \glspl{CNN}. \Glspl{CRNN} offer a compromise in between, inheriting both \glspl{CNN} and \glspl{RNN} advantages and disadvantages.
 \newline
 \newline
-The process of choosing the optimal model architecture for a specific task is still an open research question. From existing literature, this is very hard to answer, since the different research groups yield state-of-the-art results with different models. This may be due to each research group’s specialized informal knowledge about how to design and tune a particular architecture type effectively.\footnote{\fullcite{purwins_deep_2019}}
+The process of choosing the optimal model architecture for a specific task is still an open research question. From existing literature, this is very hard to answer, since the different research groups yield state-of-the-art results with different models. This may be due to each research group’s specialised informal knowledge about how to design and tune a particular architecture type effectively.\footnote{\fullcite{purwins_deep_2019}}
 \newline
 \newline
-With the possible exception of speech recognition, for the most popular languages, many tasks in the audio domain face relatively small datasets, posing a limit on the size and complexity of deep learning models trained on them. However, in other domains, such as computer vision the shortage of labelled data for a particular task is offset by the widespread availability of models trained on the ImageNet dataset. Nevertheless, no comparable task and dataset exist for the audio domain.
+With the possible exception of speech recognition, for the most popular languages, many tasks in the audio domain face relatively small datasets, posing a limit on the size and complexity of deep learning models trained on them. However, in other domains, such as computer vision the shortage of labelled data for a particular task is offset by the widespread availability of models trained on the ImageNet dataset. No comparable task and dataset exist for the audio domain.
 \newline
 \newline
 Most of the models submitted in the \fullref{sub:DCASE-Task-Dataset} used \glspl{MFCC} or log-mel spectrograms as acoustic features alongside with a \gls{CNN} as their main architecture. The IBM research team won the challenge, with the model proposed in the paper \cite{inoue_domestic_2018}. They only used the input data provided in the dataset, from the challenge, and sampled it at a rate of 16kHz. From the dataset, the log-mel energies (\ref{sub:Mel-Spectrogram}) are extracted and used to train a \gls{CNN}. They propose data augmentation techniques using shuffling and mixing two sounds in the same class, to mitigate the unbalanced training dataset, which led them to train their model on a much larger dataset than the rest.
